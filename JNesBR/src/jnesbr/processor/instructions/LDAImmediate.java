@@ -33,6 +33,7 @@ public class LDAImmediate extends ImmediateInstruction {
         cpu.setupFlagZero(getOperand());
         cpu.mergeProcessorStatus();
         cpu.accumulator = getOperand();
+        cpu.programCounter += 2;
     }
 
     @Override

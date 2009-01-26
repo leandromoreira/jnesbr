@@ -17,6 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions.types;
 
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.memory.Memory;
 
 /**
  * @author dreampeppers99
@@ -25,5 +26,7 @@ public abstract class AbsoluteInstruction extends GeneralInstruction {
     public AbsoluteInstruction(Cpu2A03 cpu){
         super(cpu);
     }
-    
+    public int getAbsolute(){
+        return Memory.getMemory().readFrom(cpu.programCounter+1) << 8 | Memory.getMemory().readFrom(cpu.programCounter+2);
+    }
 }
