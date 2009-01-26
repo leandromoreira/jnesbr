@@ -14,23 +14,34 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.instructions.types;
+package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.*;
+import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public abstract class GeneralInstruction implements Instruction {
-    protected Cpu2A03 cpu;
-    public GeneralInstruction(Cpu2A03 cpu){
-        this.cpu = cpu;
+public class STAAbsolute extends AbsoluteInstruction{
+    public STAAbsolute(Cpu2A03 cpu){
+        super(cpu);
     }
-    public abstract void interpret();
-    public abstract String disassembler();
-    public void debug() {
-        cpu.actualLineDebug = disassembler();
-        interpret();
+
+    @Override
+    public void interpret() {
+        Memory.getMemory().writeAt(getAbsolute(), cpu.accumulator);
+        cpu.programCounter += 3;
     }
-    public abstract short cycles();
+
+    @Override
+    public String disassembler() {
+        return "STA " + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsolute()).toUpperCase());
+    }
+
+    @Override
+    public short cycles() {
+        return 4;
+    }
 }

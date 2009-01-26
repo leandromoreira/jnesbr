@@ -78,6 +78,8 @@ public class Cpu2A03 {
         instructions.put(0xA8, new TAYImplied(this));
         instructions.put(0x78, new SEIImplied(this));
         instructions.put(0x10, new BPLRelative(this));
+        instructions.put(0xA9, new LDAImmediate(this));
+        instructions.put(0x8D, new STAAbsolute(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {
