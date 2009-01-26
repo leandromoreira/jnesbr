@@ -18,6 +18,7 @@ package jnesbr.rom;
 
 import java.nio.ByteBuffer;
 import jnesbr.core.Emulator;
+import jnesbr.video.memory.VideoMemory;
 import static jnesbr.processor.memory.MemoryMap.*;
 
 /**
@@ -30,6 +31,7 @@ public class Loader {
     public void load(ByteBuffer rom) {
         game = new INesROM(rom);
         fillMemoryWith(game);
+        fillPPUMemoryWith(game);
     }
 
     public INesROM getGame() {
@@ -58,6 +60,17 @@ public class Loader {
                 for (int i = PRG_ROM_START ; i <= PRG_ROM_END; i++) {
                     Emulator.getInstance().getMemory().writeAt(PRG_ROM_START + x, game.pgr_rom[x++]);
                 }
+        }
+    }
+    private void fillPPUMemoryWith(INesROM game) {
+        switch (game.CHR_ROMPageCount8K) {
+            case ONE_BANK:
+                for (int i = 0; i < game.chr_rom.length; i++) {
+                    VideoMemory.getMemory().writeAt(i, game.chr_rom[i]);
+                    System.out.println(i + "\t=" + Integer.toBinaryString(game.chr_rom[i]));
+                }
+                break;
+            default:
         }
     }
 }
