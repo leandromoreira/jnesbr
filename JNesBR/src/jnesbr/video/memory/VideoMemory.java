@@ -29,4 +29,11 @@ public class VideoMemory {
         }
         return instance;
     }
+
+    public void writeAt(int address, short value){
+        memory[address] = value;
+    }
+    public short readFrom(int address){
+        return memory[address];
+    }
 }
