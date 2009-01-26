@@ -80,6 +80,7 @@ public class Cpu2A03 {
         instructions.put(0x10, new BPLRelative(this));
         instructions.put(0xA9, new LDAImmediate(this));
         instructions.put(0x8D, new STAAbsolute(this));
+        instructions.put(0xA2, new LDXImmediate(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {
