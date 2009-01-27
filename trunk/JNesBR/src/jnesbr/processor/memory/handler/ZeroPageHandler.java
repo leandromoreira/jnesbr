@@ -14,15 +14,23 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.memory;
+package jnesbr.processor.memory.handler;
+
+import jnesbr.processor.memory.*;
 
 /**
  * @author dreampeppers99
  */
-public class RomlHandler implements Handler {
+public class ZeroPageHandler implements Handler {
 
-    public void writeAt(int address, short value){
-            Memory.getMemory().write(address, value);
+    public void writeAt(int address, short value) {
+        Memory.getMemory().write(address, value);
+        mirror(address, value);
     }
 
+    private static void mirror(int address, short value) {
+        Memory.getMemory().write(address + 0x0800, value);
+        Memory.getMemory().write(address + 0x1000, value);
+        Memory.getMemory().write(address + 0x1800, value);
+    }
 }
