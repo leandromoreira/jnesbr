@@ -16,6 +16,10 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.memory;
 
+import jnesbr.processor.memory.handler.ZeroPageHandler;
+import jnesbr.processor.memory.handler.FirstIOHandler;
+import jnesbr.processor.memory.handler.Handler;
+import jnesbr.processor.memory.handler.RomlHandler;
 import java.util.HashMap;
 import java.util.Map;
 import static jnesbr.processor.memory.MemoryMap.*;
