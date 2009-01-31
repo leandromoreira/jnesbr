@@ -21,7 +21,6 @@ import jnesbr.processor.instructions.*;
 import java.util.HashMap;
 import java.util.Map;
 import jnesbr.core.Emulator;
-import jnesbr.processor.instructions.TAYImplied;
 import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
@@ -32,7 +31,7 @@ public class Cpu2A03 {
 
     public short accumulator,  registerX,  registerY;
     public short stackPointer,  processorStatus;
-    public int programCounter;
+    public int programCounter,oldProgramCounter;
     public byte flagCarry,  flagZero,  flagIRQ,  flagDecimalMode,  flagBreak,  flagNotUsed,  flagOverflow,  flagSign;
     public static final int InterruptNMI = 0xFFFA;
     public static final int InterruptRESET = 0xFFFC;
@@ -81,11 +80,17 @@ public class Cpu2A03 {
         instructions.put(0xA9, new LDAImmediate(this));
         instructions.put(0x8D, new STAAbsolute(this));
         instructions.put(0xA2, new LDXImmediate(this));
+        instructions.put(0xAD, new LDAAbsolute(this));
+        instructions.put(0x9A, new TXSImplied(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {
         Instruction instruciton = (instructions.get(opCode)==null? new StillNotImplemented(this, opCode) :instructions.get(opCode));
         return instruciton;
+    }
+
+    public void setSP(short value) {
+        stackPointer = (short) (value + 0x100);
     }
 
     public void setupFlagSign(short value) {
@@ -103,18 +108,11 @@ public class Cpu2A03 {
     }
 
     public void debugStep() {
-        if (isBreakpointed(programCounter)) {
-            Emulator.getInstance().pause();
-        }
-
+        oldProgramCounter = programCounter ;
         int opCode = Memory.getMemory().readFrom(programCounter);
         Instruction actualInstruction = getInstructionFrom(opCode);
         actualInstruction.debug();
         cycles += actualInstruction.cycles();
-    }
-
-    private boolean isBreakpointed(int instructionFrom) {
-        //see it in an map... Debugger.isBreakpointed(instructionFrom);
-        return false;
+        actualLineDebug = "0x" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(oldProgramCounter).toUpperCase()) + ":\t" + actualLineDebug+"\t;";
     }
 }

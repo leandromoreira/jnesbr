@@ -30,7 +30,7 @@ public class Loader {
 
     public void load(ByteBuffer rom) {
         game = new INesROM(rom);
-        fillMemoryWith(game);
+        fillMainMemoryWith(game);
         fillPPUMemoryWith(game);
     }
 
@@ -41,7 +41,7 @@ public class Loader {
     public String getHeader() {
         return game.toString();
     }
-    private void fillMemoryWith(INesROM game) {
+    private void fillMainMemoryWith(INesROM game) {
         switch (game.PRG_ROMPageCount16K) {
             case ONE_BANK:
                 for (int i = 0; i < game.pgr_rom.length; i++) {
@@ -67,7 +67,6 @@ public class Loader {
             case ONE_BANK:
                 for (int i = 0; i < game.chr_rom.length; i++) {
                     VideoMemory.getMemory().writeAt(i, game.chr_rom[i]);
-                    System.out.println(i + "\t=" + Integer.toBinaryString(game.chr_rom[i]));
                 }
                 break;
             default:
