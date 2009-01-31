@@ -30,7 +30,15 @@ public class BPLRelative extends RelativeInstruction{
 
     @Override
     public void interpret() {
+
         cpu.programCounter += (cpu.flagSign == 0)? getOperand()+ 2: 2;
+       /* byte cycl = 3;
+        if (cpu.flagSign == 0){
+            if ((cpu.programCounter + offset) & 0xFF00) != (cpu.programCounter & 0xFF00){
+                cycl++;
+            }
+        }*/
+
         cycles = (short) ((cpu.flagSign == 0) ? 3 : 2);
     }
 
