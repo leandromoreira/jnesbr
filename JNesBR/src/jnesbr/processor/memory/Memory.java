@@ -16,12 +16,9 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.memory;
 
-import jnesbr.processor.memory.handler.ZeroPageHandler;
-import jnesbr.processor.memory.handler.FirstIOHandler;
-import jnesbr.processor.memory.handler.Handler;
-import jnesbr.processor.memory.handler.RomlHandler;
 import java.util.HashMap;
 import java.util.Map;
+import jnesbr.processor.memory.handler.*;
 import static jnesbr.processor.memory.MemoryMap.*;
 
 /**
@@ -47,6 +44,7 @@ public class Memory {
         handlers.put(ZERO_PAGE, new ZeroPageHandler());
         handlers.put(FIRST_IO, new FirstIOHandler());
         handlers.put(ROM, new RomlHandler());
+        handlers.put(PPU_CONTROL_REGISTER_1, new PPUControlRegister1Handler());
     }
 
     public void writeAt(int address, short value) {

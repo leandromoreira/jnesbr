@@ -16,31 +16,30 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions;
 
-import jnesbr.processor.instructions.types.RelativeInstruction;
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.GeneralInstruction;
 
 /**
  * @author dreampeppers99
  */
-public class BPLRelative extends RelativeInstruction{
-    private short cycles = 2;
-    public BPLRelative(Cpu2A03 cpu){
+public class TXSImplied extends GeneralInstruction{
+    public TXSImplied(Cpu2A03 cpu){
         super(cpu);
     }
-
     @Override
     public void interpret() {
-        cpu.programCounter += (cpu.flagSign == 0)? getOperand()+ 2: 2;
-        cycles = (short) ((cpu.flagSign == 0) ? 3 : 2);
+        cpu.setSP(cpu.registerX);
+        cpu.programCounter++;
     }
 
     @Override
     public String disassembler() {
-        return "BPL";
+        return "TXS";
     }
 
     @Override
     public short cycles() {
-        return cycles;
+        return 2;
     }
+
 }

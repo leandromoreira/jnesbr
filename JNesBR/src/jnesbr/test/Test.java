@@ -23,5 +23,7 @@ public class Test {
     public static byte flagCarry,flagZero,flagIRQ,flagDecimalMode,flagBreak,flagNotUsed,flagOverflow,flagSign;
 
     public static void main(String[] args) {
+        int x = 228;
+        System.out.println((byte)x);
         }
 }

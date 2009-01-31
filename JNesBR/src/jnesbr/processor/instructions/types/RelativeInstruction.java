@@ -27,6 +27,6 @@ public abstract class RelativeInstruction extends GeneralInstruction{
         super(cpu);
     }
     public short getOperand(){
-        return (short) (Memory.getMemory().readFrom(cpu.programCounter + 1) + 2);
+        return (byte)Memory.getMemory().readFrom(cpu.programCounter + 1);
     }
 }

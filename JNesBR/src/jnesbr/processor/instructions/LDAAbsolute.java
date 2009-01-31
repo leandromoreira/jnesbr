@@ -16,31 +16,31 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions;
 
-import jnesbr.processor.instructions.types.RelativeInstruction;
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.AbsoluteInstruction;
+import jnesbr.processor.memory.Memory;
 
 /**
  * @author dreampeppers99
  */
-public class BPLRelative extends RelativeInstruction{
-    private short cycles = 2;
-    public BPLRelative(Cpu2A03 cpu){
+public class LDAAbsolute extends AbsoluteInstruction{
+    public LDAAbsolute(Cpu2A03 cpu){
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.programCounter += (cpu.flagSign == 0)? getOperand()+ 2: 2;
-        cycles = (short) ((cpu.flagSign == 0) ? 3 : 2);
+        cpu.accumulator = Memory.getMemory().readFrom(getAbsolute());
+        cpu.programCounter += 3;
     }
 
     @Override
     public String disassembler() {
-        return "BPL";
+        return "LDA "+Integer.toHexString(getAbsolute()).toUpperCase();
     }
 
     @Override
     public short cycles() {
-        return cycles;
+        return 4;
     }
 }

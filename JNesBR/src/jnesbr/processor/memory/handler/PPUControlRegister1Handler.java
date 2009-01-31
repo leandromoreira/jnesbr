@@ -17,6 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.memory.handler;
 
 import jnesbr.processor.memory.*;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
@@ -32,7 +33,13 @@ public class PPUControlRegister1Handler implements Handler {
     Bit2  Port 2007h VRAM Address Increment (0=Increment by 1, 1=Increment by 32)
     Bit1-0 Name Table Scroll Address        (0-3=VRAM 2000h,2400h,2800h,2C00h)
     (That is, Bit0=Horizontal Scroll by 256, Bit1=Vertical Scroll by 240)*/
+    public byte executeNMIOnVBlank;
+    public byte masterOrSlave;
+    public byte spriteSize; 
+    
+
     public void writeAt(int address, short value) {
+        executeNMIOnVBlank = (byte) JNesUtil.giveMeBit7From(value);
         Memory.getMemory().write(address, value);
         mirror(address, value);
     }
