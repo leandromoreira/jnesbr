@@ -14,15 +14,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.memory.handler;
+package jnesbr.processor.memory.handler.ppu;
 
+import jnesbr.processor.memory.handler.*;
 import jnesbr.processor.memory.*;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class PPUControlRegister1Handler implements Handler {
+public class PPUControlHandler implements Handler {
     public byte executeNMIOnVBlank;
     public byte masterOrSlave;
     public byte spriteSize;

@@ -33,6 +33,7 @@ public class Emulator implements Runnable {
     private Loader loader;
     private Cpu2A03 cpu;
     private Memory memory;
+    private final static int CYCLES_TO_SCANLINE = 114;
 
     public static Emulator getInstance() {
         if (emulator == null) {
@@ -98,15 +99,15 @@ public class Emulator implements Runnable {
     }
 
     public void stepDebugger() {
+        if (cpu.cycles >= CYCLES_TO_SCANLINE){
+            //i can even draw here
+        }
         cpu.debugStep();
     }
     public String actualLine(){
         return cpu.actualLineDebug;
     }
 
-    /**
-     * @return the memory
-     */
     public Memory getMemory() {
         return memory;
     }
