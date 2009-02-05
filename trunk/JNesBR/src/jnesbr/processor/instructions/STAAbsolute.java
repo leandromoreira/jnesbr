@@ -37,7 +37,7 @@ public class STAAbsolute extends AbsoluteInstruction{
 
     @Override
     public String disassembler() {
-        return "STA " + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsolute()).toUpperCase());
+        return "STA $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsolute()).toUpperCase());
     }
 
     @Override
