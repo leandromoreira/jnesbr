@@ -19,6 +19,7 @@ package jnesbr.processor.instructions;
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.AbsoluteInstruction;
 import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
@@ -36,7 +37,7 @@ public class LDAAbsolute extends AbsoluteInstruction{
 
     @Override
     public String disassembler() {
-        return "LDA "+Integer.toHexString(getAbsolute()).toUpperCase();
+        return "LDA $"+ JNesUtil.fillIfNeedsWith(4, "0",Integer.toHexString(getAbsolute()).toUpperCase());
     }
 
     @Override

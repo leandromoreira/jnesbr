@@ -20,7 +20,6 @@ import jnesbr.processor.instructions.types.Instruction;
 import jnesbr.processor.instructions.*;
 import java.util.HashMap;
 import java.util.Map;
-import jnesbr.core.Emulator;
 import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
