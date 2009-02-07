@@ -1,13 +1,20 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+This file is part of JNesBR.
+
+JNesBR is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+JNesBR is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * PatternTableViewer.java
- *
- * Created on 07/02/2009, 09:11:20
- */
 package jnesbr.gui.debugger;
 
 import java.awt.Color;
@@ -17,10 +24,17 @@ import java.util.Map;
 import jnesbr.core.Emulator;
 
 /**
- *
- * @author Leandro
+ * @author dreampeppers99
  */
 public class PatternTableViewer extends javax.swing.JFrame {
+
+    private static Map<Integer, Color> colors = new HashMap<Integer, Color>();
+    static {
+        colors.put(0, Color.WHITE);
+        colors.put(1, Color.RED);
+        colors.put(2, Color.GREEN);
+        colors.put(3, Color.BLUE);
+    }
 
     /** Creates new form PatternTableViewer */
     public PatternTableViewer() {
@@ -99,38 +113,30 @@ public class PatternTableViewer extends javax.swing.JFrame {
     private void jBtnShowPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnShowPTActionPerformed
         Map<Integer, int[][]> patternTable = Emulator.getInstance().getPPU().getPatternTable();
 
-        Map<Integer, Color> colors = new HashMap<Integer, Color>();
-        colors.put(0, Color.WHITE);
-        colors.put(1, Color.RED);
-        colors.put(2, Color.GREEN);
-        colors.put(3, Color.BLUE);
 
         Graphics scr = jPnPatternTables.getGraphics();
-        int indexXX = 0, indexYY = 0;
-        for (int z = 0; z < 512 ; z++) {
+        int indexX = 0, indexY = 0;
+        for (int z = 0; z < 512; z++) {
             int[][] tile = patternTable.get(z);
-            int temp = indexXX;
+            int theLastX = indexX;
             for (byte row = 0; row < 8; row++) {
-                indexXX = temp;
-                for (byte collumn = 7; collumn >= 0; collumn--, indexXX++) {
+                indexX = theLastX;
+                for (byte collumn = 7; collumn >= 0; collumn--, indexX++) {
                     scr.setColor(colors.get(tile[row][collumn]));
-                    scr.fillRect(indexXX * 2, indexYY + row * 2, 2, 2);
+                    scr.fillRect(indexX * 2, indexY + row * 2, 2, 2);
                 }
             }
-            indexXX = temp;
-            indexXX += 9;
+            indexX = theLastX;
+            indexX += 9;
             if (z != 0) {
                 if (z % 38 == 0) {
-                    indexXX = 0;
-                    indexYY += 9 * 2;
+                    indexX = 0;
+                    indexY += 9 * 2;
                 }
             }
         }
 }//GEN-LAST:event_jBtnShowPTActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
