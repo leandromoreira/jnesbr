@@ -29,6 +29,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import jnesbr.core.Emulator;
+import jnesbr.gui.debugger.MemoryVideoView;
+import jnesbr.gui.debugger.PatternTableViewer;
 
 /**
  * @author dreampeppers99
@@ -62,6 +64,8 @@ public class Main extends javax.swing.JFrame {
         jMnuDebugger = new javax.swing.JMenu();
         jMnuShowHeader = new javax.swing.JMenuItem();
         jMnuMemoryView = new javax.swing.JMenuItem();
+        jMnuVideoMemoryView = new javax.swing.JMenuItem();
+        jMnuPatternTableViewer = new javax.swing.JMenuItem();
         JmnuDebbugerShow = new javax.swing.JMenuItem();
         jMnuAbout = new javax.swing.JMenu();
 
@@ -115,13 +119,29 @@ public class Main extends javax.swing.JFrame {
         });
         jMnuDebugger.add(jMnuShowHeader);
 
-        jMnuMemoryView.setText("Memory View");
+        jMnuMemoryView.setText("Memory Viewer");
         jMnuMemoryView.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMnuMemoryViewActionPerformed(evt);
             }
         });
         jMnuDebugger.add(jMnuMemoryView);
+
+        jMnuVideoMemoryView.setText("Video Memory Viewer");
+        jMnuVideoMemoryView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuVideoMemoryViewActionPerformed(evt);
+            }
+        });
+        jMnuDebugger.add(jMnuVideoMemoryView);
+
+        jMnuPatternTableViewer.setText("Pattern Table Viewer");
+        jMnuPatternTableViewer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuPatternTableViewerActionPerformed(evt);
+            }
+        });
+        jMnuDebugger.add(jMnuPatternTableViewer);
 
         JmnuDebbugerShow.setText("Show Debugger");
         JmnuDebbugerShow.addActionListener(new java.awt.event.ActionListener() {
@@ -199,6 +219,16 @@ public class Main extends javax.swing.JFrame {
         cp.setVisible(true);
     }//GEN-LAST:event_JmnuDebbugerShowActionPerformed
 
+    private void jMnuVideoMemoryViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuVideoMemoryViewActionPerformed
+        MemoryVideoView mvv = new MemoryVideoView();
+        mvv.setVisible(true);
+    }//GEN-LAST:event_jMnuVideoMemoryViewActionPerformed
+
+    private void jMnuPatternTableViewerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuPatternTableViewerActionPerformed
+        PatternTableViewer ptv = new PatternTableViewer();
+        ptv.setVisible(true);
+    }//GEN-LAST:event_jMnuPatternTableViewerActionPerformed
+
     private boolean userChooseSomething(int returnVal) {
         return returnVal == JFileChooser.APPROVE_OPTION;
     }
@@ -233,7 +263,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMnuLoad;
     private javax.swing.JMenuBar jMnuMain;
     private javax.swing.JMenuItem jMnuMemoryView;
+    private javax.swing.JMenuItem jMnuPatternTableViewer;
     private javax.swing.JMenuItem jMnuShowHeader;
+    private javax.swing.JMenuItem jMnuVideoMemoryView;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables

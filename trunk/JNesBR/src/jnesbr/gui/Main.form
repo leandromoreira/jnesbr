@@ -41,10 +41,26 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMnuMemoryView">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Memory View"/>
+                <Property name="text" type="java.lang.String" value="Memory Viewer"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMnuMemoryViewActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMnuVideoMemoryView">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Video Memory Viewer"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMnuVideoMemoryViewActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMnuPatternTableViewer">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Pattern Table Viewer"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMnuPatternTableViewerActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="JmnuDebbugerShow">
