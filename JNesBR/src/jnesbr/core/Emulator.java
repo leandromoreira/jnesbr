@@ -24,6 +24,8 @@ import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
 import jnesbr.rom.Loader;
 import jnesbr.util.JNesUtil;
+import jnesbr.video.Ppu2C02;
+import jnesbr.video.memory.VideoMemory;
 
 /**
  * @author dreampeppers99
@@ -32,6 +34,7 @@ public class Emulator implements Runnable {
     private static Emulator emulator;
     private Loader loader;
     private Cpu2A03 cpu;
+    private Ppu2C02 gpu;
     private Memory memory;
     private final static int CYCLES_TO_SCANLINE = 114;
 
@@ -44,11 +47,16 @@ public class Emulator implements Runnable {
 
     private Emulator() {
         cpu = new Cpu2A03();
+        gpu = Ppu2C02.getInstance();
         memory = Memory.getMemory();
     }
 
     public Cpu2A03 getCpu() {
         return cpu;
+    }
+
+    public Ppu2C02 getPPU(){
+        return gpu;
     }
 
     public String getRomHeader() {
@@ -83,11 +91,47 @@ public class Emulator implements Runnable {
         return memoryTable;
     }
 
+        public static TableModel getMemoryVideoModel(JTable jTMemory,int start, int end) {
+        TableModel memoryTable = new DebuggerDecoratorBuilder(jTMemory).getMemoryViewer();
+        int line = 0, col = 0;
+
+        for (int i = start; i <= end; i++) {
+
+            if (col == 0x0) {
+                String address = JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(i).toUpperCase());
+                memoryTable.setValueAt(address, line, col++);
+                String value = JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(VideoMemory.getMemory().readFrom(i)).toUpperCase());
+                memoryTable.setValueAt(value, line, col++);
+            } else {
+                String value = JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(VideoMemory.getMemory().readFrom(i)).toUpperCase());
+                memoryTable.setValueAt(value, line, col);
+
+                if (col == 16) {
+                    line++;
+                    col = 0;
+                } else {
+                    col++;
+                }
+            }
+
+        }
+
+        return memoryTable;
+    }
+
+    public boolean haveTablePattern() {
+        return loader.getGame().CHR_ROMPageCount8K != 0;
+    }
+
+    public short[] giveMeTablePattern(){
+        return  java.util.Arrays.copyOf(loader.getGame().chr_rom, loader.getGame().chr_rom.length) ;
+    }
 
     public void load(ByteBuffer rom) {
         loader = new Loader();
         loader.load(rom);
         cpu.reset();
+        Emulator.getInstance().getPPU().initPatternTable();
     }
 
     public void pause() {

@@ -66,7 +66,7 @@ public class Loader {
         switch (game.CHR_ROMPageCount8K) {
             case ONE_BANK:
                 for (int i = 0; i < game.chr_rom.length; i++) {
-                    VideoMemory.getMemory().writeAt(i, game.chr_rom[i]);
+                    VideoMemory.getMemory().writeAt(i,game.chr_rom[i] );
                 }
                 break;
             default:
