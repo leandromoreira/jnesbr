@@ -29,9 +29,13 @@ public class FirstIOHandler implements Handler {
     }
 
     private void mirror(int address, short value) {
-        for (int i = 0x0000 ; i <= 0x1FF7 ; i += 8){
+        for (int i = 0x0000 ; i < 0x1FF8 ; i += 8){
             Memory.getMemory().write(address+i, value);
         }
+    }
+
+    public short readFrom(int address) {
+        return Memory.getMemory().read(address);
     }
 
 }

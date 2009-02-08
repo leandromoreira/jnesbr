@@ -33,4 +33,8 @@ public class ZeroPageHandler implements Handler {
         Memory.getMemory().write(address + 0x1000, value);
         Memory.getMemory().write(address + 0x1800, value);
     }
+
+    public short readFrom(int address) {
+        return Memory.getMemory().read(address);
+    }
 }

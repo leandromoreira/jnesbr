@@ -73,6 +73,11 @@ public class Main extends javax.swing.JFrame {
         setTitle("JNesBR - an(other) NES emulator.");
         setLocationByPlatform(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jToolBar1.setRollover(true);
 
@@ -228,6 +233,25 @@ public class Main extends javax.swing.JFrame {
         PatternTableViewer ptv = new PatternTableViewer();
         ptv.setVisible(true);
     }//GEN-LAST:event_jMnuPatternTableViewerActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        File file =new File("roms/SuperMarioBros(E)[a1].nes");
+            FileChannel roChannel;
+            ByteBuffer readbuffer = null;
+            try {
+                roChannel = new RandomAccessFile(file, "r").getChannel();
+                try {
+                    readbuffer = roChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) roChannel.size());
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            emulator = Emulator.getInstance();
+            emulator.load(readbuffer);
+    }//GEN-LAST:event_formWindowOpened
 
     private boolean userChooseSomething(int returnVal) {
         return returnVal == JFileChooser.APPROVE_OPTION;
