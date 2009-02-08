@@ -28,7 +28,7 @@ public class RomlHandler implements Handler {
     }
 
     public short readFrom(int address) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Memory.getMemory().read(address);
     }
 
 }
