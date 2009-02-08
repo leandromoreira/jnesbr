@@ -89,6 +89,7 @@ public class Cpu2A03 {
     }
 
     public void setSP(short value) {
+        //TODO : see the constraint around the wraparound here.
         stackPointer = (short) (value + 0x100);
     }
 

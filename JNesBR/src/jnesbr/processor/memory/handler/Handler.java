@@ -21,4 +21,5 @@ package jnesbr.processor.memory.handler;
  */
 public interface Handler {
     void writeAt(int address, short value);
+    short readFrom(int address);
 }

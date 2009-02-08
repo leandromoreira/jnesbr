@@ -22,24 +22,24 @@ import jnesbr.processor.Cpu2A03;
 /**
  * @author dreampeppers99
  */
-public class BPLRelative extends RelativeInstruction{
+public class BPLRelative extends RelativeInstruction {
+
     private short cycles = 2;
-    public BPLRelative(Cpu2A03 cpu){
+
+    public BPLRelative(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-
-        cpu.programCounter += (cpu.flagSign == 0)? getOperand()+ 2: 2;
-       /* byte cycl = 3;
-        if (cpu.flagSign == 0){
-            if ((cpu.programCounter + offset) & 0xFF00) != (cpu.programCounter & 0xFF00){
+        byte cycl = 3;
+        if (cpu.flagSign == 0) {
+            if (((cpu.programCounter + getOperand()) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
                 cycl++;
             }
-        }*/
-
-        cycles = (short) ((cpu.flagSign == 0) ? 3 : 2);
+        }
+        cpu.programCounter += (cpu.flagSign == 0) ? getOperand() + 2 : 2;
+        cycles = (short) ((cpu.flagSign == 0) ? cycl : 2);
     }
 
     @Override

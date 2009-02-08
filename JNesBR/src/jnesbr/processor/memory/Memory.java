@@ -30,15 +30,25 @@ public class Memory {
     private static Memory instance;
     private short[] memory = new short[0x10000];
     private Map<Integer, Handler> handlers = new HashMap<Integer, Handler>();
-    private final static int ZERO_PAGE = 0xFFFF1,
-                            FIRST_IO = 0xFFFF2,
-                            ROM = 0xFFFF3;
+    private final static int ZERO_PAGE = 0xFFFF1,  FIRST_IO = 0xFFFF2,  ROM = 0xFFFF3;
 
     public static Memory getMemory() {
         if (instance == null) {
             instance = new Memory();
         }
         return instance;
+    }
+
+    public void addMemoryHandler(int address, Handler handler) {
+        handlers.put(address, handler);
+    }
+
+    public short read(int address) {
+        return memory[address];
+    }
+
+    public void removeMemoryHandler(int address) {
+        handlers.remove(address);
     }
 
     private Memory() {
@@ -53,7 +63,7 @@ public class Memory {
     }
 
     public short readFrom(int address) {
-        return memory[address];
+        return getHandler(address).readFrom(address);
     }
 
     public void write(int address, short value) {

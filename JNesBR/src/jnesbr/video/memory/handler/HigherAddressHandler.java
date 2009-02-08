@@ -14,29 +14,21 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.rom;
+package jnesbr.video.memory.handler;
+
+import jnesbr.processor.memory.handler.Handler;
+import jnesbr.video.memory.VideoMemory;
 
 /**
  * @author dreampeppers99
  */
-public class INesMapperUtil {
+public class HigherAddressHandler implements Handler {
 
-    private static String[] helpers = new String[0xFF];
-    static{
-        helpers[0]="No Mapper";
-        helpers[1]="MMC1";
-        helpers[2]="UNROM";
-        helpers[3]="CNROM";
-        helpers[4]="MMC3";
-        helpers[5]="MMC5";
-        helpers[6]="FFE";
-        helpers[7]="AOROM";
-        helpers[8]="FFE";
-        helpers[9]="MMC2";
-        helpers[10]="MMC4";
+    public void writeAt(int address, short value) {
+        VideoMemory.getMemory().write(address - 0x4000, value);
     }
-    public static String getName(int code){
-        if (code>=0xFF) throw new IllegalArgumentException("There is no mapped mappers for this code ["+code+"]");
-        return (helpers[code]!=null?helpers[code]:"Not Found");
+
+    public short readFrom(int address) {
+        return VideoMemory.getMemory().read(address - 0x4000);
     }
 }

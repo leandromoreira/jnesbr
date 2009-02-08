@@ -64,4 +64,8 @@ public class PPUControlHandler implements Handler {
             address += 8;
         }
     }
+
+    public short readFrom(int address) {
+        throw new UnsupportedOperationException("I guess it is just Write-Only.");
+    }
 }
