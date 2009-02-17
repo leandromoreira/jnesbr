@@ -19,41 +19,26 @@ package jnesbr.processor.memory.handler.ppu;
 import jnesbr.processor.memory.handler.*;
 import jnesbr.processor.memory.*;
 import jnesbr.util.JNesUtil;
+import jnesbr.video.PPUControll;
+import jnesbr.video.Ppu2C02;
 
 /**
  * @author dreampeppers99
  */
 public class PPUControlHandler implements Handler {
-    public byte executeNMIOnVBlank;
-    public byte masterOrSlave;
-    public byte spriteSize;
-        public final byte sprite8x8 = 0;
-        public final byte sprite8x16 = 1;
-   public byte patternTableAddressBackground ;
-        public final byte VRAM0x0000 = 0;
-        public final byte VRAM0x1000 = 1;
-   public byte patternTableAddress8x8Sprites ;
-   public byte port2007AddressIncrement;
-        public final byte IncrementBy1 = 0;
-        public final byte IncrementBy32 = 1;
-   public byte nameTableAddress;
-        public final byte VRAM2000 = 0;
-        public final byte VRAM2400 = 1;
-        public final byte VRAM2800 = 2;
-        public final byte VRAM2C00 = 3;
-   public byte horizontalScrollBy256;
-   public byte verticalScrollBy240;
+    private PPUControll ppuControll;
 
     public void writeAt(int address, short value) {
-        executeNMIOnVBlank = (byte) JNesUtil.giveMeBit7From(value);
-        masterOrSlave = (byte) JNesUtil.giveMeBit6From(value);
-        spriteSize = (byte) JNesUtil.giveMeBit5From(value);
-        patternTableAddressBackground = (byte) JNesUtil.giveMeBit4From(value);
-        patternTableAddress8x8Sprites = (byte) JNesUtil.giveMeBit3From(value);
-        port2007AddressIncrement = (byte) JNesUtil.giveMeBit2From(value);
-        nameTableAddress = (byte) (JNesUtil.giveMeBit0From(value)>>1 | JNesUtil.giveMeBit1From(value));
-        horizontalScrollBy256 = (byte) JNesUtil.giveMeBit0From(value);
-        verticalScrollBy240 = (byte) JNesUtil.giveMeBit1From(value);
+        ppuControll = Ppu2C02.getInstance().ppuControl;
+        ppuControll.executeNMIOnVBlank = (byte) JNesUtil.giveMeBit7From(value);
+        ppuControll.masterOrSlave = (byte) JNesUtil.giveMeBit6From(value);
+        ppuControll.spriteSize = (byte) JNesUtil.giveMeBit5From(value);
+        ppuControll.patternTableAddressBackground = (byte) JNesUtil.giveMeBit4From(value);
+        ppuControll.patternTableAddress8x8Sprites = (byte) JNesUtil.giveMeBit3From(value);
+        ppuControll.port2007AddressIncrement = (byte) JNesUtil.giveMeBit2From(value);
+        ppuControll.nameTableAddress = (byte) (JNesUtil.giveMeBit0From(value) >> 1 | JNesUtil.giveMeBit1From(value));
+        ppuControll.horizontalScrollBy256 = (byte) JNesUtil.giveMeBit0From(value);
+        ppuControll.verticalScrollBy240 = (byte) JNesUtil.giveMeBit1From(value);
         Memory.getMemory().write(address, value);
         mirror(address, value);
     }
