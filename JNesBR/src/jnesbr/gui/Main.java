@@ -16,6 +16,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.gui;
 
+import java.awt.image.BufferedImage;
 import jnesbr.gui.debugger.MemoryView;
 import jnesbr.gui.debugger.RomHeader;
 import jnesbr.gui.debugger.Debugger;
@@ -28,7 +29,9 @@ import java.nio.channels.FileChannel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import jnesbr.core.Emulator;
+import jnesbr.core.MetaInformation;
 import jnesbr.gui.debugger.MemoryVideoView;
 import jnesbr.gui.debugger.PatternTableViewer;
 
@@ -63,11 +66,16 @@ public class Main extends javax.swing.JFrame {
         jMnuExit = new javax.swing.JMenuItem();
         jMnuDebugger = new javax.swing.JMenu();
         jMnuShowHeader = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JSeparator();
         jMnuMemoryView = new javax.swing.JMenuItem();
         jMnuVideoMemoryView = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JSeparator();
         jMnuPatternTableViewer = new javax.swing.JMenuItem();
+        jMnuPPUState = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JSeparator();
         JmnuDebbugerShow = new javax.swing.JMenuItem();
         jMnuAbout = new javax.swing.JMenu();
+        jmnuAboutMe = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JNesBR - an(other) NES emulator.");
@@ -81,9 +89,11 @@ public class Main extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/run.PNG"))); // NOI18N
+        jButton1.setMnemonic('r');
         jButton1.setText("Run");
         jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,9 +102,11 @@ public class Main extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton1);
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/stop.PNG"))); // NOI18N
+        jButton2.setMnemonic('s');
         jButton2.setText("Stop");
         jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton2);
 
@@ -123,6 +135,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMnuDebugger.add(jMnuShowHeader);
+        jMnuDebugger.add(jSeparator4);
 
         jMnuMemoryView.setText("Memory Viewer");
         jMnuMemoryView.addActionListener(new java.awt.event.ActionListener() {
@@ -139,6 +152,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMnuDebugger.add(jMnuVideoMemoryView);
+        jMnuDebugger.add(jSeparator3);
 
         jMnuPatternTableViewer.setText("Pattern Table Viewer");
         jMnuPatternTableViewer.addActionListener(new java.awt.event.ActionListener() {
@@ -147,6 +161,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMnuDebugger.add(jMnuPatternTableViewer);
+
+        jMnuPPUState.setText("Show PPU State");
+        jMnuDebugger.add(jMnuPPUState);
+        jMnuDebugger.add(jSeparator2);
 
         JmnuDebbugerShow.setText("Show Debugger");
         JmnuDebbugerShow.addActionListener(new java.awt.event.ActionListener() {
@@ -159,6 +177,15 @@ public class Main extends javax.swing.JFrame {
         jMnuMain.add(jMnuDebugger);
 
         jMnuAbout.setText("About");
+
+        jmnuAboutMe.setText("Read");
+        jmnuAboutMe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmnuAboutMeActionPerformed(evt);
+            }
+        });
+        jMnuAbout.add(jmnuAboutMe);
+
         jMnuMain.add(jMnuAbout);
 
         setJMenuBar(jMnuMain);
@@ -185,21 +212,23 @@ public class Main extends javax.swing.JFrame {
 
         if (userChooseSomething(returnVal)) {
             File file = fc.getSelectedFile();
-            FileChannel roChannel;
-            ByteBuffer readbuffer = null;
+            FileChannel fileChannel;
+            ByteBuffer rom = null;
             try {
-                roChannel = new RandomAccessFile(file, "r").getChannel();
+                fileChannel = new RandomAccessFile(file, "r").getChannel();
                 try {
-                    readbuffer = roChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) roChannel.size());
+                    rom = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) fileChannel.size());
                 } catch (IOException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "There was an error on reading the game!\n"+ex);
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "File not found!\n"+ex);
             }
 
             emulator = Emulator.getInstance();
-            emulator.load(readbuffer);
+            emulator.load(rom);
         } else {
             return;
         }
@@ -220,7 +249,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnuMemoryViewActionPerformed
 
     private void JmnuDebbugerShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmnuDebbugerShowActionPerformed
-        Debugger cp = new  Debugger();
+        Debugger cp = new Debugger();
         cp.setVisible(true);
     }//GEN-LAST:event_JmnuDebbugerShowActionPerformed
 
@@ -235,23 +264,29 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnuPatternTableViewerActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        File file =new File("roms/SuperMarioBros(E)[a1].nes");
-            FileChannel roChannel;
-            ByteBuffer readbuffer = null;
+        //this is just to make tests..
+        //TODO: REMOVE THIS AFTER
+        File file = new File("roms/SuperMarioBros(E)[a1].nes");
+        FileChannel roChannel;
+        ByteBuffer readbuffer = null;
+        try {
+            roChannel = new RandomAccessFile(file, "r").getChannel();
             try {
-                roChannel = new RandomAccessFile(file, "r").getChannel();
-                try {
-                    readbuffer = roChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) roChannel.size());
-                } catch (IOException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (FileNotFoundException ex) {
+                readbuffer = roChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) roChannel.size());
+            } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-            emulator = Emulator.getInstance();
-            emulator.load(readbuffer);
+        emulator = Emulator.getInstance();
+        emulator.load(readbuffer);
     }//GEN-LAST:event_formWindowOpened
+
+    private void jmnuAboutMeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnuAboutMeActionPerformed
+        JOptionPane.showMessageDialog(this, "Site: code.google.com/p/jnesbr", MetaInformation.NAME, JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jmnuAboutMeActionPerformed
 
     private boolean userChooseSomething(int returnVal) {
         return returnVal == JFileChooser.APPROVE_OPTION;
@@ -287,10 +322,15 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMnuLoad;
     private javax.swing.JMenuBar jMnuMain;
     private javax.swing.JMenuItem jMnuMemoryView;
+    private javax.swing.JMenuItem jMnuPPUState;
     private javax.swing.JMenuItem jMnuPatternTableViewer;
     private javax.swing.JMenuItem jMnuShowHeader;
     private javax.swing.JMenuItem jMnuVideoMemoryView;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenuItem jmnuAboutMe;
     // End of variables declaration//GEN-END:variables
 }

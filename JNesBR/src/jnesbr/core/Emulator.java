@@ -22,6 +22,7 @@ import javax.swing.table.TableModel;
 import jnesbr.gui.debugger.DebuggerDecoratorBuilder;
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
+import jnesbr.rom.INesROM;
 import jnesbr.rom.Loader;
 import jnesbr.util.JNesUtil;
 import jnesbr.video.Ppu2C02;
@@ -132,6 +133,10 @@ public class Emulator implements Runnable {
         loader.load(rom);
         cpu.reset();
         Emulator.getInstance().getPPU().initPatternTable();
+    }
+
+    public INesROM rom(){
+        return loader.getGame();
     }
 
     public void pause() {
