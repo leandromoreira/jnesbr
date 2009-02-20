@@ -38,7 +38,7 @@ public class LDAImmediate extends ImmediateInstruction {
 
     @Override
     public String disassembler() {
-        return "LDA #" + Integer.toHexString(getOperand()).toUpperCase() ;
+        return "LDA #$" + Integer.toHexString(getOperand()).toUpperCase() ;
     }
 
     @Override

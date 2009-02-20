@@ -33,6 +33,7 @@ public class BPLRelative extends RelativeInstruction {
     @Override
     public void interpret() {
         byte cycl = 3;
+        //if branch and change of page... cycl = 4
         if (cpu.flagSign == 0) {
             if (((cpu.programCounter + getOperand()) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
                 cycl++;

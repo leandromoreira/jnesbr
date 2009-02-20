@@ -37,7 +37,7 @@ public class LDXImmediate extends ImmediateInstruction {
 
     @Override
     public String disassembler() {
-        return "LDX #" + Integer.toHexString(getOperand()).toUpperCase();
+        return "LDX #$" + Integer.toHexString(getOperand()).toUpperCase();
     }
 
     @Override
