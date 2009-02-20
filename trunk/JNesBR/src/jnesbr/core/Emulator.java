@@ -17,16 +17,11 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.core;
 
 import java.nio.ByteBuffer;
-import javax.swing.JTable;
-import javax.swing.table.TableModel;
-import jnesbr.gui.debugger.DebuggerDecoratorBuilder;
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
 import jnesbr.rom.INesROM;
 import jnesbr.rom.Loader;
-import jnesbr.util.JNesUtil;
 import jnesbr.video.Ppu2C02;
-import jnesbr.video.memory.VideoMemory;
 
 /**
  * @author dreampeppers99
@@ -56,7 +51,7 @@ public class Emulator implements Runnable {
         return cpu;
     }
 
-    public Ppu2C02 getPPU(){
+    public Ppu2C02 getPPU() {
         return gpu;
     }
 
@@ -64,68 +59,12 @@ public class Emulator implements Runnable {
         return loader.getHeader();
     }
 
-    public static TableModel getMemoryModel(JTable jTMemory,int start, int end) {
-        TableModel memoryTable = new DebuggerDecoratorBuilder(jTMemory).getMemoryViewer();
-        int line = 0, col = 0;
-        
-        for (int i = start; i <= end; i++) {
-
-            if (col == 0x0) {
-                String address = JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(i).toUpperCase());
-                memoryTable.setValueAt(address, line, col++);
-                String value = JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().readFrom(i)).toUpperCase());
-                memoryTable.setValueAt(value, line, col++);
-            } else {
-                String value = JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().readFrom(i)).toUpperCase());
-                memoryTable.setValueAt(value, line, col);
-
-                if (col == 16) {
-                    line++;
-                    col = 0;
-                } else {
-                    col++;
-                }
-            }
-
-        }
-
-        return memoryTable;
-    }
-
-        public static TableModel getMemoryVideoModel(JTable jTMemory,int start, int end) {
-        TableModel memoryTable = new DebuggerDecoratorBuilder(jTMemory).getMemoryViewer();
-        int line = 0, col = 0;
-
-        for (int i = start; i <= end; i++) {
-
-            if (col == 0x0) {
-                String address = JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(i).toUpperCase());
-                memoryTable.setValueAt(address, line, col++);
-                String value = JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(VideoMemory.getMemory().readFrom(i)).toUpperCase());
-                memoryTable.setValueAt(value, line, col++);
-            } else {
-                String value = JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(VideoMemory.getMemory().readFrom(i)).toUpperCase());
-                memoryTable.setValueAt(value, line, col);
-
-                if (col == 16) {
-                    line++;
-                    col = 0;
-                } else {
-                    col++;
-                }
-            }
-
-        }
-
-        return memoryTable;
-    }
-
     public boolean haveTablePattern() {
         return loader.getGame().CHR_ROMPageCount8K != 0;
     }
 
-    public short[] giveMeTablePattern(){
-        return  java.util.Arrays.copyOf(loader.getGame().chr_rom, loader.getGame().chr_rom.length) ;
+    public short[] giveMeTablePattern() {
+        return java.util.Arrays.copyOf(loader.getGame().chr_rom, loader.getGame().chr_rom.length);
     }
 
     public void load(ByteBuffer rom) {
@@ -135,7 +74,7 @@ public class Emulator implements Runnable {
         Emulator.getInstance().getPPU().initPatternTable();
     }
 
-    public INesROM rom(){
+    public INesROM rom() {
         return loader.getGame();
     }
 
@@ -148,13 +87,14 @@ public class Emulator implements Runnable {
     }
 
     public void stepDebugger() {
-        if (cpu.cycles >= CYCLES_TO_SCANLINE){
+        if (cpu.cycles >= CYCLES_TO_SCANLINE) {
             //i can even draw here
             System.out.println("I should throw an interrupter NMI here?");
         }
         cpu.debugStep();
     }
-    public String actualLine(){
+
+    public String actualLine() {
         return cpu.actualLineDebug;
     }
 

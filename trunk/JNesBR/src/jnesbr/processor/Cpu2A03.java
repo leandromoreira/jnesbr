@@ -16,7 +16,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor;
 
-import jnesbr.processor.instructions.types.Instruction;
+import jnesbr.processor.instructions.types.*;
 import jnesbr.processor.instructions.*;
 import java.util.HashMap;
 import java.util.Map;
