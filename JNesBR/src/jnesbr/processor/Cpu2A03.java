@@ -81,6 +81,14 @@ public class Cpu2A03 {
         instructions.put(0xA2, new LDXImmediate(this));
         instructions.put(0xAD, new LDAAbsolute(this));
         instructions.put(0x9A, new TXSImplied(this));
+        instructions.put(0x29, new AndImmediate(this));
+        instructions.put(0x30, new BMIRelative(this));
+        instructions.put(0x50, new BVCRelative(this));
+        instructions.put(0x70, new BVSRelative(this));
+        instructions.put(0x90, new BCCRelative(this));
+        instructions.put(0xB0, new BCSRelative(this));
+        instructions.put(0xD0, new BNERelative(this));
+        instructions.put(0xF0, new BEQRelative(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {
@@ -94,7 +102,7 @@ public class Cpu2A03 {
     }
 
     public void setupFlagSign(short value) {
-        flagSign = (byte) ((value < 0) ? 1 : 0);
+        flagSign = (byte) ((value < 0) ? 1 : 0);  
     }
 
     public void setupFlagZero(short value) {

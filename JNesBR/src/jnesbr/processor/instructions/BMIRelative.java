@@ -16,26 +16,26 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions;
 
-import jnesbr.processor.instructions.types.RelativeInstruction;
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.RelativeInstruction;
 
 /**
  * @author dreampeppers99
  */
-public class BPLRelative extends RelativeInstruction {
-
-    public BPLRelative(Cpu2A03 cpu) {
+public class BMIRelative extends RelativeInstruction {
+    public BMIRelative(Cpu2A03 cpu){
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        interpret(cpu.flagSign == 0);
+        interpret(cpu.flagSign == 1);
     }
 
     @Override
     public String disassembler() {
-        return "BPL";
+        return "BMI";
     }
+
 
 }

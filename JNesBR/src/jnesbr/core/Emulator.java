@@ -89,7 +89,7 @@ public class Emulator implements Runnable {
     public void stepDebugger() {
         if (cpu.cycles >= CYCLES_TO_SCANLINE) {
             //i can even draw here
-            System.out.println("I should throw an interrupter NMI here?");
+            System.out.println("I should throw an interrupter NMI here at 240th time of it.");
         }
         cpu.debugStep();
     }

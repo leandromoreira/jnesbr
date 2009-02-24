@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 import jnesbr.core.Emulator;
 import jnesbr.core.MetaInformation;
 import jnesbr.gui.debugger.MemoryVideoView;
+import jnesbr.gui.debugger.PPUStateViewer;
 import jnesbr.gui.debugger.PatternTableViewer;
 
 /**
@@ -177,6 +178,11 @@ public class Main extends javax.swing.JFrame {
         jMnuDebugger.add(jMnuPatternTableViewer);
 
         jMnuPPUState.setText("Show PPU State");
+        jMnuPPUState.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuPPUStateActionPerformed(evt);
+            }
+        });
         jMnuDebugger.add(jMnuPPUState);
         jMnuDebugger.add(jSeparator2);
 
@@ -310,6 +316,10 @@ public class Main extends javax.swing.JFrame {
     private void jMnuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuExitActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMnuExitActionPerformed
+
+    private void jMnuPPUStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuPPUStateActionPerformed
+        new PPUStateViewer().setVisible(true);
+    }//GEN-LAST:event_jMnuPPUStateActionPerformed
 
     private boolean userChooseSomething(int returnVal) {
         return returnVal == JFileChooser.APPROVE_OPTION;

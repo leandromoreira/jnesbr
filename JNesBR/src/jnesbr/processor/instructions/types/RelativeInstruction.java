@@ -22,11 +22,34 @@ import jnesbr.processor.memory.Memory;
 /**
  * @author dreampeppers99
  */
-public abstract class RelativeInstruction extends GeneralInstruction{
-    public RelativeInstruction(Cpu2A03 cpu){
+public abstract class RelativeInstruction extends GeneralInstruction {
+
+    private byte cycl;
+    protected short cycles;
+
+    public RelativeInstruction(Cpu2A03 cpu) {
         super(cpu);
     }
-    public short getOperand(){
-        return (byte)Memory.getMemory().readFrom(cpu.programCounter + 1);
+
+    public void interpret(boolean conditional) {
+        cycl = 3;
+        //if branch and change of memory's page... cycl = 4
+        if (conditional) {
+            if (((cpu.programCounter + getOperand()) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
+                cycl++;
+            }
+        } else {
+            cycl = 2;
+        }
+        cpu.programCounter += (conditional) ? getOperand() + 2 : 2;
+        cycles = (short) cycl;
+    }
+
+    public short getOperand() {
+        return (byte) Memory.getMemory().readFrom(cpu.programCounter + 1);
+    }
+
+    public short cycles() {
+        return cycles;
     }
 }

@@ -51,6 +51,7 @@ public class PPUControlHandler implements Handler {
     }
 
     public short readFrom(int address) {
-        throw new UnsupportedOperationException("I guess it is just Write-Only.");
+        //The address $2000 is just Write-Only on the real nes here is the debug stuffs.
+        return Memory.getMemory().read(address);
     }
 }

@@ -14,28 +14,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.instructions;
-
-import jnesbr.processor.instructions.types.RelativeInstruction;
-import jnesbr.processor.Cpu2A03;
+package jnesbr.video;
 
 /**
  * @author dreampeppers99
  */
-public class BPLRelative extends RelativeInstruction {
-
-    public BPLRelative(Cpu2A03 cpu) {
-        super(cpu);
-    }
-
-    @Override
-    public void interpret() {
-        interpret(cpu.flagSign == 0);
-    }
-
-    @Override
-    public String disassembler() {
-        return "BPL";
-    }
-
+public class PPUStatus {
+    public byte verticalBlankStarted;
+        public byte InVBlank = 1;
+        public byte NotInVBlank = 0;
+    public byte sprite0Hit;
+    public byte spriteOverflow;
 }
