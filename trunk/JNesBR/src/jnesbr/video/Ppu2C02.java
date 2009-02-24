@@ -27,6 +27,7 @@ public class Ppu2C02 {
     private short[] spriteMemory = new short[0x100];
     private static Ppu2C02 instance;
     public PPUControll ppuControl = new PPUControll();
+    public PPUStatus ppuStatus = new PPUStatus();
     private Map<Integer, int[][]> patternTable = new HashMap<Integer, int[][]>();
 
     public static Ppu2C02 getInstance() {

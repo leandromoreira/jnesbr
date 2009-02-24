@@ -134,7 +134,7 @@ public class MemoryVideoView extends javax.swing.JFrame {
             return;
         }
         if (userChoose.equals("Background and Sprite Palettes (25 entries used)")){
-            jTMemory.setModel(MemoryViewerBuilder.getMemoryVideoModel(jTMemory,VideoMemoryMap.BG_SPR_PALETET_START,VideoMemoryMap.BG_SPR_PALETET_END));
+            jTMemory.setModel(MemoryViewerBuilder.getMemoryVideoModel(jTMemory,VideoMemoryMap.BG_SPR_PALLETE_START,VideoMemoryMap.BG_SPR_PALLETE_END));
             return;
         }
 

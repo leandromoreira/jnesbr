@@ -34,8 +34,12 @@ public class VideoMemoryMap {
     public final static int NAME_TABLE_3_END = 0x2FFF;
     public final static int MIRROR0_START = 0x3000;
     public final static int MIRROR0_END = 0x3EFF;
-    public final static int BG_SPR_PALETET_START = 0x3F00;
-    public final static int BG_SPR_PALETET_END = 0x3F1F;
+    public final static int BG_SPR_PALLETE_START = 0x3F00;
+        public final static int BG_PALLETE_START = 0x3F00;
+        public final static int BG_PALLETE_END = 0x3F0F;
+        public final static int SPR_PALLETE_START = 0x3F10;
+        public final static int SPR_PALLETE_END = 0x3F1F;
+    public final static int BG_SPR_PALLETE_END = 0x3F1F;
     public final static int MIRROR1_START = 0x3F20;
     public final static int MIRROR1_END = 0x3FFF;
 }
