@@ -23,22 +23,22 @@ import jnesbr.processor.instructions.types.ImmediateInstruction;
  * @author dreampeppers99
  */
 public class LDAImmediate extends ImmediateInstruction {
-    public LDAImmediate(Cpu2A03 cpu){
+
+    public LDAImmediate(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.setupFlagSign(getOperand());
-        cpu.setupFlagZero(getOperand());
-        cpu.mergeProcessorStatus();
         cpu.accumulator = getOperand();
+        cpu.setupFlagSign(cpu.accumulator);
+        cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "LDA #$" + Integer.toHexString(getOperand()).toUpperCase() ;
+        return "LDA #$" + Integer.toHexString(getOperand()).toUpperCase();
     }
 
     @Override

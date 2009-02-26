@@ -21,6 +21,7 @@ import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
 import jnesbr.rom.INesROM;
 import jnesbr.rom.Loader;
+import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
 
 /**
@@ -32,7 +33,8 @@ public class Emulator implements Runnable {
     private Cpu2A03 cpu;
     private Ppu2C02 gpu;
     private Memory memory;
-    private final static int CYCLES_TO_SCANLINE = 114;
+    //private final static int CYCLES_TO_SCANLINE = 114;
+    private final static int CYCLES_TO_SCANLINE = 34;
 
     public static Emulator getInstance() {
         if (emulator == null) {
@@ -87,9 +89,18 @@ public class Emulator implements Runnable {
     }
 
     public void stepDebugger() {
-        if (cpu.cycles >= CYCLES_TO_SCANLINE) {
-            //i can even draw here
-            System.out.println("I should throw an interrupter NMI here at 240th time of it.");
+        if (cpu.cycles >= CYCLES_TO_SCANLINE)
+        {
+            System.out.println("should...");
+            //mocking
+            cpu.cycles = 0;
+
+            Ppu2C02.getInstance().ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
+            Ppu2C02.getInstance().ppuStatus.sprite0Hit = 0;
+
+            if (Ppu2C02.getInstance().ppuControl.executeNMIOnVBlank == 1){
+                System.out.println("Should trhow an interrupter nmi at :"+Cpu2A03.InterruptNMI);
+            }
         }
         cpu.debugStep();
     }

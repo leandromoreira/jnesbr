@@ -31,7 +31,6 @@ public class SEIImplied extends GeneralInstruction {
     @Override
     public void interpret() {
         cpu.flagIRQ = 1;
-        cpu.mergeProcessorStatus();
         cpu.programCounter++;
     }
 

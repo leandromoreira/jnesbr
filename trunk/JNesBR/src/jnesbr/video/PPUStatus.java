@@ -21,8 +21,8 @@ package jnesbr.video;
  */
 public class PPUStatus {
     public byte verticalBlankStarted;
-        public byte InVBlank = 1;
-        public byte NotInVBlank = 0;
+        public final static byte InVBlank = 1;
+        public final static byte NotInVBlank = 0;
     public byte sprite0Hit;
     public byte spriteOverflow;
 }

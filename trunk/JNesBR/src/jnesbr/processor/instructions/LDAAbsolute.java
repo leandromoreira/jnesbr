@@ -32,6 +32,8 @@ public class LDAAbsolute extends AbsoluteInstruction{
     @Override
     public void interpret() {
         cpu.accumulator = Memory.getMemory().readFrom(getAbsolute());
+        cpu.setupFlagSign(cpu.accumulator);
+        cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter += 3;
     }
 
