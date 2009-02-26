@@ -378,7 +378,7 @@ public class Debugger extends javax.swing.JFrame {
         jTxtPC.setText(Integer.toHexString(emu.getCpu().programCounter).toUpperCase());
         jTxtXIndex.setText(Integer.toHexString(emu.getCpu().registerX).toUpperCase());
         jTxtYIndex.setText(Integer.toHexString(emu.getCpu().registerY).toUpperCase());
-        jTxtS.setText(Integer.toHexString(emu.getCpu().processorStatus).toUpperCase());
+        jTxtS.setText(Integer.toHexString(emu.getCpu().processorStatus()).toUpperCase());
         jTxtSP.setText(Integer.toHexString(emu.getCpu().stackPointer).toUpperCase());
         jChkB.setSelected(emu.getCpu().flagBreak != 0);
         jChkC.setSelected(emu.getCpu().flagCarry != 0);

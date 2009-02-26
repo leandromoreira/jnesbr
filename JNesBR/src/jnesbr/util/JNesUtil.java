@@ -64,4 +64,8 @@ public class JNesUtil {
         }
         return value;
     }
+
+    public static String giveMeHexaStringFormattedWith4Space(int value){
+        return fillIfNeedsWith(4, "0",Integer.toHexString(value).toUpperCase());
+    }
 }

@@ -29,7 +29,8 @@ import jnesbr.util.JNesUtil;
 public class Cpu2A03 {
 
     public short accumulator,  registerX,  registerY;
-    public short stackPointer,  processorStatus;
+    public short stackPointer;
+    private short processorStatus;
     public int programCounter,oldProgramCounter;
     public byte flagCarry,  flagZero,  flagIRQ,  flagDecimalMode,  flagBreak,  flagNotUsed,  flagOverflow,  flagSign;
     public static final int InterruptNMI = 0xFFFA;
@@ -44,7 +45,11 @@ public class Cpu2A03 {
         initInstructionTable();
     }
 
-    public void mergeProcessorStatus() {
+    public short processorStatus(){
+        mergeProcessorStatus();
+        return processorStatus;
+    }
+    private void mergeProcessorStatus() {
         processorStatus = (short) (((flagSign) << 7) |
                 ((flagOverflow) << 6) |
                 ((flagNotUsed) << 5) |
@@ -75,13 +80,20 @@ public class Cpu2A03 {
         instructions.put(0xD8, new CLDImplied(this));
         instructions.put(0xA8, new TAYImplied(this));
         instructions.put(0x78, new SEIImplied(this));
-        instructions.put(0x10, new BPLRelative(this));
-        instructions.put(0xA9, new LDAImmediate(this));
         instructions.put(0x8D, new STAAbsolute(this));
-        instructions.put(0xA2, new LDXImmediate(this));
-        instructions.put(0xAD, new LDAAbsolute(this));
         instructions.put(0x9A, new TXSImplied(this));
         instructions.put(0x29, new AndImmediate(this));
+
+        //Load Register from Memory
+        instructions.put(0xA9, new LDAImmediate(this));
+        instructions.put(0xA5, new LDAZeroPage(this));
+        instructions.put(0xB5, new LDAZeroPageX(this));
+        instructions.put(0xA2, new LDXImmediate(this));
+        instructions.put(0xAD, new LDAAbsolute(this));
+        
+
+        //Conditional Branch Instructions
+        instructions.put(0x10, new BPLRelative(this));
         instructions.put(0x30, new BMIRelative(this));
         instructions.put(0x50, new BVCRelative(this));
         instructions.put(0x70, new BVSRelative(this));
@@ -102,11 +114,11 @@ public class Cpu2A03 {
     }
 
     public void setupFlagSign(short value) {
-        flagSign = (byte) ((value < 0) ? 1 : 0);  
+        flagSign = (byte) (((byte)value < 0) ? 1 : 0);
     }
 
     public void setupFlagZero(short value) {
-        flagZero = (byte) ((value == 0) ? 1 : 0);
+        flagZero = (byte) (((byte)value == 0) ? 1 : 0);
     }
 
     public void step() {

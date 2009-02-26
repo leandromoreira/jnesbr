@@ -14,21 +14,37 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.instructions.types;
+package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.ZeroPageInstruction;
 import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public abstract class ZeroPageInstruction extends GeneralInstruction{
+public class LDAZeroPage extends ZeroPageInstruction {
 
-    public ZeroPageInstruction(Cpu2A03 cpu){
+    public LDAZeroPage(Cpu2A03 cpu) {
         super(cpu);
     }
-    
-    public short getOperand(){
-        return Memory.getMemory().readFrom(cpu.programCounter+1);
+
+    @Override
+    public void interpret() {
+        cpu.accumulator = Memory.getMemory().read(getOperand());
+        cpu.setupFlagSign(cpu.accumulator);
+        cpu.setupFlagZero(cpu.accumulator);
+        cpu.programCounter += 2;
+    }
+
+    @Override
+    public String disassembler() {
+        return "LDA $"+ JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand())) ;
+    }
+
+    @Override
+    public short cycles() {
+        return 3;
     }
 }

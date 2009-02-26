@@ -17,6 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions.types;
 
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.memory.Memory;
 
 /**
  * @author dreampeppers99
@@ -25,5 +26,9 @@ public abstract class IndexedZeroPageInstruction extends GeneralInstruction{
 
     public IndexedZeroPageInstruction(Cpu2A03 cpu){
         super(cpu);
+    }
+
+    public short getOperand(short index){
+        return Memory.getMemory().readFrom(cpu.programCounter+1+index);
     }
 }

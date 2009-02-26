@@ -20,6 +20,7 @@ import jnesbr.processor.memory.handler.ppu.PPUControlHandler;
 import java.util.HashMap;
 import java.util.Map;
 import jnesbr.processor.memory.handler.*;
+import jnesbr.processor.memory.handler.ppu.PPUStatusHandler;
 import static jnesbr.processor.memory.MemoryMap.*;
 
 /**
@@ -55,7 +56,8 @@ public class Memory {
         handlers.put(ZERO_PAGE, new ZeroPageHandler());
         handlers.put(FIRST_IO, new FirstIOHandler());
         handlers.put(ROM, new RomlHandler());
-        handlers.put(PPU_CONTROL_REGISTER_1, new PPUControlHandler());
+        handlers.put(PPU_CONTROL, new PPUControlHandler());
+        handlers.put(PPU_STATUS, new PPUStatusHandler());
     }
 
     public void writeAt(int address, short value) {

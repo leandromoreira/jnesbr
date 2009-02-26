@@ -16,11 +16,10 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.memory.handler.ppu;
 
+import jnesbr.processor.memory.Memory;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
-import jnesbr.video.memory.VideoMemory;
-import static jnesbr.util.JNesUtil.*;
 
 /**
  * @author dreampeppers99
@@ -33,10 +32,8 @@ public class PPUStatusHandler implements Handler {
 
     public short readFrom(int address) {
         ppuStatus = Ppu2C02.getInstance().ppuStatus;
-        ppuStatus.verticalBlankStarted = (byte) giveMeBit7From(VideoMemory.getMemory().read(address));
-        ppuStatus.sprite0Hit = (byte) giveMeBit6From(VideoMemory.getMemory().read(address));
-        ppuStatus.spriteOverflow = (byte) giveMeBit5From(VideoMemory.getMemory().read(address));
-        return VideoMemory.getMemory().read(address);
+        Memory.getMemory().write(0x2002,(short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
+        return Memory.getMemory().read(address);
     }
 
 }

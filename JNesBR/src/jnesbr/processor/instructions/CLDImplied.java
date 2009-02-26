@@ -30,7 +30,6 @@ public class CLDImplied extends GeneralInstruction{
 
     public void interpret() {
         cpu.flagDecimalMode = 0;
-        cpu.mergeProcessorStatus();
         cpu.programCounter++;
     }
 
