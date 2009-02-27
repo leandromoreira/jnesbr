@@ -37,6 +37,9 @@ public class Ppu2C02 {
         return instance;
     }
 
+    public void reset(){
+        
+    }
     private Ppu2C02() {
     }
 

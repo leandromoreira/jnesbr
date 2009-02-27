@@ -88,10 +88,15 @@ public class Cpu2A03 {
         instructions.put(0xA9, new LDAImmediate(this));
         instructions.put(0xA5, new LDAZeroPage(this));
         instructions.put(0xB5, new LDAZeroPageX(this));
-        instructions.put(0xA2, new LDXImmediate(this));
         instructions.put(0xAD, new LDAAbsolute(this));
+        instructions.put(0xBD, new LDAAbsoluteIndexedX(this));
+        instructions.put(0xB9, new LDAAbsoluteIndexedY(this));
+        instructions.put(0xA1, new LDAIndexedIndirectX(this));
+        instructions.put(0xB1, new LDAIndirectIndexedY(this));
+        instructions.put(0xA2, new LDXImmediate(this));
+        instructions.put(0xA6, new LDXZeroPage(this));
+        instructions.put(0xA0, new LDYImmediate(this));
         
-
         //Conditional Branch Instructions
         instructions.put(0x10, new BPLRelative(this));
         instructions.put(0x30, new BMIRelative(this));
@@ -114,11 +119,11 @@ public class Cpu2A03 {
     }
 
     public void setupFlagSign(short value) {
-        flagSign = (byte) (((byte)value < 0) ? 1 : 0);
+        flagSign = (byte) (value >> 7);
     }
 
     public void setupFlagZero(short value) {
-        flagZero = (byte) (((byte)value == 0) ? 1 : 0);
+        flagZero = (byte) ((value == 0) ? 1 : 0);
     }
 
     public void step() {

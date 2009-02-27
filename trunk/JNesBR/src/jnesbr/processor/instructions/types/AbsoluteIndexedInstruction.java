@@ -14,15 +14,21 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.test;
+package jnesbr.processor.instructions.types;
+
+import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class Test {
-    public static byte flagCarry,flagZero,flagIRQ,flagDecimalMode,flagBreak,flagNotUsed,flagOverflow,flagSign;
+public abstract class AbsoluteIndexedInstruction extends AbsoluteInstruction{
+    public AbsoluteIndexedInstruction(Cpu2A03 cpu){
+        super(cpu);
+    }
+    public int getAbsolute(short index){
+        return Memory.getMemory().read(JNesUtil.get16BitLittleEndian(Memory.getMemory().readFrom(cpu.programCounter+1),Memory.getMemory().readFrom(cpu.programCounter+2))+index);
+    }
 
-    public static void main(String[] args) {
-        System.out.println(0x80 >> 7);
-        }
 }
