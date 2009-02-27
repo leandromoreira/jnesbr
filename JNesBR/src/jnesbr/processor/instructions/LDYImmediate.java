@@ -14,15 +14,34 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.test;
+package jnesbr.processor.instructions;
+
+import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.ImmediateInstruction;
 
 /**
  * @author dreampeppers99
  */
-public class Test {
-    public static byte flagCarry,flagZero,flagIRQ,flagDecimalMode,flagBreak,flagNotUsed,flagOverflow,flagSign;
+public class LDYImmediate extends ImmediateInstruction {
+    public LDYImmediate(Cpu2A03 cpu){
+        super(cpu);
+    }
 
-    public static void main(String[] args) {
-        System.out.println(0x80 >> 7);
-        }
+    @Override
+    public void interpret() {
+        cpu.registerY = getOperand();
+        cpu.setupFlagSign(cpu.registerY);
+        cpu.setupFlagZero(cpu.registerY);
+        cpu.programCounter += 2;
+    }
+
+    @Override
+    public String disassembler() {
+        return "LDY #$"+Integer.toHexString(getOperand()).toUpperCase();
+    }
+
+    @Override
+    public short cycles() {
+        return 2;
+    }
 }

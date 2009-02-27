@@ -14,15 +14,34 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.test;
+package jnesbr.processor.instructions;
+
+import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.ZeroPageInstruction;
 
 /**
  * @author dreampeppers99
  */
-public class Test {
-    public static byte flagCarry,flagZero,flagIRQ,flagDecimalMode,flagBreak,flagNotUsed,flagOverflow,flagSign;
+public class LDXZeroPage extends ZeroPageInstruction {
+    public LDXZeroPage(Cpu2A03 cpu){
+        super(cpu);
+    }
 
-    public static void main(String[] args) {
-        System.out.println(0x80 >> 7);
-        }
+    @Override
+    public void interpret() {
+        cpu.registerX = getOperand();
+        cpu.setupFlagSign(cpu.registerX);
+        cpu.setupFlagZero(cpu.registerX);
+        cpu.programCounter += 2;
+    }
+
+    @Override
+    public String disassembler() {
+        return "LDX $"+Integer.toHexString(getOperand()).toUpperCase();
+    }
+
+    @Override
+    public short cycles() {
+        return 3;
+    }
 }

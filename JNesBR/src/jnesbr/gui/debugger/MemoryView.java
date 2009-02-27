@@ -116,7 +116,7 @@ public class MemoryView extends javax.swing.JFrame {
             return;
         }
         if (userChoose.equals("RAM")){
-            jTMemory.setModel(MemoryViewerBuilder.getMemoryModel(jTMemory,MemoryMap.RAM_START,MemoryMap.RAM_END));
+            jTMemory.setModel(MemoryViewerBuilder.getMemoryModel(jTMemory,MemoryMap.RAM_0_START,MemoryMap.RAM_0_END));
             return;
         }
 

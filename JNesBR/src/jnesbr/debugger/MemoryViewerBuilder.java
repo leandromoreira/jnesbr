@@ -37,10 +37,10 @@ public class MemoryViewerBuilder {
             if (col == 0x0) {
                 String address = JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(i).toUpperCase());
                 memoryTable.setValueAt(address, line, col++);
-                String value = JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().readFrom(i)).toUpperCase());
+                String value = JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().read(i)).toUpperCase());
                 memoryTable.setValueAt(value, line, col++);
             } else {
-                String value = JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().readFrom(i)).toUpperCase());
+                String value = JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().read(i)).toUpperCase());
                 memoryTable.setValueAt(value, line, col);
 
                 if (col == 16) {

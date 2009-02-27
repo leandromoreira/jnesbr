@@ -31,6 +31,7 @@ public class PPUStatusHandler implements Handler {
     }
 
     public short readFrom(int address) {
+        //TODO: see the need of mirroring here
         ppuStatus = Ppu2C02.getInstance().ppuStatus;
         Memory.getMemory().write(0x2002,(short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
         return Memory.getMemory().read(address);
