@@ -51,7 +51,7 @@ public abstract class RelativeInstruction extends GeneralInstruction {
          * For this purpose, the operand is interpreted as a signed byte, that is in
          * the range -128 to 127 to allow forward and backward branching.
          * */
-        return (byte) Memory.getMemory().readFrom(cpu.programCounter + 1);
+        return (byte) Memory.getMemory().read(cpu.programCounter + 1);
     }
 
     public short cycles() {

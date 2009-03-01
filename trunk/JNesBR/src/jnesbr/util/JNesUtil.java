@@ -22,7 +22,12 @@ import java.nio.ByteBuffer;
  * @author dreampeppers99
  */
 public class JNesUtil {
-
+    public static short get8FirstBits(int value){
+        return (short) (value & 0xFF);
+    }
+    public static short get8SecondBits(int value){
+        return (short) (value >> 8);
+    }
     public static int get16BitLittleEndian(short byte1,short byte2){
         return ((byte2 << 8) | byte1);
     }

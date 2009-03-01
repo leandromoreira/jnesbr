@@ -16,13 +16,16 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.test;
 
+import jnesbr.util.JNesUtil;
+
 /**
  * @author dreampeppers99
  */
 public class Test {
-    public static byte flagCarry,flagZero,flagIRQ,flagDecimalMode,flagBreak,flagNotUsed,flagOverflow,flagSign;
 
     public static void main(String[] args) {
-        System.out.println(0x80 >> 7);
-        }
+        int number = 0xABCD;
+        System.out.println(Integer.toHexString(JNesUtil.get8FirstBits(number)));
+        System.out.println(Integer.toHexString(JNesUtil.get8SecondBits(number)));
+    }
 }
