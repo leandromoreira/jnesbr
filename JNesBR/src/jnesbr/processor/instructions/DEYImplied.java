@@ -14,24 +14,35 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.instructions.types;
+package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.memory.Memory;
-import jnesbr.util.JNesUtil;
+import jnesbr.processor.instructions.types.GeneralInstruction;
 
 /**
  * @author dreampeppers99
  */
-public abstract class IndirectIndexedInstruction extends GeneralInstruction {
+public class DEYImplied extends GeneralInstruction {
 
-    public IndirectIndexedInstruction(Cpu2A03 cpu) {
+    public DEYImplied(Cpu2A03 cpu) {
         super(cpu);
     }
 
-    public short getOperand() {
-        short first = Memory.getMemory().read((cpu.programCounter + 1));
-        short second = Memory.getMemory().read((cpu.programCounter + 2));
-        return Memory.getMemory().read(JNesUtil.get16BitLittleEndian(first, second)+cpu.registerY);
+    @Override
+    public void interpret() {
+        cpu.registerY--;
+        cpu.setupFlagSign(cpu.registerY);
+        cpu.setupFlagZero(cpu.registerY);
+        cpu.programCounter++;
+    }
+
+    @Override
+    public String disassembler() {
+        return "DEY";
+    }
+
+    @Override
+    public short cycles() {
+        return 2;
     }
 }

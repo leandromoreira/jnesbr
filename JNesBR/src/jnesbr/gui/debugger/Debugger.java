@@ -68,6 +68,17 @@ public class Debugger extends javax.swing.JFrame {
                 formWindowOpened(evt);
             }
         });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                formKeyTyped(evt);
+            }
+        });
 
         jPnRegisters.setBorder(javax.swing.BorderFactory.createTitledBorder("Registers"));
 
@@ -333,6 +344,20 @@ public class Debugger extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         updateScreen();
     }//GEN-LAST:event_formWindowOpened
+
+    private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
+        System.out.println(evt);
+    }//GEN-LAST:event_formKeyTyped
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        // TODO add your handling code here:
+        System.out.println(evt);
+    }//GEN-LAST:event_formKeyPressed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+        // TODO add your handling code here:
+        System.out.println(evt);
+    }//GEN-LAST:event_formKeyReleased
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
