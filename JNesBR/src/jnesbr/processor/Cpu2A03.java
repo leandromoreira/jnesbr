@@ -117,6 +117,8 @@ public class Cpu2A03 {
         instructions.put(0x91, new STAIndirectIndexedY(this));
         instructions.put(0x88, new DEYImplied(this));
         instructions.put(0xC0, new CPYImmediate(this));
+
+        instructions.put(0x8E, new STXAbsolute(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {

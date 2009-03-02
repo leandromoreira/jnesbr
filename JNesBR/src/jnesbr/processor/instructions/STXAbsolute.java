@@ -17,31 +17,31 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.IndirectIndexedInstruction;
+import jnesbr.processor.instructions.types.AbsoluteInstruction;
 import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class STAIndirectIndexedY extends IndirectIndexedInstruction{
-    public STAIndirectIndexedY(Cpu2A03 cpu){
+public class STXAbsolute extends AbsoluteInstruction {
+    public STXAbsolute(Cpu2A03 cpu){
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getOperand(), cpu.accumulator);
-        cpu.programCounter += 2;
+        Memory.getMemory().write(getAbsolute(), cpu.registerX);
+        cpu.programCounter += 3;
     }
 
     @Override
     public String disassembler() {
-        return "STA ($"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase())+"),Y";
+        return "STX $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsolute()).toUpperCase());
     }
 
     @Override
     public short cycles() {
-        return 6;
+        return 4;
     }
 }
