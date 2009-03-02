@@ -14,34 +14,21 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.instructions;
+package jnesbr.processor.memory.handler;
 
-import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.IndirectIndexedInstruction;
 import jnesbr.processor.memory.Memory;
-import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class STAIndirectIndexedY extends IndirectIndexedInstruction{
-    public STAIndirectIndexedY(Cpu2A03 cpu){
-        super(cpu);
+public class NormalHandler implements Handler {
+
+    public void writeAt(int address, short value) {
+        Memory.getMemory().write(address, value);
     }
 
-    @Override
-    public void interpret() {
-        Memory.getMemory().write(getOperand(), cpu.accumulator);
-        cpu.programCounter += 2;
+    public short readFrom(int address) {
+        return Memory.getMemory().read(address);
     }
 
-    @Override
-    public String disassembler() {
-        return "STA ($"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase())+"),Y";
-    }
-
-    @Override
-    public short cycles() {
-        return 6;
-    }
 }

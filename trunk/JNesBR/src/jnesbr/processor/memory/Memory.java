@@ -31,7 +31,8 @@ public class Memory {
     private static Memory instance;
     private short[] memory = new short[0x10000];
     private Map<Integer, Handler> handlers = new HashMap<Integer, Handler>();
-    private final static int ZERO_PAGE = 0xFFFF1,  FIRST_IO = 0xFFFF2,  ROM = 0xFFFF3;
+    private final static int ZERO_PAGE = 0xFFFF1,  FIRST_IO = 0xFFFF2,  ROM = 0xFFFF3,
+                    NORMAL = 0xFFFF4;
 
     public static Memory getMemory() {
         if (instance == null) {
@@ -53,6 +54,7 @@ public class Memory {
     }
 
     private Memory() {
+        handlers.put(NORMAL, new NormalHandler());
         handlers.put(ZERO_PAGE, new ZeroPageHandler());
         handlers.put(FIRST_IO, new FirstIOHandler());
         handlers.put(ROM, new RomlHandler());
