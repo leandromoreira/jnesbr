@@ -24,18 +24,18 @@ import jnesbr.processor.memory.*;
 public class FirstIOHandler implements Handler {
 
     public void writeAt(int address, short value) {
-        Memory.getMemory().write(address, value);
+        Memory.getMemory().writeUnhandled(address, value);
         mirror(address,value);
     }
 
-    private void mirror(int address, short value) {
+    public static void mirror(int address, short value) {
         for (int i = 0x0000 ; i < 0x1FF8 ; i += 8){
-            Memory.getMemory().write(address+i, value);
+            Memory.getMemory().writeUnhandled(address+i, value);
         }
     }
 
     public short readFrom(int address) {
-        return Memory.getMemory().read(address);
+        return Memory.getMemory().readUnhandled(address);
     }
 
 }

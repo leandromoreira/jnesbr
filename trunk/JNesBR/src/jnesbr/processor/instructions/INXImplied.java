@@ -14,20 +14,32 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.memory.handler;
+package jnesbr.processor.instructions;
 
-import jnesbr.processor.memory.*;
+import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.GeneralInstruction;
 
 /**
  * @author dreampeppers99
  */
-public class RomlHandler implements Handler {
-
-    public void writeAt(int address, short value) {
-        Memory.getMemory().write(address, value);
+public class INXImplied extends GeneralInstruction{
+    public INXImplied(Cpu2A03 cpu){
+        super(cpu);
     }
 
-    public short readFrom(int address) {
-        return Memory.getMemory().read(address);
+    @Override
+    public void interpret() {
+        cpu.registerX = (short)((cpu.registerX+1) & 0xFF);
+        cpu.programCounter++;
+    }
+
+    @Override
+    public String disassembler() {
+        return "INX";
+    }
+
+    @Override
+    public short cycles() {
+        return 2;
     }
 }

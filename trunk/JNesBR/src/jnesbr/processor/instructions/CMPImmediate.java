@@ -31,8 +31,8 @@ public class CMPImmediate extends ImmediateInstruction {
     @Override
     public void interpret() {
         cpu.setupFlagSign((short) (cpu.accumulator - getOperand()));
-        cpu.setupFlagZero((short) (cpu.accumulator - getOperand()));
-        cpu.flagCarry = (byte) ((cpu.accumulator - getOperand() < 0x100) ? 1 : 0);
+        cpu.flagZero = (byte) ((cpu.accumulator == getOperand()) ? 1 : 0);
+        cpu.flagCarry = (byte) ((cpu.accumulator >= getOperand()) ? 1 : 0);
         cpu.programCounter += 2;
     }
 

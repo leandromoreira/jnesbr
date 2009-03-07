@@ -28,7 +28,7 @@ public abstract class AbsoluteIndexedInstruction extends AbsoluteInstruction{
         super(cpu);
     }
     public int getAbsolute(short index){
-        return Memory.getMemory().read(JNesUtil.get16BitLittleEndian(Memory.getMemory().readFrom(cpu.programCounter+1),Memory.getMemory().readFrom(cpu.programCounter+2))+index);
+        return Memory.getMemory().read(JNesUtil.get16BitLittleEndian(Memory.getMemory().read(cpu.programCounter+1),Memory.getMemory().read(cpu.programCounter+2))+index);
     }
 
 }

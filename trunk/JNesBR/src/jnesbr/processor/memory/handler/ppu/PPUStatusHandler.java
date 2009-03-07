@@ -17,6 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
+import jnesbr.processor.memory.handler.FirstIOHandler;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
@@ -27,14 +28,15 @@ import jnesbr.video.Ppu2C02;
 public class PPUStatusHandler implements Handler {
     private PPUStatus ppuStatus;
     public void writeAt(int address, short value) {
-        throw new UnsupportedOperationException("The address $2002 is just read-only.");
+        Memory.getMemory().writeUnhandled(address, value);
+        System.out.println("The address $2002 should be just read-only.");
     }
 
     public short readFrom(int address) {
-        //TODO: see the need of mirroring here
         ppuStatus = Ppu2C02.getInstance().ppuStatus;
-        Memory.getMemory().write(0x2002,(short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
-        return Memory.getMemory().read(address);
+        Memory.getMemory().writeUnhandled(0x2002,(short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
+        FirstIOHandler.mirror(0x2002,(short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
+        return Memory.getMemory().readUnhandled(address);
     }
 
 }

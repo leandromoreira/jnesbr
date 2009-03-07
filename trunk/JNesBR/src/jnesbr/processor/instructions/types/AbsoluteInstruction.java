@@ -28,6 +28,6 @@ public abstract class AbsoluteInstruction extends GeneralInstruction {
         super(cpu);
     }
     public int getAbsolute(){
-        return JNesUtil.get16BitLittleEndian(Memory.getMemory().readFrom(cpu.programCounter+1),Memory.getMemory().readFrom(cpu.programCounter+2));
+        return JNesUtil.get16BitLittleEndian(Memory.getMemory().read(cpu.programCounter+1),Memory.getMemory().read(cpu.programCounter+2));
     }
 }

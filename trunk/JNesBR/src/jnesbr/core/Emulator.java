@@ -91,10 +91,8 @@ public class Emulator implements Runnable {
     public void stepDebugger() {
         if (cpu.cycles >= CYCLES_TO_SCANLINE)
         {
-            System.out.println("should...");
-            //mocking
+            //mocking scanline timing
             cpu.cycles = 0;
-
             Ppu2C02.getInstance().ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
             Ppu2C02.getInstance().ppuStatus.sprite0Hit = 0;
 

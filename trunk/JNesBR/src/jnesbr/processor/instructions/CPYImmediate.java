@@ -31,8 +31,8 @@ public CPYImmediate(Cpu2A03 cpu){
     @Override
     public void interpret() {
         cpu.setupFlagSign((short) (cpu.registerY - getOperand()));
-        cpu.setupFlagZero((short) (cpu.registerY - getOperand()));
-        cpu.flagCarry = (byte) ((cpu.registerY - getOperand() < 0x100) ? 1 : 0);
+        cpu.flagZero = (byte) ((cpu.registerY == getOperand()) ? 1 : 0);
+        cpu.flagCarry = (byte) ((cpu.registerY >= getOperand()) ? 1 : 0);
         cpu.programCounter += 2;
     }
 

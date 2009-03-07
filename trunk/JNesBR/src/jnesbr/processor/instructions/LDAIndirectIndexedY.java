@@ -18,6 +18,7 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.IndirectIndexedInstruction;
+import jnesbr.processor.memory.Memory;
 
 /**
  * @author dreampeppers99
@@ -31,10 +32,10 @@ public class LDAIndirectIndexedY extends IndirectIndexedInstruction {
     @Override
     public void interpret() {
         cycles = 5;
-        if (((cpu.programCounter + getOperand()) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
+        if (((cpu.programCounter + getAddressOfOperand()) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
             cycles++;
         }
-        cpu.accumulator = getOperand();
+        cpu.accumulator = Memory.getMemory().read(getAddressOfOperand());
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter += 2;
@@ -42,7 +43,7 @@ public class LDAIndirectIndexedY extends IndirectIndexedInstruction {
 
     @Override
     public String disassembler() {
-        return "LDA ($"+Integer.toHexString(getOperand()).toUpperCase()+"),Y";
+        return "LDA ($"+Integer.toHexString(Memory.getMemory().read(cpu.programCounter+1)).toUpperCase()+"),Y";
     }
 
     @Override

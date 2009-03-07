@@ -29,6 +29,6 @@ public abstract class IndexedZeroPageInstruction extends GeneralInstruction{
     }
 
     public short getOperand(short index){
-        return Memory.getMemory().readFrom(cpu.programCounter+1+index);
+        return Memory.getMemory().read(cpu.programCounter+1+index);
     }
 }

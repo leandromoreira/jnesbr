@@ -31,8 +31,8 @@ public class CPXImmediate extends ImmediateInstruction{
     @Override
     public void interpret() {
         cpu.setupFlagSign((short) (cpu.registerX - getOperand()));
-        cpu.setupFlagZero((short) (cpu.registerX - getOperand()));
-        cpu.flagCarry = (byte) ((cpu.registerX - getOperand() < 0x100) ? 1 : 0);
+        cpu.flagZero = (byte) ((cpu.registerX == getOperand()) ? 1 : 0);
+        cpu.flagCarry = (byte) ((cpu.registerX >= getOperand()) ? 1 : 0);
         cpu.programCounter += 2;
     }
 

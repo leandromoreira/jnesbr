@@ -14,25 +14,37 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.instructions.types;
+package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.ZeroPageInstruction;
 import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public abstract class IndirectIndexedInstruction extends GeneralInstruction {
-
-    public IndirectIndexedInstruction(Cpu2A03 cpu) {
+public class DECZeroPage extends ZeroPageInstruction {
+    public DECZeroPage(Cpu2A03 cpu){
         super(cpu);
     }
 
-    public int getAddressOfOperand() {
-        int operand = Memory.getMemory().read(cpu.programCounter + 1);
-        short first = Memory.getMemory().read((operand));
-        short second = Memory.getMemory().read((operand + 1));
-        return (JNesUtil.get16BitLittleEndian(first, second) + cpu.registerY);
+    @Override
+    public void interpret() {
+        short value = (short) ((Memory.getMemory().read(getOperand()) - 1) & 0xFF);
+        cpu.setupFlagSign(value);
+        cpu.setupFlagZero(value);
+        Memory.getMemory().write(getOperand(),value);
+        cpu.programCounter += 2;
+    }
+
+    @Override
+    public String disassembler() {
+        return "DEC $"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
+    }
+
+    @Override
+    public short cycles() {
+        return 5;
     }
 }

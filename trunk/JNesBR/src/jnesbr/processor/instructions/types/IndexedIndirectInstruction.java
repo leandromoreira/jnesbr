@@ -31,8 +31,8 @@ public abstract class IndexedIndirectInstruction extends GeneralInstruction{
     //on Nesdoc.pdf says that here is wraparound...
     //TODO: Check it out if the wraparound is about the operand or the values get from...
     public short getOperand(){
-        short first = Memory.getMemory().readFrom((byte)(cpu.programCounter+1+cpu.registerX));
-        short second = Memory.getMemory().readFrom((byte)(cpu.programCounter+2+cpu.registerX));
-        return Memory.getMemory().readFrom(JNesUtil.get16BitLittleEndian(first, second));
+        short first = Memory.getMemory().read((byte)(cpu.programCounter+1+cpu.registerX));
+        short second = Memory.getMemory().read((byte)(cpu.programCounter+2+cpu.registerX));
+        return Memory.getMemory().read(JNesUtil.get16BitLittleEndian(first, second));
     }
 }

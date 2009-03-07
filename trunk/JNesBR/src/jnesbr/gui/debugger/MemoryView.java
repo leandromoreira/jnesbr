@@ -58,7 +58,7 @@ public class MemoryView extends javax.swing.JFrame {
         jTMemory.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(jTMemory);
 
-        jBtnGo.setText("Go");
+        jBtnGo.setText("Refresh");
         jBtnGo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnGoActionPerformed(evt);
