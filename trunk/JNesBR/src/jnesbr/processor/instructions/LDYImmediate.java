@@ -18,6 +18,7 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.ImmediateInstruction;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
@@ -37,7 +38,7 @@ public class LDYImmediate extends ImmediateInstruction {
 
     @Override
     public String disassembler() {
-        return "LDY #$"+Integer.toHexString(getOperand()).toUpperCase();
+        return "LDY #$"+JNesUtil.fillIfNeedsWith(2,"0", Integer.toHexString(getOperand()).toUpperCase());
     }
 
     @Override
