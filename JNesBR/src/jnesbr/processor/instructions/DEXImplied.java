@@ -23,13 +23,14 @@ import jnesbr.processor.instructions.types.GeneralInstruction;
  * @author dreampeppers99
  */
 public class DEXImplied extends GeneralInstruction {
-    public DEXImplied(Cpu2A03 cpu){
+
+    public DEXImplied(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.registerX--;
+        cpu.registerX = (short) ((cpu.registerX - 1) & 0xFF);
         cpu.setupFlagSign(cpu.registerX);
         cpu.setupFlagZero(cpu.registerX);
         cpu.programCounter++;

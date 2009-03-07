@@ -17,32 +17,31 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.GeneralInstruction;
+import jnesbr.processor.instructions.types.ZeroPageInstruction;
+import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class DEYImplied extends GeneralInstruction {
-
-    public DEYImplied(Cpu2A03 cpu) {
+public class STYZeroPage extends ZeroPageInstruction{
+    public STYZeroPage(Cpu2A03 cpu){
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.registerY = (short) ((cpu.registerY - 1) & 0xFF);
-        cpu.setupFlagSign(cpu.registerY);
-        cpu.setupFlagZero(cpu.registerY);
-        cpu.programCounter++;
+        Memory.getMemory().write(getOperand(), cpu.registerY);
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "DEY";
+        return "STY $" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
     }
 
     @Override
     public short cycles() {
-        return 2;
+        return 3;
     }
 }
