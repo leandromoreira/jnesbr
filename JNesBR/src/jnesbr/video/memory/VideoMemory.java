@@ -49,19 +49,4 @@ public class VideoMemory {
     public void write(int address, short value) {
         memory[address] = value;
     }
-
-    public void writeAt(int address, short value) {
-        if (address >= 0x4000) {
-            handlers.get(HIGHER).writeAt(address, value);
-            return;
-        }
-        memory[address] = value;
-    }
-
-    public short readFrom(int address) {
-        if (address >= 0x4000) {
-            return handlers.get(HIGHER).readFrom(address);
-        }
-        return memory[address];
-    }
 }

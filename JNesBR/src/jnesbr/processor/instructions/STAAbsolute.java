@@ -31,7 +31,7 @@ public class STAAbsolute extends AbsoluteInstruction{
 
     @Override
     public void interpret() {
-        Memory.getMemory().writeAt(getAbsolute(), cpu.accumulator);
+        Memory.getMemory().write(getAbsolute(), cpu.accumulator);
         cpu.programCounter += 3;
     }
 

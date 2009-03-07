@@ -29,6 +29,7 @@ public class PPUControlHandler implements Handler {
     private PPUControll ppuControll;
 
     public void writeAt(int address, short value) {
+        
         ppuControll = Ppu2C02.getInstance().ppuControl;
         ppuControll.executeNMIOnVBlank = (byte) JNesUtil.giveMeBit7From(value);
         ppuControll.masterOrSlave = (byte) JNesUtil.giveMeBit6From(value);
@@ -39,19 +40,19 @@ public class PPUControlHandler implements Handler {
         ppuControll.nameTableAddress = (byte) (JNesUtil.giveMeBit0From(value) >> 1 | JNesUtil.giveMeBit1From(value));
         ppuControll.horizontalScrollBy256 = (byte) JNesUtil.giveMeBit0From(value);
         ppuControll.verticalScrollBy240 = (byte) JNesUtil.giveMeBit1From(value);
-        Memory.getMemory().write(address, value);
+        Memory.getMemory().writeUnhandled(address, value);
         mirror(address, value);
     }
 
     private void mirror(int address, short value) {
         while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
-            Memory.getMemory().write(address + 0x08, value);
+            Memory.getMemory().writeUnhandled(address + 0x08, value);
             address += 8;
         }
     }
 
     public short readFrom(int address) {
         //The address $2000 is just Write-Only on the real nes here is the debug stuffs.
-        return Memory.getMemory().read(address);
+        return Memory.getMemory().readUnhandled(address);
     }
 }

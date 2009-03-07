@@ -24,11 +24,10 @@ import jnesbr.processor.memory.Memory;
 public class NormalHandler implements Handler {
 
     public void writeAt(int address, short value) {
-        Memory.getMemory().write(address, value);
+        Memory.getMemory().writeUnhandled(address, value);
     }
 
     public short readFrom(int address) {
-        return Memory.getMemory().read(address);
+        return Memory.getMemory().readUnhandled(address);
     }
-
 }

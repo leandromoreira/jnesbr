@@ -45,13 +45,13 @@ public class Loader {
         switch (game.PRG_ROMPageCount16K) {
             case ONE_BANK:
                 for (int i = 0; i < game.pgr_rom.length; i++) {
-                    Emulator.getInstance().getMemory().writeAt(LOWER_BANK_START + i, game.pgr_rom[i]);
-                    Emulator.getInstance().getMemory().writeAt(UPPER_BANK_START + i, game.pgr_rom[i]);
+                    Emulator.getInstance().getMemory().write(LOWER_BANK_START + i, game.pgr_rom[i]);
+                    Emulator.getInstance().getMemory().write(UPPER_BANK_START + i, game.pgr_rom[i]);
                 }
                 break;
             case TWO_BANKS:
                 for (int i = 0; i < game.pgr_rom.length; i++) {
-                    Emulator.getInstance().getMemory().writeAt(PRG_ROM_START + i, game.pgr_rom[i]);
+                    Emulator.getInstance().getMemory().write(PRG_ROM_START + i, game.pgr_rom[i]);
                 }
                 break;
             default:
@@ -59,7 +59,7 @@ public class Loader {
                 //each mapper has a way to fill initial and switch pages!
                 int x = 0;
                 for (int i = PRG_ROM_START ; i <= PRG_ROM_END; i++) {
-                    Emulator.getInstance().getMemory().writeAt(PRG_ROM_START + x, game.pgr_rom[x++]);
+                    Emulator.getInstance().getMemory().write(PRG_ROM_START + x, game.pgr_rom[x++]);
                 }
         }
     }
@@ -67,7 +67,7 @@ public class Loader {
         switch (game.CHR_ROMPageCount8K) {
             case ONE_BANK:
                 for (int i = 0; i < game.chr_rom.length; i++) {
-                    VideoMemory.getMemory().writeAt(i,game.chr_rom[i] );
+                    VideoMemory.getMemory().write(i,game.chr_rom[i] );
                 }
                 break;
             default:

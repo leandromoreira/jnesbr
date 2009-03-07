@@ -24,17 +24,17 @@ import jnesbr.processor.memory.*;
 public class ZeroPageHandler implements Handler {
 
     public void writeAt(int address, short value) {
-        Memory.getMemory().write(address, value);
+        Memory.getMemory().writeUnhandled(address, value);
         mirror(address, value);
     }
 
     private static void mirror(int address, short value) {
-        Memory.getMemory().write(address + 0x0800, value);
-        Memory.getMemory().write(address + 0x1000, value);
-        Memory.getMemory().write(address + 0x1800, value);
+        Memory.getMemory().writeUnhandled(address + 0x0800, value);
+        Memory.getMemory().writeUnhandled(address + 0x1000, value);
+        Memory.getMemory().writeUnhandled(address + 0x1800, value);
     }
 
     public short readFrom(int address) {
-        return Memory.getMemory().read(address);
+        return Memory.getMemory().readUnhandled(address);
     }
 }

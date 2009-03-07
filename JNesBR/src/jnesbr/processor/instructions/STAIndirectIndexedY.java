@@ -31,13 +31,13 @@ public class STAIndirectIndexedY extends IndirectIndexedInstruction{
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getOperand(), cpu.accumulator);
+        Memory.getMemory().write(getAddressOfOperand(), cpu.accumulator);
         cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "STA ($"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase())+"),Y";
+        return "STA ($"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().read(cpu.programCounter+1)).toUpperCase())+"),Y";
     }
 
     @Override

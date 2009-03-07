@@ -58,6 +58,10 @@ public class Debugger extends javax.swing.JFrame {
         jBtnStop = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTxtLog = new javax.swing.JTextArea();
+        jBtnNStep = new javax.swing.JButton();
+        jTxtNStep = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jBtnText = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Debugger");
@@ -279,24 +283,57 @@ public class Debugger extends javax.swing.JFrame {
         jTxtLog.setRows(5);
         jScrollPane3.setViewportView(jTxtLog);
 
+        jBtnNStep.setText("N Step");
+        jBtnNStep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnNStepActionPerformed(evt);
+            }
+        });
+
+        jTxtNStep.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTxtNStep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTxtNStepActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("N Steps");
+
+        jBtnText.setText("Clear");
+        jBtnText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnTextActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPnRegisters, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jBtnRun)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jBtnStop)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jBtnPause)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jBtnStep))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+                    .addComponent(jPnRegisters, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTxtNStep))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jBtnRun)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnStop)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jBtnPause)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnStep)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnText))
+                            .addComponent(jBtnNStep))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -308,9 +345,15 @@ public class Debugger extends javax.swing.JFrame {
                     .addComponent(jBtnRun)
                     .addComponent(jBtnStop)
                     .addComponent(jBtnPause)
-                    .addComponent(jBtnStep))
+                    .addComponent(jBtnStep)
+                    .addComponent(jBtnText))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jTxtNStep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnNStep))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -358,6 +401,20 @@ public class Debugger extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println(evt);
     }//GEN-LAST:event_formKeyReleased
+
+    private void jBtnNStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnNStepActionPerformed
+        int numberOfSteps = Integer.valueOf(jTxtNStep.getText());
+        for (int i = 0 ; i < numberOfSteps ; i++)
+            jBtnStepActionPerformed(null);
+}//GEN-LAST:event_jBtnNStepActionPerformed
+
+    private void jTxtNStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtNStepActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_jTxtNStepActionPerformed
+
+    private void jBtnTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnTextActionPerformed
+        jTxtLog.setText("");
+}//GEN-LAST:event_jBtnTextActionPerformed
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -368,10 +425,12 @@ public class Debugger extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnNStep;
     private javax.swing.JButton jBtnPause;
     private javax.swing.JButton jBtnRun;
     private javax.swing.JButton jBtnStep;
     private javax.swing.JButton jBtnStop;
+    private javax.swing.JButton jBtnText;
     private javax.swing.JCheckBox jChkB;
     private javax.swing.JCheckBox jChkC;
     private javax.swing.JCheckBox jChkD;
@@ -386,10 +445,12 @@ public class Debugger extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPnRegisters;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTxtAccumulator;
     private javax.swing.JTextArea jTxtLog;
+    private javax.swing.JTextField jTxtNStep;
     private javax.swing.JTextField jTxtPC;
     private javax.swing.JTextField jTxtS;
     private javax.swing.JTextField jTxtSP;

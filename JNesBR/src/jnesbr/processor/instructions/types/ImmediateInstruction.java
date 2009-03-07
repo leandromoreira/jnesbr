@@ -28,6 +28,6 @@ public abstract class ImmediateInstruction extends GeneralInstruction {
     }
 
     public short getOperand(){
-        return Memory.getMemory().readFrom(cpu.programCounter+1);
+        return Memory.getMemory().read(cpu.programCounter+1);
     }
 }

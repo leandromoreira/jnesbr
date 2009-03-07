@@ -72,7 +72,7 @@ public class Cpu2A03 {
         flagSign = 0;
         flagZero = 0;
         mergeProcessorStatus();
-        programCounter = JNesUtil.get16BitLittleEndian(Memory.getMemory().readFrom(InterruptRESET), Memory.getMemory().readFrom(InterruptRESET + 1));
+        programCounter = JNesUtil.get16BitLittleEndian(Memory.getMemory().read(InterruptRESET), Memory.getMemory().read(InterruptRESET + 1));
         cycles = 0;
     }
 
@@ -120,6 +120,8 @@ public class Cpu2A03 {
 
         instructions.put(0x8E, new STXAbsolute(this));
         instructions.put(0x84, new STYZeroPage(this));
+        instructions.put(0xC6, new DECZeroPage(this));
+        instructions.put(0xE8, new INXImplied(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {
@@ -129,6 +131,7 @@ public class Cpu2A03 {
 
     public void setSP(short value) {
         //TODO : see the constraint around the wraparound here.
+        //((value + 0x100) & 0x1FF)
         stackPointer = (short) (value + 0x100);
     }
 
@@ -141,14 +144,14 @@ public class Cpu2A03 {
     }
 
     public void step() {
-        int opCode = Memory.getMemory().readFrom(programCounter);
+        int opCode = Memory.getMemory().read(programCounter);
         getInstructionFrom(opCode).interpret();
         cycles += getInstructionFrom(opCode).cycles();
     }
 
     public void debugStep() {
         oldProgramCounter = programCounter ;
-        int opCode = Memory.getMemory().readFrom(programCounter);
+        int opCode = Memory.getMemory().read(programCounter);
         Instruction actualInstruction = getInstructionFrom(opCode);
         actualInstruction.debug();
         cycles += actualInstruction.cycles();
