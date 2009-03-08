@@ -17,6 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.gui.debugger;
 
 import jnesbr.video.PPUControll;
+import jnesbr.video.PPUMask;
 import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
 
@@ -41,6 +42,20 @@ public class PPUStateViewer extends javax.swing.JFrame {
         jChkBaseNametable2400.setSelected(false);
         jChkBaseNametable2800.setSelected(false);
         jChkBaseNametable2C00.setSelected(false);
+    }
+
+    private void cleanPPUMask() {
+        jChkBackgroundRenderingEnable.setSelected(false);
+        jChkClipBackground.setSelected(false);
+        jChkClipSprite.setSelected(false);
+        jChkColor.setSelected(false);
+        jChkDisplayBackground.setSelected(false);
+        jChkDisplaySprite.setSelected(false);
+        jChkIntensifyBlues.setSelected(false);
+        jChkIntensifyGreens.setSelected(false);
+        jChkIntensifyReds.setSelected(false);
+        jChkMonochromo.setSelected(false);
+        jChkSpriteRenderingEnable.setSelected(false);
     }
 
     private void cleanPPUStatus() {
@@ -72,6 +87,20 @@ public class PPUStateViewer extends javax.swing.JFrame {
         jChkBaseNametable2400 = new javax.swing.JCheckBox();
         jChkBaseNametable2C00 = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
+        jChkIntensifyBlues = new javax.swing.JCheckBox();
+        jChkIntensifyGreens = new javax.swing.JCheckBox();
+        jChkIntensifyReds = new javax.swing.JCheckBox();
+        jChkSpriteRenderingEnable = new javax.swing.JCheckBox();
+        jChkBackgroundRenderingEnable = new javax.swing.JCheckBox();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jChkClipSprite = new javax.swing.JCheckBox();
+        jChkDisplaySprite = new javax.swing.JCheckBox();
+        jChkDisplayBackground = new javax.swing.JCheckBox();
+        jChkClipBackground = new javax.swing.JCheckBox();
+        jLabel7 = new javax.swing.JLabel();
+        jChkColor = new javax.swing.JCheckBox();
+        jChkMonochromo = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jChkIsVB = new javax.swing.JCheckBox();
         jChkSprite0 = new javax.swing.JCheckBox();
@@ -258,20 +287,156 @@ public class PPUStateViewer extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("PPU Controll $2000", jPnPPUControll);
 
+        jChkIntensifyBlues.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jChkIntensifyBlues.setForeground(new java.awt.Color(0, 0, 255));
+        jChkIntensifyBlues.setText("Intesify Blues");
+
+        jChkIntensifyGreens.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jChkIntensifyGreens.setForeground(new java.awt.Color(0, 102, 0));
+        jChkIntensifyGreens.setText("Intesify Greens");
+
+        jChkIntensifyReds.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jChkIntensifyReds.setForeground(new java.awt.Color(255, 51, 51));
+        jChkIntensifyReds.setText("Intesify Reds");
+
+        jChkSpriteRenderingEnable.setText("Sprite Rendering Enable");
+        jChkSpriteRenderingEnable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChkSpriteRenderingEnableActionPerformed(evt);
+            }
+        });
+
+        jChkBackgroundRenderingEnable.setText("Background Rendering Enable");
+        jChkBackgroundRenderingEnable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChkBackgroundRenderingEnableActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setText("Enable sprite in leftmost 8 pixels of screen");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Enable background in leftmost 8 pixels of screen");
+
+        jChkClipSprite.setText("Clip");
+        jChkClipSprite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChkClipSpriteActionPerformed(evt);
+            }
+        });
+
+        jChkDisplaySprite.setText("Display");
+        jChkDisplaySprite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChkDisplaySpriteActionPerformed(evt);
+            }
+        });
+
+        jChkDisplayBackground.setText("Display");
+        jChkDisplayBackground.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChkDisplayBackgroundActionPerformed(evt);
+            }
+        });
+
+        jChkClipBackground.setText("Clip");
+        jChkClipBackground.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChkClipBackgroundActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("Monochromo mode");
+
+        jChkColor.setText("Color");
+
+        jChkMonochromo.setText("Monochromo");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 549, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(73, Short.MAX_VALUE)
+                .addComponent(jChkSpriteRenderingEnable)
+                .addGap(68, 68, 68)
+                .addComponent(jChkBackgroundRenderingEnable)
+                .addGap(98, 98, 98))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jChkIntensifyBlues)
+                .addGap(83, 83, 83)
+                .addComponent(jChkIntensifyGreens)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addComponent(jChkIntensifyReds)
+                .addGap(44, 44, 44))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jChkDisplaySprite)
+                    .addComponent(jChkClipSprite))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jChkDisplayBackground)
+                    .addComponent(jChkClipBackground))
+                .addGap(116, 116, 116))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(211, 211, 211)
+                .addComponent(jLabel7)
+                .addContainerGap(229, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(237, 237, 237)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jChkMonochromo)
+                    .addComponent(jChkColor))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jChkIntensifyBlues)
+                    .addComponent(jChkIntensifyGreens)
+                    .addComponent(jChkIntensifyReds))
+                .addGap(36, 36, 36)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jChkBackgroundRenderingEnable)
+                    .addComponent(jChkSpriteRenderingEnable))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jChkClipSprite)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jChkDisplaySprite))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jChkClipBackground)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jChkDisplayBackground)))
+                .addGap(43, 43, 43)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jChkColor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jChkMonochromo)
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("PPU Mask $2001", jPanel2);
 
-        jChkIsVB.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jChkIsVB.setFont(new java.awt.Font("Tahoma", 1, 11));
         jChkIsVB.setText("Is in the VBlank?");
         jChkIsVB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -279,7 +444,7 @@ public class PPUStateViewer extends javax.swing.JFrame {
             }
         });
 
-        jChkSprite0.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jChkSprite0.setFont(new java.awt.Font("Tahoma", 1, 11));
         jChkSprite0.setText("Sprite 0 hit is seted?");
         jChkSprite0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,7 +452,7 @@ public class PPUStateViewer extends javax.swing.JFrame {
             }
         });
 
-        jChkHasSpriteOverFlow.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jChkHasSpriteOverFlow.setFont(new java.awt.Font("Tahoma", 1, 11));
         jChkHasSpriteOverFlow.setText("Has some sprite overflow?");
         jChkHasSpriteOverFlow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -487,17 +652,44 @@ public class PPUStateViewer extends javax.swing.JFrame {
     private void jChkHasSpriteOverFlowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkHasSpriteOverFlowActionPerformed
         // TODO add your handling code here:
 }//GEN-LAST:event_jChkHasSpriteOverFlowActionPerformed
+
+    private void jChkSpriteRenderingEnableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkSpriteRenderingEnableActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_jChkSpriteRenderingEnableActionPerformed
+
+    private void jChkBackgroundRenderingEnableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkBackgroundRenderingEnableActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_jChkBackgroundRenderingEnableActionPerformed
+
+    private void jChkClipSpriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkClipSpriteActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_jChkClipSpriteActionPerformed
+
+    private void jChkDisplaySpriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkDisplaySpriteActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_jChkDisplaySpriteActionPerformed
+
+    private void jChkDisplayBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkDisplayBackgroundActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_jChkDisplayBackgroundActionPerformed
+
+    private void jChkClipBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkClipBackgroundActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_jChkClipBackgroundActionPerformed
     private void cleanAll() {
         cleanPPUControll();
         cleanPPUStatus();
+        cleanPPUMask();
     }
 
     private void refreshAll() {
         Ppu2C02 ppu = Ppu2C02.getInstance();
         PPUControll ppuControll = ppu.ppuControl;
         PPUStatus ppuStatus = ppu.ppuStatus;
+        PPUMask ppuMask = ppu.ppuMask;
         refreshPPUControll(ppuControll);
         refreshPPUStatus(ppuStatus);
+        refreshPPUMask(ppuMask);
     }
 
     public static void main(String args[]) {
@@ -513,22 +705,36 @@ public class PPUStateViewer extends javax.swing.JFrame {
     private javax.swing.JButton jBtnRefreshPPUState;
     private javax.swing.JCheckBox jChkBackgroundPatternTable0000;
     private javax.swing.JCheckBox jChkBackgroundPatternTable1000;
+    private javax.swing.JCheckBox jChkBackgroundRenderingEnable;
     private javax.swing.JCheckBox jChkBaseNametable2000;
     private javax.swing.JCheckBox jChkBaseNametable2400;
     private javax.swing.JCheckBox jChkBaseNametable2800;
     private javax.swing.JCheckBox jChkBaseNametable2C00;
+    private javax.swing.JCheckBox jChkClipBackground;
+    private javax.swing.JCheckBox jChkClipSprite;
+    private javax.swing.JCheckBox jChkColor;
+    private javax.swing.JCheckBox jChkDisplayBackground;
+    private javax.swing.JCheckBox jChkDisplaySprite;
     private javax.swing.JCheckBox jChkExecuteNMIonVblank;
     private javax.swing.JCheckBox jChkHasSpriteOverFlow;
+    private javax.swing.JCheckBox jChkIntensifyBlues;
+    private javax.swing.JCheckBox jChkIntensifyGreens;
+    private javax.swing.JCheckBox jChkIntensifyReds;
     private javax.swing.JCheckBox jChkIsVB;
+    private javax.swing.JCheckBox jChkMonochromo;
     private javax.swing.JCheckBox jChkSprite0;
     private javax.swing.JCheckBox jChkSpritePatternTable0000;
     private javax.swing.JCheckBox jChkSpritePatternTable1000;
+    private javax.swing.JCheckBox jChkSpriteRenderingEnable;
     private javax.swing.JCheckBox jChkSpriteSize8x16;
     private javax.swing.JCheckBox jChkSpriteSize8x8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -576,8 +782,48 @@ public class PPUStateViewer extends javax.swing.JFrame {
         }
     }
 
+    private void refreshPPUMask(PPUMask ppuMask) {
+        if (ppuMask.intensifyBlues == 1) {
+            jChkIntensifyBlues.setSelected(true);
+        }
+        if (ppuMask.intensifyGreens == 1) {
+            jChkIntensifyGreens.setSelected(true);
+        }
+        if (ppuMask.intensifyReds == 1) {
+            jChkIntensifyReds.setSelected(true);
+        }
+        if (ppuMask.backgroundRenderingEnable == 1) {
+            jChkBackgroundRenderingEnable.setSelected(true);
+        }
+        if (ppuMask.spriteRenderingEnable == 1) {
+            jChkSpriteRenderingEnable.setSelected(true);
+        }
+
+        if (ppuMask.enableSpriteInLeftmost == PPUMask.CLIP) {
+            jChkClipSprite.setSelected(true);
+            jChkDisplaySprite.setSelected(false);
+        } else {
+            jChkClipSprite.setSelected(false);
+            jChkDisplaySprite.setSelected(true);
+        }
+        if (ppuMask.enableBackgroundInLeftmost == PPUMask.CLIP) {
+            jChkClipBackground.setSelected(true);
+            jChkDisplayBackground.setSelected(false);
+        } else {
+            jChkClipBackground.setSelected(false);
+            jChkDisplayBackground.setSelected(true);
+        }
+        if (ppuMask.grayscale == PPUMask.NORMAL) {
+            jChkColor.setSelected(true);
+            jChkMonochromo.setSelected(false);
+        } else {
+            jChkColor.setSelected(false);
+            jChkMonochromo.setSelected(true);
+        }
+    }
+
     private void refreshPPUStatus(PPUStatus ppuStatus) {
-        if (ppuStatus.verticalBlankStarted == ppuStatus.InVBlank) {
+        if (ppuStatus.verticalBlankStarted == PPUStatus.InVBlank) {
             jChkIsVB.setSelected(true);
         }
         if (ppuStatus.sprite0Hit == 1) {

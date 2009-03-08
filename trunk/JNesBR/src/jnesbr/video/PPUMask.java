@@ -14,34 +14,22 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.instructions;
-
-import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.GeneralInstruction;
+package jnesbr.video;
 
 /**
  * @author dreampeppers99
  */
-public class INXImplied extends GeneralInstruction{
-    public INXImplied(Cpu2A03 cpu){
-        super(cpu);
-    }
-
-    @Override
-    public void interpret() {
-        cpu.registerX = (short)((cpu.registerX+1) & 0xFF);
-        cpu.setupFlagSign(cpu.registerX);
-        cpu.setupFlagZero(cpu.registerX);
-        cpu.programCounter++;
-    }
-
-    @Override
-    public String disassembler() {
-        return "INX";
-    }
-
-    @Override
-    public short cycles() {
-        return 2;
-    }
+public class PPUMask {
+    public byte intensifyBlues;
+    public byte intensifyGreens;
+    public byte intensifyReds;
+    public byte spriteRenderingEnable;
+    public byte backgroundRenderingEnable;
+    public byte enableSpriteInLeftmost;
+    public byte enableBackgroundInLeftmost;
+        public static final byte CLIP = 0;
+        public static final byte DISPLAY = 1;
+    public byte grayscale;
+        public static final byte NORMAL = 0;
+        public static final byte MONOCHROMO = 1;
 }

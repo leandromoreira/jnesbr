@@ -31,13 +31,13 @@ public class STXAbsolute extends AbsoluteInstruction {
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getAbsolute(), cpu.registerX);
+        Memory.getMemory().write(getAbsoluteAddress(), cpu.registerX);
         cpu.programCounter += 3;
     }
 
     @Override
     public String disassembler() {
-        return "STX $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsolute()).toUpperCase());
+        return "STX $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
     }
 
     @Override

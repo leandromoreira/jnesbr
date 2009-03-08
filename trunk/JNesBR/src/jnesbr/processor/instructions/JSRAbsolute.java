@@ -18,7 +18,6 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.AbsoluteInstruction;
-import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
@@ -31,19 +30,14 @@ public class JSRAbsolute extends  AbsoluteInstruction{
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(cpu.stackPointer,
-                 (JNesUtil.get8FirstBits( cpu.programCounter + 2)));
-        cpu.stackPointer--;
-        Memory.getMemory().write(cpu.stackPointer,
-                 (JNesUtil.get8SecondBits( cpu.programCounter + 2)));
-        cpu.stackPointer--;
-        cpu.programCounter = getAbsolute();
-        
+        cpu.push((short) ((cpu.programCounter >> 8) & 0xFF));
+        cpu.push((short) (cpu.programCounter & 0xFF));
+        cpu.programCounter = getAbsoluteAddress();
     }
 
     @Override
     public String disassembler() {
-        return "JSR $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsolute()).toUpperCase());
+        return "JSR $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
     }
 
     @Override

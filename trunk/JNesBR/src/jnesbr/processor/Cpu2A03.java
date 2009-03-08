@@ -13,6 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
+Some codes for Cpu were implemented by looking on Cpu from http://code.google.com/p/juicynes/ GREAT project.
  */
 package jnesbr.processor;
 
@@ -31,7 +32,7 @@ public class Cpu2A03 {
     public short accumulator,  registerX,  registerY;
     public short stackPointer;
     private short processorStatus;
-    public int programCounter,oldProgramCounter;
+    public int programCounter,  oldProgramCounter;
     public byte flagCarry,  flagZero,  flagIRQ,  flagDecimalMode,  flagBreak,  flagNotUsed,  flagOverflow,  flagSign;
     public static final int InterruptNMI = 0xFFFA;
     public static final int InterruptRESET = 0xFFFC;
@@ -40,15 +41,28 @@ public class Cpu2A03 {
     private Map<Integer, Instruction> instructions = new HashMap<Integer, Instruction>();
     public String actualLineDebug;
 
-    public Cpu2A03(){
+    public Cpu2A03() {
         reset();
         initInstructionTable();
     }
 
-    public short processorStatus(){
+    public short pull() {
+        stackPointer++;
+        stackPointer = (short) (stackPointer & 0xFF);
+        return Memory.getMemory().read(stackPointer + 0x100);
+    }
+
+    public void push(short value) {
+        Memory.getMemory().write(stackPointer + 0x100, value);
+        stackPointer--;
+        stackPointer = (short) (stackPointer & 0xFF);
+    }
+
+    public short processorStatus() {
         mergeProcessorStatus();
         return processorStatus;
     }
+
     private void mergeProcessorStatus() {
         processorStatus = (short) (((flagSign) << 7) |
                 ((flagOverflow) << 6) |
@@ -61,7 +75,7 @@ public class Cpu2A03 {
     }
 
     public void reset() {
-        stackPointer = 0x1FF;
+        stackPointer = 0xFF;
         accumulator = registerX = registerY = 0;
         flagBreak = 0;
         flagCarry = 0;
@@ -96,7 +110,7 @@ public class Cpu2A03 {
         instructions.put(0xA2, new LDXImmediate(this));
         instructions.put(0xA6, new LDXZeroPage(this));
         instructions.put(0xA0, new LDYImmediate(this));
-        
+
         //Conditional Branch Instructions
         instructions.put(0x10, new BPLRelative(this));
         instructions.put(0x30, new BMIRelative(this));
@@ -122,17 +136,17 @@ public class Cpu2A03 {
         instructions.put(0x84, new STYZeroPage(this));
         instructions.put(0xC6, new DECZeroPage(this));
         instructions.put(0xE8, new INXImplied(this));
+        instructions.put(0x60, new RTSImplied(this));
+        instructions.put(0xCC, new CPYAbsolute(this));
+        instructions.put(0x11, new ORAIndirectIndexedY(this));
+        instructions.put(0x2C, new BITAbsolute(this));
+        instructions.put(0x99, new STAAbsoluteY(this));
+        instructions.put(0xC8, new INYImplied(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {
-        Instruction instruciton = (instructions.get(opCode)==null? new StillNotImplemented(this, opCode) :instructions.get(opCode));
+        Instruction instruciton = (instructions.get(opCode) == null ? new StillNotImplemented(this, opCode) : instructions.get(opCode));
         return instruciton;
-    }
-
-    public void setSP(short value) {
-        //TODO : see the constraint around the wraparound here.
-        //((value + 0x100) & 0x1FF)
-        stackPointer = (short) (value + 0x100);
     }
 
     public void setupFlagSign(short value) {
@@ -150,11 +164,11 @@ public class Cpu2A03 {
     }
 
     public void debugStep() {
-        oldProgramCounter = programCounter ;
+        oldProgramCounter = programCounter;
         int opCode = Memory.getMemory().read(programCounter);
         Instruction actualInstruction = getInstructionFrom(opCode);
         actualInstruction.debug();
         cycles += actualInstruction.cycles();
-        actualLineDebug = "0x" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(oldProgramCounter).toUpperCase()) + ":\t" + actualLineDebug+"\t;";
+        actualLineDebug = "0x" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(oldProgramCounter).toUpperCase()) + ":\t" + actualLineDebug + "\t;";
     }
 }

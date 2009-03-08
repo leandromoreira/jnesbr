@@ -17,31 +17,34 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.GeneralInstruction;
+import jnesbr.processor.instructions.types.AbsoluteInstruction;
+import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class INXImplied extends GeneralInstruction{
-    public INXImplied(Cpu2A03 cpu){
+public class BITAbsolute extends AbsoluteInstruction {
+    public BITAbsolute(Cpu2A03 cpu){
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.registerX = (short)((cpu.registerX+1) & 0xFF);
-        cpu.setupFlagSign(cpu.registerX);
-        cpu.setupFlagZero(cpu.registerX);
-        cpu.programCounter++;
+        short value = Memory.getMemory().read(getAbsoluteAddress());
+        cpu.setupFlagSign(value);
+        cpu.setupFlagZero((short) (cpu.accumulator & value));
+        cpu.flagOverflow = (byte) (((value & 0x40) == 0x40) ? 1 : 0);
+        cpu.programCounter += 3;
     }
 
     @Override
     public String disassembler() {
-        return "INX";
+        return "BIT $"+ JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
     }
 
     @Override
     public short cycles() {
-        return 2;
+        return 4;
     }
 }

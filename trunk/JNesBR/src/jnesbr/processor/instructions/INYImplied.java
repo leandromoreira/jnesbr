@@ -22,22 +22,23 @@ import jnesbr.processor.instructions.types.GeneralInstruction;
 /**
  * @author dreampeppers99
  */
-public class INXImplied extends GeneralInstruction{
-    public INXImplied(Cpu2A03 cpu){
+public class INYImplied extends GeneralInstruction {
+
+    public INYImplied(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.registerX = (short)((cpu.registerX+1) & 0xFF);
-        cpu.setupFlagSign(cpu.registerX);
-        cpu.setupFlagZero(cpu.registerX);
+        cpu.registerY = (short) ((cpu.registerY + 1) & 0xFF);
+        cpu.setupFlagSign(cpu.registerY);
+        cpu.setupFlagZero(cpu.registerY);
         cpu.programCounter++;
     }
 
     @Override
     public String disassembler() {
-        return "INX";
+        return "INY";
     }
 
     @Override

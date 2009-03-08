@@ -28,7 +28,7 @@ public class TXSImplied extends GeneralInstruction{
     }
     @Override
     public void interpret() {
-        cpu.setSP(cpu.registerX);
+        cpu.stackPointer = cpu.registerX;
         cpu.programCounter++;
     }
 

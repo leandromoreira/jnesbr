@@ -27,7 +27,7 @@ public abstract class AbsoluteInstruction extends GeneralInstruction {
     public AbsoluteInstruction(Cpu2A03 cpu){
         super(cpu);
     }
-    public int getAbsolute(){
+    public int getAbsoluteAddress(){
         return JNesUtil.get16BitLittleEndian(Memory.getMemory().read(cpu.programCounter+1),Memory.getMemory().read(cpu.programCounter+2));
     }
 }
