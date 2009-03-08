@@ -16,11 +16,10 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.memory;
 
-import jnesbr.processor.memory.handler.ppu.PPUControlHandler;
 import java.util.HashMap;
 import java.util.Map;
 import jnesbr.processor.memory.handler.*;
-import jnesbr.processor.memory.handler.ppu.PPUStatusHandler;
+import jnesbr.processor.memory.handler.ppu.*;
 import static jnesbr.processor.memory.MemoryMap.*;
 
 /**
@@ -65,6 +64,7 @@ public class Memory {
         handlers.put(ZERO_PAGE_STACK_AND_RAM, new ZeroPageHandler());
         handlers.put(FIRST_IO, new FirstIOHandler());
         handlers.put(PPU_CONTROL, new PPUControlHandler());
+        handlers.put(PPU_MASK, new PPUMaskHandler());
         handlers.put(PPU_STATUS, new PPUStatusHandler());
     }
 

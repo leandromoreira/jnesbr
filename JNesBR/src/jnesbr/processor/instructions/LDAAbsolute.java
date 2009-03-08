@@ -31,7 +31,7 @@ public class LDAAbsolute extends AbsoluteInstruction{
 
     @Override
     public void interpret() {
-        cpu.accumulator = Memory.getMemory().read(getAbsolute());
+        cpu.accumulator = Memory.getMemory().read(getAbsoluteAddress());
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter += 3;
@@ -39,7 +39,7 @@ public class LDAAbsolute extends AbsoluteInstruction{
 
     @Override
     public String disassembler() {
-        return "LDA $"+ JNesUtil.fillIfNeedsWith(4, "0",Integer.toHexString(getAbsolute()).toUpperCase());
+        return "LDA $"+ JNesUtil.fillIfNeedsWith(4, "0",Integer.toHexString(getAbsoluteAddress()).toUpperCase());
     }
 
     @Override

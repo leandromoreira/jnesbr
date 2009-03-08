@@ -22,7 +22,7 @@ package jnesbr.test;
 public class Test {
 
     public static void main(String[] args) {
-        System.out.println(((0 - 1) | 0xFF));
-        System.out.println(((0 - 1) & 0xFF));
+        int value = 0xff;
+        System.out.println(value & 0x40);
     }
 }

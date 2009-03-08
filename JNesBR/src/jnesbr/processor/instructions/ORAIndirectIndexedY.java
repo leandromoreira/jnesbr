@@ -17,31 +17,34 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.GeneralInstruction;
+import jnesbr.processor.instructions.types.IndirectIndexedInstruction;
+import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class INXImplied extends GeneralInstruction{
-    public INXImplied(Cpu2A03 cpu){
+public class ORAIndirectIndexedY extends IndirectIndexedInstruction {
+
+    public ORAIndirectIndexedY(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.registerX = (short)((cpu.registerX+1) & 0xFF);
-        cpu.setupFlagSign(cpu.registerX);
-        cpu.setupFlagZero(cpu.registerX);
-        cpu.programCounter++;
+        cpu.accumulator |= Memory.getMemory().read(getAddressOfOperand());
+        cpu.setupFlagSign(cpu.accumulator);
+        cpu.setupFlagZero(cpu.accumulator);
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "INX";
+        return "ORA ($" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().read(cpu.programCounter + 1)).toUpperCase()) + "),Y";
     }
 
     @Override
     public short cycles() {
-        return 2;
+        return 5;
     }
 }

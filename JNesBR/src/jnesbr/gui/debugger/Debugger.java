@@ -362,7 +362,9 @@ public class Debugger extends javax.swing.JFrame {
 
     private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
         Emulator.getInstance().stepDebugger();
-        jTxtLog.setText(jTxtLog.getText() + Emulator.getInstance().actualLine() + "\n");
+        sb.append(Emulator.getInstance().actualLine() + "\n");
+        //jTxtLog.setText(jTxtLog.getText() + Emulator.getInstance().actualLine() + "\n");
+        jTxtLog.setText(sb.toString());
         updateScreen();
 }//GEN-LAST:event_jBtnStepActionPerformed
 
@@ -404,16 +406,22 @@ public class Debugger extends javax.swing.JFrame {
 
     private void jBtnNStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnNStepActionPerformed
         int numberOfSteps = Integer.valueOf(jTxtNStep.getText());
-        for (int i = 0 ; i < numberOfSteps ; i++)
-            jBtnStepActionPerformed(null);
+        for (int i = 0; i < numberOfSteps; i++) {
+            Emulator.getInstance().stepDebugger();
+            sb.append(Emulator.getInstance().actualLine() + "\n");
+        }
+        jTxtLog.setText(sb.toString());
+        updateScreen();
 }//GEN-LAST:event_jBtnNStepActionPerformed
 
     private void jTxtNStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtNStepActionPerformed
         // TODO add your handling code here:
 }//GEN-LAST:event_jTxtNStepActionPerformed
-
+    private StringBuilder sb = new StringBuilder();
     private void jBtnTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnTextActionPerformed
-        jTxtLog.setText("");
+        sb = null;
+        sb = new StringBuilder();
+        jTxtLog.setText(sb.toString());
 }//GEN-LAST:event_jBtnTextActionPerformed
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -291,7 +291,7 @@ public class Main extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         //this is just to make tests..
         //TODO: REMOVE THIS AFTER GET RUNNING THE PONG GAME
-        File file = new File("roms/pong_demo_nes/PONG.NES");
+        File file = new File("roms/SuperMarioBros(E)[a1].nes");
         FileChannel roChannel;
         ByteBuffer readbuffer = null;
         try {
