@@ -18,20 +18,21 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.ImmediateInstruction;
+import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class AndImmediate extends ImmediateInstruction {
+public class ORAImmediate extends ImmediateInstruction {
 
-    public AndImmediate(Cpu2A03 cpu) {
+    public ORAImmediate(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.accumulator = (short) (cpu.accumulator & getOperand());
+        cpu.accumulator |= getOperand();
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter += 2;
@@ -39,7 +40,7 @@ public class AndImmediate extends ImmediateInstruction {
 
     @Override
     public String disassembler() {
-        return "AND #$" +  JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
+        return "ORA #$" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().read(cpu.programCounter + 1)).toUpperCase());
     }
 
     @Override
