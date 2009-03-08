@@ -26,7 +26,9 @@ import jnesbr.video.Ppu2C02;
  * @author dreampeppers99
  */
 public class PPUStatusHandler implements Handler {
+
     private PPUStatus ppuStatus;
+
     public void writeAt(int address, short value) {
         Memory.getMemory().writeUnhandled(address, value);
         System.out.println("The address $2002 should be just read-only.");
@@ -34,9 +36,8 @@ public class PPUStatusHandler implements Handler {
 
     public short readFrom(int address) {
         ppuStatus = Ppu2C02.getInstance().ppuStatus;
-        Memory.getMemory().writeUnhandled(0x2002,(short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
-        FirstIOHandler.mirror(0x2002,(short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
+        Memory.getMemory().writeUnhandled(0x2002, (short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
+        FirstIOHandler.mirror(0x2002, (short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
         return Memory.getMemory().readUnhandled(address);
     }
-
 }

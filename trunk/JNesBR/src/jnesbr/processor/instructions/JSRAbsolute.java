@@ -23,22 +23,22 @@ import jnesbr.util.JNesUtil;
 /**
  * @author dreampeppers99
  */
-public class JSRAbsolute extends  AbsoluteInstruction{
-    public JSRAbsolute(Cpu2A03 cpu){
+public class JSRAbsolute extends AbsoluteInstruction {
+
+    public JSRAbsolute(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.programCounter+=2;
-        cpu.push((short) ((cpu.programCounter >> 8) & 0xFF));
-        cpu.push((short) (cpu.programCounter & 0xFF));
+        cpu.push((short) ((cpu.programCounter + 2 >> 8) & 0xFF));
+        cpu.push((short) (cpu.programCounter + 2 & 0xFF));
         cpu.programCounter = getAbsoluteAddress();
     }
 
     @Override
     public String disassembler() {
-        return "JSR $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
+        return "JSR $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
     }
 
     @Override

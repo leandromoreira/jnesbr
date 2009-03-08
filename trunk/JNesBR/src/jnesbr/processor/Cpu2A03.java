@@ -142,6 +142,7 @@ public class Cpu2A03 {
         instructions.put(0x2C, new BITAbsolute(this));
         instructions.put(0x99, new STAAbsoluteY(this));
         instructions.put(0xC8, new INYImplied(this));
+        instructions.put(0x09, new ORAImmediate(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {
