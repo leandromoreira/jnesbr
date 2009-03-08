@@ -30,6 +30,7 @@ public class JSRAbsolute extends  AbsoluteInstruction{
 
     @Override
     public void interpret() {
+        cpu.programCounter+=2;
         cpu.push((short) ((cpu.programCounter >> 8) & 0xFF));
         cpu.push((short) (cpu.programCounter & 0xFF));
         cpu.programCounter = getAbsoluteAddress();
