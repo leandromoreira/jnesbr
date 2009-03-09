@@ -27,6 +27,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import jnesbr.core.Emulator;
@@ -44,6 +45,12 @@ public class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
+        try {
+            ImageIcon icon = new ImageIcon(getClass().getResource("resources/icon.PNG"));
+            super.setIconImage(icon.getImage());
+        } catch (Exception e) {
+            System.out.println("Icone erro:\n" + e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -246,11 +253,11 @@ public class Main extends javax.swing.JFrame {
                     rom = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int) fileChannel.size());
                 } catch (IOException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(this, "There was an error on reading the game!\n"+ex);
+                    JOptionPane.showMessageDialog(this, "There was an error on reading the game!\n" + ex);
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(this, "File not found!\n"+ex);
+                JOptionPane.showMessageDialog(this, "File not found!\n" + ex);
             }
 
             emulator = Emulator.getInstance();
