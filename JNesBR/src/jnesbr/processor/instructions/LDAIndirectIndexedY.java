@@ -32,10 +32,10 @@ public class LDAIndirectIndexedY extends IndirectIndexedInstruction {
     @Override
     public void interpret() {
         cycles = 5;
-        if (((cpu.programCounter + getAddressOfOperand()) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
+        if (((cpu.programCounter + getOperandAddress()) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
             cycles++;
         }
-        cpu.accumulator = Memory.getMemory().read(getAddressOfOperand());
+        cpu.accumulator = Memory.getMemory().read(getOperandAddress());
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter += 2;

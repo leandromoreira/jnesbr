@@ -29,10 +29,17 @@ public abstract class IndirectIndexedInstruction extends GeneralInstruction {
         super(cpu);
     }
 
-    public int getAddressOfOperand() {
-        int operand = Memory.getMemory().read(cpu.programCounter + 1);
-        short first = Memory.getMemory().read((operand));
-        short second = Memory.getMemory().read((operand + 1));
-        return (JNesUtil.get16BitLittleEndian(first, second) + cpu.registerY);
+    @Override
+    public int getOperandAddress() {
+        return Memory.getMemory().read(cpu.programCounter + 1);
+    }
+
+    @Override
+    public short getOperand() {
+        int bb = Memory.getMemory().read(cpu.programCounter + 1);
+        short xx = Memory.getMemory().read((bb));
+        short yy = Memory.getMemory().read((bb + 1));
+        short op = (short) (JNesUtil.get16BitLittleEndian(xx, yy));
+        return Memory.getMemory().read(op + cpu.registerY);
     }
 }

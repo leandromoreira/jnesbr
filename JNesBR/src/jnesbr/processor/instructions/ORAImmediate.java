@@ -18,7 +18,6 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.ImmediateInstruction;
-import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
@@ -40,7 +39,7 @@ public class ORAImmediate extends ImmediateInstruction {
 
     @Override
     public String disassembler() {
-        return "ORA #$" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().read(cpu.programCounter + 1)).toUpperCase());
+        return "ORA #$" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
     }
 
     @Override

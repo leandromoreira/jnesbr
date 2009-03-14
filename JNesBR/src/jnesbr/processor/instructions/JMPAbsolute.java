@@ -30,12 +30,12 @@ public class JMPAbsolute extends AbsoluteInstruction{
 
     @Override
     public void interpret() {
-        cpu.programCounter = getAbsoluteAddress();
+        cpu.programCounter = getOperandAddress();
     }
 
     @Override
     public String disassembler() {
-        return "JMP $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
+        return "JMP $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override

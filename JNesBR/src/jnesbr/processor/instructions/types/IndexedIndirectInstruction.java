@@ -23,16 +23,23 @@ import jnesbr.util.JNesUtil;
 /**
  * @author dreampeppers99
  */
-public abstract class IndexedIndirectInstruction extends GeneralInstruction{
-    public IndexedIndirectInstruction(Cpu2A03 cpu){
+public abstract class IndexedIndirectInstruction extends GeneralInstruction {
+
+    public IndexedIndirectInstruction(Cpu2A03 cpu) {
         super(cpu);
     }
 
-    //on Nesdoc.pdf says that here is wraparound...
-    //TODO: Check it out if the wraparound is about the operand or the values get from...
-    public short getOperand(){
-        short first = Memory.getMemory().read((byte)(cpu.programCounter+1+cpu.registerX));
-        short second = Memory.getMemory().read((byte)(cpu.programCounter+2+cpu.registerX));
-        return Memory.getMemory().read(JNesUtil.get16BitLittleEndian(first, second));
+    @Override
+    public short getOperand() {
+        short first = (short) (Memory.getMemory().read(cpu.programCounter + 1) + cpu.registerX);
+        short firstValue = Memory.getMemory().read(first);
+        short second = (short) (Memory.getMemory().read(cpu.programCounter + 1) + cpu.registerX + 1);
+        short secondValue = Memory.getMemory().read(second);
+        return Memory.getMemory().read(JNesUtil.get16BitLittleEndian(firstValue, secondValue));
+    }
+
+    @Override
+    public int getOperandAddress() {
+        return Memory.getMemory().read(cpu.programCounter + 1);
     }
 }

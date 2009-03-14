@@ -32,7 +32,7 @@ public class ORAIndirectIndexedY extends IndirectIndexedInstruction {
 
     @Override
     public void interpret() {
-        cpu.accumulator |= Memory.getMemory().read(getAddressOfOperand());
+        cpu.accumulator |= getOperand();
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter += 2;
@@ -40,7 +40,7 @@ public class ORAIndirectIndexedY extends IndirectIndexedInstruction {
 
     @Override
     public String disassembler() {
-        return "ORA ($" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().read(cpu.programCounter + 1)).toUpperCase()) + "),Y";
+        return "ORA ($" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase()) + "),Y";
     }
 
     @Override

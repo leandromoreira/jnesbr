@@ -18,7 +18,6 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.AbsoluteInstruction;
-import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
@@ -31,16 +30,15 @@ public class BITAbsolute extends AbsoluteInstruction {
 
     @Override
     public void interpret() {
-        short value = Memory.getMemory().read(getAbsoluteAddress());
-        cpu.setupFlagSign(value);
-        cpu.setupFlagZero((short) (cpu.accumulator & value));
-        cpu.flagOverflow = (byte) (((value & 0x40) == 0x40) ? 1 : 0);
+        cpu.setupFlagSign(getOperand());
+        cpu.setupFlagZero((short) (cpu.accumulator & getOperand()));
+        cpu.flagOverflow = (byte) (((getOperand() & 0x40) == 0x40) ? 1 : 0);
         cpu.programCounter += 3;
     }
 
     @Override
     public String disassembler() {
-        return "BIT $"+ JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
+        return "BIT $"+ JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override

@@ -18,7 +18,6 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.AbsoluteInstruction;
-import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
@@ -31,7 +30,7 @@ public class LDAAbsolute extends AbsoluteInstruction{
 
     @Override
     public void interpret() {
-        cpu.accumulator = Memory.getMemory().read(getAbsoluteAddress());
+        cpu.accumulator = getOperand();
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter += 3;
@@ -39,7 +38,7 @@ public class LDAAbsolute extends AbsoluteInstruction{
 
     @Override
     public String disassembler() {
-        return "LDA $"+ JNesUtil.fillIfNeedsWith(4, "0",Integer.toHexString(getAbsoluteAddress()).toUpperCase());
+        return "LDA $"+ JNesUtil.fillIfNeedsWith(4, "0",Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override

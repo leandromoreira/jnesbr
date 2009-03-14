@@ -24,4 +24,6 @@ public interface Instruction {
     String disassembler();
     void debug();
     short cycles();
+    short getOperand();
+    int getOperandAddress();
 }

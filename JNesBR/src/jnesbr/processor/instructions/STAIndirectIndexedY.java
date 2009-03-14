@@ -31,7 +31,7 @@ public class STAIndirectIndexedY extends IndirectIndexedInstruction{
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getAddressOfOperand(), cpu.accumulator);
+        Memory.getMemory().write(getOperandAddress(), cpu.accumulator);
         cpu.programCounter += 2;
     }
 

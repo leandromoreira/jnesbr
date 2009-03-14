@@ -23,11 +23,18 @@ import jnesbr.processor.memory.Memory;
  * @author dreampeppers99
  */
 public abstract class ImmediateInstruction extends GeneralInstruction {
-    public ImmediateInstruction(Cpu2A03 cpu){
+
+    public ImmediateInstruction(Cpu2A03 cpu) {
         super(cpu);
     }
 
-    public short getOperand(){
-        return Memory.getMemory().read(cpu.programCounter+1);
+    @Override
+    public short getOperand() {
+        return Memory.getMemory().read(cpu.programCounter + 1);
+    }
+
+    @Override
+    public int getOperandAddress() {
+        return -1;
     }
 }

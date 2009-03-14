@@ -18,7 +18,7 @@ package jnesbr.gui;
 
 import jnesbr.gui.debugger.MemoryView;
 import jnesbr.gui.debugger.RomHeader;
-import jnesbr.gui.debugger.Debugger;
+import jnesbr.gui.debugger.DebuggerWindow;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -96,7 +96,6 @@ public class Main extends javax.swing.JFrame {
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/run.PNG"))); // NOI18N
         jButton1.setMnemonic('r');
-        jButton1.setText("Run");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -109,7 +108,6 @@ public class Main extends javax.swing.JFrame {
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/stop.PNG"))); // NOI18N
         jButton2.setMnemonic('s');
-        jButton2.setText("Stop");
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -281,7 +279,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnuMemoryViewActionPerformed
 
     private void JmnuDebbugerShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmnuDebbugerShowActionPerformed
-        Debugger cp = new Debugger();
+        DebuggerWindow cp = new DebuggerWindow();
         cp.setVisible(true);
     }//GEN-LAST:event_JmnuDebbugerShowActionPerformed
 

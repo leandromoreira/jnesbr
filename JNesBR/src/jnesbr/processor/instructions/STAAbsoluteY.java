@@ -32,13 +32,13 @@ public class STAAbsoluteY extends AbsoluteIndexedInstruction {
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getAbsoluteAddress()+cpu.registerY, cpu.accumulator);
+        Memory.getMemory().write(getOperand(cpu.registerY), cpu.accumulator);
         cpu.programCounter += 3;
     }
 
     @Override
     public String disassembler() {
-        return "STA $" + JNesUtil.fillIfNeedsWith(4,"0", Integer.toHexString(getAbsoluteAddress()).toUpperCase()) + ", Y";
+        return "STA $" + JNesUtil.fillIfNeedsWith(4,"0", Integer.toHexString(getOperandAddress()).toUpperCase()) + ", Y";
     }
 
     @Override

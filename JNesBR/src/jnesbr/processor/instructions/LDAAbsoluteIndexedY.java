@@ -35,18 +35,18 @@ public class LDAAbsoluteIndexedY extends AbsoluteIndexedInstruction{
     @Override
     public void interpret() {
         cycles = 4;
-        if (((cpu.programCounter + getAbsolute(cpu.registerY)) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
+        if (((cpu.programCounter + getOperand(cpu.registerY)) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
             cycles++;
         }
         cpu.programCounter += 3;
-        cpu.accumulator = Memory.getMemory().read(getAbsolute(cpu.registerY));
+        cpu.accumulator = Memory.getMemory().read(getOperand(cpu.registerY));
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
     }
 
     @Override
     public String disassembler() {
-        return "LDA $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsolute(cpu.registerY) - cpu.registerY)) + " ,Y ";
+        return "LDA $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress())) + " ,Y ";
     }
 
     @Override

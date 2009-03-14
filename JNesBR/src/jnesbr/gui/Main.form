@@ -186,7 +186,6 @@
               <Image iconType="3" name="/jnesbr/gui/resources/run.PNG"/>
             </Property>
             <Property name="mnemonic" type="int" value="114"/>
-            <Property name="text" type="java.lang.String" value="Run"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="2"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
@@ -201,7 +200,6 @@
               <Image iconType="3" name="/jnesbr/gui/resources/stop.PNG"/>
             </Property>
             <Property name="mnemonic" type="int" value="115"/>
-            <Property name="text" type="java.lang.String" value="Stop"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="2"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
