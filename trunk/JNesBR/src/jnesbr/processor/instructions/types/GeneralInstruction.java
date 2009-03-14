@@ -33,4 +33,11 @@ public abstract class GeneralInstruction implements Instruction {
         interpret();
     }
     public abstract short cycles();
+    public short getOperand() {
+        return -1;
+    }
+
+    public int getOperandAddress() {
+        return -1;
+    }
 }

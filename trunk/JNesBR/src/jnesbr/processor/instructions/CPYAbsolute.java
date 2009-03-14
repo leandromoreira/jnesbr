@@ -31,15 +31,15 @@ public class CPYAbsolute extends AbsoluteInstruction {
 
     @Override
     public void interpret() {
-        cpu.setupFlagSign((short) (cpu.registerY - getAbsoluteAddress()));
-        cpu.flagZero = (byte) ((cpu.registerY == getAbsoluteAddress()) ? 1 : 0);
-        cpu.flagCarry = (byte) ((cpu.registerY >= getAbsoluteAddress()) ? 1 : 0);
+        cpu.setupFlagSign((short) (cpu.registerY - getOperand()));
+        cpu.flagZero = (byte) ((cpu.registerY == getOperand()) ? 1 : 0);
+        cpu.flagCarry = (byte) ((cpu.registerY >= getOperand()) ? 1 : 0);
         cpu.programCounter += 3;
     }
 
     @Override
     public String disassembler() {
-        return "CPY $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
+        return "CPY $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override

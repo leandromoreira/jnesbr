@@ -76,6 +76,11 @@ public class Emulator implements Runnable {
         Emulator.getInstance().getPPU().initPatternTable();
     }
 
+    public void reset() {
+        Emulator.getInstance().getCpu().reset();
+        Emulator.getInstance().getMemory().reset();
+    }
+
     public INesROM rom() {
         return loader.getGame();
     }

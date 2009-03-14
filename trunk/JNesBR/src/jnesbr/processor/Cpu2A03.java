@@ -21,6 +21,7 @@ import jnesbr.processor.instructions.types.*;
 import jnesbr.processor.instructions.*;
 import java.util.HashMap;
 import java.util.Map;
+import jnesbr.debugger.AssemblerLine;
 import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
@@ -63,7 +64,27 @@ public class Cpu2A03 {
         return processorStatus;
     }
 
-    private void mergeProcessorStatus() {
+    public short rotate(short operand) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void setProcessorStatus(short p) {
+        processorStatus = p;
+        updateFlags();
+    }
+
+    private void updateFlags() {
+        flagBreak = (byte) JNesUtil.giveMeBit4From(processorStatus);
+        flagCarry = (byte) JNesUtil.giveMeBit0From(processorStatus);
+        flagDecimalMode = (byte) JNesUtil.giveMeBit3From(processorStatus);
+        flagIRQ = (byte) JNesUtil.giveMeBit2From(processorStatus);
+        flagNotUsed = (byte) JNesUtil.giveMeBit5From(processorStatus);
+        flagOverflow = (byte) JNesUtil.giveMeBit6From(processorStatus);
+        flagSign = (byte) JNesUtil.giveMeBit7From(processorStatus);
+        flagZero = (byte) JNesUtil.giveMeBit1From(processorStatus);
+    }
+
+    public void mergeProcessorStatus() {
         processorStatus = (short) (((flagSign) << 7) |
                 ((flagOverflow) << 6) |
                 ((flagNotUsed) << 5) |
@@ -146,11 +167,31 @@ public class Cpu2A03 {
         instructions.put(0x8A, new TXAImplied(this));
         instructions.put(0x4C, new JMPAbsolute(this));
         instructions.put(0xEE, new INCAbsolute(this));
+        instructions.put(0x01, new ORAIndirectIndexedX(this));
+        instructions.put(0xEC, new CPXAbsolute(this));
+        instructions.put(0x41, new EORIndexedIndirect(this));
+        instructions.put(0x68, new PLAImplied(this));
+        instructions.put(0xDE, new DECAbsoluteX(this));
+        instructions.put(0x8C, new STYAbsolute(this));
+        instructions.put(0x40, new RTIImplied(this));
+        instructions.put(0xAC, new LDYAbsolute(this));
+        instructions.put(0xAE, new LDXAbsolute(this));
+        instructions.put(0xBE, new LDXAbsoluteY(this));
+        instructions.put(0x9D, new STAAbsoluteX(this));
+        instructions.put(0x4A, new LSRAccumulator(this));
+        instructions.put(0xCE, new DECAbsolute(this));
+        instructions.put(0xE6, new INCZeroPage(this));
+        instructions.put(0x45, new EORZeroPage(this));
+        instructions.put(0x18, new CLCImplied(this));
+        instructions.put(0x7E, new RORAbsoluteX(this));
+        instructions.put(0x48, new PHAImplied(this));
+        instructions.put(0xC5, new CMPZeroPage(this));
+        instructions.put(0x69, new ADCImmediate(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {
-        Instruction instruciton = (instructions.get(opCode) == null ? new StillNotImplemented(this, opCode) : instructions.get(opCode));
-        return instruciton;
+        Instruction instruction = (instructions.get(opCode) == null ? new StillNotImplemented(this, opCode) : instructions.get(opCode));
+        return instruction;
     }
 
     public void setupFlagSign(short value) {
@@ -174,5 +215,44 @@ public class Cpu2A03 {
         actualInstruction.debug();
         cycles += actualInstruction.cycles();
         actualLineDebug = "0x" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(oldProgramCounter).toUpperCase()) + ":\t" + actualLineDebug + "\t;";
+    }
+
+    public AssemblerLine disassemblerStep() {
+        oldProgramCounter = programCounter;
+        int opCode = Memory.getMemory().read(programCounter);
+        Instruction actualInstruction = getInstructionFrom(opCode);
+        actualInstruction.debug();
+        cycles += actualInstruction.cycles();
+
+        //BCL
+        if (opCode == 0x10) {
+            programCounter = oldProgramCounter + 2;
+        }
+        //BCS
+        if (opCode == 0xB0) {
+            programCounter = oldProgramCounter + 2;
+        }
+        //JSR
+        if (opCode == 0x20) {
+            programCounter = oldProgramCounter + 3;
+        }
+        //JMP
+        if (opCode == 0x4C || opCode == 0x6C) {
+            programCounter = oldProgramCounter + 3;
+        }
+        //RTI
+        if (opCode == 0x40) {
+            programCounter = oldProgramCounter + 1;
+        }
+        //RTS
+        if (opCode == 0x60) {
+            programCounter = oldProgramCounter + 1;
+        }
+        //BNE
+        if (opCode == 0xD0) {
+            programCounter = oldProgramCounter + 2;
+        }
+
+        return new AssemblerLine(oldProgramCounter, actualLineDebug);
     }
 }

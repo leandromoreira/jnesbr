@@ -18,6 +18,7 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.instructions.types.GeneralInstruction;
 import jnesbr.processor.Cpu2A03;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
@@ -37,7 +38,7 @@ public class StillNotImplemented extends GeneralInstruction {
 
     @Override
     public String disassembler() {
-        return "Still not implemented [0x" + Integer.toHexString(opCode).toUpperCase() + "]" ;
+        return "Still not implemented [0x" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(opCode).toUpperCase()) + "]" ;
     }
 
     @Override

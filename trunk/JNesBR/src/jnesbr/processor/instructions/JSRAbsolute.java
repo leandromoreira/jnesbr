@@ -31,14 +31,14 @@ public class JSRAbsolute extends AbsoluteInstruction {
 
     @Override
     public void interpret() {
-        cpu.push((short) ((cpu.programCounter + 2 >> 8) & 0xFF));
-        cpu.push((short) (cpu.programCounter + 2 & 0xFF));
-        cpu.programCounter = getAbsoluteAddress();
+        cpu.push((short) (((cpu.programCounter + 2) >> 8) & 0xFF));
+        cpu.push((short) ((cpu.programCounter + 2) & 0xFF));
+        cpu.programCounter = getOperandAddress();
     }
 
     @Override
     public String disassembler() {
-        return "JSR $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
+        return "JSR $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override

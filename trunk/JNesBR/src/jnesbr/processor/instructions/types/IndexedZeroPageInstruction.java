@@ -22,13 +22,23 @@ import jnesbr.processor.memory.Memory;
 /**
  * @author dreampeppers99
  */
-public abstract class IndexedZeroPageInstruction extends GeneralInstruction{
+public abstract class IndexedZeroPageInstruction extends GeneralInstruction {
 
-    public IndexedZeroPageInstruction(Cpu2A03 cpu){
+    public IndexedZeroPageInstruction(Cpu2A03 cpu) {
         super(cpu);
     }
 
-    public short getOperand(short index){
-        return Memory.getMemory().read(cpu.programCounter+1+index);
+    @Override
+    public short getOperand() {
+        return -1;
+    }
+
+    public short getOperand(short index) {
+        return Memory.getMemory().read(Memory.getMemory().read(cpu.programCounter + 1) + index);
+    }
+
+    @Override
+    public int getOperandAddress() {
+        return Memory.getMemory().read(cpu.programCounter + 1);
     }
 }

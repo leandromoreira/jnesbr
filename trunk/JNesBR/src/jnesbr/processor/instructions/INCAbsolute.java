@@ -32,8 +32,8 @@ public class INCAbsolute extends AbsoluteInstruction {
 
     @Override
     public void interpret() {
-        short value = (short) ((Memory.getMemory().read(getAbsoluteAddress()) + 1) & 0xFF);
-        Memory.getMemory().write(getAbsoluteAddress(), value);
+        short value = (short) ((getOperand() + 1) & 0xFF);
+        Memory.getMemory().write(getOperandAddress(), value);
         cpu.setupFlagSign(value);
         cpu.setupFlagZero(value);
         cpu.programCounter += 3;
@@ -41,7 +41,7 @@ public class INCAbsolute extends AbsoluteInstruction {
 
     @Override
     public String disassembler() {
-        return "INC $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
+        return "INC $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override

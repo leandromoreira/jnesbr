@@ -23,12 +23,23 @@ import jnesbr.util.JNesUtil;
 /**
  * @author dreampeppers99
  */
-public abstract class AbsoluteIndexedInstruction extends AbsoluteInstruction{
-    public AbsoluteIndexedInstruction(Cpu2A03 cpu){
+public abstract class AbsoluteIndexedInstruction extends AbsoluteInstruction {
+
+    public AbsoluteIndexedInstruction(Cpu2A03 cpu) {
         super(cpu);
     }
-    public int getAbsolute(short index){
-        return Memory.getMemory().read(JNesUtil.get16BitLittleEndian(Memory.getMemory().read(cpu.programCounter+1),Memory.getMemory().read(cpu.programCounter+2))+index);
+
+    public short getOperand(short index) {
+        return Memory.getMemory().read(getOperandAddress() + index);
     }
 
+    @Override
+    public short getOperand() {
+        return -1;
+    }
+
+    @Override
+    public int getOperandAddress() {
+        return  JNesUtil.get16BitLittleEndian(Memory.getMemory().read(cpu.programCounter + 1), Memory.getMemory().read(cpu.programCounter + 2));
+    }
 }

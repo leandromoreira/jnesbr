@@ -37,7 +37,7 @@ public class LDAIndexedIndirectX extends IndexedIndirectInstruction {
 
     @Override
     public String disassembler() {
-        return "LDA ($"+Integer.toHexString(getOperand()).toUpperCase()+",X)";
+        return "LDA ($"+Integer.toHexString(getOperandAddress()).toUpperCase()+",X)";
     }
 
     @Override

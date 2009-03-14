@@ -18,7 +18,6 @@ package jnesbr.processor.instructions.types;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
-import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
@@ -46,12 +45,18 @@ public abstract class RelativeInstruction extends GeneralInstruction {
         cycles = (short) cycl;
     }
 
+    @Override
     public short getOperand() {
         /* Casting to byte to make the wraparound correctly! (according to Nesdoc.pdf)
          * For this purpose, the operand is interpreted as a signed byte, that is in
          * the range -128 to 127 to allow forward and backward branching.
          * */
         return (byte) Memory.getMemory().read(cpu.programCounter + 1);
+    }
+
+    @Override
+    public int getOperandAddress() {
+        return -1;
     }
 
     public short cycles() {

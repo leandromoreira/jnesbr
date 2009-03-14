@@ -24,10 +24,18 @@ import jnesbr.util.JNesUtil;
  * @author dreampeppers99
  */
 public abstract class AbsoluteInstruction extends GeneralInstruction {
-    public AbsoluteInstruction(Cpu2A03 cpu){
+
+    public AbsoluteInstruction(Cpu2A03 cpu) {
         super(cpu);
     }
-    public int getAbsoluteAddress(){
-        return JNesUtil.get16BitLittleEndian(Memory.getMemory().read(cpu.programCounter+1),Memory.getMemory().read(cpu.programCounter+2));
+
+    @Override
+    public int getOperandAddress() {
+        return JNesUtil.get16BitLittleEndian(Memory.getMemory().read(cpu.programCounter + 1), Memory.getMemory().read(cpu.programCounter + 2));
+    }
+
+    @Override
+    public short getOperand() {
+        return Memory.getMemory().read(getOperandAddress());
     }
 }

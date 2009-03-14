@@ -31,13 +31,13 @@ public class STAAbsolute extends AbsoluteInstruction{
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getAbsoluteAddress(), cpu.accumulator);
+        Memory.getMemory().write(getOperandAddress(), cpu.accumulator);
         cpu.programCounter += 3;
     }
 
     @Override
     public String disassembler() {
-        return "STA $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getAbsoluteAddress()).toUpperCase());
+        return "STA $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override

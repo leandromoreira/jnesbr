@@ -68,6 +68,14 @@ public class Memory {
         handlers.put(PPU_STATUS, new PPUStatusHandler());
     }
 
+    public void reset() {
+        for (int i = 0; i < memory.length; i++) {
+            if (i < 0x8000) {
+                memory[i] = 0;
+            }
+        }
+    }
+
     public void write(int address, short value) {
         getHandler(address).writeAt(address, value);
     }

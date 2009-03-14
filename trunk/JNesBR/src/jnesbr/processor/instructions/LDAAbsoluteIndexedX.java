@@ -35,11 +35,11 @@ public class LDAAbsoluteIndexedX extends AbsoluteIndexedInstruction {
     @Override
     public void interpret() {
         cycles = 4;
-        if (((cpu.programCounter + getAbsolute(cpu.registerX)) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
+        if (((cpu.programCounter + getOperand(cpu.registerX)) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
             cycles++;
         }
         cpu.programCounter += 3;
-        cpu.accumulator = Memory.getMemory().read(getAbsolute(cpu.registerX));
+        cpu.accumulator = Memory.getMemory().read(getOperand(cpu.registerX));
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
     }
