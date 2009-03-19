@@ -16,33 +16,31 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions;
 
-import jnesbr.processor.instructions.types.GeneralInstruction;
 import jnesbr.processor.Cpu2A03;
-import jnesbr.util.JNesUtil;
+import jnesbr.processor.instructions.types.GeneralInstruction;
 
 /**
  * @author dreampeppers99
  */
-public class StillNotImplemented extends GeneralInstruction {
-    private int opCode;
+public class PLPImplied extends GeneralInstruction {
 
-    public StillNotImplemented(Cpu2A03 cpu,int opCode ) {
+    public PLPImplied(Cpu2A03 cpu) {
         super(cpu);
-        this.opCode = opCode;
     }
 
     @Override
     public void interpret() {
+        cpu.setProcessorStatus(cpu.pull());
         cpu.programCounter++;
     }
 
     @Override
     public String disassembler() {
-        return "not implemented [0x" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(opCode).toUpperCase()) + "]" ;
+        return "PLP";
     }
 
     @Override
     public short cycles() {
-        return 0;
+        return 4;
     }
 }

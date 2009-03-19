@@ -16,33 +16,38 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions;
 
-import jnesbr.processor.instructions.types.GeneralInstruction;
 import jnesbr.processor.Cpu2A03;
-import jnesbr.util.JNesUtil;
+import jnesbr.processor.instructions.types.GeneralInstruction;
 
 /**
  * @author dreampeppers99
  */
-public class StillNotImplemented extends GeneralInstruction {
-    private int opCode;
+public class ASLAccumulator extends GeneralInstruction {
 
-    public StillNotImplemented(Cpu2A03 cpu,int opCode ) {
+    public ASLAccumulator(Cpu2A03 cpu) {
         super(cpu);
-        this.opCode = opCode;
     }
 
     @Override
     public void interpret() {
+        if (cpu.accumulator >= 0x80) {
+            cpu.flagCarry = 1;
+        } else {
+            cpu.flagCarry = 0;
+        }
+        cpu.accumulator = (short) (cpu.accumulator << 1);
+        cpu.setupFlagSign(cpu.accumulator);
+        cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter++;
     }
 
     @Override
     public String disassembler() {
-        return "not implemented [0x" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(opCode).toUpperCase()) + "]" ;
+        return "ASL A";
     }
 
     @Override
     public short cycles() {
-        return 0;
+        return 2;
     }
 }

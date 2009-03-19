@@ -187,6 +187,17 @@ public class Cpu2A03 {
         instructions.put(0x48, new PHAImplied(this));
         instructions.put(0xC5, new CMPZeroPage(this));
         instructions.put(0x69, new ADCImmediate(this));
+        instructions.put(0x31, new ANDIndirectIndexed(this));
+        instructions.put(0x49, new EORImmediate(this));
+        instructions.put(0x0A, new ASLAccumulator(this));
+        instructions.put(0x00, new BRKImplied(this));
+        instructions.put(0x81, new STAIndexedIndirect(this));
+        instructions.put(0x05, new ORAZeroPage(this));
+        instructions.put(0x95, new STAZeroPageIndexedX(this));
+        instructions.put(0x98, new TYAImplied(this));
+        instructions.put(0xAA, new TAXImplied(this));
+        instructions.put(0x28, new PLPImplied(this));
+        instructions.put(0x38, new SECImplied(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {
@@ -240,18 +251,19 @@ public class Cpu2A03 {
         if (opCode == 0x4C || opCode == 0x6C) {
             programCounter = oldProgramCounter + 3;
         }
-        //RTI
-        if (opCode == 0x40) {
+        //RTI or BRK
+        if (opCode == 0x40 || opCode == 0x00) {
             programCounter = oldProgramCounter + 1;
         }
         //RTS
         if (opCode == 0x60) {
             programCounter = oldProgramCounter + 1;
         }
-        //BNE
-        if (opCode == 0xD0) {
+        //BNE or BEQ or BCC
+        if (opCode == 0xD0 || opCode == 0xF0 || opCode == 0x90) {
             programCounter = oldProgramCounter + 2;
         }
+
 
         return new AssemblerLine(oldProgramCounter, actualLineDebug);
     }
