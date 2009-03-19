@@ -35,6 +35,6 @@ public class BEQRelative extends RelativeInstruction {
 
     @Override
     public String disassembler() {
-        return "BQE";
+        return "BEQ";
     }
 }

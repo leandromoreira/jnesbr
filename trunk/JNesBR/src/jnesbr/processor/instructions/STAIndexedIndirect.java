@@ -16,33 +16,38 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions;
 
-import jnesbr.processor.instructions.types.GeneralInstruction;
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.IndexedIndirectInstruction;
+import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class StillNotImplemented extends GeneralInstruction {
-    private int opCode;
+public class STAIndexedIndirect extends IndexedIndirectInstruction {
 
-    public StillNotImplemented(Cpu2A03 cpu,int opCode ) {
+    public STAIndexedIndirect(Cpu2A03 cpu) {
         super(cpu);
-        this.opCode = opCode;
     }
 
     @Override
     public void interpret() {
-        cpu.programCounter++;
+        short first = (short) (Memory.getMemory().read(cpu.programCounter + 1) + cpu.registerX);
+        short firstValue = Memory.getMemory().read(first);
+        short second = (short) (Memory.getMemory().read(cpu.programCounter + 1) + cpu.registerX + 1);
+        short secondValue = Memory.getMemory().read(second);
+        int address = JNesUtil.get16BitLittleEndian(firstValue, secondValue);
+        Memory.getMemory().write(address, cpu.accumulator);
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "not implemented [0x" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(opCode).toUpperCase()) + "]" ;
+        return "STA ($" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase()) + ",X)";
     }
 
     @Override
     public short cycles() {
-        return 0;
+        return 6;
     }
 }

@@ -16,33 +16,34 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions;
 
-import jnesbr.processor.instructions.types.GeneralInstruction;
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.ZeroPageInstruction;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class StillNotImplemented extends GeneralInstruction {
-    private int opCode;
+public class ORAZeroPage extends ZeroPageInstruction {
 
-    public StillNotImplemented(Cpu2A03 cpu,int opCode ) {
+    public ORAZeroPage(Cpu2A03 cpu) {
         super(cpu);
-        this.opCode = opCode;
     }
 
     @Override
     public void interpret() {
-        cpu.programCounter++;
+        cpu.accumulator = (short) (cpu.accumulator | getOperand());
+        cpu.setupFlagSign(cpu.accumulator);
+        cpu.setupFlagZero(cpu.accumulator);
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "not implemented [0x" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(opCode).toUpperCase()) + "]" ;
+        return "ORA $"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress() ).toUpperCase());
     }
 
     @Override
     public short cycles() {
-        return 0;
+        return 3;
     }
 }
