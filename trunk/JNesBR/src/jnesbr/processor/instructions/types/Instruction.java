@@ -21,6 +21,7 @@ package jnesbr.processor.instructions.types;
  */
 public interface Instruction {
     void interpret();
+    short size();
     String disassembler();
     void debug();
     short cycles();

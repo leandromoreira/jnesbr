@@ -48,7 +48,7 @@ public class Debugger {
             AssemblerLine ass = Emulator.getInstance().getCpu().disassemblerStep();
             assembler.add(ass);
         }*/
-        for (int i = MemoryMap.LOWER_BANK_START; i <= MemoryMap.LOWER_BANK_START+480; i++) {
+        for (int i = MemoryMap.LOWER_BANK_START; i <= MemoryMap.LOWER_BANK_START+880; i++) {
             AssemblerLine ass = Emulator.getInstance().getCpu().disassemblerStep();
             assembler.add(ass);
         }

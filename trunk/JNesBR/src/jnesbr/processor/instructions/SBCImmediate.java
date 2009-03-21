@@ -17,44 +17,34 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.GeneralInstruction;
+import jnesbr.processor.instructions.types.ImmediateInstruction;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class TXSImplied extends GeneralInstruction{
-    public TXSImplied(Cpu2A03 cpu){
+public class SBCImmediate extends ImmediateInstruction {
+
+    public SBCImmediate(Cpu2A03 cpu) {
         super(cpu);
     }
+
     @Override
     public void interpret() {
-        cpu.stackPointer = cpu.registerX;
-        cpu.programCounter++;
+        //A=A+C-1-nn todo: check the same thing about the v flag...
+        cpu.accumulator += (cpu.accumulator+cpu.flagCarry-1-getOperand()) & 0xFF;
+        cpu.setupFlagSign(cpu.accumulator);
+        cpu.setupFlagZero(cpu.accumulator);
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "TXS";
+        return "SBC #$"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
     }
 
     @Override
     public short cycles() {
         return 2;
     }
-
-    @Override
-    public short size() {
-        return 1;
-    }
-
-    @Override
-    public short getOperand() {
-        throw new UnsupportedOperationException("Not needed.");
-    }
-
-    @Override
-    public int getOperandAddress() {
-        throw new UnsupportedOperationException("Not needed.");
-    }
-
 }

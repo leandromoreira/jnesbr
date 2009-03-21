@@ -14,35 +14,36 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.instructions.types;
+package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.AbsoluteInstruction;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public abstract class GeneralInstruction implements Instruction {
-
-    protected Cpu2A03 cpu;
-
-    public GeneralInstruction(Cpu2A03 cpu) {
-        this.cpu = cpu;
+public class ORAAbsolute extends AbsoluteInstruction {
+    public ORAAbsolute(Cpu2A03 cpu){
+        super(cpu);
     }
 
-    public abstract void interpret();
-
-    public abstract String disassembler();
-
-    public abstract short size();
-
-    public abstract short cycles();
-
-    public abstract short getOperand();
-
-    public abstract int getOperandAddress();
-
-    public void debug() {
-        cpu.actualLineDebug = disassembler();
-        interpret();
+    @Override
+    public void interpret() {
+        cpu.accumulator |= getOperand();
+        cpu.setupFlagSign(cpu.accumulator);
+        cpu.setupFlagZero(cpu.accumulator);
+        cpu.programCounter += 3;
     }
+
+    @Override
+    public String disassembler() {
+        return "ORA $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
+    }
+
+    @Override
+    public short cycles() {
+        return 4;
+    }
+
 }

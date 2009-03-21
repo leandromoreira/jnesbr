@@ -17,44 +17,35 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.GeneralInstruction;
+import jnesbr.processor.instructions.types.IndexedIndirectInstruction;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class TXSImplied extends GeneralInstruction{
-    public TXSImplied(Cpu2A03 cpu){
+public class ADCIndexedIndirect extends IndexedIndirectInstruction {
+
+    public ADCIndexedIndirect(Cpu2A03 cpu) {
         super(cpu);
     }
+
     @Override
     public void interpret() {
-        cpu.stackPointer = cpu.registerX;
-        cpu.programCounter++;
+        //nzc--v  6   ADC (nn,X)  Add (Indirect,X)        A=A+C+[[nn+X]]
+        cpu.accumulator += (cpu.accumulator+cpu.flagCarry+getOperand()) & 0xFF;
+        cpu.setupFlagSign(cpu.accumulator);
+        cpu.setupFlagZero(cpu.accumulator);
+        //todo : check overflow and carry flag... see what i do on adc immediate
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "TXS";
+        return "ADC ($" +JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+", X)";
     }
 
     @Override
     public short cycles() {
-        return 2;
+        return 6;
     }
-
-    @Override
-    public short size() {
-        return 1;
-    }
-
-    @Override
-    public short getOperand() {
-        throw new UnsupportedOperationException("Not needed.");
-    }
-
-    @Override
-    public int getOperandAddress() {
-        throw new UnsupportedOperationException("Not needed.");
-    }
-
 }

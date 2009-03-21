@@ -35,6 +35,6 @@ public abstract class ImmediateInstruction extends GeneralInstruction {
 
     @Override
     public int getOperandAddress() {
-        return -1;
+        throw new UnsupportedOperationException("Not needed.");
     }
 }

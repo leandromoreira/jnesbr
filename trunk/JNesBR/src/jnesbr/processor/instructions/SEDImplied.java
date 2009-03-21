@@ -14,35 +14,33 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.instructions.types;
+package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.GeneralInstruction;
 
 /**
  * @author dreampeppers99
  */
-public abstract class GeneralInstruction implements Instruction {
-
-    protected Cpu2A03 cpu;
-
-    public GeneralInstruction(Cpu2A03 cpu) {
-        this.cpu = cpu;
+public class SEDImplied extends GeneralInstruction{
+    public SEDImplied(Cpu2A03 cpu){
+        super(cpu);
     }
 
-    public abstract void interpret();
-
-    public abstract String disassembler();
-
-    public abstract short size();
-
-    public abstract short cycles();
-
-    public abstract short getOperand();
-
-    public abstract int getOperandAddress();
-
-    public void debug() {
-        cpu.actualLineDebug = disassembler();
-        interpret();
+    @Override
+    public void interpret() {
+        cpu.flagDecimalMode = 1;
+        cpu.programCounter++;
     }
+
+    @Override
+    public String disassembler() {
+        return "SED";
+    }
+
+    @Override
+    public short cycles() {
+        return 2;
+    }
+
 }
