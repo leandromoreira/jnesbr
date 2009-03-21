@@ -30,11 +30,11 @@ public abstract class IndexedZeroPageInstruction extends GeneralInstruction {
 
     @Override
     public short getOperand() {
-        return -1;
+        throw new UnsupportedOperationException("It's indexed one.");
     }
 
     public short getOperand(short index) {
-        return Memory.getMemory().read(Memory.getMemory().read(cpu.programCounter + 1) + index);
+        return Memory.getMemory().read(getOperandAddress() + index);
     }
 
     @Override

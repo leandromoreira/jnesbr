@@ -32,7 +32,7 @@ public class LDAZeroPage extends ZeroPageInstruction {
 
     @Override
     public void interpret() {
-        cpu.accumulator = Memory.getMemory().read(getOperand());
+        cpu.accumulator = getOperand();
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter += 2;
@@ -46,5 +46,10 @@ public class LDAZeroPage extends ZeroPageInstruction {
     @Override
     public short cycles() {
         return 3;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }
