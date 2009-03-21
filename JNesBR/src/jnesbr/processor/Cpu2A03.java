@@ -112,14 +112,14 @@ public class Cpu2A03 {
     }
 
     public void initInstructionTable() {
-        instructions.put(0xD8, new CLDImplied(this));
+        //Register to Register Transfer.
         instructions.put(0xA8, new TAYImplied(this));
-        instructions.put(0x78, new SEIImplied(this));
-        instructions.put(0x8D, new STAAbsolute(this));
+        instructions.put(0xAA, new TAXImplied(this));
+        instructions.put(0xBA, new TSXImplied(this));
+        instructions.put(0x98, new TYAImplied(this));
+        instructions.put(0x8A, new TXAImplied(this));
         instructions.put(0x9A, new TXSImplied(this));
-        instructions.put(0x29, new AndImmediate(this));
-
-        //Load Register from Memory
+        //Load Register from Memory.
         instructions.put(0xA9, new LDAImmediate(this));
         instructions.put(0xA5, new LDAZeroPage(this));
         instructions.put(0xB5, new LDAZeroPageX(this));
@@ -131,6 +131,19 @@ public class Cpu2A03 {
         instructions.put(0xA2, new LDXImmediate(this));
         instructions.put(0xA6, new LDXZeroPage(this));
         instructions.put(0xA0, new LDYImmediate(this));
+
+
+
+
+        
+        instructions.put(0xD8, new CLDImplied(this));
+        
+        instructions.put(0x78, new SEIImplied(this));
+        instructions.put(0x8D, new STAAbsolute(this));
+        
+        instructions.put(0x29, new AndImmediate(this));
+
+        //Load Register from Memory
 
         //Conditional Branch Instructions
         instructions.put(0x10, new BPLRelative(this));
@@ -164,7 +177,7 @@ public class Cpu2A03 {
         instructions.put(0x99, new STAAbsoluteY(this));
         instructions.put(0xC8, new INYImplied(this));
         instructions.put(0x09, new ORAImmediate(this));
-        instructions.put(0x8A, new TXAImplied(this));
+        
         instructions.put(0x4C, new JMPAbsolute(this));
         instructions.put(0xEE, new INCAbsolute(this));
         instructions.put(0x01, new ORAIndirectIndexedX(this));
@@ -194,10 +207,15 @@ public class Cpu2A03 {
         instructions.put(0x81, new STAIndexedIndirect(this));
         instructions.put(0x05, new ORAZeroPage(this));
         instructions.put(0x95, new STAZeroPageIndexedX(this));
-        instructions.put(0x98, new TYAImplied(this));
-        instructions.put(0xAA, new TAXImplied(this));
+        
+        
         instructions.put(0x28, new PLPImplied(this));
         instructions.put(0x38, new SECImplied(this));
+        instructions.put(0x61, new ADCIndexedIndirect(this));
+        instructions.put(0xE9, new SBCImmediate(this));
+        instructions.put(0x0D, new ORAAbsolute(this));
+        instructions.put(0xF6, new INCZeroPageIndexed(this));
+        instructions.put(0xF8, new SEDImplied(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {
@@ -235,14 +253,6 @@ public class Cpu2A03 {
         actualInstruction.debug();
         cycles += actualInstruction.cycles();
 
-        //BCL
-        if (opCode == 0x10) {
-            programCounter = oldProgramCounter + 2;
-        }
-        //BCS
-        if (opCode == 0xB0) {
-            programCounter = oldProgramCounter + 2;
-        }
         //JSR
         if (opCode == 0x20) {
             programCounter = oldProgramCounter + 3;
@@ -259,8 +269,15 @@ public class Cpu2A03 {
         if (opCode == 0x60) {
             programCounter = oldProgramCounter + 1;
         }
-        //BNE or BEQ or BCC
-        if (opCode == 0xD0 || opCode == 0xF0 || opCode == 0x90) {
+        //any branch instrunction
+        if (opCode == 0x10 ||
+                opCode == 0x30 ||
+                opCode == 0x50 ||
+                opCode == 0x70 ||
+                opCode == 0x90 ||
+                opCode == 0xB0 ||
+                opCode == 0xD0 ||
+                opCode == 0xF0) {
             programCounter = oldProgramCounter + 2;
         }
 

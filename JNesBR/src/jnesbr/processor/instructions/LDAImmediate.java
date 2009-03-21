@@ -46,4 +46,9 @@ public class LDAImmediate extends ImmediateInstruction {
     public short cycles() {
         return 2;
     }
+
+    @Override
+    public short size() {
+        return 2;
+    }
 }

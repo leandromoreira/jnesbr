@@ -42,4 +42,19 @@ public class TAYImplied extends GeneralInstruction {
     public short cycles() {
         return 2;
     }
+
+    @Override
+    public short size() {
+        return 1;
+    }
+
+    @Override
+    public short getOperand() {
+        throw new UnsupportedOperationException("Not needed.");
+    }
+
+    @Override
+    public int getOperandAddress() {
+        throw new UnsupportedOperationException("Not needed.");
+    }
 }

@@ -17,44 +17,35 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.GeneralInstruction;
+import jnesbr.processor.instructions.types.IndexedZeroPageInstruction;
+import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class TXSImplied extends GeneralInstruction{
-    public TXSImplied(Cpu2A03 cpu){
+public class INCZeroPageIndexed extends IndexedZeroPageInstruction {
+
+    public INCZeroPageIndexed(Cpu2A03 cpu) {
         super(cpu);
     }
+
     @Override
     public void interpret() {
-        cpu.stackPointer = cpu.registerX;
-        cpu.programCounter++;
+        int result = (getOperand(cpu.registerX) + 1) & 0xFF;
+        cpu.setupFlagSign((short) result);
+        cpu.setupFlagZero((short) result);
+        Memory.getMemory().write(getOperandAddress() + cpu.registerX, (short) result);
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "TXS";
+        return "INC $" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress())) + " ,X";
     }
 
     @Override
     public short cycles() {
-        return 2;
+        return 6;
     }
-
-    @Override
-    public short size() {
-        return 1;
-    }
-
-    @Override
-    public short getOperand() {
-        throw new UnsupportedOperationException("Not needed.");
-    }
-
-    @Override
-    public int getOperandAddress() {
-        throw new UnsupportedOperationException("Not needed.");
-    }
-
 }

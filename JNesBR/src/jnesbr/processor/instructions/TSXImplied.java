@@ -22,19 +22,23 @@ import jnesbr.processor.instructions.types.GeneralInstruction;
 /**
  * @author dreampeppers99
  */
-public class TXSImplied extends GeneralInstruction{
-    public TXSImplied(Cpu2A03 cpu){
+public class TSXImplied extends GeneralInstruction {
+
+    public TSXImplied(Cpu2A03 cpu) {
         super(cpu);
     }
+
     @Override
     public void interpret() {
-        cpu.stackPointer = cpu.registerX;
+        cpu.registerX = cpu.stackPointer;
+        cpu.setupFlagSign(cpu.registerX);
+        cpu.setupFlagZero(cpu.registerX);
         cpu.programCounter++;
     }
 
     @Override
     public String disassembler() {
-        return "TXS";
+        return "TSX";
     }
 
     @Override
@@ -56,5 +60,4 @@ public class TXSImplied extends GeneralInstruction{
     public int getOperandAddress() {
         throw new UnsupportedOperationException("Not needed.");
     }
-
 }
