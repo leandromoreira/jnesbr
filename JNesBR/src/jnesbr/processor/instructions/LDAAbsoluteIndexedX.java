@@ -18,7 +18,6 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.AbsoluteIndexedInstruction;
-import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
@@ -35,22 +34,27 @@ public class LDAAbsoluteIndexedX extends AbsoluteIndexedInstruction {
     @Override
     public void interpret() {
         cycles = 4;
-        if (((cpu.programCounter + getOperand(cpu.registerX)) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
+        if (((getOperandAddress() & 0xFF) + cpu.registerX) > 0xFF) {
             cycles++;
         }
         cpu.programCounter += 3;
-        cpu.accumulator = Memory.getMemory().read(getOperand(cpu.registerX));
+        cpu.accumulator = getOperand(cpu.registerX);
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
     }
 
     @Override
     public String disassembler() {
-        return "LDA $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(JNesUtil.get16BitLittleEndian(Memory.getMemory().read(cpu.programCounter+1), Memory.getMemory().read(cpu.programCounter+2)))).toUpperCase() + " ,X ";
+        return "LDA $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress())).toUpperCase() + " ,X ";
     }
 
     @Override
     public short cycles() {
         return cycles;
+    }
+
+    @Override
+    public short size() {
+        return 3;
     }
 }

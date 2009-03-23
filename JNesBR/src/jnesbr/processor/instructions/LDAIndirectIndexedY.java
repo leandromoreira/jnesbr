@@ -19,20 +19,23 @@ package jnesbr.processor.instructions;
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.IndirectIndexedInstruction;
 import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
 public class LDAIndirectIndexedY extends IndirectIndexedInstruction {
+
     private byte cycles;
-    public LDAIndirectIndexedY(Cpu2A03 cpu){
+
+    public LDAIndirectIndexedY(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
         cycles = 5;
-        if (((cpu.programCounter + getOperandAddress()) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
+        if (pageChanged()) {
             cycles++;
         }
         cpu.accumulator = Memory.getMemory().read(getOperandAddress());
@@ -43,12 +46,24 @@ public class LDAIndirectIndexedY extends IndirectIndexedInstruction {
 
     @Override
     public String disassembler() {
-        return "LDA ($"+Integer.toHexString(Memory.getMemory().read(cpu.programCounter+1)).toUpperCase()+"),Y";
+        return "LDA ($" + Integer.toHexString(Memory.getMemory().read(cpu.programCounter + 1)).toUpperCase() + "),Y";
     }
 
     @Override
     public short cycles() {
-       return cycles;
+        return cycles;
     }
 
+    @Override
+    public short size() {
+        return 2;
+    }
+
+    private boolean pageChanged() {
+        int bb = Memory.getMemory().read(cpu.programCounter + 1);
+        short xx = Memory.getMemory().read((bb));
+        short yy = Memory.getMemory().read((bb + 1));
+        short op = (short) (JNesUtil.get16BitLittleEndian(xx, yy));
+        return (((op & 0xFF) + cpu.registerY) > 0xFF);
+    }
 }

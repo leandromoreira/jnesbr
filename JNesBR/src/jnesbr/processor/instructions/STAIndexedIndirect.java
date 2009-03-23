@@ -17,14 +17,14 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.IndexedIndirectInstruction;
+import jnesbr.processor.instructions.types.IndirectXInstruction;
 import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class STAIndexedIndirect extends IndexedIndirectInstruction {
+public class STAIndexedIndirect extends IndirectXInstruction {
 
     public STAIndexedIndirect(Cpu2A03 cpu) {
         super(cpu);

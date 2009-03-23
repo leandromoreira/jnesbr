@@ -23,9 +23,9 @@ import jnesbr.util.JNesUtil;
 /**
  * @author dreampeppers99
  */
-public abstract class IndexedIndirectInstruction extends GeneralInstruction {
+public abstract class IndirectXInstruction extends GeneralInstruction {
 
-    public IndexedIndirectInstruction(Cpu2A03 cpu) {
+    public IndirectXInstruction(Cpu2A03 cpu) {
         super(cpu);
     }
 

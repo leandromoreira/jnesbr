@@ -18,6 +18,7 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.ZeroPageInstruction;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
@@ -37,11 +38,16 @@ public class LDXZeroPage extends ZeroPageInstruction {
 
     @Override
     public String disassembler() {
-        return "LDX $"+Integer.toHexString(getOperand()).toUpperCase();
+        return "LDX $"+ JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override
     public short cycles() {
         return 3;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }
