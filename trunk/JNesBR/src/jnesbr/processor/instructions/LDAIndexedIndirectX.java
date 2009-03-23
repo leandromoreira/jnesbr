@@ -17,12 +17,13 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.IndexedIndirectInstruction;
+import jnesbr.processor.instructions.types.IndirectXInstruction;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class LDAIndexedIndirectX extends IndexedIndirectInstruction {
+public class LDAIndexedIndirectX extends IndirectXInstruction {
     public LDAIndexedIndirectX(Cpu2A03 cpu){
         super(cpu);
     }
@@ -37,11 +38,16 @@ public class LDAIndexedIndirectX extends IndexedIndirectInstruction {
 
     @Override
     public String disassembler() {
-        return "LDA ($"+Integer.toHexString(getOperandAddress()).toUpperCase()+",X)";
+        return "LDA ($"+ JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+",X)";
     }
 
     @Override
     public short cycles() {
         return 6;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }

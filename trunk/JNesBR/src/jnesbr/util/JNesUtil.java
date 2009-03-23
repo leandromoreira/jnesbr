@@ -22,55 +22,84 @@ import java.nio.ByteBuffer;
  * @author dreampeppers99
  */
 public class JNesUtil {
-    public static short get8FirstBits(int value){
+
+    public static short get8FirstBits(int value) {
         return (short) (value & 0xFF);
     }
-    public static short get8SecondBits(int value){
+
+    public static short get8SecondBits(int value) {
         return (short) (value >> 8);
     }
-    public static int get16BitLittleEndian(short byte1,short byte2){
+
+    public static int get16BitLittleEndian(short byte1, short byte2) {
         return ((byte2 << 8) | byte1);
     }
-    public static short readNextUnsignedByteFrom(ByteBuffer readbuffer){
+
+    public static short readNextUnsignedByteFrom(ByteBuffer readbuffer) {
         return (short) (readbuffer.get() & 0xff);
     }
-    public static short readUnsignedByte(byte value){
+
+    public static short readUnsignedByte(byte value) {
         return (short) (value & 0xff);
     }
-    public static short giveMeBit0From(short value){
-        return (short) (value & 0x1);
-    }
-    public static short giveMeBit1From(short value){
-        return (short) ((value >> 1) & 0x1);
-    }
-    public static short giveMeBit2From(short value){
-        return (short) ((value >> 2) & 0x1);
-    }
-    public static short giveMeBit3From(short value){
-        return (short) ((value >> 3) & 0x1);
-    }
-    public static short giveMeBit4From(short value){
-        return (short) ((value >> 4) & 0x1);
-    }
-    public static short giveMeBit5From(short value){
-        return (short) ((value >> 5) & 0x1);
-    }
-    public static short giveMeBit6From(short value){
-        return (short) ((value >> 6) & 0x1);
-    }
-    public static short giveMeBit7From(short value){
-        return (short) ((value >> 7) & 0x1);
+
+    public static byte giveMeBit0From(short value) {
+        return (byte) (value & 0x1);
     }
 
-    public static String fillIfNeedsWith(int times,String word,String value){
-        times = times - value.length()+1;
-        for(int i = 1 ; i < times ; i++){
+    public static byte giveMeBit1From(short value) {
+        return (byte) ((value >> 1) & 0x1);
+    }
+
+    public static byte giveMeBit2From(short value) {
+        return (byte) ((value >> 2) & 0x1);
+    }
+
+    public static byte giveMeBit3From(short value) {
+        return (byte) ((value >> 3) & 0x1);
+    }
+
+    public static byte giveMeBit4From(short value) {
+        return (byte) ((value >> 4) & 0x1);
+    }
+
+    public static byte giveMeBit5From(short value) {
+        return (byte) ((value >> 5) & 0x1);
+    }
+
+    public static byte giveMeBit6From(short value) {
+        return (byte) ((value >> 6) & 0x1);
+    }
+
+    public static byte giveMeBit7From(short value) {
+        return (byte) ((value >> 7) & 0x1);
+    }
+
+    public static String fillIfNeedsWith(int times, String word, String value) {
+        times = times - value.length() + 1;
+        for (int i = 1; i < times; i++) {
             value = word + value;
         }
         return value;
     }
 
-    public static String giveMeHexaStringFormattedWith4Space(int value){
-        return fillIfNeedsWith(4, "0",Integer.toHexString(value).toUpperCase());
+    public static String giveMeHexaStringFormattedWith4Space(int value) {
+        return fillIfNeedsWith(4, "0", Integer.toHexString(value).toUpperCase());
+    }
+
+    public static String giveMeHexaStringFormattedWith2Space(int value) {
+        return fillIfNeedsWith(2, "0", Integer.toHexString(value).toUpperCase());
+    }
+
+    public static short rotateLeft(short operand) {
+        int carry = ((operand >> 7) & 0x1);
+        int result = (operand << 1) & 0xFF;
+        return (short) (result | carry);
+    }
+
+    public static short rotateRight(short operand) {
+        int carry = (operand & 0x1);
+        int result = (operand >> 1) & 0xFF;
+        return (short) (result | (carry << 7));
     }
 }

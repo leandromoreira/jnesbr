@@ -16,13 +16,17 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.test;
 
+import jnesbr.util.JNesUtil;
+
 /**
  * @author dreampeppers99
  */
 public class Test {
 
     public static void main(String[] args) {
-        int value = 0xff;
-        System.out.println(value & 0x40);
+        int value = 0x80;
+        System.out.println(Integer.toBinaryString(value));
+        System.out.println(Integer.toBinaryString(JNesUtil.rotateLeft((short) value)));
+        System.out.println(Integer.toBinaryString(JNesUtil.rotateRight((short) value)));
     }
 }

@@ -30,9 +30,9 @@ public class LDXImmediate extends ImmediateInstruction {
 
     @Override
     public void interpret() {
-        cpu.setupFlagSign(getOperand());
-        cpu.setupFlagZero(getOperand());
         cpu.registerX = getOperand();
+        cpu.setupFlagSign(cpu.registerX);
+        cpu.setupFlagZero(cpu.registerX);
         cpu.programCounter += 2;
     }
 
@@ -43,6 +43,11 @@ public class LDXImmediate extends ImmediateInstruction {
 
     @Override
     public short cycles() {
+        return 2;
+    }
+
+    @Override
+    public short size() {
         return 2;
     }
 }

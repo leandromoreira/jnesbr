@@ -17,44 +17,38 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.AbsoluteIndexedInstruction;
+import jnesbr.processor.instructions.types.IndexedZeroPageInstruction;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class LDXAbsoluteY extends AbsoluteIndexedInstruction {
-
-    private short cycles = 0;
-
-    public LDXAbsoluteY(Cpu2A03 cpu) {
+public class LDXZeroPageY extends IndexedZeroPageInstruction{
+    public LDXZeroPageY(Cpu2A03 cpu){
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cycles = 4;
-        if (((getOperandAddress() + cpu.registerY) & 0xFF00) != (getOperandAddress() & 0xFF00)) {
-            cycles++;
-        }
         cpu.registerX = getOperand(cpu.registerY);
         cpu.setupFlagSign(cpu.registerX);
         cpu.setupFlagZero(cpu.registerX);
-        cpu.programCounter += 3;
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "LDX $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+", Y";
-    }
-
-    @Override
-    public short cycles() {
-        return cycles;
+        return "LDX $"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+",Y";
     }
 
     @Override
     public short size() {
-        return 3;
+        return 2;
     }
+
+    @Override
+    public short cycles() {
+        return 4;
+    }
+
 }

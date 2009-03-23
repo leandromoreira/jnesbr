@@ -35,7 +35,7 @@ public abstract class AbsoluteIndexedInstruction extends AbsoluteInstruction {
 
     @Override
     public short getOperand() {
-        return -1;
+        throw new UnsupportedOperationException("It's indexed.");
     }
 
     @Override
