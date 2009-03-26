@@ -17,15 +17,15 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.AbsoluteInstruction;
+import jnesbr.processor.instructions.types.ZeroPageInstruction;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class LDYAbsolute extends AbsoluteInstruction {
+public class LDYZeroPage extends ZeroPageInstruction {
 
-    public LDYAbsolute(Cpu2A03 cpu) {
+    public LDYZeroPage(Cpu2A03 cpu){
         super(cpu);
     }
 
@@ -34,21 +34,22 @@ public class LDYAbsolute extends AbsoluteInstruction {
         cpu.registerY = getOperand();
         cpu.setupFlagSign(cpu.registerY);
         cpu.setupFlagZero(cpu.registerY);
-        cpu.programCounter += 3;
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "LDY $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
-    }
-
-    @Override
-    public short cycles() {
-        return 4;
+        return "LDY $" + JNesUtil.giveMeHexaStringFormattedWith2Space(getOperandAddress());
     }
 
     @Override
     public short size() {
+        return 2;
+    }
+
+    @Override
+    public short cycles() {
         return 3;
     }
+
 }
