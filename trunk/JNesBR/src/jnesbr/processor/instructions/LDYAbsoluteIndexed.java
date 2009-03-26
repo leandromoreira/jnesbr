@@ -17,21 +17,27 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.AbsoluteInstruction;
+import jnesbr.processor.instructions.types.AbsoluteIndexedInstruction;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class LDYAbsolute extends AbsoluteInstruction {
+public class LDYAbsoluteIndexed extends AbsoluteIndexedInstruction {
 
-    public LDYAbsolute(Cpu2A03 cpu) {
+    private byte cycles;
+
+    public LDYAbsoluteIndexed(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.registerY = getOperand();
+        cycles = 4;
+        if (((getOperandAddress() & 0xFF) + cpu.registerX) > 0xFF) {
+            cycles++;
+        }
+        cpu.registerY = getOperand(cpu.registerX);
         cpu.setupFlagSign(cpu.registerY);
         cpu.setupFlagZero(cpu.registerY);
         cpu.programCounter += 3;
@@ -39,16 +45,16 @@ public class LDYAbsolute extends AbsoluteInstruction {
 
     @Override
     public String disassembler() {
-        return "LDY $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
-    }
-
-    @Override
-    public short cycles() {
-        return 4;
+        return "LDY $" + JNesUtil.giveMeHexaStringFormattedWith4Space(getOperandAddress()) + ", X";
     }
 
     @Override
     public short size() {
         return 3;
+    }
+
+    @Override
+    public short cycles() {
+        return cycles;
     }
 }

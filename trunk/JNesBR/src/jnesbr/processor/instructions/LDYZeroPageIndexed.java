@@ -17,38 +17,38 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.AbsoluteInstruction;
+import jnesbr.processor.instructions.types.IndexedZeroPageInstruction;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class LDYAbsolute extends AbsoluteInstruction {
+public class LDYZeroPageIndexed extends IndexedZeroPageInstruction {
 
-    public LDYAbsolute(Cpu2A03 cpu) {
+    public LDYZeroPageIndexed(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.registerY = getOperand();
+        cpu.registerY = getOperand(cpu.registerX);
         cpu.setupFlagSign(cpu.registerY);
         cpu.setupFlagZero(cpu.registerY);
-        cpu.programCounter += 3;
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "LDY $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
+        return "LDY $"+JNesUtil.giveMeHexaStringFormattedWith2Space(getOperandAddress())+", X";
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 
     @Override
     public short cycles() {
         return 4;
-    }
-
-    @Override
-    public short size() {
-        return 3;
     }
 }

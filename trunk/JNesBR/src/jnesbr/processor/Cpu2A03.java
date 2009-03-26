@@ -130,10 +130,13 @@ public class Cpu2A03 {
         instructions.put(0xB6, new LDXZeroPageY(this));
         instructions.put(0xAE, new LDXAbsolute(this));
         instructions.put(0xBE, new LDXAbsoluteY(this));
-
-
-        
         instructions.put(0xA0, new LDYImmediate(this));
+        instructions.put(0xA4, new LDYZeroPage(this));
+        instructions.put(0xB4, new LDYZeroPageIndexed(this));
+        instructions.put(0xAC, new LDYAbsolute(this));
+        instructions.put(0xBC, new LDYAbsoluteIndexed(this)); //this check page change
+        //Store Register in Memory.
+        
 
 
 
@@ -190,7 +193,7 @@ public class Cpu2A03 {
         instructions.put(0xDE, new DECAbsoluteX(this));
         instructions.put(0x8C, new STYAbsolute(this));
         instructions.put(0x40, new RTIImplied(this));
-        instructions.put(0xAC, new LDYAbsolute(this));
+        
         instructions.put(0x9D, new STAAbsoluteX(this));
         instructions.put(0x4A, new LSRAccumulator(this));
         instructions.put(0xCE, new DECAbsolute(this));
