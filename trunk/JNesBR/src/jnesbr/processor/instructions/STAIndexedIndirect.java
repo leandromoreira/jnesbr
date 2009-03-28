@@ -50,4 +50,9 @@ public class STAIndexedIndirect extends IndirectXInstruction {
     public short cycles() {
         return 6;
     }
+
+    @Override
+    public short size() {
+        return 2;
+    }
 }

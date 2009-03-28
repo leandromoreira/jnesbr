@@ -16,6 +16,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions.types;
 
+import jnesbr.gui.debugger.DisassemblerUtil;
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
@@ -23,6 +24,8 @@ import jnesbr.util.JNesUtil;
 /**
  * @author dreampeppers99
  */
+
+//TODO: CHECK ALL THE POSIBLE WAYS TO RUN IO MAPPED DEVICES...
 public abstract class AbsoluteInstruction extends GeneralInstruction {
 
     public AbsoluteInstruction(Cpu2A03 cpu) {
@@ -37,5 +40,9 @@ public abstract class AbsoluteInstruction extends GeneralInstruction {
     @Override
     public short getOperand() {
         return Memory.getMemory().read(getOperandAddress());
+    }
+
+    public String complement(){
+        return DisassemblerUtil.giveMeComplementIfNeeds(getOperandAddress());
     }
 }

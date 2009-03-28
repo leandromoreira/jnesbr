@@ -37,11 +37,16 @@ public class STXAbsolute extends AbsoluteInstruction {
 
     @Override
     public String disassembler() {
-        return "STX $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
+        return "STX $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+complement();
     }
 
     @Override
     public short cycles() {
         return 4;
+    }
+
+    @Override
+    public short size() {
+        return 3;
     }
 }

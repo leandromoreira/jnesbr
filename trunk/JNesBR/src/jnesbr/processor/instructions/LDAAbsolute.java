@@ -38,7 +38,7 @@ public class LDAAbsolute extends AbsoluteInstruction{
 
     @Override
     public String disassembler() {
-        return "LDA $"+ JNesUtil.fillIfNeedsWith(4, "0",Integer.toHexString(getOperandAddress()).toUpperCase());
+        return "LDA $"+ JNesUtil.fillIfNeedsWith(4, "0",Integer.toHexString(getOperandAddress()).toUpperCase())+complement();
     }
 
     @Override

@@ -44,4 +44,19 @@ public class PLAImplied extends GeneralInstruction{
     public short cycles() {
         return 4;
     }
+
+    @Override
+    public short size() {
+        return 1;
+    }
+
+    @Override
+    public short getOperand() {
+        throw new UnsupportedOperationException("Not necessary.");
+    }
+
+    @Override
+    public int getOperandAddress() {
+        throw new UnsupportedOperationException("Not necessary.");
+    }
 }

@@ -38,11 +38,16 @@ public class STYAbsolute extends AbsoluteInstruction {
 
     @Override
     public String disassembler() {
-        return "STY $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
+        return "STY $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+complement();
     }
 
     @Override
     public short cycles() {
         return 4;
+    }
+
+    @Override
+    public short size() {
+        return 3;
     }
 }
