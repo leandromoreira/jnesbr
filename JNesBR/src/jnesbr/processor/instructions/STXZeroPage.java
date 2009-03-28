@@ -31,7 +31,7 @@ public class STXZeroPage extends ZeroPageInstruction{
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getOperand(),cpu.registerX);
+        Memory.getMemory().write(getOperandAddress(),cpu.registerX);
         cpu.programCounter += 2;
     }
 
@@ -43,5 +43,10 @@ public class STXZeroPage extends ZeroPageInstruction{
     @Override
     public short cycles() {
         return 3;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }

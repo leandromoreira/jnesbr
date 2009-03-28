@@ -31,17 +31,22 @@ public class STYZeroPage extends ZeroPageInstruction{
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getOperand(), cpu.registerY);
+        Memory.getMemory().write(getOperandAddress(), cpu.registerY);
         cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "STY $" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
+        return "STY $" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override
     public short cycles() {
         return 3;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }

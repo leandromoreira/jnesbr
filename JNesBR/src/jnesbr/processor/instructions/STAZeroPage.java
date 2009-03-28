@@ -44,4 +44,9 @@ public class STAZeroPage extends ZeroPageInstruction {
     public short cycles() {
         return 3;
     }
+
+    @Override
+    public short size() {
+        return 2;
+    }
 }

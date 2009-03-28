@@ -32,17 +32,22 @@ public class STAZeroPageIndexedX extends IndexedZeroPageInstruction {
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getOperandAddress()+cpu.registerX, cpu.accumulator);
+        Memory.getMemory().write(getOperand(cpu.registerX), cpu.accumulator);
         cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "STA $"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+",X";
+        return "STA $"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+", X";
     }
 
     @Override
     public short cycles() {
-        return 5;
+        return 4;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }

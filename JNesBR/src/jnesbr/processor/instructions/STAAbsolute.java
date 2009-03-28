@@ -37,11 +37,16 @@ public class STAAbsolute extends AbsoluteInstruction{
 
     @Override
     public String disassembler() {
-        return "STA $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
+        return "STA $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+complement();
     }
 
     @Override
     public short cycles() {
         return 4;
+    }
+
+    @Override
+    public short size() {
+        return 3;
     }
 }

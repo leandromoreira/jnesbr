@@ -22,6 +22,8 @@ import jnesbr.processor.memory.Memory;
 /**
  * @author dreampeppers99
  */
+
+//TODO: SAME WORK AT ZERO PAGE INSTRUCTION
 public abstract class IndexedZeroPageInstruction extends GeneralInstruction {
 
     public IndexedZeroPageInstruction(Cpu2A03 cpu) {

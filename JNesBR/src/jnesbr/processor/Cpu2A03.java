@@ -136,19 +136,38 @@ public class Cpu2A03 {
         instructions.put(0xAC, new LDYAbsolute(this));
         instructions.put(0xBC, new LDYAbsoluteIndexed(this)); //this check page change
         //Store Register in Memory.
+        instructions.put(0x85, new STAZeroPage(this));
+        instructions.put(0x95, new STAZeroPageIndexedX(this));
+        instructions.put(0x8D, new STAAbsolute(this));
+        instructions.put(0x9D, new STAAbsoluteX(this));
+        instructions.put(0x99, new STAAbsoluteY(this));
+        instructions.put(0x81, new STAIndexedIndirect(this)); //observe this and try to replicate
+        instructions.put(0x91, new STAIndirectIndexedY(this));//observe this and try to replicate
+        instructions.put(0x86, new STXZeroPage(this));
+        instructions.put(0x96, new STXZeroPageY(this));
+        instructions.put(0x8E, new STXAbsolute(this));
+        instructions.put(0x84, new STYZeroPage(this));
+        instructions.put(0x94, new STYZeroPageX(this));
+        instructions.put(0x8C, new STYAbsolute(this));
+        //Push/Pull.
+        instructions.put(0x48, new PHAImplied(this));
+        instructions.put(0x08, new PHPImplied(this));
+        instructions.put(0x68, new PLAImplied(this));
+        instructions.put(0x28, new PLPImplied(this));
+        //Add memory to accumulator with carry.
+
+
+
+
+
+
+
+
         
 
-
-
-
-
         instructions.put(0xD8, new CLDImplied(this));
-
         instructions.put(0x78, new SEIImplied(this));
-        instructions.put(0x8D, new STAAbsolute(this));
-
         instructions.put(0x29, new AndImmediate(this));
-
         //Load Register from Memory
 
         //Conditional Branch Instructions
@@ -165,22 +184,22 @@ public class Cpu2A03 {
         instructions.put(0xC9, new CMPImmediate(this));
         instructions.put(0xCA, new DEXImplied(this));
         instructions.put(0x20, new JSRAbsolute(this));
-        instructions.put(0x85, new STAZeroPage(this));
-        instructions.put(0x86, new STXZeroPage(this));
+        
+        
         instructions.put(0xE0, new CPXImmediate(this));
-        instructions.put(0x91, new STAIndirectIndexedY(this));
+        
         instructions.put(0x88, new DEYImplied(this));
         instructions.put(0xC0, new CPYImmediate(this));
 
-        instructions.put(0x8E, new STXAbsolute(this));
-        instructions.put(0x84, new STYZeroPage(this));
+        
+        
         instructions.put(0xC6, new DECZeroPage(this));
         instructions.put(0xE8, new INXImplied(this));
         instructions.put(0x60, new RTSImplied(this));
         instructions.put(0xCC, new CPYAbsolute(this));
         instructions.put(0x11, new ORAIndirectIndexedY(this));
         instructions.put(0x2C, new BITAbsolute(this));
-        instructions.put(0x99, new STAAbsoluteY(this));
+        
         instructions.put(0xC8, new INYImplied(this));
         instructions.put(0x09, new ORAImmediate(this));
 
@@ -189,31 +208,31 @@ public class Cpu2A03 {
         instructions.put(0x01, new ORAIndirectIndexedX(this));
         instructions.put(0xEC, new CPXAbsolute(this));
         instructions.put(0x41, new EORIndexedIndirect(this));
-        instructions.put(0x68, new PLAImplied(this));
+        
         instructions.put(0xDE, new DECAbsoluteX(this));
-        instructions.put(0x8C, new STYAbsolute(this));
+        
         instructions.put(0x40, new RTIImplied(this));
         
-        instructions.put(0x9D, new STAAbsoluteX(this));
+        
         instructions.put(0x4A, new LSRAccumulator(this));
         instructions.put(0xCE, new DECAbsolute(this));
         instructions.put(0xE6, new INCZeroPage(this));
         instructions.put(0x45, new EORZeroPage(this));
         instructions.put(0x18, new CLCImplied(this));
         instructions.put(0x7E, new RORAbsoluteX(this));
-        instructions.put(0x48, new PHAImplied(this));
+        
         instructions.put(0xC5, new CMPZeroPage(this));
         instructions.put(0x69, new ADCImmediate(this));
         instructions.put(0x31, new ANDIndirectIndexed(this));
         instructions.put(0x49, new EORImmediate(this));
         instructions.put(0x0A, new ASLAccumulator(this));
         instructions.put(0x00, new BRKImplied(this));
-        instructions.put(0x81, new STAIndexedIndirect(this));
+        
         instructions.put(0x05, new ORAZeroPage(this));
-        instructions.put(0x95, new STAZeroPageIndexedX(this));
+        
 
 
-        instructions.put(0x28, new PLPImplied(this));
+        
         instructions.put(0x38, new SECImplied(this));
         instructions.put(0x61, new ADCIndexedIndirect(this));
         instructions.put(0xE9, new SBCImmediate(this));

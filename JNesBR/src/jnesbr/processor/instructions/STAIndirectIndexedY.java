@@ -24,24 +24,34 @@ import jnesbr.util.JNesUtil;
 /**
  * @author dreampeppers99
  */
-public class STAIndirectIndexedY extends IndirectIndexedInstruction{
-    public STAIndirectIndexedY(Cpu2A03 cpu){
+public class STAIndirectIndexedY extends IndirectIndexedInstruction {
+
+    public STAIndirectIndexedY(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getOperandAddress(), cpu.accumulator);
+        int bb = Memory.getMemory().read(cpu.programCounter + 1);
+        short xx = Memory.getMemory().read((bb));
+        short yy = Memory.getMemory().read((bb + 1));
+        short op = (short) (JNesUtil.get16BitLittleEndian(xx, yy));
+        Memory.getMemory().write(op + cpu.registerY, cpu.accumulator);
         cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "STA ($"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().read(cpu.programCounter+1)).toUpperCase())+"),Y";
+        return "STA ($" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(Memory.getMemory().read(cpu.programCounter + 1)).toUpperCase()) + "),Y";
     }
 
     @Override
     public short cycles() {
         return 6;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }

@@ -17,37 +17,45 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.AbsoluteIndexedInstruction;
-import jnesbr.processor.memory.Memory;
-import jnesbr.util.JNesUtil;
+import jnesbr.processor.instructions.types.GeneralInstruction;
 
 /**
  * @author dreampeppers99
  */
-public class STAAbsoluteY extends AbsoluteIndexedInstruction {
+public class PHPImplied extends GeneralInstruction {
 
-    public STAAbsoluteY(Cpu2A03 cpu) {
+    public PHPImplied(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getOperand(cpu.registerY), cpu.accumulator);
-        cpu.programCounter += 3;
+        cpu.push(cpu.processorStatus());
+        cpu.programCounter++;
     }
 
     @Override
     public String disassembler() {
-        return "STA $" + JNesUtil.fillIfNeedsWith(4,"0", Integer.toHexString(getOperandAddress()).toUpperCase()) + ", Y";
+        return "PHP";
     }
 
     @Override
     public short cycles() {
-        return 5;
+        return 3;
     }
 
     @Override
     public short size() {
-        return 3;
+        return 1;
+    }
+
+    @Override
+    public short getOperand() {
+        throw new UnsupportedOperationException("Not necessary.");
+    }
+
+    @Override
+    public int getOperandAddress() {
+        throw new UnsupportedOperationException("Not necessary.");
     }
 }

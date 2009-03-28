@@ -22,6 +22,8 @@ import jnesbr.processor.memory.Memory;
 /**
  * @author dreampeppers99
  */
+
+//TODO : VERIFY ALL OPCODE TO SEE HOW THEY ARE GETTING THE OPERAND... (ADDRESS IS THE MAN HERE)
 public abstract class ZeroPageInstruction extends GeneralInstruction {
 
     public ZeroPageInstruction(Cpu2A03 cpu) {

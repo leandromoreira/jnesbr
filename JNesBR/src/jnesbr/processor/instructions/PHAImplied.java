@@ -43,4 +43,19 @@ public class PHAImplied extends GeneralInstruction {
     public short cycles() {
         return 3;
     }
+
+    @Override
+    public short size() {
+        return 1;
+    }
+
+    @Override
+    public short getOperand() {
+        throw new UnsupportedOperationException("Not necessary.");
+    }
+
+    @Override
+    public int getOperandAddress() {
+        throw new UnsupportedOperationException("Not necessary.");
+    }
 }
