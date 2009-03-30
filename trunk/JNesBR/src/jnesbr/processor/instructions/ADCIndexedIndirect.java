@@ -31,11 +31,13 @@ public class ADCIndexedIndirect extends IndirectXInstruction {
 
     @Override
     public void interpret() {
-        //nzc--v  6   ADC (nn,X)  Add (Indirect,X)        A=A+C+[[nn+X]]
-        cpu.accumulator += (cpu.accumulator+cpu.flagCarry+getOperand()) & 0xFF;
-        cpu.setupFlagSign(cpu.accumulator);
-        cpu.setupFlagZero(cpu.accumulator);
-        //todo : check overflow and carry flag... see what i do on adc immediate
+        int result = cpu.accumulator + getOperand() + cpu.flagCarry;
+        cpu.flagCarry = (byte) ((result > 0xFF) ? 1 : 0);
+        cpu.flagOverflow = JNesUtil.overflowInAddition(result);
+        result &= 0xFF;
+        cpu.setupFlagSign((short) result);
+        cpu.setupFlagZero((short) result);
+        cpu.accumulator = (short) result;
         cpu.programCounter += 2;
     }
 
@@ -47,5 +49,10 @@ public class ADCIndexedIndirect extends IndirectXInstruction {
     @Override
     public short cycles() {
         return 6;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }

@@ -48,64 +48,64 @@ public class DisassemblerUtil {
             returnValue = "; Ppu R/W Data";
         }
         if (value == 0x4000) {
-            returnValue = "; APU Channel 1 (Rec) Volume/Decay";
+            returnValue = "; APU Ch. 1 (Rec) Vol/Decay";
         }
         if (value == 0x4001) {
-            returnValue = "; APU Channel 1 (Rec) Sweep";
+            returnValue = "; APU Ch. 1 (Rec) Sweep";
         }
         if (value == 0x4002) {
-            returnValue = "; APU Channel 1 (Rec) Frequency";
+            returnValue = "; APU Ch. 1 (Rec) Frequency";
         }
         if (value == 0x4003) {
-            returnValue = "; APU Channel 1 (Rec) Length";
+            returnValue = "; APU Ch. 1 (Rec) Length";
         }
         if (value == 0x4004) {
-            returnValue = "; APU Channel 2 (Rec) Volume/Decay";
+            returnValue = "; APU Ch. 2 (Rec) Vol/Decay";
         }
         if (value == 0x4005) {
-            returnValue = "; APU Channel 2 (Rec) Sweep";
+            returnValue = "; APU Ch. 2 (Rec) Sweep";
         }
         if (value == 0x4006) {
-            returnValue = "; APU Channel 2 (Rec) Frequency";
+            returnValue = "; APU Ch. 2 (Rec) Frequency";
         }
         if (value == 0x4007) {
-            returnValue = "; APU Channel 2 (Rec) Length";
+            returnValue = "; APU Ch. 2 (Rec) Length";
         }
         if (value == 0x4008) {
-            returnValue = "; APU Channel 3 (Tri) Linear Count.";
+            returnValue = "; APU Ch. 3 (Tri) Linear Count.";
         }
         if (value == 0x4009) {
-            returnValue = "; APU Channel 3 (Tri) N/A";
+            returnValue = "; APU Ch. 3 (Tri) N/A";
         }
         if (value == 0x400A) {
             returnValue = "; APU Channel 3 (Tri) Frequency";
         }
         if (value == 0x400B) {
-            returnValue = "; APU Channel 3 (Tri) Length";
+            returnValue = "; APU Ch. 3 (Tri) Length";
         }
         if (value == 0x400C) {
-            returnValue = "; APU Channel 4 (Noise) Volume/Decay";
+            returnValue = "; APU Ch. 4 (Noise) Volume/Decay";
         }
         if (value == 0x400D) {
-            returnValue = "; APU Channel 4 (Noise) N/A";
+            returnValue = "; APU Ch. 4 (Noise) N/A";
         }
         if (value == 0x400E) {
-            returnValue = "; APU Channel 4 (Noise) Frequency";
+            returnValue = "; APU Ch. 4 (Noise) Frequency";
         }
         if (value == 0x400F) {
-            returnValue = "; APU Channel 4 (Noise) Length";
+            returnValue = "; APU Ch. 4 (Noise) Length";
         }
         if (value == 0x4010) {
-            returnValue = "; APU Channel 5 (DMC) Play DMA freq.";
+            returnValue = "; APU Ch. 5 (DMC) Play DMA freq.";
         }
         if (value == 0x4011) {
-            returnValue = "; APU Channel 5 (DMC) Delta";
+            returnValue = "; APU Ch. 5 (DMC) Delta";
         }
         if (value == 0x4012) {
-            returnValue = "; APU Channel 5 (DMC) Address";
+            returnValue = "; APU Ch. 5 (DMC) Address";
         }
         if (value == 0x4013) {
-            returnValue = "; APU Channel 5 (DMC) Length";
+            returnValue = "; APU Ch. 5 (DMC) Length";
         }
         if (value == 0x4014) {
             returnValue = "; SPR-RAM DMA";

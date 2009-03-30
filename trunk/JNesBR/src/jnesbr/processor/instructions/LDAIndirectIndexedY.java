@@ -38,7 +38,7 @@ public class LDAIndirectIndexedY extends IndirectIndexedInstruction {
         if (pageChanged()) {
             cycles++;
         }
-        cpu.accumulator = Memory.getMemory().read(getOperandAddress());
+        cpu.accumulator = getOperand();
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter += 2;
@@ -46,7 +46,7 @@ public class LDAIndirectIndexedY extends IndirectIndexedInstruction {
 
     @Override
     public String disassembler() {
-        return "LDA ($" + Integer.toHexString(Memory.getMemory().read(cpu.programCounter + 1)).toUpperCase() + "),Y";
+        return "LDA ($" + JNesUtil.giveMeHexaStringFormattedWith2Space(getOperandAddress()) + "),Y";
     }
 
     @Override
@@ -57,13 +57,5 @@ public class LDAIndirectIndexedY extends IndirectIndexedInstruction {
     @Override
     public short size() {
         return 2;
-    }
-
-    private boolean pageChanged() {
-        int bb = Memory.getMemory().read(cpu.programCounter + 1);
-        short xx = Memory.getMemory().read((bb));
-        short yy = Memory.getMemory().read((bb + 1));
-        short op = (short) (JNesUtil.get16BitLittleEndian(xx, yy));
-        return (((op & 0xFF) + cpu.registerY) > 0xFF);
     }
 }

@@ -16,48 +16,49 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions;
 
-import jnesbr.processor.instructions.types.GeneralInstruction;
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.instructions.types.AbsoluteIndexedInstruction;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class StillNotImplemented extends GeneralInstruction {
-    private int opCode;
+public class ADCAbsoluteIndexedX extends AbsoluteIndexedInstruction {
 
-    public StillNotImplemented(Cpu2A03 cpu,int opCode ) {
+    private short cycles;
+
+    public ADCAbsoluteIndexedX(Cpu2A03 cpu) {
         super(cpu);
-        this.opCode = opCode;
     }
 
     @Override
     public void interpret() {
-        cpu.programCounter++;
+        cycles = 4;
+        if (((getOperandAddress() & 0xFF) + cpu.registerX) > 0xFF) {
+            cycles++;
+        }
+        int result = cpu.accumulator + getOperand(cpu.registerX) + cpu.flagCarry;
+        cpu.flagCarry = (byte) ((result > 0xFF) ? 1 : 0);
+        cpu.flagOverflow = JNesUtil.overflowInAddition(result);
+        result &= 0xFF;
+        cpu.setupFlagSign((short) result);
+        cpu.setupFlagZero((short) result);
+        cpu.accumulator = (short) result;
+        cpu.programCounter += 3;
     }
 
     @Override
     public String disassembler() {
-        return "not implemented [0x" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(opCode).toUpperCase()) + "]" ;
-    }
-
-    @Override
-    public short cycles() {
-        return 0;
+        return "ADC $" + JNesUtil.giveMeHexaStringFormattedWith4Space(getOperandAddress()) + ", X";
     }
 
     @Override
     public short size() {
-        return 1;
+        return 3;
     }
 
     @Override
-    public short getOperand() {
-        throw new UnsupportedOperationException("Not supported.");
-    }
-
-    @Override
-    public int getOperandAddress() {
-        throw new UnsupportedOperationException("Not supported.");
+    public short cycles() {
+        return cycles;
     }
 }

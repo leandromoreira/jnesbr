@@ -17,23 +17,23 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.ImmediateInstruction;
+import jnesbr.processor.instructions.types.IndirectXInstruction;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class SBCImmediate extends ImmediateInstruction {
+public class SBCIndexedIndirect extends IndirectXInstruction {
 
-    public SBCImmediate(Cpu2A03 cpu) {
+    public SBCIndexedIndirect(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        int result = (cpu.accumulator+cpu.flagCarry-1-getOperand());
-        boolean overflowFlag = (((cpu.accumulator^result) & 0x80) != 0) &&
-                               (((cpu.accumulator^getOperand()) & 0x80) != 0);
+        int result = (cpu.accumulator + cpu.flagCarry - 1 - getOperand());
+        boolean overflowFlag = (((cpu.accumulator ^ result) & 0x80) != 0) &&
+                (((cpu.accumulator ^ getOperand()) & 0x80) != 0);
         cpu.flagOverflow = (byte) ((overflowFlag) ? 1 : 0);
         //C is set if the unsigned result was >= 0, and is cleared if the unsigned result was < 0.
         //from Disch (forum.nesdev.org)
@@ -46,16 +46,17 @@ public class SBCImmediate extends ImmediateInstruction {
 
     @Override
     public String disassembler() {
-        return "SBC #$"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
-    }
-
-    @Override
-    public short cycles() {
-        return 2;
+        return "SBC ($"+JNesUtil.giveMeHexaStringFormattedWith2Space(getOperandAddress())+", X)";
     }
 
     @Override
     public short size() {
         return 2;
     }
+
+    @Override
+    public short cycles() {
+        return 6;
+    }
+
 }
