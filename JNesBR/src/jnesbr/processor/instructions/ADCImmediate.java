@@ -18,7 +18,7 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.ImmediateInstruction;
-import jnesbr.util.JNesUtil;
+import static jnesbr.util.JNesUtil.*;
 
 /**
  * @author dreampeppers99
@@ -31,15 +31,9 @@ public class ADCImmediate extends ImmediateInstruction {
 
     @Override
     public void interpret() {
-        int value = getOperand();
-        int result = cpu.accumulator + value + cpu.flagCarry;
+        int result = cpu.accumulator + getOperand() + cpu.flagCarry;
         cpu.flagCarry = (byte) ((result > 0xFF) ? 1 : 0);
-        if ((((cpu.accumulator ^ value) & 0x80) == 0) &&
-                (((cpu.accumulator ^ result) & 0x80) != 0)) {
-            cpu.flagOverflow = 1;
-        } else {
-            cpu.flagOverflow = 0;
-        }
+        cpu.flagOverflow = overflowInAddition(result);
         result &= 0xFF;
         cpu.setupFlagSign((short) result);
         cpu.setupFlagZero((short) result);
@@ -49,11 +43,16 @@ public class ADCImmediate extends ImmediateInstruction {
 
     @Override
     public String disassembler() {
-        return "ADC #$" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
+        return "ADC #$" + fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
     }
 
     @Override
     public short cycles() {
+        return 2;
+    }
+
+    @Override
+    public short size() {
         return 2;
     }
 }

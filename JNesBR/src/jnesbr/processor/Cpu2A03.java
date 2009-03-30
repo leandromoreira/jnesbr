@@ -155,19 +155,40 @@ public class Cpu2A03 {
         instructions.put(0x68, new PLAImplied(this));
         instructions.put(0x28, new PLPImplied(this));
         //Add memory to accumulator with carry.
-
-
-
-
-
-
+        instructions.put(0x69, new ADCImmediate(this));
+        instructions.put(0x65, new ADCZeroPage(this));
+        instructions.put(0x75, new ADCZeroPageX(this));
+        instructions.put(0x6D, new ADCAbsolute(this));
+        instructions.put(0x7D, new ADCAbsoluteIndexedX(this)); //this check page change
+        instructions.put(0x79, new ADCAbsoluteIndexedY(this)); //this check page change
+        instructions.put(0x61, new ADCIndexedIndirect(this));
+        instructions.put(0x71, new ADCIndirectIndexed(this));//this check page change
+        //Subtract memory from accumulator with borrow.
+        instructions.put(0xE9, new SBCImmediate(this));
+        instructions.put(0xE5, new SBCZeroPage(this));
+        instructions.put(0xF5, new SBCZeroPageIndexedX(this));
+        instructions.put(0xED, new SBCAbsolute(this));
+        instructions.put(0xFD, new SBCAbsoluteIndexedX(this));//this check page change
+        instructions.put(0xF9, new SBCAbsoluteIndexedY(this));//this check page change
+        instructions.put(0xE1, new SBCIndexedIndirect(this));
+        instructions.put(0xF1, new SBCIndirectIndexed(this));//this check page change
+        //Logical AND memory with accumulator.
+        instructions.put(0x29, new AndImmediate(this));
+        instructions.put(0x25, new ANDZeroPage(this));
+        instructions.put(0x35, new ANDZeroPageX(this));
+        instructions.put(0x2D, new ANDAbsolute(this));
+        instructions.put(0x3D, new ANDAbsoluteIndexedX(this));//this check page change
+        instructions.put(0x39, new ANDAbsoluteIndexedY(this));//this check page change
+        instructions.put(0x21, new ANDIndexedIndirect(this));
+        instructions.put(0x31, new ANDIndirectIndexed(this));//this check page change
+        //Exclusive-OR memory with accumulator.
 
 
         
 
         instructions.put(0xD8, new CLDImplied(this));
         instructions.put(0x78, new SEIImplied(this));
-        instructions.put(0x29, new AndImmediate(this));
+        
         //Load Register from Memory
 
         //Conditional Branch Instructions
@@ -222,8 +243,8 @@ public class Cpu2A03 {
         instructions.put(0x7E, new RORAbsoluteX(this));
         
         instructions.put(0xC5, new CMPZeroPage(this));
-        instructions.put(0x69, new ADCImmediate(this));
-        instructions.put(0x31, new ANDIndirectIndexed(this));
+        
+        
         instructions.put(0x49, new EORImmediate(this));
         instructions.put(0x0A, new ASLAccumulator(this));
         instructions.put(0x00, new BRKImplied(this));
@@ -234,8 +255,8 @@ public class Cpu2A03 {
 
         
         instructions.put(0x38, new SECImplied(this));
-        instructions.put(0x61, new ADCIndexedIndirect(this));
-        instructions.put(0xE9, new SBCImmediate(this));
+        
+        
         instructions.put(0x0D, new ORAAbsolute(this));
         instructions.put(0xF6, new INCZeroPageIndexed(this));
         instructions.put(0xF8, new SEDImplied(this));

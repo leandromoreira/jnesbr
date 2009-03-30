@@ -23,6 +23,7 @@ import jnesbr.util.JNesUtil;
 /**
  * @author dreampeppers99
  */
+//TODO: CHECK ALL SUBCLASSES...
 public abstract class IndirectIndexedInstruction extends GeneralInstruction {
 
     public IndirectIndexedInstruction(Cpu2A03 cpu) {
@@ -41,5 +42,13 @@ public abstract class IndirectIndexedInstruction extends GeneralInstruction {
         short yy = Memory.getMemory().read((bb + 1));
         short op = (short) (JNesUtil.get16BitLittleEndian(xx, yy));
         return Memory.getMemory().read(op + cpu.registerY);
+    }
+
+    protected boolean pageChanged() {
+        int bb = Memory.getMemory().read(cpu.programCounter + 1);
+        short xx = Memory.getMemory().read((bb));
+        short yy = Memory.getMemory().read((bb + 1));
+        short op = (short) (JNesUtil.get16BitLittleEndian(xx, yy));
+        return (((op & 0xFF) + cpu.registerY) > 0xFF);
     }
 }

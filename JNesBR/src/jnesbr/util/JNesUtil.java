@@ -102,4 +102,9 @@ public class JNesUtil {
         int result = (operand >> 1) & 0xFF;
         return (short) (result | (carry << 7));
     }
+    //TODO: CHECK AND TEST THIS.
+    public static byte overflowInAddition(int value){
+        byte result = (byte)(value & 0xFF);
+        return (byte) ((result > 127 || result < -128) ? 1 : 0);
+    }
 }

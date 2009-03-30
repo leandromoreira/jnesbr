@@ -33,8 +33,9 @@ public class ANDIndirectIndexed extends IndirectIndexedInstruction {
 
     @Override
     public void interpret() {
-        cpu.accumulator = (short) ((cpu.accumulator & getOperand()) & 0xFF);
-        if (((cpu.programCounter + getOperandAddress()) & 0xFF00) != (cpu.programCounter & 0xFF00)) {
+        cycles = 5;
+        cpu.accumulator = (short) ((cpu.accumulator & getOperand()));
+        if (pageChanged()) {
             cycles++;
         }
         cpu.setupFlagSign(cpu.accumulator);
@@ -50,5 +51,10 @@ public class ANDIndirectIndexed extends IndirectIndexedInstruction {
     @Override
     public short cycles() {
         return cycles;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }
