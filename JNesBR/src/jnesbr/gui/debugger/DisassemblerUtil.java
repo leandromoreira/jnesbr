@@ -33,10 +33,10 @@ public class DisassemblerUtil {
             returnValue = "; Ppu Status";
         }
         if (value == 0x2003) {
-            returnValue = "; OAM Address";
+            returnValue = "; OAM Address (SPRITE)";
         }
         if (value == 0x2004) {
-            returnValue = "; OAM Data";
+            returnValue = "; OAM Data (SPRITE)";
         }
         if (value == 0x2005) {
             returnValue = "; Ppu Scroll";
