@@ -260,6 +260,51 @@ public class Cpu2A03 {
         instructions.put(0x0D, new ORAAbsolute(this));
         instructions.put(0xF6, new INCZeroPageIndexed(this));
         instructions.put(0xF8, new SEDImplied(this));
+
+        //#######ILLEGAL 6502 OPCODES#############
+
+
+
+        //NUL/NOP and KIL/JAM/HLT
+        instructions.put(0x1A, new NOPImplied(this));
+        instructions.put(0x3A, new NOPImplied(this));
+        instructions.put(0x5A, new NOPImplied(this));
+        instructions.put(0x7A, new NOPImplied(this));
+        instructions.put(0xDA, new NOPImplied(this));
+        instructions.put(0xFA, new NOPImplied(this));
+        instructions.put(0x80, new NOPImmediate(this));
+        instructions.put(0x82, new NOPImmediate(this));
+        instructions.put(0x89, new NOPImmediate(this));
+        instructions.put(0xC2, new NOPImmediate(this));
+        instructions.put(0xE2, new NOPImmediate(this));
+        instructions.put(0x04, new NOPZeroPage(this));
+        instructions.put(0x44, new NOPZeroPage(this));
+        instructions.put(0x64, new NOPZeroPage(this));
+        instructions.put(0x14, new NOPZeroPageIndexedX(this));
+        instructions.put(0x34, new NOPZeroPageIndexedX(this));
+        instructions.put(0x54, new NOPZeroPageIndexedX(this));
+        instructions.put(0x74, new NOPZeroPageIndexedX(this));
+        instructions.put(0xD4, new NOPZeroPageIndexedX(this));
+        instructions.put(0xF4, new NOPZeroPageIndexedX(this));
+        instructions.put(0x0C, new NOPAbsolute(this)); 
+        instructions.put(0x1C, new NOPAbsoluteX(this)); //check page change
+        instructions.put(0x3C, new NOPAbsoluteX(this)); //check page change
+        instructions.put(0x5C, new NOPAbsoluteX(this)); //check page change
+        instructions.put(0x7C, new NOPAbsoluteX(this)); //check page change
+        instructions.put(0xDC, new NOPAbsoluteX(this)); //check page change
+        instructions.put(0xFC, new NOPAbsoluteX(this)); //check page change
+        instructions.put(0x02, new KILImplied(this));
+        instructions.put(0x12, new KILImplied(this));
+        instructions.put(0x22, new KILImplied(this));
+        instructions.put(0x32, new KILImplied(this));
+        instructions.put(0x42, new KILImplied(this));
+        instructions.put(0x52, new KILImplied(this));
+        instructions.put(0x62, new KILImplied(this));
+        instructions.put(0x72, new KILImplied(this));
+        instructions.put(0x92, new KILImplied(this));
+        instructions.put(0xB2, new KILImplied(this));
+        instructions.put(0xD2, new KILImplied(this));
+        instructions.put(0xF2, new KILImplied(this));
     }
 
     public Instruction getInstructionFrom(int opCode) {

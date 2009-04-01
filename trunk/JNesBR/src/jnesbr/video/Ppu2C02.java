@@ -24,6 +24,7 @@ import jnesbr.core.Emulator;
  * @author dreampeppers99
  */
 public class Ppu2C02 {
+
     private short[] spriteMemory = new short[0x100];
     private static Ppu2C02 instance;
     public PPUControll ppuControl = new PPUControll();
@@ -38,9 +39,9 @@ public class Ppu2C02 {
         return instance;
     }
 
-    public void reset(){
-        
+    public void reset() {
     }
+
     private Ppu2C02() {
     }
 
@@ -59,6 +60,22 @@ public class Ppu2C02 {
             }
 
         }
+    }
+
+    public Map<Integer, int[][]> getPatternTable(short[] chrRom) {
+        Map<Integer, int[][]> patternTableFromRom = new HashMap<Integer, int[][]>();
+        short[] chr_rom = Emulator.getInstance().giveMeTablePattern();
+        int addressComplement = 0;
+        for (int index = 0; index < chr_rom.length; addressComplement += 16, index += 16) {
+            int[][] tile = new int[8][8];
+            for (byte row = 0; row < 8; row++) {
+                for (byte collumn = 7; collumn >= 0; collumn--) {
+                    tile[row][collumn] = ((chr_rom[row + addressComplement + 8] >> collumn & 0x1) << 1) | (chr_rom[row + addressComplement] >> collumn & 0x1);
+                }
+            }
+            patternTableFromRom.put(addressComplement / 16, tile);
+        }
+        return patternTableFromRom;
     }
 
     public Map<Integer, int[][]> getPatternTable() {
