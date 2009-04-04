@@ -23,31 +23,32 @@ import jnesbr.util.JNesUtil;
 /**
  * @author dreampeppers99
  */
-public class EORIndexedIndirect extends IndirectXInstruction {
-    public EORIndexedIndirect(Cpu2A03 cpu){
+public class CMPIndirectIndexedX extends IndirectXInstruction {
+
+    public CMPIndirectIndexedX(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.accumulator ^= getOperand();
-        cpu.setupFlagSign(cpu.accumulator);
-        cpu.setupFlagZero(cpu.accumulator);
+        cpu.setupFlagSign((short) (cpu.accumulator - getOperand()));
+        cpu.flagZero = (byte) ((cpu.accumulator == getOperand()) ? 1 : 0);
+        cpu.flagCarry = (byte) ((cpu.accumulator >= getOperand()) ? 1 : 0);
         cpu.programCounter += 2;
     }
 
     @Override
-    public String disassembler(){
-            return "EOR ($"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+", X)";
-    }
-
-    @Override
-    public short cycles() {
-        return 6;
+    public String disassembler() {
+        return "CMP ($" + JNesUtil.giveMeHexaStringFormattedWith2Space(getOperandAddress()) + ", X)";
     }
 
     @Override
     public short size() {
         return 2;
+    }
+
+    @Override
+    public short cycles() {
+        return 6;
     }
 }

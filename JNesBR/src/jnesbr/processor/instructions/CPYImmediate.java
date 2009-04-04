@@ -45,4 +45,9 @@ public CPYImmediate(Cpu2A03 cpu){
     public short cycles() {
         return 2;
     }
+
+    @Override
+    public short size() {
+        return 2;
+    }
 }

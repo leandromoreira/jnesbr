@@ -45,4 +45,9 @@ public class BITAbsolute extends AbsoluteInstruction {
     public short cycles() {
         return 4;
     }
+
+    @Override
+    public short size() {
+        return 3;
+    }
 }

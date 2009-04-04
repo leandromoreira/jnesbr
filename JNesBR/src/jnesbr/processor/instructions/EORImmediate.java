@@ -46,4 +46,9 @@ public class EORImmediate extends ImmediateInstruction{
         return 2;
     }
 
+    @Override
+    public short size() {
+        return 2;
+    }
+
 }
