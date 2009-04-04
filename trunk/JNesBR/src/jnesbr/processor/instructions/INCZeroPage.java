@@ -48,4 +48,9 @@ public class INCZeroPage extends ZeroPageInstruction {
     public short cycles() {
         return 5;
     }
+
+    @Override
+    public short size() {
+        return 2;
+    }
 }

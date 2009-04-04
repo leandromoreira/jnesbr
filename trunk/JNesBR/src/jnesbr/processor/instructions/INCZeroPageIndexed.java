@@ -32,10 +32,10 @@ public class INCZeroPageIndexed extends IndexedZeroPageInstruction {
 
     @Override
     public void interpret() {
-        int result = (getOperand(cpu.registerX) + 1) & 0xFF;
-        cpu.setupFlagSign((short) result);
-        cpu.setupFlagZero((short) result);
-        Memory.getMemory().write(getOperandAddress() + cpu.registerX, (short) result);
+        short result = (short) ((getOperand(cpu.registerX) + 1) & 0xFF);
+        cpu.setupFlagSign(result);
+        cpu.setupFlagZero(result);
+        Memory.getMemory().write(getOperandAddress() + cpu.registerX, result);
         cpu.programCounter += 2;
     }
 
@@ -47,5 +47,10 @@ public class INCZeroPageIndexed extends IndexedZeroPageInstruction {
     @Override
     public short cycles() {
         return 6;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }

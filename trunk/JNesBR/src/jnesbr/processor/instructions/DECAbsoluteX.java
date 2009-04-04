@@ -32,8 +32,8 @@ public class DECAbsoluteX extends AbsoluteIndexedInstruction {
 
     @Override
     public void interpret() {
-        short value = getOperand(cpu.registerX);
-        Memory.getMemory().write(getOperandAddress(), --value);
+        short value = (short) ((getOperand(cpu.registerX)- 1)& 0xFF);
+        Memory.getMemory().write(getOperandAddress()+cpu.registerX, value);
         cpu.setupFlagSign(value);
         cpu.setupFlagZero(value);
         cpu.programCounter += 3;
@@ -47,5 +47,10 @@ public class DECAbsoluteX extends AbsoluteIndexedInstruction {
     @Override
     public short cycles() {
         return 7;
+    }
+
+    @Override
+    public short size() {
+        return 3;
     }
 }

@@ -31,20 +31,25 @@ public class DECZeroPage extends ZeroPageInstruction {
 
     @Override
     public void interpret() {
-        short value = (short) ((Memory.getMemory().read(getOperand()) - 1) & 0xFF);
+        short value = (short) ((getOperand() - 1) & 0xFF);
         cpu.setupFlagSign(value);
         cpu.setupFlagZero(value);
-        Memory.getMemory().write(getOperand(),value);
+        Memory.getMemory().write(getOperandAddress(),value);
         cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "DEC $"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
+        return "DEC $"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override
     public short cycles() {
         return 5;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }

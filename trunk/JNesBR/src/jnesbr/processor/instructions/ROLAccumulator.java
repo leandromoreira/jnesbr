@@ -22,9 +22,9 @@ import jnesbr.processor.instructions.types.GeneralInstruction;
 /**
  * @author dreampeppers99
  */
-public class ASLAccumulator extends GeneralInstruction {
+public class ROLAccumulator extends GeneralInstruction {
 
-    public ASLAccumulator(Cpu2A03 cpu) {
+    public ROLAccumulator(Cpu2A03 cpu) {
         super(cpu);
     }
 
@@ -35,8 +35,11 @@ public class ASLAccumulator extends GeneralInstruction {
         } else {
             cpu.flagCarry = 0;
         }
-        cpu.accumulator = (short) (cpu.accumulator << 1);
+        cpu.accumulator <<= 1;
         cpu.accumulator &= 0xFF;
+        if (cpu.flagCarry == 1) {
+            cpu.accumulator |= 1;
+        }
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
         cpu.programCounter++;
@@ -44,17 +47,17 @@ public class ASLAccumulator extends GeneralInstruction {
 
     @Override
     public String disassembler() {
-        return "ASL A";
-    }
-
-    @Override
-    public short cycles() {
-        return 2;
+        return "ROL A";
     }
 
     @Override
     public short size() {
         return 1;
+    }
+
+    @Override
+    public short cycles() {
+        return 2;
     }
 
     @Override
