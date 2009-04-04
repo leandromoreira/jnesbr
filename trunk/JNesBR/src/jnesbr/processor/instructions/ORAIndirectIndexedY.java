@@ -18,20 +18,23 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.IndirectIndexedInstruction;
-import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
 public class ORAIndirectIndexedY extends IndirectIndexedInstruction {
-
+    private byte cycles;
     public ORAIndirectIndexedY(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
+        cycles = 5;
+        if (pageChanged()){
+            cycles++;
+        }
         cpu.accumulator |= getOperand();
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
@@ -45,6 +48,11 @@ public class ORAIndirectIndexedY extends IndirectIndexedInstruction {
 
     @Override
     public short cycles() {
-        return 5;
+        return cycles;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }

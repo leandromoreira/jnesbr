@@ -17,37 +17,38 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.IndirectXInstruction;
+import jnesbr.processor.instructions.types.AbsoluteInstruction;
 import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class EORIndexedIndirect extends IndirectXInstruction {
-    public EORIndexedIndirect(Cpu2A03 cpu){
+public class CMPAbsolute extends AbsoluteInstruction {
+
+    public CMPAbsolute(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.accumulator ^= getOperand();
-        cpu.setupFlagSign(cpu.accumulator);
-        cpu.setupFlagZero(cpu.accumulator);
-        cpu.programCounter += 2;
+        cpu.setupFlagSign((short) (cpu.accumulator - getOperand()));
+        cpu.flagZero = (byte) ((cpu.accumulator == getOperand()) ? 1 : 0);
+        cpu.flagCarry = (byte) ((cpu.accumulator >= getOperand()) ? 1 : 0);
+        cpu.programCounter += 3;
     }
 
     @Override
-    public String disassembler(){
-            return "EOR ($"+JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+", X)";
-    }
-
-    @Override
-    public short cycles() {
-        return 6;
+    public String disassembler() {
+        return "CMP $" + JNesUtil.giveMeHexaStringFormattedWith4Space(getOperandAddress());
     }
 
     @Override
     public short size() {
-        return 2;
+        return 3;
+    }
+
+    @Override
+    public short cycles() {
+        return 4;
     }
 }

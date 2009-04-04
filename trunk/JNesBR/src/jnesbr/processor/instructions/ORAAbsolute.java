@@ -46,4 +46,9 @@ public class ORAAbsolute extends AbsoluteInstruction {
         return 4;
     }
 
+    @Override
+    public short size() {
+        return 3;
+    }
+
 }

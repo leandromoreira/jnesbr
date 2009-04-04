@@ -39,11 +39,16 @@ public class CMPZeroPage extends ZeroPageInstruction {
 
     @Override
     public String disassembler() {
-        return "CMP $" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand()).toUpperCase());
+        return "CMP $" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override
     public short cycles() {
         return 3;
+    }
+
+    @Override
+    public short size() {
+        return 2;
     }
 }

@@ -182,9 +182,46 @@ public class Cpu2A03 {
         instructions.put(0x21, new ANDIndexedIndirect(this));
         instructions.put(0x31, new ANDIndirectIndexed(this));//this check page change
         //Exclusive-OR memory with accumulator.
+        instructions.put(0x49, new EORImmediate(this));
+        instructions.put(0x45, new EORZeroPage(this));
+        instructions.put(0x55, new EORZeroPageX(this));
+        instructions.put(0x4D, new EORAbsolute(this));
+        instructions.put(0x5D, new EORAbsoluteX(this));//this check page change
+        instructions.put(0x59, new EORAbsoluteY(this));//this check page change
+        instructions.put(0x41, new EORIndexedIndirect(this));
+        instructions.put(0x51, new EORIndirectIndexed(this));//this check page change
+        //Logical OR memory with accumulator.
+        instructions.put(0x09, new ORAImmediate(this));
+        instructions.put(0x05, new ORAZeroPage(this));
+        instructions.put(0x15, new ORAZeroPageX(this));
+        instructions.put(0x0D, new ORAAbsolute(this));
+        instructions.put(0x1D, new ORAAbsoluteX(this));//this check page change
+        instructions.put(0x19, new ORAAbsoluteY(this));//this check page change
+        instructions.put(0x01, new ORAIndirectIndexedX(this));
+        instructions.put(0x11, new ORAIndirectIndexedY(this));//this check page change
+        //Compare.
+        instructions.put(0xC9, new CMPImmediate(this));
+        instructions.put(0xC5, new CMPZeroPage(this));
+        instructions.put(0xD5, new CMPZeroPageX(this));
+        instructions.put(0xCD, new CMPAbsolute(this));
+        instructions.put(0xDD, new CMPAbsoluteX(this));//this check page change
+        instructions.put(0xD9, new CMPAbsoluteY(this));//this check page change
+        instructions.put(0xC1, new CMPIndirectIndexedX(this));
+        instructions.put(0xD1, new CMPIndirectIndexedY(this));//this check page change
+        instructions.put(0xE0, new CPXImmediate(this));
+        instructions.put(0xE4, new CPXZeroPage(this));
+        instructions.put(0xEC, new CPXAbsolute(this));
+        instructions.put(0xC0, new CPYImmediate(this));
+        instructions.put(0xC4, new CPYZeroPage(this));
+        instructions.put(0xCC, new CPYAbsolute(this));
+        //Bit Test.
+        instructions.put(0x24, new BITZeroPage(this));
+        instructions.put(0x2C, new BITAbsolute(this));
+        //Increment by one.
 
 
         
+
 
         instructions.put(0xD8, new CLDImplied(this));
         instructions.put(0x78, new SEIImplied(this));
@@ -202,33 +239,33 @@ public class Cpu2A03 {
         instructions.put(0xF0, new BEQRelative(this));
 
 
-        instructions.put(0xC9, new CMPImmediate(this));
+        
         instructions.put(0xCA, new DEXImplied(this));
         instructions.put(0x20, new JSRAbsolute(this));
         
         
-        instructions.put(0xE0, new CPXImmediate(this));
+        
         
         instructions.put(0x88, new DEYImplied(this));
-        instructions.put(0xC0, new CPYImmediate(this));
+        
 
         
         
         instructions.put(0xC6, new DECZeroPage(this));
         instructions.put(0xE8, new INXImplied(this));
         instructions.put(0x60, new RTSImplied(this));
-        instructions.put(0xCC, new CPYAbsolute(this));
-        instructions.put(0x11, new ORAIndirectIndexedY(this));
-        instructions.put(0x2C, new BITAbsolute(this));
+        
+        
+        
         
         instructions.put(0xC8, new INYImplied(this));
-        instructions.put(0x09, new ORAImmediate(this));
+        
 
         instructions.put(0x4C, new JMPAbsolute(this));
         instructions.put(0xEE, new INCAbsolute(this));
-        instructions.put(0x01, new ORAIndirectIndexedX(this));
-        instructions.put(0xEC, new CPXAbsolute(this));
-        instructions.put(0x41, new EORIndexedIndirect(this));
+        
+        
+        
         
         instructions.put(0xDE, new DECAbsoluteX(this));
         
@@ -238,18 +275,18 @@ public class Cpu2A03 {
         instructions.put(0x4A, new LSRAccumulator(this));
         instructions.put(0xCE, new DECAbsolute(this));
         instructions.put(0xE6, new INCZeroPage(this));
-        instructions.put(0x45, new EORZeroPage(this));
+        
         instructions.put(0x18, new CLCImplied(this));
         instructions.put(0x7E, new RORAbsoluteX(this));
         
-        instructions.put(0xC5, new CMPZeroPage(this));
         
         
-        instructions.put(0x49, new EORImmediate(this));
+        
+        
         instructions.put(0x0A, new ASLAccumulator(this));
         instructions.put(0x00, new BRKImplied(this));
         
-        instructions.put(0x05, new ORAZeroPage(this));
+        
         
 
 
@@ -257,7 +294,7 @@ public class Cpu2A03 {
         instructions.put(0x38, new SECImplied(this));
         
         
-        instructions.put(0x0D, new ORAAbsolute(this));
+        
         instructions.put(0xF6, new INCZeroPageIndexed(this));
         instructions.put(0xF8, new SEDImplied(this));
 
