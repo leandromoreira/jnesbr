@@ -246,7 +246,10 @@ public class Cpu2A03 {
         //Rotate Left through Carry.
         instructions.put(0x2A, new ROLAccumulator(this));
         instructions.put(0x26, new ROLZeroPage(this));
-
+        instructions.put(0x36, new ROLZeroPageX(this));
+        instructions.put(0x2E, new ROLAbsolute(this));
+        instructions.put(0x3E, new ROLAbsoluteX(this));
+        //Rotate Right through Carry.
         
 
         instructions.put(0xD8, new CLDImplied(this));
