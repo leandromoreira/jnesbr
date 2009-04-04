@@ -22,19 +22,19 @@ import jnesbr.processor.instructions.types.GeneralInstruction;
 /**
  * @author dreampeppers99
  */
-public class LSRAccumulator extends GeneralInstruction{
-    public LSRAccumulator(Cpu2A03 cpu){
+public class LSRAccumulator extends GeneralInstruction {
+
+    public LSRAccumulator(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
+        cpu.flagCarry = (byte) (((cpu.accumulator & 1) == 1) ? 1 : 0);
         cpu.accumulator = (short) (cpu.accumulator >> 1);
         cpu.setupFlagZero(cpu.accumulator);
-        cpu.flagCarry = (byte) (((cpu.accumulator & 1) == 1) ? 1 : 0);
         cpu.flagSign = 0;
         cpu.programCounter++;
-        cpu.mergeProcessorStatus();
     }
 
     @Override
@@ -45,5 +45,20 @@ public class LSRAccumulator extends GeneralInstruction{
     @Override
     public short cycles() {
         return 2;
+    }
+
+    @Override
+    public short size() {
+        return 1;
+    }
+
+    @Override
+    public short getOperand() {
+        throw new UnsupportedOperationException("Not supported.");
+    }
+
+    @Override
+    public int getOperandAddress() {
+        throw new UnsupportedOperationException("Not supported.");
     }
 }

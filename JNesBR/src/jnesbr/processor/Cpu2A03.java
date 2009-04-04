@@ -218,10 +218,36 @@ public class Cpu2A03 {
         instructions.put(0x24, new BITZeroPage(this));
         instructions.put(0x2C, new BITAbsolute(this));
         //Increment by one.
-
+        instructions.put(0xE6, new INCZeroPage(this));
+        instructions.put(0xF6, new INCZeroPageIndexed(this));
+        instructions.put(0xEE, new INCAbsolute(this));
+        instructions.put(0xFE, new INCAbsoluteX(this));
+        instructions.put(0xE8, new INXImplied(this));
+        instructions.put(0xC8, new INYImplied(this));
+        //Decrement by one.
+        instructions.put(0xC6, new DECZeroPage(this));
+        instructions.put(0xD6, new DECZeroPageX(this));
+        instructions.put(0xCE, new DECAbsolute(this));
+        instructions.put(0xDE, new DECAbsoluteX(this));
+        instructions.put(0xCA, new DEXImplied(this));
+        instructions.put(0x88, new DEYImplied(this));
+        //Shift Left.
+        instructions.put(0x0A, new ASLAccumulator(this));
+        instructions.put(0x06, new ASLZeroPage(this));
+        instructions.put(0x16, new ASLZeroPageX(this));
+        instructions.put(0x0E, new ASLAbsolute(this));
+        instructions.put(0x1E, new ASLAbsoluteX(this));
+        //Shift Right.
+        instructions.put(0x4A, new LSRAccumulator(this));
+        instructions.put(0x46, new LSRZeroPage(this));
+        instructions.put(0x56, new LSRZeroPageX(this));
+        instructions.put(0x4E, new LSRAbsolute(this));
+        instructions.put(0x5E, new LSRAbsoluteX(this));
+        //Rotate Left through Carry.
+        instructions.put(0x2A, new ROLAccumulator(this));
+        instructions.put(0x26, new ROLZeroPage(this));
 
         
-
 
         instructions.put(0xD8, new CLDImplied(this));
         instructions.put(0x78, new SEIImplied(this));
@@ -240,41 +266,41 @@ public class Cpu2A03 {
 
 
         
-        instructions.put(0xCA, new DEXImplied(this));
+        
         instructions.put(0x20, new JSRAbsolute(this));
         
         
         
         
-        instructions.put(0x88, new DEYImplied(this));
+        
         
 
         
         
-        instructions.put(0xC6, new DECZeroPage(this));
-        instructions.put(0xE8, new INXImplied(this));
+        
+        
         instructions.put(0x60, new RTSImplied(this));
         
         
         
         
-        instructions.put(0xC8, new INYImplied(this));
+        
         
 
         instructions.put(0x4C, new JMPAbsolute(this));
-        instructions.put(0xEE, new INCAbsolute(this));
         
         
         
         
-        instructions.put(0xDE, new DECAbsoluteX(this));
+        
+        
         
         instructions.put(0x40, new RTIImplied(this));
         
         
-        instructions.put(0x4A, new LSRAccumulator(this));
-        instructions.put(0xCE, new DECAbsolute(this));
-        instructions.put(0xE6, new INCZeroPage(this));
+        
+       
+        
         
         instructions.put(0x18, new CLCImplied(this));
         instructions.put(0x7E, new RORAbsoluteX(this));
@@ -283,7 +309,7 @@ public class Cpu2A03 {
         
         
         
-        instructions.put(0x0A, new ASLAccumulator(this));
+        
         instructions.put(0x00, new BRKImplied(this));
         
         
@@ -295,7 +321,7 @@ public class Cpu2A03 {
         
         
         
-        instructions.put(0xF6, new INCZeroPageIndexed(this));
+        
         instructions.put(0xF8, new SEDImplied(this));
 
         //#######ILLEGAL 6502 OPCODES#############

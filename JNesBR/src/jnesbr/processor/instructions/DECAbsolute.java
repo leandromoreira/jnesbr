@@ -25,14 +25,15 @@ import jnesbr.util.JNesUtil;
  * @author dreampeppers99
  */
 public class DECAbsolute extends AbsoluteInstruction {
-    public DECAbsolute(Cpu2A03 cpu){
+
+    public DECAbsolute(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        short value = getOperand();
-        Memory.getMemory().write(getOperandAddress(), --value);
+        short value = (short) ((getOperand() - 1) & 0xFF);
+        Memory.getMemory().write(getOperandAddress(), value);
         cpu.setupFlagSign(value);
         cpu.setupFlagZero(value);
         cpu.programCounter += 3;
@@ -40,7 +41,7 @@ public class DECAbsolute extends AbsoluteInstruction {
 
     @Override
     public String disassembler() {
-        return "DEC $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
+        return "DEC $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+complement();
     }
 
     @Override
@@ -48,4 +49,8 @@ public class DECAbsolute extends AbsoluteInstruction {
         return 6;
     }
 
+    @Override
+    public short size() {
+        return 3;
+    }
 }

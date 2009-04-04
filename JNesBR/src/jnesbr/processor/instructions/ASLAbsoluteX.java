@@ -17,53 +17,48 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.GeneralInstruction;
+import jnesbr.processor.instructions.types.AbsoluteIndexedInstruction;
+import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class ASLAccumulator extends GeneralInstruction {
+public class ASLAbsoluteX extends AbsoluteIndexedInstruction {
 
-    public ASLAccumulator(Cpu2A03 cpu) {
+    public ASLAbsoluteX(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        if (cpu.accumulator >= 0x80) {
+         short value = getOperand(cpu.registerX);
+        if (value >= 0x80) {
             cpu.flagCarry = 1;
         } else {
             cpu.flagCarry = 0;
         }
-        cpu.accumulator = (short) (cpu.accumulator << 1);
-        cpu.accumulator &= 0xFF;
-        cpu.setupFlagSign(cpu.accumulator);
-        cpu.setupFlagZero(cpu.accumulator);
-        cpu.programCounter++;
+        value <<= 1;
+        value &= 0xFF;
+        Memory.getMemory().write(getOperandAddress()+cpu.registerX, value);
+        cpu.setupFlagSign(value);
+        cpu.setupFlagZero(value);
+        cpu.programCounter += 3;
     }
 
     @Override
     public String disassembler() {
-        return "ASL A";
-    }
-
-    @Override
-    public short cycles() {
-        return 2;
+        return "ASL $"+JNesUtil.giveMeHexaStringFormattedWith4Space(getOperandAddress())+", X";
     }
 
     @Override
     public short size() {
-        return 1;
+        return 3;
     }
 
     @Override
-    public short getOperand() {
-        throw new UnsupportedOperationException("Not supported.");
+    public short cycles() {
+        return 7;
     }
 
-    @Override
-    public int getOperandAddress() {
-        throw new UnsupportedOperationException("Not supported.");
-    }
 }

@@ -41,11 +41,16 @@ public class INCAbsolute extends AbsoluteInstruction {
 
     @Override
     public String disassembler() {
-        return "INC $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
+        return "INC $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+complement();
     }
 
     @Override
     public short cycles() {
         return 6;
+    }
+
+    @Override
+    public short size() {
+        return 3;
     }
 }
