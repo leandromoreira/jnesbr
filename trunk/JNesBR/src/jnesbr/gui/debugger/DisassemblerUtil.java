@@ -117,7 +117,7 @@ public class DisassemblerUtil {
             returnValue = "; Joypad #1";
         }
         if (value == 0x4017) {
-            returnValue = "; Joypad #2/APU SOFTCLK";
+            returnValue = "; Joypad #2";
         }
         return returnValue;
     }

@@ -16,6 +16,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.gui.debugger;
 
+import java.awt.event.KeyEvent;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -38,7 +39,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
     }
 
     private void configJTable() {
-        jTableDebugger.setModel(new DefaultTableModel(new String[]{"", "Address", "Code"}, 0x7FFF));
+        jTableDebugger.setModel(new DefaultTableModel(new String[]{"", "Address", "Code"}, 0x4924));
         jTableDebugger.getColumnModel().getColumn(0).setMaxWidth(5);
         jTableDebugger.getColumnModel().getColumn(0).setResizable(false);
         jTableDebugger.getColumnModel().getColumn(1).setResizable(false);
@@ -122,6 +123,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
         });
 
         jPnRegisters.setBorder(javax.swing.BorderFactory.createTitledBorder("Registers"));
+        jPnRegisters.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPnRegistersKeyPressed(evt);
+            }
+        });
 
         jLabel1.setText("Accumulator");
 
@@ -132,14 +138,29 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jTxtAccumulatorActionPerformed(evt);
             }
         });
+        jTxtAccumulator.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtAccumulatorKeyPressed(evt);
+            }
+        });
 
         jLabel2.setText("X Index");
 
         jTxtXIndex.setBackground(new java.awt.Color(0, 0, 0));
         jTxtXIndex.setForeground(new java.awt.Color(204, 255, 204));
+        jTxtXIndex.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtXIndexKeyPressed(evt);
+            }
+        });
 
         jTxtYIndex.setBackground(new java.awt.Color(0, 0, 0));
         jTxtYIndex.setForeground(new java.awt.Color(204, 255, 204));
+        jTxtYIndex.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtYIndexKeyPressed(evt);
+            }
+        });
 
         jLabel3.setText("Y Index");
 
@@ -147,6 +168,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
 
         jTxtS.setBackground(new java.awt.Color(0, 0, 0));
         jTxtS.setForeground(new java.awt.Color(204, 255, 204));
+        jTxtS.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtSKeyPressed(evt);
+            }
+        });
 
         jLabel5.setText("Program Counter");
 
@@ -157,11 +183,21 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jTxtPCActionPerformed(evt);
             }
         });
+        jTxtPC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtPCKeyPressed(evt);
+            }
+        });
 
         jLabel6.setText("Stack Pointer");
 
         jTxtSP.setBackground(new java.awt.Color(0, 0, 0));
         jTxtSP.setForeground(new java.awt.Color(204, 255, 204));
+        jTxtSP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtSPKeyPressed(evt);
+            }
+        });
 
         jChkS.setText("S");
         jChkS.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -292,12 +328,22 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jBtnStepActionPerformed(evt);
             }
         });
+        jBtnStep.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnStepKeyPressed(evt);
+            }
+        });
 
         jBtnPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/pause.png"))); // NOI18N
         jBtnPause.setText("Pause");
         jBtnPause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnPauseActionPerformed(evt);
+            }
+        });
+        jBtnPause.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnPauseKeyPressed(evt);
             }
         });
 
@@ -308,6 +354,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jBtnRunActionPerformed(evt);
             }
         });
+        jBtnRun.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnRunKeyPressed(evt);
+            }
+        });
 
         jBtnStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/stop.PNG"))); // NOI18N
         jBtnStop.setText("Stop");
@@ -316,12 +367,22 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jBtnStopActionPerformed(evt);
             }
         });
+        jBtnStop.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnStopKeyPressed(evt);
+            }
+        });
 
         jTxtLog.setBackground(new java.awt.Color(0, 0, 0));
         jTxtLog.setColumns(20);
         jTxtLog.setEditable(false);
         jTxtLog.setForeground(new java.awt.Color(204, 255, 204));
         jTxtLog.setRows(5);
+        jTxtLog.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtLogKeyPressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTxtLog);
 
         jBtnNStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/step.png"))); // NOI18N
@@ -331,11 +392,21 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jBtnNStepActionPerformed(evt);
             }
         });
+        jBtnNStep.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnNStepKeyPressed(evt);
+            }
+        });
 
         jTxtNStep.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTxtNStep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxtNStepActionPerformed(evt);
+            }
+        });
+        jTxtNStep.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtNStepKeyPressed(evt);
             }
         });
 
@@ -345,6 +416,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jBtnText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnTextActionPerformed(evt);
+            }
+        });
+        jBtnText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnTextKeyPressed(evt);
             }
         });
 
@@ -371,6 +447,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jTableDebugger.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableDebugger.setShowHorizontalLines(false);
         jTableDebugger.setShowVerticalLines(false);
+        jTableDebugger.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableDebuggerKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableDebugger);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -386,6 +467,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jTxtAddress0ActionPerformed(evt);
             }
         });
+        jTxtAddress0.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtAddress0KeyPressed(evt);
+            }
+        });
 
         jTxtAddress1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTxtAddress1.addActionListener(new java.awt.event.ActionListener() {
@@ -393,11 +479,21 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jTxtAddress1ActionPerformed(evt);
             }
         });
+        jTxtAddress1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtAddress1KeyPressed(evt);
+            }
+        });
 
         jTxtAddress2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTxtAddress2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxtAddress2ActionPerformed(evt);
+            }
+        });
+        jTxtAddress2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtAddress2KeyPressed(evt);
             }
         });
 
@@ -409,6 +505,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jTxtValue1ActionPerformed(evt);
             }
         });
+        jTxtValue1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtValue1KeyPressed(evt);
+            }
+        });
 
         jTxtValue0.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTxtValue0.setFocusable(false);
@@ -416,6 +517,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jTxtValue0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxtValue0ActionPerformed(evt);
+            }
+        });
+        jTxtValue0.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtValue0KeyPressed(evt);
             }
         });
 
@@ -427,11 +533,21 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jTxtValue2ActionPerformed(evt);
             }
         });
+        jTxtValue2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtValue2KeyPressed(evt);
+            }
+        });
 
         jBtnRefreshMemoryWacth.setText("Refresh");
         jBtnRefreshMemoryWacth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnRefreshMemoryWacthActionPerformed(evt);
+            }
+        });
+        jBtnRefreshMemoryWacth.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnRefreshMemoryWacthKeyPressed(evt);
             }
         });
 
@@ -442,12 +558,22 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jBtnAddBreakpointActionPerformed(evt);
             }
         });
+        jBtnAddBreakpoint.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnAddBreakpointKeyPressed(evt);
+            }
+        });
 
         jBtnDeleteBreakpoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/deletebreakpoint.png"))); // NOI18N
         jBtnDeleteBreakpoint.setText("Delete Breakpoint");
         jBtnDeleteBreakpoint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnDeleteBreakpointActionPerformed(evt);
+            }
+        });
+        jBtnDeleteBreakpoint.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnDeleteBreakpointKeyPressed(evt);
             }
         });
 
@@ -461,6 +587,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jTxtValue1BinActionPerformed(evt);
             }
         });
+        jTxtValue1Bin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtValue1BinKeyPressed(evt);
+            }
+        });
 
         jTxtValue0Bin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTxtValue0Bin.setFocusable(false);
@@ -470,6 +601,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
                 jTxtValue0BinActionPerformed(evt);
             }
         });
+        jTxtValue0Bin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtValue0BinKeyPressed(evt);
+            }
+        });
 
         jTxtValue2Bin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTxtValue2Bin.setFocusable(false);
@@ -477,6 +613,11 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jTxtValue2Bin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxtValue2BinActionPerformed(evt);
+            }
+        });
+        jTxtValue2Bin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtValue2BinKeyPressed(evt);
             }
         });
 
@@ -618,13 +759,15 @@ public class DebuggerWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
+    private void stepDebugger() {
         Emulator.getInstance().stepDebugger();
-        sb.append(Emulator.getInstance().actualLine() + "\n");
-        //jTxtLog.setText(jTxtLog.getText() + Emulator.getInstance().actualLine() + "\n");
-        jTxtLog.setText(sb.toString());
+       // sb.append(Emulator.getInstance().actualLine() + "\n");
+       // jTxtLog.setText(sb.toString());
         updateScreen();
         moveCursor(Emulator.getInstance().getCpu().programCounter);
+    }
+    private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
+        stepDebugger();
 }//GEN-LAST:event_jBtnStepActionPerformed
 
     private void jTxtAccumulatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtAccumulatorActionPerformed
@@ -658,9 +801,8 @@ public class DebuggerWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_formKeyTyped
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        // TODO add your handling code here:
-        System.out.println(evt);
-    }//GEN-LAST:event_formKeyPressed
+        stepShortCut(evt);
+}//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         // TODO add your handling code here:
@@ -746,6 +888,152 @@ public class DebuggerWindow extends javax.swing.JFrame {
     private void jTxtValue2BinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtValue2BinActionPerformed
         // TODO add your handling code here:
 }//GEN-LAST:event_jTxtValue2BinActionPerformed
+
+    private void jBtnStepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnStepKeyPressed
+        stepShortCut(evt);
+    }//GEN-LAST:event_jBtnStepKeyPressed
+
+    private void jPnRegistersKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPnRegistersKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jPnRegistersKeyPressed
+
+    private void jTableDebuggerKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableDebuggerKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTableDebuggerKeyPressed
+
+    private void jTxtAccumulatorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtAccumulatorKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtAccumulatorKeyPressed
+
+    private void jTxtPCKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtPCKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtPCKeyPressed
+
+    private void jTxtXIndexKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtXIndexKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtXIndexKeyPressed
+
+    private void jTxtSPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtSPKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtSPKeyPressed
+
+    private void jTxtYIndexKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtYIndexKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtYIndexKeyPressed
+
+    private void jTxtSKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtSKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtSKeyPressed
+
+    private void jBtnRunKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnRunKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jBtnRunKeyPressed
+
+    private void jBtnStopKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnStopKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jBtnStopKeyPressed
+
+    private void jBtnPauseKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnPauseKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jBtnPauseKeyPressed
+
+    private void jTxtNStepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtNStepKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtNStepKeyPressed
+
+    private void jBtnNStepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnNStepKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jBtnNStepKeyPressed
+
+    private void jBtnAddBreakpointKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnAddBreakpointKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jBtnAddBreakpointKeyPressed
+
+    private void jBtnDeleteBreakpointKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnDeleteBreakpointKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jBtnDeleteBreakpointKeyPressed
+
+    private void jBtnTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnTextKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jBtnTextKeyPressed
+
+    private void jTxtLogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtLogKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtLogKeyPressed
+
+    private void jTxtAddress0KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtAddress0KeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtAddress0KeyPressed
+
+    private void jTxtValue0KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue0KeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtValue0KeyPressed
+
+    private void jTxtValue0BinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue0BinKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtValue0BinKeyPressed
+
+    private void jTxtAddress1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtAddress1KeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtAddress1KeyPressed
+
+    private void jTxtValue1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue1KeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtValue1KeyPressed
+
+    private void jTxtValue1BinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue1BinKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtValue1BinKeyPressed
+
+    private void jTxtAddress2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtAddress2KeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtAddress2KeyPressed
+
+    private void jTxtValue2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue2KeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtValue2KeyPressed
+
+    private void jTxtValue2BinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue2BinKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jTxtValue2BinKeyPressed
+
+    private void jBtnRefreshMemoryWacthKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnRefreshMemoryWacthKeyPressed
+        // TODO add your handling code here:
+        stepShortCut(evt);
+    }//GEN-LAST:event_jBtnRefreshMemoryWacthKeyPressed
+
+    public void stepShortCut(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_F6) {
+            stepDebugger();
+        }
+    }
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -810,7 +1098,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
     private void moveCursor(int row) {
         int rowNumber = jTableDebugger.getRowCount();
         for (int i = 0; i < rowNumber; i++) {
-            if (jTableDebugger.getValueAt(i, 1).toString().toUpperCase().equals(Integer.toHexString(row).toUpperCase())){
+            if (jTableDebugger.getValueAt(i, 1).toString().toUpperCase().equals(Integer.toHexString(row).toUpperCase())) {
                 row = i;
                 break;
             }
