@@ -17,47 +17,47 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.GeneralInstruction;
+import jnesbr.processor.instructions.types.ZeroPageInstruction;
+import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class RTSImplied extends GeneralInstruction {
+public class RORZeroPage extends ZeroPageInstruction {
 
-    public RTSImplied(Cpu2A03 cpu) {
+    public RORZeroPage(Cpu2A03 cpu) {
         super(cpu);
     }
 
+
     @Override
     public void interpret() {
-        cpu.programCounter = cpu.pull();
-        cpu.programCounter += (cpu.pull() << 8);
-        cpu.programCounter++;
-        cpu.programCounter &= 0xFFFF;
+        short value = getOperand();
+        cpu.flagCarry = (byte) (((value & 1) == 1) ? 1 : 0);
+        value >>= 1;
+        if (cpu.flagCarry == 1) {
+            value |= 0x80;
+        }
+        Memory.getMemory().write(getOperandAddress(), value);
+        cpu.setupFlagSign(value);
+        cpu.setupFlagZero(value);
+        cpu.programCounter += 2;
     }
 
     @Override
     public String disassembler() {
-        return "RTS";
+        return "ROR $" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
     }
 
     @Override
     public short cycles() {
-        return 6;
+        return 5;
     }
 
     @Override
     public short size() {
-        return 1;
+        return 2;
     }
 
-    @Override
-    public short getOperand() {
-        throw new UnsupportedOperationException("Not supported.");
-    }
-
-    @Override
-    public int getOperandAddress() {
-        throw new UnsupportedOperationException("Not supported.");
-    }
 }

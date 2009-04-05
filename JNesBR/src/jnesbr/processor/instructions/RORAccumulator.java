@@ -22,33 +22,39 @@ import jnesbr.processor.instructions.types.GeneralInstruction;
 /**
  * @author dreampeppers99
  */
-public class RTSImplied extends GeneralInstruction {
+public class RORAccumulator extends GeneralInstruction {
 
-    public RTSImplied(Cpu2A03 cpu) {
+    public RORAccumulator(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.programCounter = cpu.pull();
-        cpu.programCounter += (cpu.pull() << 8);
+        short value = cpu.accumulator;
+        cpu.flagCarry = (byte) (((value & 1) == 1) ? 1 : 0);
+        value >>= 1;
+        if (cpu.flagCarry == 1) {
+            value |= 0x80;
+        }
+        cpu.accumulator = value;
+        cpu.setupFlagSign(value);
+        cpu.setupFlagZero(value);
         cpu.programCounter++;
-        cpu.programCounter &= 0xFFFF;
     }
 
     @Override
     public String disassembler() {
-        return "RTS";
-    }
-
-    @Override
-    public short cycles() {
-        return 6;
+        return "ROR A";
     }
 
     @Override
     public short size() {
         return 1;
+    }
+
+    @Override
+    public short cycles() {
+        return 2;
     }
 
     @Override

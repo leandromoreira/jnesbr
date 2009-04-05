@@ -24,18 +24,21 @@ import jnesbr.util.JNesUtil;
 /**
  * @author dreampeppers99
  */
-public class RORAbsoluteX extends AbsoluteIndexedInstruction{
-    public RORAbsoluteX(Cpu2A03 cpu){
+public class RORAbsoluteX extends AbsoluteIndexedInstruction {
+
+    public RORAbsoluteX(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
         short value = getOperand(cpu.registerX);
-        cpu.flagCarry = (byte) (((value & 1) == 1 ) ? 1 : 0);
+        cpu.flagCarry = (byte) (((value & 1) == 1) ? 1 : 0);
         value >>= 1;
-        if (cpu.flagCarry==1)value |= 0x80;
-        Memory.getMemory().write(getOperandAddress()+cpu.registerX, value);
+        if (cpu.flagCarry == 1) {
+            value |= 0x80;
+        }
+        Memory.getMemory().write(getOperandAddress() + cpu.registerX, value);
         cpu.setupFlagSign(value);
         cpu.setupFlagZero(value);
         cpu.programCounter += 3;
@@ -43,7 +46,7 @@ public class RORAbsoluteX extends AbsoluteIndexedInstruction{
 
     @Override
     public String disassembler() {
-        return "ROR $"+JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
+        return "ROR $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+", X";
     }
 
     @Override
@@ -51,4 +54,8 @@ public class RORAbsoluteX extends AbsoluteIndexedInstruction{
         return 7;
     }
 
+    @Override
+    public short size() {
+        return 3;
+    }
 }
