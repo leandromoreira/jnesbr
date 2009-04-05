@@ -37,5 +37,10 @@ public class BMIRelative extends RelativeInstruction {
         return "BMI";
     }
 
+    @Override
+    public short size() {
+        return 2;
+    }
+
 
 }

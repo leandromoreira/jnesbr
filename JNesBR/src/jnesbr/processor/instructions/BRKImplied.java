@@ -47,4 +47,19 @@ public class BRKImplied extends GeneralInstruction {
     public short cycles() {
         return 7;
     }
+
+    @Override
+    public short size() {
+        return 1;
+    }
+
+    @Override
+    public short getOperand() {
+        throw new UnsupportedOperationException("Not supported.");
+    }
+
+    @Override
+    public int getOperandAddress() {
+        throw new UnsupportedOperationException("Not supported.");
+    }
 }

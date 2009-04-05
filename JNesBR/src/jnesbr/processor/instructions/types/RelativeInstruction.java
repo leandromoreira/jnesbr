@@ -62,4 +62,8 @@ public abstract class RelativeInstruction extends GeneralInstruction {
     public short cycles() {
         return cycles;
     }
+    @Override
+    public short size() {
+        return 2;
+    }
 }
