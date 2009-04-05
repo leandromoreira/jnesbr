@@ -17,47 +17,35 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.instructions.types.GeneralInstruction;
+import jnesbr.processor.instructions.types.AbsoluteInstruction;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
  */
-public class RTSImplied extends GeneralInstruction {
+public class JMPIndirect extends AbsoluteInstruction {
 
-    public RTSImplied(Cpu2A03 cpu) {
+    public JMPIndirect(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        cpu.programCounter = cpu.pull();
-        cpu.programCounter += (cpu.pull() << 8);
-        cpu.programCounter++;
-        cpu.programCounter &= 0xFFFF;
+        cpu.programCounter = getOperand();
     }
 
     @Override
     public String disassembler() {
-        return "RTS";
+        return "JMP ($" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+")";
     }
 
     @Override
     public short cycles() {
-        return 6;
+        return 5;
     }
 
     @Override
     public short size() {
-        return 1;
-    }
-
-    @Override
-    public short getOperand() {
-        throw new UnsupportedOperationException("Not supported.");
-    }
-
-    @Override
-    public int getOperandAddress() {
-        throw new UnsupportedOperationException("Not supported.");
+        return 3;
     }
 }

@@ -45,4 +45,9 @@ public class JSRAbsolute extends AbsoluteInstruction {
     public short cycles() {
         return 6;
     }
+
+    @Override
+    public short size() {
+        return 3;
+    }
 }

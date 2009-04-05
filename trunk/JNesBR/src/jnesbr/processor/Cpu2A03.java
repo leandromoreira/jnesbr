@@ -250,13 +250,17 @@ public class Cpu2A03 {
         instructions.put(0x2E, new ROLAbsolute(this));
         instructions.put(0x3E, new ROLAbsoluteX(this));
         //Rotate Right through Carry.
-        
-
-        instructions.put(0xD8, new CLDImplied(this));
-        instructions.put(0x78, new SEIImplied(this));
-        
-        //Load Register from Memory
-
+        instructions.put(0x6A, new RORAccumulator(this));
+        instructions.put(0x66, new RORZeroPage(this));
+        instructions.put(0x76, new RORZeroPageX(this));
+        instructions.put(0x6E, new RORAbsolute(this));
+        instructions.put(0x7E, new RORAbsoluteX(this));
+        //Normal Jumps.
+        instructions.put(0x4C, new JMPAbsolute(this));
+        instructions.put(0x6C, new JMPIndirect(this));
+        instructions.put(0x20, new JSRAbsolute(this));
+        instructions.put(0x40, new RTIImplied(this));
+        instructions.put(0x60, new RTSImplied(this));
         //Conditional Branch Instructions
         instructions.put(0x10, new BPLRelative(this));
         instructions.put(0x30, new BMIRelative(this));
@@ -266,64 +270,20 @@ public class Cpu2A03 {
         instructions.put(0xB0, new BCSRelative(this));
         instructions.put(0xD0, new BNERelative(this));
         instructions.put(0xF0, new BEQRelative(this));
-
-
-        
-        
-        instructions.put(0x20, new JSRAbsolute(this));
-        
-        
-        
-        
-        
         
 
+        instructions.put(0xD8, new CLDImplied(this));
+        instructions.put(0x78, new SEIImplied(this));
         
-        
-        
-        
-        instructions.put(0x60, new RTSImplied(this));
-        
-        
-        
-        
-        
+        //Load Register from Memory
+
         
 
-        instructions.put(0x4C, new JMPAbsolute(this));
-        
-        
-        
-        
-        
-        
-        
-        instructions.put(0x40, new RTIImplied(this));
-        
-        
-        
-       
-        
-        
         instructions.put(0x18, new CLCImplied(this));
-        instructions.put(0x7E, new RORAbsoluteX(this));
-        
-        
-        
-        
-        
         
         instructions.put(0x00, new BRKImplied(this));
         
-        
-        
-
-
-        
         instructions.put(0x38, new SECImplied(this));
-        
-        
-        
         
         instructions.put(0xF8, new SEDImplied(this));
 
