@@ -38,4 +38,9 @@ public class BPLRelative extends RelativeInstruction {
         return "BPL";
     }
 
+    @Override
+    public short size() {
+        return 2;
+    }
+
 }

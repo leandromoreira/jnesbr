@@ -16,25 +16,25 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions;
 
+import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.GeneralInstruction;
-import jnesbr.processor.*;
 
 /**
  * @author dreampeppers99
  */
-public class CLDImplied extends GeneralInstruction{
-    
-    public CLDImplied(Cpu2A03 cpu){
+public class CLIImplied extends GeneralInstruction{
+
+    public CLIImplied(Cpu2A03 cpu){
         super(cpu);
     }
 
     public void interpret() {
-        cpu.flagDecimalMode = 0;
+        cpu.flagIRQ = 0;
         cpu.programCounter++;
     }
 
     public String disassembler() {
-        return "CLD";
+        return "CLI";
     }
 
     public short cycles() {
@@ -48,11 +48,11 @@ public class CLDImplied extends GeneralInstruction{
 
     @Override
     public short getOperand() {
-        throw new UnsupportedOperationException("Not supported.");
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public int getOperandAddress() {
-        throw new UnsupportedOperationException("Not supported.");
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

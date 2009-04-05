@@ -261,7 +261,7 @@ public class Cpu2A03 {
         instructions.put(0x20, new JSRAbsolute(this));
         instructions.put(0x40, new RTIImplied(this));
         instructions.put(0x60, new RTSImplied(this));
-        //Conditional Branch Instructions
+        //Conditional Branch Instructions.
         instructions.put(0x10, new BPLRelative(this));
         instructions.put(0x30, new BMIRelative(this));
         instructions.put(0x50, new BVCRelative(this));
@@ -270,22 +270,19 @@ public class Cpu2A03 {
         instructions.put(0xB0, new BCSRelative(this));
         instructions.put(0xD0, new BNERelative(this));
         instructions.put(0xF0, new BEQRelative(this));
-        
-
-        instructions.put(0xD8, new CLDImplied(this));
-        instructions.put(0x78, new SEIImplied(this));
-        
-        //Load Register from Memory
-
-        
-
-        instructions.put(0x18, new CLCImplied(this));
-        
+        //Interrupts, Exceptions, Breakpoints.
         instructions.put(0x00, new BRKImplied(this));
-        
+        //CPU Control.
+        instructions.put(0x18, new CLCImplied(this));
+        instructions.put(0x58, new CLIImplied(this));
+        instructions.put(0xD8, new CLDImplied(this));
+        instructions.put(0xB8, new CLVImplied(this));
         instructions.put(0x38, new SECImplied(this));
-        
+        instructions.put(0x78, new SEIImplied(this));
         instructions.put(0xF8, new SEDImplied(this));
+        //No Operation.
+        instructions.put(0xEA, new NOPImplied(this));
+        
 
         //#######ILLEGAL 6502 OPCODES#############
 
