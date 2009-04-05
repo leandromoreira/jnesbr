@@ -38,7 +38,7 @@ public class RTSImplied extends GeneralInstruction {
 
     @Override
     public String disassembler() {
-        return "RTS";
+        return "RTS             ; Return";
     }
 
     @Override

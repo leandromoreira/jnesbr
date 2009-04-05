@@ -38,7 +38,7 @@ public class JSRAbsolute extends AbsoluteInstruction {
 
     @Override
     public String disassembler() {
-        return "JSR $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase());
+        return "JSR $" + JNesUtil.fillIfNeedsWith(4, "0", Integer.toHexString(getOperandAddress()).toUpperCase())+"; Sub Rotine";
     }
 
     @Override

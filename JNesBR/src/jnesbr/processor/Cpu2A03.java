@@ -289,7 +289,7 @@ public class Cpu2A03 {
 
 
         //NUL/NOP and KIL/JAM/HLT
-        instructions.put(0x1A, new NOPImplied(this));
+       /* instructions.put(0x1A, new NOPImplied(this));
         instructions.put(0x3A, new NOPImplied(this));
         instructions.put(0x5A, new NOPImplied(this));
         instructions.put(0x7A, new NOPImplied(this));
@@ -327,7 +327,7 @@ public class Cpu2A03 {
         instructions.put(0x92, new KILImplied(this));
         instructions.put(0xB2, new KILImplied(this));
         instructions.put(0xD2, new KILImplied(this));
-        instructions.put(0xF2, new KILImplied(this));
+        instructions.put(0xF2, new KILImplied(this));*/
     }
 
     public Instruction getInstructionFrom(int opCode) {

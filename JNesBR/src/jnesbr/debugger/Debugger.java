@@ -19,8 +19,6 @@ package jnesbr.debugger;
 import java.util.ArrayList;
 import java.util.List;
 import jnesbr.core.Emulator;
-import jnesbr.processor.memory.Memory;
-import jnesbr.processor.memory.MemoryMap;
 
 /**
  * @author dreampeppers99
@@ -44,14 +42,13 @@ public class Debugger {
 
     public static List<AssemblerLine> disassembler() {
         List<AssemblerLine> assembler = new ArrayList<AssemblerLine>();
-        /*for (int i = MemoryMap.LOWER_BANK_START; i <= MemoryMap.UPPER_BANK_END; i++) {
-            AssemblerLine ass = Emulator.getInstance().getCpu().disassemblerStep();
+        Emulator.getInstance().getCpu().programCounter = 0x8000;
+        AssemblerLine ass = Emulator.getInstance().getCpu().disassemblerStep();
+        while (ass.pc < 0xFFFA) {
             assembler.add(ass);
-        }*/
-        for (int i = MemoryMap.LOWER_BANK_START; i <= MemoryMap.LOWER_BANK_START+880; i++) {
-            AssemblerLine ass = Emulator.getInstance().getCpu().disassemblerStep();
-            assembler.add(ass);
+            ass = Emulator.getInstance().getCpu().disassemblerStep();
         }
+        assembler.add(ass);
         Emulator.getInstance().reset();
         return assembler;
     }
