@@ -30,8 +30,8 @@ public class PPUControll {
         public final byte VRAM0x1000 = 1;
    public byte patternTableAddress8x8Sprites ;
    public byte port2007AddressIncrement;
-        public final byte IncrementBy1 = 0;
-        public final byte IncrementBy32 = 1;
+        public static final byte IncrementBy1 = 0;
+        public static final byte IncrementBy32 = 1;
    public byte nameTableAddress;
         public final byte VRAM2000 = 0;
         public final byte VRAM2400 = 1;

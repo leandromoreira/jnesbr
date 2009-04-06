@@ -30,6 +30,8 @@ public class Ppu2C02 {
     public PPUControll ppuControl = new PPUControll();
     public PPUStatus ppuStatus = new PPUStatus();
     public PPUMask ppuMask = new PPUMask();
+    public PPUAddress pPUAddress = new PPUAddress();
+    public PPUData pPUData = new PPUData();
     private Map<Integer, int[][]> patternTable = new HashMap<Integer, int[][]>();
 
     public static Ppu2C02 getInstance() {

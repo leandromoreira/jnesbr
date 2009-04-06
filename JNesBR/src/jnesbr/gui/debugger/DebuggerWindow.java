@@ -39,7 +39,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
     }
 
     private void configJTable() {
-        jTableDebugger.setModel(new DefaultTableModel(new String[]{"", "Address", "Code"}, 0x4924));
+        jTableDebugger.setModel(new DefaultTableModel(new String[]{"", "Address", "Code"}, 0x7FFF));
         jTableDebugger.getColumnModel().getColumn(0).setMaxWidth(5);
         jTableDebugger.getColumnModel().getColumn(0).setResizable(false);
         jTableDebugger.getColumnModel().getColumn(1).setResizable(false);
