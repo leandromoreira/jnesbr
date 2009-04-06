@@ -37,10 +37,10 @@ public class LDAAbsoluteIndexedX extends AbsoluteIndexedInstruction {
         if (((getOperandAddress() & 0xFF) + cpu.registerX) > 0xFF) {
             cycles++;
         }
-        cpu.programCounter += 3;
         cpu.accumulator = getOperand(cpu.registerX);
         cpu.setupFlagSign(cpu.accumulator);
         cpu.setupFlagZero(cpu.accumulator);
+        cpu.programCounter += 3;
     }
 
     @Override

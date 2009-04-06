@@ -16,9 +16,49 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.memory.handler.ppu;
 
+import jnesbr.processor.memory.Memory;
+import jnesbr.processor.memory.MemoryMap;
+import jnesbr.processor.memory.handler.Handler;
+import jnesbr.video.PPUControll;
+import jnesbr.video.PPUData;
+import jnesbr.video.Ppu2C02;
+import jnesbr.video.memory.VideoMemory;
+
 /**
  * @author dreampeppers99
  */
-public class PPUDataHandler {
+public class PPUDataHandler implements Handler {
 
+    private PPUData pPUData;
+
+    public void writeAt(int address, short value) {
+        pPUData = Ppu2C02.getInstance().pPUData;
+        pPUData.data = value;
+        VideoMemory.getMemory().write(Ppu2C02.getInstance().pPUAddress.completeAddress,
+                pPUData.data);
+        if (Ppu2C02.getInstance().ppuControl.port2007AddressIncrement == PPUControll.IncrementBy1) {
+            Ppu2C02.getInstance().pPUAddress.completeAddress++;
+        } else {
+            Ppu2C02.getInstance().pPUAddress.completeAddress += 32;
+        }
+        Memory.getMemory().writeUnhandled(address, value);
+        mirror(address, value);
+    }
+
+    private void mirror(int address, short value) {
+        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
+            Memory.getMemory().writeUnhandled(address + 0x08, value);
+            address += 8;
+        }
+    }
+
+    public short readFrom(int address) {
+        short value = VideoMemory.getMemory().read(Ppu2C02.getInstance().pPUAddress.completeAddress);
+        if (Ppu2C02.getInstance().ppuControl.port2007AddressIncrement == PPUControll.IncrementBy1) {
+            Ppu2C02.getInstance().pPUAddress.completeAddress++;
+        } else {
+            Ppu2C02.getInstance().pPUAddress.completeAddress += 32;
+        }
+        return value;
+    }
 }

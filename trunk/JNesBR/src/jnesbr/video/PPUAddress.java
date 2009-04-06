@@ -14,15 +14,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.test;
+package jnesbr.video;
 
 /**
  * @author dreampeppers99
  */
-public class Test {
-
-    public static void main(String[] args) {
-        //(pPUAddress.firstData<<8) | pPUAddress.secondData
-        System.out.println(""+Integer.toHexString((0x3f<<8)|0x0));
-    }
+public class PPUAddress {
+    public short firstData,secondData;
+    public int completeAddress;
 }

@@ -16,9 +16,43 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.memory.handler.ppu;
 
+import jnesbr.processor.memory.Memory;
+import jnesbr.processor.memory.MemoryMap;
+import jnesbr.processor.memory.handler.Handler;
+import jnesbr.video.PPUAddress;
+import jnesbr.video.Ppu2C02;
+
 /**
  * @author dreampeppers99
  */
-public class PPUAdressHandler {
+public class PPUAdressHandler implements Handler {
 
+    private PPUAddress pPUAddress;
+    private byte marker = 0;
+
+    public void writeAt(int address, short value) {
+        pPUAddress = Ppu2C02.getInstance().pPUAddress;
+        if (marker == 0) {
+            pPUAddress.firstData = value;
+            marker++;
+        } else {
+            pPUAddress.secondData = value;
+            pPUAddress.completeAddress = (pPUAddress.firstData<<8) | pPUAddress.secondData;
+            marker--;
+        }
+        Memory.getMemory().writeUnhandled(address, value);
+        mirror(address, value);
+    }
+
+    private void mirror(int address, short value) {
+        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
+            Memory.getMemory().writeUnhandled(address + 0x08, value);
+            address += 8;
+        }
+    }
+
+    public short readFrom(int address) {
+        //The address $2006 is just 2x Write-Only on the real nes here is the debug stuffs.
+        return Memory.getMemory().readUnhandled(address);
+    }
 }

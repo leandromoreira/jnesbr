@@ -32,6 +32,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import jnesbr.core.Emulator;
 import jnesbr.core.MetaInformation;
+import jnesbr.gui.debugger.ActualPalette;
 import jnesbr.gui.debugger.MemoryVideoView;
 import jnesbr.gui.debugger.PPUStateViewer;
 import jnesbr.gui.debugger.PatternTableViewer;
@@ -76,6 +77,7 @@ public class Main extends javax.swing.JFrame {
         jMnuVideoMemoryView = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JSeparator();
         jMnuPatternTableViewer = new javax.swing.JMenuItem();
+        jMnuPalette = new javax.swing.JMenuItem();
         jMnuPPUState = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JSeparator();
         JmnuDebbugerShow = new javax.swing.JMenuItem();
@@ -83,7 +85,7 @@ public class Main extends javax.swing.JFrame {
         jmnuAboutMe = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("JNesBR - an(other) NES emulator.");
+        setTitle("JNesBR -  NES emulator & debugger");
         setLocationByPlatform(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -147,6 +149,11 @@ public class Main extends javax.swing.JFrame {
         jMnuMain.add(jMnuConfig);
 
         jMnuDebugger.setText("Debugger");
+        jMnuDebugger.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuDebuggerActionPerformed(evt);
+            }
+        });
 
         jMnuShowHeader.setText("Rom Header");
         jMnuShowHeader.addActionListener(new java.awt.event.ActionListener() {
@@ -181,6 +188,14 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMnuDebugger.add(jMnuPatternTableViewer);
+
+        jMnuPalette.setText("Palette");
+        jMnuPalette.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuPaletteActionPerformed(evt);
+            }
+        });
+        jMnuDebugger.add(jMnuPalette);
 
         jMnuPPUState.setText("Show PPU State");
         jMnuPPUState.addActionListener(new java.awt.event.ActionListener() {
@@ -295,8 +310,8 @@ public class Main extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         //this is just to make tests..
-        //TODO: REMOVE THIS AFTER GET RUNNING THE PONG GAME
-        File file = new File("roms/SuperMarioBros(E)[a1].nes");
+        //TODO: REMOVE THIS AFTER GET RUNNING THE Fighter f8000
+        File file = new File("roms/f118/fighter_f8000.nes");
         FileChannel roChannel;
         ByteBuffer readbuffer = null;
         try {
@@ -325,6 +340,14 @@ public class Main extends javax.swing.JFrame {
     private void jMnuPPUStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuPPUStateActionPerformed
         new PPUStateViewer().setVisible(true);
     }//GEN-LAST:event_jMnuPPUStateActionPerformed
+
+    private void jMnuDebuggerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuDebuggerActionPerformed
+        new ActualPalette().setVisible(true);
+    }//GEN-LAST:event_jMnuDebuggerActionPerformed
+
+    private void jMnuPaletteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuPaletteActionPerformed
+        new ActualPalette().setVisible(true);
+    }//GEN-LAST:event_jMnuPaletteActionPerformed
 
     private boolean userChooseSomething(int returnVal) {
         return returnVal == JFileChooser.APPROVE_OPTION;
@@ -362,6 +385,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMnuMain;
     private javax.swing.JMenuItem jMnuMemoryView;
     private javax.swing.JMenuItem jMnuPPUState;
+    private javax.swing.JMenuItem jMnuPalette;
     private javax.swing.JMenuItem jMnuPatternTableViewer;
     private javax.swing.JMenuItem jMnuShowHeader;
     private javax.swing.JMenuItem jMnuVideoMemoryView;

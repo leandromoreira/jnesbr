@@ -16,7 +16,10 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.gui.debugger;
 
+import jnesbr.util.JNesUtil;
+import jnesbr.video.PPUAddress;
 import jnesbr.video.PPUControll;
+import jnesbr.video.PPUData;
 import jnesbr.video.PPUMask;
 import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
@@ -28,6 +31,12 @@ public class PPUStateViewer extends javax.swing.JFrame {
 
     public PPUStateViewer() {
         initComponents();
+    }
+
+    private void cleanPPUAddress() {
+        jTxtFirst2006Address.setText("");
+        jTxtFirst2006Value1.setText("");
+        jTxtFirst2006Value2.setText("");
     }
 
     private void cleanPPUControll() {
@@ -42,6 +51,10 @@ public class PPUStateViewer extends javax.swing.JFrame {
         jChkBaseNametable2400.setSelected(false);
         jChkBaseNametable2800.setSelected(false);
         jChkBaseNametable2C00.setSelected(false);
+    }
+
+    private void cleanPPUData() {
+        jTxtPPUData.setText("");
     }
 
     private void cleanPPUMask() {
@@ -109,7 +122,15 @@ public class PPUStateViewer extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jTxtFirst2006Value1 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jTxtFirst2006Value2 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jTxtFirst2006Address = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
+        jTxtPPUData = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
         jBtnRefreshPPUState = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -287,15 +308,15 @@ public class PPUStateViewer extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("PPU Controll $2000", jPnPPUControll);
 
-        jChkIntensifyBlues.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jChkIntensifyBlues.setFont(new java.awt.Font("Tahoma", 1, 11));
         jChkIntensifyBlues.setForeground(new java.awt.Color(0, 0, 255));
         jChkIntensifyBlues.setText("Intesify Blues");
 
-        jChkIntensifyGreens.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jChkIntensifyGreens.setFont(new java.awt.Font("Tahoma", 1, 11));
         jChkIntensifyGreens.setForeground(new java.awt.Color(0, 102, 0));
         jChkIntensifyGreens.setText("Intesify Greens");
 
-        jChkIntensifyReds.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jChkIntensifyReds.setFont(new java.awt.Font("Tahoma", 1, 11));
         jChkIntensifyReds.setForeground(new java.awt.Color(255, 51, 51));
         jChkIntensifyReds.setText("Intesify Reds");
 
@@ -313,10 +334,10 @@ public class PPUStateViewer extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel5.setText("Enable sprite in leftmost 8 pixels of screen");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel6.setText("Enable background in leftmost 8 pixels of screen");
 
         jChkClipSprite.setText("Clip");
@@ -347,7 +368,7 @@ public class PPUStateViewer extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel7.setText("Monochromo mode");
 
         jChkColor.setText("Color");
@@ -530,28 +551,78 @@ public class PPUStateViewer extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("PPU Scroll $2005", jPanel7);
 
+        jLabel8.setText("First Value");
+
+        jLabel9.setText("Second Value");
+
+        jLabel10.setText("Complete Address");
+
+        jTxtFirst2006Address.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 549, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTxtFirst2006Address, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTxtFirst2006Value1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTxtFirst2006Value2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)))
+                .addGap(99, 99, 99))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(154, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jTxtFirst2006Value2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTxtFirst2006Value1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jTxtFirst2006Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(149, 149, 149))
         );
 
         jTabbedPane1.addTab("PPU Address $2006", jPanel8);
+
+        jTxtPPUData.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel11.setText("Data to be written");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 549, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(221, 221, 221)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jTxtPPUData, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTxtPPUData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(263, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("PPU Data $2007", jPanel9);
@@ -680,6 +751,8 @@ public class PPUStateViewer extends javax.swing.JFrame {
         cleanPPUControll();
         cleanPPUStatus();
         cleanPPUMask();
+        cleanPPUAddress();
+        cleanPPUData();
     }
 
     private void refreshAll() {
@@ -687,9 +760,13 @@ public class PPUStateViewer extends javax.swing.JFrame {
         PPUControll ppuControll = ppu.ppuControl;
         PPUStatus ppuStatus = ppu.ppuStatus;
         PPUMask ppuMask = ppu.ppuMask;
+        PPUAddress ppuAddress = ppu.pPUAddress;
+        PPUData pPUData = ppu.pPUData;
         refreshPPUControll(ppuControll);
         refreshPPUStatus(ppuStatus);
         refreshPPUMask(ppuMask);
+        refreshPPUAddress(ppuAddress);
+        refreshPPUData(pPUData);
     }
 
     public static void main(String args[]) {
@@ -729,12 +806,16 @@ public class PPUStateViewer extends javax.swing.JFrame {
     private javax.swing.JCheckBox jChkSpriteSize8x16;
     private javax.swing.JCheckBox jChkSpriteSize8x8;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -745,7 +826,18 @@ public class PPUStateViewer extends javax.swing.JFrame {
     private javax.swing.JPanel jPnMain;
     private javax.swing.JPanel jPnPPUControll;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTxtFirst2006Address;
+    private javax.swing.JTextField jTxtFirst2006Value1;
+    private javax.swing.JTextField jTxtFirst2006Value2;
+    private javax.swing.JTextField jTxtPPUData;
     // End of variables declaration//GEN-END:variables
+
+    private void refreshPPUAddress(PPUAddress ppuAddress) {
+        jTxtFirst2006Address.setText(JNesUtil.giveMeHexaStringFormattedWith2Space(ppuAddress.completeAddress));
+        jTxtFirst2006Value1.setText(JNesUtil.giveMeHexaStringFormattedWith2Space(ppuAddress.firstData));
+        jTxtFirst2006Value2.setText(JNesUtil.giveMeHexaStringFormattedWith2Space(ppuAddress.secondData));
+    }
+    // End of variables declaration
 
     private void refreshPPUControll(PPUControll ppuControll) {
         if (ppuControll.executeNMIOnVBlank == 1) {
@@ -780,6 +872,10 @@ public class PPUStateViewer extends javax.swing.JFrame {
                 jChkBaseNametable2C00.setSelected(true);
                 break;
         }
+    }
+
+    private void refreshPPUData(PPUData pPUData) {
+        jTxtPPUData.setText(JNesUtil.giveMeHexaStringFormattedWith2Space(pPUData.data));
     }
 
     private void refreshPPUMask(PPUMask ppuMask) {
