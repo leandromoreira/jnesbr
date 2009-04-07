@@ -34,6 +34,7 @@ import jnesbr.core.Emulator;
 import jnesbr.core.MetaInformation;
 import jnesbr.gui.debugger.ActualPalette;
 import jnesbr.gui.debugger.MemoryVideoView;
+import jnesbr.gui.debugger.NESPaletteSystem;
 import jnesbr.gui.debugger.PPUStateViewer;
 import jnesbr.gui.debugger.PatternTableViewer;
 
@@ -71,7 +72,9 @@ public class Main extends javax.swing.JFrame {
         jMnuConfigGeneral = new javax.swing.JMenuItem();
         jMnuJoystick = new javax.swing.JMenuItem();
         jMnuDebugger = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
         jMnuShowHeader = new javax.swing.JMenuItem();
+        jMnuNesPalette = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JSeparator();
         jMnuMemoryView = new javax.swing.JMenuItem();
         jMnuVideoMemoryView = new javax.swing.JMenuItem();
@@ -155,13 +158,25 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jMenu1.setText("Tool");
+
         jMnuShowHeader.setText("Rom Header");
         jMnuShowHeader.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMnuShowHeaderActionPerformed(evt);
             }
         });
-        jMnuDebugger.add(jMnuShowHeader);
+        jMenu1.add(jMnuShowHeader);
+
+        jMnuNesPalette.setText("Nes Palette");
+        jMnuNesPalette.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuNesPaletteActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnuNesPalette);
+
+        jMnuDebugger.add(jMenu1);
         jMnuDebugger.add(jSeparator4);
 
         jMnuMemoryView.setText("Memory Viewer");
@@ -349,6 +364,10 @@ public class Main extends javax.swing.JFrame {
         new ActualPalette().setVisible(true);
     }//GEN-LAST:event_jMnuPaletteActionPerformed
 
+    private void jMnuNesPaletteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuNesPaletteActionPerformed
+        new NESPaletteSystem().setVisible(true);
+    }//GEN-LAST:event_jMnuNesPaletteActionPerformed
+
     private boolean userChooseSomething(int returnVal) {
         return returnVal == JFileChooser.APPROVE_OPTION;
     }
@@ -374,6 +393,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMnuAbout;
     private javax.swing.JMenu jMnuConfig;
     private javax.swing.JMenuItem jMnuConfigGeneral;
@@ -384,6 +404,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMnuLoad;
     private javax.swing.JMenuBar jMnuMain;
     private javax.swing.JMenuItem jMnuMemoryView;
+    private javax.swing.JMenuItem jMnuNesPalette;
     private javax.swing.JMenuItem jMnuPPUState;
     private javax.swing.JMenuItem jMnuPalette;
     private javax.swing.JMenuItem jMnuPatternTableViewer;

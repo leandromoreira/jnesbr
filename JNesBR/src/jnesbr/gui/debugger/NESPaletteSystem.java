@@ -4,9 +4,9 @@
  */
 
 /*
- * ActualPalette.java
+ * NESPaletteSystem.java
  *
- * Created on 05/04/2009, 21:21:54
+ * Created on 06/04/2009, 21:26:30
  */
 package jnesbr.gui.debugger;
 
@@ -21,10 +21,10 @@ import jnesbr.video.memory.VideoMemoryMap;
  *
  * @author Leandro
  */
-public class ActualPalette extends javax.swing.JFrame {
+public class NESPaletteSystem extends javax.swing.JFrame {
 
-    /** Creates new form ActualPalette */
-    public ActualPalette() {
+    /** Creates new form NESPaletteSystem */
+    public NESPaletteSystem() {
         initComponents();
     }
 
@@ -41,7 +41,7 @@ public class ActualPalette extends javax.swing.JFrame {
         jBtnRefreshPalette = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Palette");
+        setTitle("NES Palette");
         setLocationByPlatform(true);
         setResizable(false);
 
@@ -52,11 +52,11 @@ public class ActualPalette extends javax.swing.JFrame {
         jPnNesPalette.setLayout(jPnNesPaletteLayout);
         jPnNesPaletteLayout.setHorizontalGroup(
             jPnNesPaletteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 502, Short.MAX_VALUE)
+            .addGap(0, 495, Short.MAX_VALUE)
         );
         jPnNesPaletteLayout.setVerticalGroup(
             jPnNesPaletteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 67, Short.MAX_VALUE)
+            .addGap(0, 142, Short.MAX_VALUE)
         );
 
         jBtnRefreshPalette.setText("Refresh Palette");
@@ -70,21 +70,22 @@ public class ActualPalette extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(209, Short.MAX_VALUE)
-                .addComponent(jBtnRefreshPalette)
-                .addGap(212, 212, 212))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPnNesPalette, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPnNesPalette, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(203, 203, 203)
+                        .addComponent(jBtnRefreshPalette)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPnNesPalette, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtnRefreshPalette)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -96,29 +97,46 @@ public class ActualPalette extends javax.swing.JFrame {
         Graphics graphics2D = jPnNesPalette.getGraphics();
         int rectangleSize = 30;
         int x = 3, y = 3;
-        for (int i = 0; i < 32; i++) {
+        for (int i = 0; i < 64; i++) {
             graphics2D.setColor(Color.BLACK);
             graphics2D.drawRect(x, y, rectangleSize, rectangleSize);
-            graphics2D.setColor(NesPalette.getColor(
-                    VideoMemory.getMemory().read(VideoMemoryMap.BG_SPR_PALLETE_START+i)
-                    ));
+            graphics2D.setColor(NesPalette.getColor(i));
             graphics2D.fillRect(x, y, rectangleSize, rectangleSize);
-            String index = JNesUtil.giveMeHexaStringFormattedWith2Space(VideoMemory.getMemory().read(VideoMemoryMap.BG_SPR_PALLETE_START+i));
+
+            String index = JNesUtil.giveMeHexaStringFormattedWith2Space(i);
             if (index.contains("D") || index.contains("E") || index.contains("F") || (Integer.valueOf(index,16)<=0x1C)) {
                 graphics2D.setColor(Color.WHITE);
             } else {
                 graphics2D.setColor(Color.BLACK);
             }
             graphics2D.drawString(index, x+7, y+18);
-            
-            if (i == 15) {
-                x = 3;
-                y += 32;
+
+            if (i <= 15) {
+                if (i == 15) {
+                    x = 3;
+                    y += 32;
+                } else {
+                    x += rectangleSize + 1;
+                }
+            } else if (i <= 31) {
+                if (i == 31) {
+                    x = 3;
+                    y += 32;
+                } else {
+                    x += rectangleSize + 1;
+                }
+
+            } else if (i <= 47) {
+                if (i == 47) {
+                    x = 3;
+                    y += 32;
+                } else {
+                    x += rectangleSize + 1;
+                }
             } else {
                 x += rectangleSize + 1;
             }
         }
-
     }//GEN-LAST:event_jBtnRefreshPaletteActionPerformed
 
     /**
@@ -128,7 +146,7 @@ public class ActualPalette extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new ActualPalette().setVisible(true);
+                new NESPaletteSystem().setVisible(true);
             }
         });
     }
