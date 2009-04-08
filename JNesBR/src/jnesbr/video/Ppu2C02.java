@@ -64,9 +64,8 @@ public class Ppu2C02 {
         }
     }
 
-    public Map<Integer, int[][]> getPatternTable(short[] chrRom) {
+    public Map<Integer, int[][]> getPatternTable(short[] chr_rom) {
         Map<Integer, int[][]> patternTableFromRom = new HashMap<Integer, int[][]>();
-        short[] chr_rom = Emulator.getInstance().giveMeTablePattern();
         int addressComplement = 0;
         for (int index = 0; index < chr_rom.length; addressComplement += 16, index += 16) {
             int[][] tile = new int[8][8];

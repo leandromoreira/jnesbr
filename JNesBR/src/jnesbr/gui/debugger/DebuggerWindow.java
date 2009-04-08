@@ -805,7 +805,6 @@ public class DebuggerWindow extends javax.swing.JFrame {
 }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        // TODO add your handling code here:
         System.out.println(evt);
     }//GEN-LAST:event_formKeyReleased
 
@@ -820,7 +819,6 @@ public class DebuggerWindow extends javax.swing.JFrame {
 }//GEN-LAST:event_jBtnNStepActionPerformed
 
     private void jTxtNStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtNStepActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jTxtNStepActionPerformed
     private StringBuilder sb = new StringBuilder();
     private void jBtnTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnTextActionPerformed
@@ -830,27 +828,21 @@ public class DebuggerWindow extends javax.swing.JFrame {
 }//GEN-LAST:event_jBtnTextActionPerformed
 
     private void jTxtAddress0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtAddress0ActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jTxtAddress0ActionPerformed
 
     private void jTxtAddress1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtAddress1ActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jTxtAddress1ActionPerformed
 
     private void jTxtAddress2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtAddress2ActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jTxtAddress2ActionPerformed
 
     private void jTxtValue1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtValue1ActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jTxtValue1ActionPerformed
 
     private void jTxtValue0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtValue0ActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jTxtValue0ActionPerformed
 
     private void jTxtValue2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtValue2ActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jTxtValue2ActionPerformed
 
     private void jBtnRefreshMemoryWacthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRefreshMemoryWacthActionPerformed
@@ -878,15 +870,12 @@ public class DebuggerWindow extends javax.swing.JFrame {
 }//GEN-LAST:event_jBtnDeleteBreakpointActionPerformed
 
     private void jTxtValue1BinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtValue1BinActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jTxtValue1BinActionPerformed
 
     private void jTxtValue0BinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtValue0BinActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jTxtValue0BinActionPerformed
 
     private void jTxtValue2BinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtValue2BinActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jTxtValue2BinActionPerformed
 
     private void jBtnStepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnStepKeyPressed
@@ -894,137 +883,110 @@ public class DebuggerWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnStepKeyPressed
 
     private void jPnRegistersKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPnRegistersKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jPnRegistersKeyPressed
 
     private void jTableDebuggerKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableDebuggerKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTableDebuggerKeyPressed
 
     private void jTxtAccumulatorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtAccumulatorKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtAccumulatorKeyPressed
 
     private void jTxtPCKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtPCKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtPCKeyPressed
 
     private void jTxtXIndexKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtXIndexKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtXIndexKeyPressed
 
     private void jTxtSPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtSPKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtSPKeyPressed
 
     private void jTxtYIndexKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtYIndexKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtYIndexKeyPressed
 
     private void jTxtSKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtSKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtSKeyPressed
 
     private void jBtnRunKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnRunKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jBtnRunKeyPressed
 
     private void jBtnStopKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnStopKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jBtnStopKeyPressed
 
     private void jBtnPauseKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnPauseKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jBtnPauseKeyPressed
 
     private void jTxtNStepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtNStepKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtNStepKeyPressed
 
     private void jBtnNStepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnNStepKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jBtnNStepKeyPressed
 
     private void jBtnAddBreakpointKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnAddBreakpointKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jBtnAddBreakpointKeyPressed
 
     private void jBtnDeleteBreakpointKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnDeleteBreakpointKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jBtnDeleteBreakpointKeyPressed
 
     private void jBtnTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnTextKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jBtnTextKeyPressed
 
     private void jTxtLogKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtLogKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtLogKeyPressed
 
     private void jTxtAddress0KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtAddress0KeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtAddress0KeyPressed
 
     private void jTxtValue0KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue0KeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtValue0KeyPressed
 
     private void jTxtValue0BinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue0BinKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtValue0BinKeyPressed
 
     private void jTxtAddress1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtAddress1KeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtAddress1KeyPressed
 
     private void jTxtValue1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue1KeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtValue1KeyPressed
 
     private void jTxtValue1BinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue1BinKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtValue1BinKeyPressed
 
     private void jTxtAddress2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtAddress2KeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtAddress2KeyPressed
 
     private void jTxtValue2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue2KeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtValue2KeyPressed
 
     private void jTxtValue2BinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtValue2BinKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jTxtValue2BinKeyPressed
 
     private void jBtnRefreshMemoryWacthKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnRefreshMemoryWacthKeyPressed
-        // TODO add your handling code here:
         stepShortCut(evt);
     }//GEN-LAST:event_jBtnRefreshMemoryWacthKeyPressed
 

@@ -684,15 +684,12 @@ public class PPUStateViewer extends javax.swing.JFrame {
 }//GEN-LAST:event_jChkSpriteSize8x16ActionPerformed
 
     private void jChkBaseNametable2400ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkBaseNametable2400ActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkBaseNametable2400ActionPerformed
 
     private void jChkBaseNametable2C00ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkBaseNametable2C00ActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkBaseNametable2C00ActionPerformed
 
     private void jChkBackgroundPatternTable1000ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkBackgroundPatternTable1000ActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkBackgroundPatternTable1000ActionPerformed
 
     private void jBtnRefreshPPUStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRefreshPPUStateActionPerformed
@@ -701,7 +698,6 @@ public class PPUStateViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnRefreshPPUStateActionPerformed
 
     private void jPnMainPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jPnMainPropertyChange
-        // TODO add your handling code here:
     }//GEN-LAST:event_jPnMainPropertyChange
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -709,43 +705,33 @@ public class PPUStateViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        // TODO add your handling code here:
     }//GEN-LAST:event_formKeyReleased
 
     private void jChkIsVBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkIsVBActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkIsVBActionPerformed
 
     private void jChkSprite0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkSprite0ActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkSprite0ActionPerformed
 
     private void jChkHasSpriteOverFlowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkHasSpriteOverFlowActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkHasSpriteOverFlowActionPerformed
 
     private void jChkSpriteRenderingEnableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkSpriteRenderingEnableActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkSpriteRenderingEnableActionPerformed
 
     private void jChkBackgroundRenderingEnableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkBackgroundRenderingEnableActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkBackgroundRenderingEnableActionPerformed
 
     private void jChkClipSpriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkClipSpriteActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkClipSpriteActionPerformed
 
     private void jChkDisplaySpriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkDisplaySpriteActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkDisplaySpriteActionPerformed
 
     private void jChkDisplayBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkDisplayBackgroundActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkDisplayBackgroundActionPerformed
 
     private void jChkClipBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkClipBackgroundActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_jChkClipBackgroundActionPerformed
     private void cleanAll() {
         cleanPPUControll();

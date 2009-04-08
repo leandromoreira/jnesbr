@@ -36,7 +36,7 @@ public abstract class IndexedZeroPageInstruction extends GeneralInstruction {
     }
 
     public short getOperand(short index) {
-        return Memory.getMemory().read(getOperandAddress() + index);
+        return Memory.getMemory().read( ((getOperandAddress() + index) & 0xFF) );
     }
 
     @Override

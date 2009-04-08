@@ -324,7 +324,6 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnuPatternTableViewerActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        //this is just to make tests..
         //TODO: REMOVE THIS AFTER GET RUNNING THE Fighter f8000
         File file = new File("roms/f118/fighter_f8000.nes");
         FileChannel roChannel;

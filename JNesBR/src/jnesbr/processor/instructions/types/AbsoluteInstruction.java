@@ -25,7 +25,6 @@ import jnesbr.util.JNesUtil;
  * @author dreampeppers99
  */
 
-//TODO: CHECK ALL THE POSIBLE WAYS TO RUN IO MAPPED DEVICES...
 public abstract class AbsoluteInstruction extends GeneralInstruction {
 
     public AbsoluteInstruction(Cpu2A03 cpu) {
