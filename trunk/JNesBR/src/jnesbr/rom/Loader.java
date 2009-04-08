@@ -66,7 +66,6 @@ public class Loader {
     private void fillPPUMemoryWith(INesROM game) {
         switch (game.CHR_ROMPageCount8K) {
             case ONE_BANK:
-                //TODO: SUPOSE TO WRITE AGAIN... * 8 * 1024
                 for (int i = 0; i < game.chr_rom.length; i++) {
                     VideoMemory.getMemory().write(i,game.chr_rom[i] );
                 }

@@ -14,8 +14,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import jnesbr.util.JNesUtil;
 import jnesbr.video.color.NesPalette;
-import jnesbr.video.memory.VideoMemory;
-import jnesbr.video.memory.VideoMemoryMap;
 
 /**
  *

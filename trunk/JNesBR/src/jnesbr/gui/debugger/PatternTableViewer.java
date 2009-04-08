@@ -17,6 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.gui.debugger;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -89,6 +90,11 @@ public class PatternTableViewer extends javax.swing.JFrame {
         });
 
         jBtnRefresh.setText("Refresh Pattern on ROM");
+        jBtnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,13 +132,13 @@ public class PatternTableViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jBtnShowPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnShowPTActionPerformed
-        Map<Integer, int[][]> patternTable = Emulator.getInstance().getPPU().getPatternTable();
+        Map<Integer, int[][]> actualPatternTable = Emulator.getInstance().getPPU().getPatternTable();
 
 
         Graphics scr = jPnPatternTables.getGraphics();
         int indexX = 0, indexY = 0;
         for (int z = 0; z < 512; z++) {
-            int[][] tile = patternTable.get(z);
+            int[][] tile = actualPatternTable.get(z);
             int theLastX = indexX;
             for (byte row = 0; row < 8; row++) {
                 indexX = theLastX;
@@ -155,14 +161,28 @@ public class PatternTableViewer extends javax.swing.JFrame {
         }
 }//GEN-LAST:event_jBtnShowPTActionPerformed
     private int actualChrPage = 0;
+    private int actualChrPageNumber = 0;
+    private String status;
+    private Map<Integer, int[][]> patternTable;
     private void jBtnShowNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnShowNextActionPerformed
 
-        int addressInitial = (actualChrPage == 0) ? 0 : actualChrPage * 8 * 1024 + 1;
-        Map<Integer, int[][]> patternTable = Emulator.getInstance().getPPU().getPatternTable(
-                Arrays.copyOfRange(Emulator.getInstance().rom().chr_rom, actualChrPage, ((actualChrPage == 0) ? 1 : actualChrPage) * 8 * 1024));
+        int addressInitial = (actualChrPage == 0) ? 0 : actualChrPage * 8 * 1024;
+        patternTable = Emulator.getInstance().getPPU().getPatternTable(
+                Arrays.copyOfRange(Emulator.getInstance().rom().chr_rom, addressInitial,
+                (addressInitial + 8 * 1024)));
         actualChrPage++;
-        if (actualChrPage > Emulator.getInstance().rom().CHR_ROMPageCount8K * 8 * 1024) {
+        if (actualChrPage >= Emulator.getInstance().rom().CHR_ROMPageCount8K * 8 * 1024) {
             actualChrPage = 0;
+        }
+        if (Emulator.getInstance().rom().CHR_ROMPageCount8K == 1) {
+            actualChrPage = 0;
+        }
+
+        actualChrPageNumber++;
+        status = "Page " + actualChrPageNumber + " from " + Emulator.getInstance().rom().CHR_ROMPageCount8K;
+        if (actualChrPageNumber == Emulator.getInstance().rom().CHR_ROMPageCount8K) {
+            actualChrPage = 0;
+            actualChrPageNumber = 0;
         }
 
         Graphics scr = jPnPatternTables.getGraphics();
@@ -189,7 +209,48 @@ public class PatternTableViewer extends javax.swing.JFrame {
                 indexY += 9 * 2 * 4;
             }
         }
+        scr.setColor(Color.WHITE);
+        scr.draw3DRect(500, 330 - 20, 180, 30, true);
+        scr.fill3DRect(500, 330 - 20, 180, 30, true);
+        scr.setColor(Color.RED);
+        scr.drawString(status, 500 + 30, 330);
 }//GEN-LAST:event_jBtnShowNextActionPerformed
+
+    private void jBtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRefreshActionPerformed
+
+        if (patternTable==null){
+            jBtnShowNextActionPerformed(null);
+        }
+        Graphics scr = jPnPatternTables.getGraphics();
+        int indexX = 0, indexY = 0;
+        for (int z = 0; z < 512; z++) {
+            int[][] tile = patternTable.get(z);
+            int theLastX = indexX;
+            for (byte row = 0; row < 8; row++) {
+                indexX = theLastX;
+                for (byte collumn = 7; collumn >= 0; collumn--, indexX++) {
+                    scr.setColor(colors.get(tile[row][collumn]));
+                    scr.fillRect(indexX * 2, indexY + row * 2, 2, 2);
+                }
+            }
+            indexX = theLastX;
+            indexX += 9;
+            if (z != 0) {
+                if (z % 38 == 0) {
+                    indexX = 0;
+                    indexY += 9 * 2;
+                }
+            }
+            if (z == 254) {
+                indexY += 9 * 2 * 4;
+            }
+        }
+        scr.setColor(Color.WHITE);
+        scr.draw3DRect(500, 330 - 20, 180, 30, true);
+        scr.fill3DRect(500, 330 - 20, 180, 30, true);
+        scr.setColor(Color.RED);
+        scr.drawString(status, 500 + 30, 330);
+    }//GEN-LAST:event_jBtnRefreshActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

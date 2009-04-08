@@ -101,6 +101,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Refresh Pattern on ROM"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnRefreshActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
