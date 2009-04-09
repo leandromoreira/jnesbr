@@ -35,6 +35,7 @@ import jnesbr.core.MetaInformation;
 import jnesbr.gui.debugger.ActualPalette;
 import jnesbr.gui.debugger.MemoryVideoView;
 import jnesbr.gui.debugger.NESPaletteSystem;
+import jnesbr.gui.debugger.NameTableWindow;
 import jnesbr.gui.debugger.PPUStateViewer;
 import jnesbr.gui.debugger.PatternTableViewer;
 
@@ -82,6 +83,7 @@ public class Main extends javax.swing.JFrame {
         jMnuPatternTableViewer = new javax.swing.JMenuItem();
         jMnuPalette = new javax.swing.JMenuItem();
         jMnuPPUState = new javax.swing.JMenuItem();
+        jMnuNameTable = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JSeparator();
         JmnuDebbugerShow = new javax.swing.JMenuItem();
         jMnuAbout = new javax.swing.JMenu();
@@ -219,6 +221,14 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMnuDebugger.add(jMnuPPUState);
+
+        jMnuNameTable.setText("Show Name Table");
+        jMnuNameTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuNameTableActionPerformed(evt);
+            }
+        });
+        jMnuDebugger.add(jMnuNameTable);
         jMnuDebugger.add(jSeparator2);
 
         JmnuDebbugerShow.setText("Show Debugger");
@@ -367,6 +377,10 @@ public class Main extends javax.swing.JFrame {
         new NESPaletteSystem().setVisible(true);
     }//GEN-LAST:event_jMnuNesPaletteActionPerformed
 
+    private void jMnuNameTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuNameTableActionPerformed
+        new NameTableWindow().setVisible(true);
+    }//GEN-LAST:event_jMnuNameTableActionPerformed
+
     private boolean userChooseSomething(int returnVal) {
         return returnVal == JFileChooser.APPROVE_OPTION;
     }
@@ -403,6 +417,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMnuLoad;
     private javax.swing.JMenuBar jMnuMain;
     private javax.swing.JMenuItem jMnuMemoryView;
+    private javax.swing.JMenuItem jMnuNameTable;
     private javax.swing.JMenuItem jMnuNesPalette;
     private javax.swing.JMenuItem jMnuPPUState;
     private javax.swing.JMenuItem jMnuPalette;
