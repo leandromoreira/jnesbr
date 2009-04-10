@@ -42,14 +42,13 @@ public class Debugger {
 
     public static List<AssemblerLine> disassembler() {
         List<AssemblerLine> assembler = new ArrayList<AssemblerLine>();
-        Emulator.getInstance().getCpu().programCounter = 0x8000;
+        Emulator.getInstance().getCpu().disassemblerProgramCounter = 0x8000;
         AssemblerLine ass = Emulator.getInstance().getCpu().disassemblerStep();
         while (ass.pc < 0xFFFA) {
             assembler.add(ass);
             ass = Emulator.getInstance().getCpu().disassemblerStep();
         }
         assembler.add(ass);
-        Emulator.getInstance().reset();
         return assembler;
     }
 }

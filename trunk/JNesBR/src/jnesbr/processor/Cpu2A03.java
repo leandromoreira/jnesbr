@@ -34,7 +34,7 @@ public class Cpu2A03 {
     public short accumulator,  registerX,  registerY;
     public short stackPointer;
     private short processorStatus;
-    public int programCounter,  oldProgramCounter;
+    public int programCounter,  oldProgramCounter, disassemblerProgramCounter;
     public byte flagCarry,  flagZero,  flagIRQ,  flagDecimalMode,  flagBreak,  flagNotUsed,  flagOverflow,  flagSign;
     public static final int InterruptNMI = 0xFFFA;
     public static final int InterruptRESET = 0xFFFC;
@@ -383,11 +383,11 @@ public class Cpu2A03 {
     }
 
     public AssemblerLine disassemblerStep() {
-        oldProgramCounter = programCounter;
-        int opCode = Memory.getMemory().read(programCounter);
+        oldProgramCounter = disassemblerProgramCounter;
+        int opCode = Memory.getMemory().read(disassemblerProgramCounter);
         Instruction actualInstruction = getInstructionFrom(opCode);
         actualLineDebug = actualInstruction.disassembler();
-        programCounter += actualInstruction.size();
+        disassemblerProgramCounter += actualInstruction.size();
         return new AssemblerLine(oldProgramCounter, actualLineDebug);
     }
 }
