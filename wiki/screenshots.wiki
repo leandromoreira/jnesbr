@@ -1,0 +1,37 @@
+#summary Screenshots of jnesbr emulator & debugger.
+#labels Featured,Phase-Implementation
+
+= Screenshots =
+
+Date: 04-10-09 17:02
+
+JNesBR - Alfa version main screen
+http://www.uploadimagens.com/upload/4438f9f41c92332dc41bb6037055bb27.jpg
+
+Rom Header Viewer
+http://www.uploadimagens.com/upload/a14edccfa96133db65f92889a8c17cdf.jpg
+
+Debugger interface
+http://www.uploadimagens.com/upload/292a209bf4dff96a0eeba3a5e1d8dc7d.jpg
+
+Multi Page Pattern Table
+http://www.uploadimagens.com/upload/226135ca41fc4710b18cdcc51fd0b5f1.jpg
+_You can step by chr_rom pages which are on rom or you can see the actual on ppu memory too._
+
+Main memory viewer
+http://www.uploadimagens.com/upload/b02e0bfc54be04c2e4e593470ba5f1a1.jpg
+
+PPU memory viewer
+http://www.uploadimagens.com/upload/810fab244ed616b970a6906a7eac874a.jpg
+
+Palette viewer
+http://www.uploadimagens.com/upload/1fdf1a22689b615fc7099ba6f82418cc.jpg
+
+PPU State viewer
+http://www.uploadimagens.com/upload/6b69d0bf018ea6a7c92745ed8728989f.jpg
+
+Name table viewer
+http://www.uploadimagens.com/upload/2e72ecaa234af36fe6973606295ad284.jpg
+
+Attribute table viewer
+http://www.uploadimagens.com/upload/377a6a16bff64548060f09b25d840cce.jpg
