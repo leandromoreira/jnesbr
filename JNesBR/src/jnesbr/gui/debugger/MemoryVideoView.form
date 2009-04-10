@@ -86,16 +86,20 @@
     <Component class="javax.swing.JComboBox" name="jCboMap">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="9">
+          <StringArray count="13">
             <StringItem index="0" value="Pattern Table 0 (4K) (256 Tiles)"/>
             <StringItem index="1" value="Pattern Table 1 (4K) (256 Tiles)"/>
             <StringItem index="2" value="Name Table 0 and Attribute Table 0 (1K) (32x30 BG Map)"/>
-            <StringItem index="3" value="Name Table 1 and Attribute Table 1 (1K) (32x30 BG Map)"/>
-            <StringItem index="4" value="Name Table 2 and Attribute Table 2 (1K) (32x30 BG Map)"/>
-            <StringItem index="5" value="Name Table 3 and Attribute Table 3 (1K) (32x30 BG Map)"/>
-            <StringItem index="6" value="Mirror of 2000h-2EFFh"/>
-            <StringItem index="7" value="Background and Sprite Palettes (25 entries used)"/>
-            <StringItem index="8" value="Mirrors of 3F00h-3F1Fh"/>
+            <StringItem index="3" value="Attribute Table 0"/>
+            <StringItem index="4" value="Name Table 1 and Attribute Table 1 (1K) (32x30 BG Map)"/>
+            <StringItem index="5" value="Attribute Table 1"/>
+            <StringItem index="6" value="Name Table 2 and Attribute Table 2 (1K) (32x30 BG Map)"/>
+            <StringItem index="7" value="Attribute Table 2"/>
+            <StringItem index="8" value="Name Table 3 and Attribute Table 3 (1K) (32x30 BG Map)"/>
+            <StringItem index="9" value="Attribute Table 3"/>
+            <StringItem index="10" value="Mirror of 2000h-2EFFh"/>
+            <StringItem index="11" value="Background and Sprite Palettes (25 entries used)"/>
+            <StringItem index="12" value="Mirrors of 3F00h-3F1Fh"/>
           </StringArray>
         </Property>
       </Properties>

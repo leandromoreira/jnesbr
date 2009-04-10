@@ -65,7 +65,7 @@ public class MemoryVideoView extends javax.swing.JFrame {
             }
         });
 
-        jCboMap.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pattern Table 0 (4K) (256 Tiles)", "Pattern Table 1 (4K) (256 Tiles)", "Name Table 0 and Attribute Table 0 (1K) (32x30 BG Map)", "Name Table 1 and Attribute Table 1 (1K) (32x30 BG Map)", "Name Table 2 and Attribute Table 2 (1K) (32x30 BG Map)", "Name Table 3 and Attribute Table 3 (1K) (32x30 BG Map)", "Mirror of 2000h-2EFFh", "Background and Sprite Palettes (25 entries used)", "Mirrors of 3F00h-3F1Fh" }));
+        jCboMap.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pattern Table 0 (4K) (256 Tiles)", "Pattern Table 1 (4K) (256 Tiles)", "Name Table 0 and Attribute Table 0 (1K) (32x30 BG Map)", "Attribute Table 0", "Name Table 1 and Attribute Table 1 (1K) (32x30 BG Map)", "Attribute Table 1", "Name Table 2 and Attribute Table 2 (1K) (32x30 BG Map)", "Attribute Table 2", "Name Table 3 and Attribute Table 3 (1K) (32x30 BG Map)", "Attribute Table 3", "Mirror of 2000h-2EFFh", "Background and Sprite Palettes (25 entries used)", "Mirrors of 3F00h-3F1Fh" }));
         jCboMap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCboMapActionPerformed(evt);
@@ -142,6 +142,27 @@ public class MemoryVideoView extends javax.swing.JFrame {
             jTMemory.setModel(MemoryViewerBuilder.getMemoryVideoModel(jTMemory,VideoMemoryMap.MIRROR1_START,VideoMemoryMap.MIRROR1_END));
             return;
         }
+
+        if (userChoose.equals("Attribute Table 0")){
+            jTMemory.setModel(MemoryViewerBuilder.getMemoryVideoModel(jTMemory,VideoMemoryMap.ATTR_TABLE_0_START,VideoMemoryMap.ATTR_TABLE_0_END));
+            return;
+        }
+
+        if (userChoose.equals("Attribute Table 1")){
+            jTMemory.setModel(MemoryViewerBuilder.getMemoryVideoModel(jTMemory,VideoMemoryMap.ATTR_TABLE_1_START,VideoMemoryMap.ATTR_TABLE_1_END));
+            return;
+        }
+
+        if (userChoose.equals("Attribute Table 2")){
+            jTMemory.setModel(MemoryViewerBuilder.getMemoryVideoModel(jTMemory,VideoMemoryMap.ATTR_TABLE_2_START,VideoMemoryMap.ATTR_TABLE_2_END));
+            return;
+        }
+        
+        if (userChoose.equals("Attribute Table 3")){
+            jTMemory.setModel(MemoryViewerBuilder.getMemoryVideoModel(jTMemory,VideoMemoryMap.ATTR_TABLE_3_START,VideoMemoryMap.ATTR_TABLE_3_END));
+            return;
+        }
+
 }//GEN-LAST:event_jBtnGoActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
