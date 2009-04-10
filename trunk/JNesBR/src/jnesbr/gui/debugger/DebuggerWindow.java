@@ -101,6 +101,8 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jTxtValue1Bin = new javax.swing.JTextField();
         jTxtValue0Bin = new javax.swing.JTextField();
         jTxtValue2Bin = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Debugger");
@@ -285,7 +287,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
                         .addComponent(jChkU)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jChkB)))
-                .addContainerGap(479, Short.MAX_VALUE))
+                .addContainerGap(486, Short.MAX_VALUE))
         );
         jPnRegistersLayout.setVerticalGroup(
             jPnRegistersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,10 +413,10 @@ public class DebuggerWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setText("N Steps");
+        jLabel7.setText("Steps");
 
         jBtnText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/cleartext.png"))); // NOI18N
-        jBtnText.setText("Clear");
+        jBtnText.setText("Clear code");
         jBtnText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnTextActionPerformed(evt);
@@ -456,7 +458,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableDebugger);
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Memory Instant Watch");
 
         jLabel9.setText("Hex. Address");
@@ -623,6 +625,14 @@ public class DebuggerWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel12.setText("Regular Debug Output");
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel13.setText("Console Debug Output");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -636,10 +646,6 @@ public class DebuggerWindow extends javax.swing.JFrame {
                         .addComponent(jBtnRefreshMemoryWacth))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jBtnAddBreakpoint)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtnDeleteBreakpoint))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -681,20 +687,29 @@ public class DebuggerWindow extends javax.swing.JFrame {
                                 .addComponent(jTxtNStep, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBtnNStep))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jBtnAddBreakpoint, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnDeleteBreakpoint))
+                            .addComponent(jLabel12)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBtnText))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnText)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPnRegisters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jBtnRun)
                             .addComponent(jBtnStop)
@@ -707,6 +722,15 @@ public class DebuggerWindow extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jBtnAddBreakpoint)
                             .addComponent(jBtnDeleteBreakpoint, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13)))
+                    .addComponent(jBtnText))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(262, 262, 262)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -738,13 +762,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
                                 .addComponent(jTxtValue2Bin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnRefreshMemoryWacth))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jBtnText)
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -753,10 +771,13 @@ public class DebuggerWindow extends javax.swing.JFrame {
 
     private void stepDebugger() {
         Emulator.getInstance().stepDebugger();
-        // sb.append(Emulator.getInstance().actualLine() + "\n");
-        // jTxtLog.setText(sb.toString());
+        if (useJtableSystem) {
+            moveCursor(Emulator.getInstance().getCpu().programCounter);
+        } else {
+            sb.append(Emulator.getInstance().actualLine() + "\n");
+            jTxtLog.setText(sb.toString());
+        }
         updateScreen();
-        moveCursor(Emulator.getInstance().getCpu().programCounter);
     }
     private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
         stepDebugger();
@@ -801,13 +822,19 @@ public class DebuggerWindow extends javax.swing.JFrame {
 
     private void jBtnNStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnNStepActionPerformed
         int numberOfSteps = Integer.valueOf(jTxtNStep.getText());
-        for (int i = 0; i < numberOfSteps; i++) {
-            Emulator.getInstance().stepDebugger();
-            sb.append(Emulator.getInstance().actualLine() + "\n");
+        if (useJtableSystem) {
+            for (int i = 0; i < numberOfSteps; i++) {
+                Emulator.getInstance().stepDebugger();
+            }
+            moveCursor(Emulator.getInstance().getCpu().programCounter);
+        } else {
+            for (int i = 0; i < numberOfSteps; i++) {
+                Emulator.getInstance().stepDebugger();
+                sb.append(Emulator.getInstance().actualLine() + "\n");
+            }
+            jTxtLog.setText(sb.toString());
         }
-        jTxtLog.setText(sb.toString());
         updateScreen();
-        moveCursor(Emulator.getInstance().getCpu().programCounter);
 }//GEN-LAST:event_jBtnNStepActionPerformed
 
     private void jTxtNStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtNStepActionPerformed
@@ -1018,6 +1045,8 @@ public class DebuggerWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1050,21 +1079,28 @@ public class DebuggerWindow extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void moveCursor(int row) {
-        boolean findRowCursor = false;
-        int rowNumber = jTableDebugger.getRowCount();
-        for (int i = 0; i < rowNumber; i++) {
-            if (jTableDebugger.getValueAt(i, 1).toString().toUpperCase().equals(Integer.toHexString(row).toUpperCase())) {
-                row = i;
-                findRowCursor = true;
-                break;
+        try {
+            boolean findRowCursor = false;
+            int rowNumber = jTableDebugger.getRowCount();
+            for (int i = 0; i < rowNumber; i++) {
+                if (jTableDebugger.getValueAt(i, 1).toString().toUpperCase().equals(Integer.toHexString(row).toUpperCase())) {
+                    row = i;
+                    findRowCursor = true;
+                    break;
+                }
             }
-        }
-        if (findRowCursor) {
-            useJtableSystem = true;
-            jTableDebugger.setRowSelectionInterval(row, row);
-            JTableHelper.scrollToCenter(jTableDebugger, row, 2);
-        } else {
-            JOptionPane.showMessageDialog(this, "Debugger system wasn't uncapable to find the actual line. \n[" + JNesUtil.giveMeHexaStringFormattedWith4Space(row) + "]");
+            if (findRowCursor) {
+                useJtableSystem = true;
+                jTableDebugger.setRowSelectionInterval(row, row);
+                JTableHelper.scrollToCenter(jTableDebugger, row, 2);
+            } else {
+                JOptionPane.showMessageDialog(this, "Debugger system wasn't uncapable to find the actual line. [" + JNesUtil.giveMeHexaStringFormattedWith4Space(row) + "]\n " +
+                        "Then the debug system will be the Console output.");
+                useJtableSystem = false;
+            }
+        } catch (java.lang.NullPointerException ex) {
+            JOptionPane.showMessageDialog(this, "Debugger system wasn't uncapable to find the actual line. [" + JNesUtil.giveMeHexaStringFormattedWith4Space(row) + "]\n " +
+                    "Then the debug system will be the Console output.");
             useJtableSystem = false;
         }
     }
