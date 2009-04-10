@@ -17,7 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
-import jnesbr.processor.memory.handler.FirstIOHandler;
+import jnesbr.processor.memory.MemoryMap;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
@@ -31,13 +31,20 @@ public class PPUStatusHandler implements Handler {
 
     public void writeAt(int address, short value) {
         Memory.getMemory().writeUnhandled(address, value);
-        System.out.println("The address $2002 should be just read-only.");
+        mirror(address,value);
     }
 
     public short readFrom(int address) {
         ppuStatus = Ppu2C02.getInstance().ppuStatus;
-        Memory.getMemory().writeUnhandled(0x2002, (short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
-        FirstIOHandler.mirror(0x2002, (short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
+        Memory.getMemory().writeUnhandled(address, (short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
+        mirror(address,(short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.spriteOverflow << 5)));
         return Memory.getMemory().readUnhandled(address);
+    }
+
+    private void mirror(int address, short value) {
+        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
+            Memory.getMemory().writeUnhandled(address + 0x08, value);
+            address += 8;
+        }
     }
 }

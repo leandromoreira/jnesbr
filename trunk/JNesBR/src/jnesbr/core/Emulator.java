@@ -28,6 +28,7 @@ import jnesbr.video.Ppu2C02;
  * @author dreampeppers99
  */
 public class Emulator implements Runnable {
+
     private static Emulator emulator;
     private Loader loader;
     private Cpu2A03 cpu;
@@ -94,15 +95,14 @@ public class Emulator implements Runnable {
     }
 
     public void stepDebugger() {
-        if (cpu.cycles >= CYCLES_TO_SCANLINE)
-        {
+        if (cpu.cycles >= CYCLES_TO_SCANLINE) {
             //mocking scanline timing
             cpu.cycles = 0;
             Ppu2C02.getInstance().ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
             Ppu2C02.getInstance().ppuStatus.sprite0Hit = 0;
 
-            if (Ppu2C02.getInstance().ppuControl.executeNMIOnVBlank == 1){
-                System.out.println("Should trhow an interrupter nmi at :"+Cpu2A03.InterruptNMI);
+            if (Ppu2C02.getInstance().ppuControl.executeNMIOnVBlank == 1) {
+                cpu.nmi();
             }
         }
         cpu.debugStep();

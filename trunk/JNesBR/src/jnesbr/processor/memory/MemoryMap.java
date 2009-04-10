@@ -52,6 +52,7 @@ public class MemoryMap {
     public final static int RAM_END = 0x1FFF;
     
     public final static int IO_REGISTERS_START = 0x2000;
+    
         public final static int IO_REGISTERS1_START = 0x2000;
             public final static int PPU_CONTROL = 0x2000;
             public final static int PPU_MASK = 0x2001;
@@ -60,6 +61,7 @@ public class MemoryMap {
             public final static int PPU_ADDRESS = 0x2006;
             public final static int PPU_DATA = 0x2007;
         public final static int IO_REGISTERS1_END = 0x2007;
+
         public final static int IO_MIRROR_START = 0x2008;
         public final static int IO_MIRROR_END = 0x3FFF;
         public final static int IO_REGISTERS2_START = 0x4000;

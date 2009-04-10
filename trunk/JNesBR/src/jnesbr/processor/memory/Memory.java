@@ -29,8 +29,9 @@ public class Memory {
 
     private static Memory instance;
     private short[] memory = new short[0x10000];
+    //todo: should reset this ... where?
     private Map<Integer, Handler> handlers = new HashMap<Integer, Handler>();
-    private final static int ZERO_PAGE_STACK_AND_RAM = 0xFFFF1,  FIRST_IO = 0xFFFF2,  NORMAL = 0xFFFF4;
+    private final static int ZERO_PAGE_STACK_AND_RAM = 0xFFFF1,  NORMAL = 0xFFFF4;
 
     public static Memory getMemory() {
         if (instance == null) {
@@ -62,7 +63,6 @@ public class Memory {
     private Memory() {
         handlers.put(NORMAL, new NormalHandler());
         handlers.put(ZERO_PAGE_STACK_AND_RAM, new ZeroPageHandler());
-        handlers.put(FIRST_IO, new FirstIOHandler());
         handlers.put(PPU_CONTROL, new PPUControlHandler());
         handlers.put(PPU_MASK, new PPUMaskHandler());
         handlers.put(PPU_STATUS, new PPUStatusHandler());
@@ -93,10 +93,6 @@ public class Memory {
         }
         if (address >= ZERO_PAGE_START & address <= RAM_0_END) {
             return handlers.get(ZERO_PAGE_STACK_AND_RAM);
-        }
-
-        if (address >= IO_REGISTERS1_START & address <= IO_REGISTERS1_END) {
-            return handlers.get(FIRST_IO);
         }
 
         return handlers.get(NORMAL);
