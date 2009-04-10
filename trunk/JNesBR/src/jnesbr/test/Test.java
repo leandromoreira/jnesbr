@@ -22,7 +22,11 @@ package jnesbr.test;
 public class Test {
 
     public static void main(String[] args) {
-        //(pPUAddress.firstData<<8) | pPUAddress.secondData
-        System.out.println(""+Integer.toHexString((0x3f<<8)|0x0));
+        int value = Integer.valueOf("00111001", 2);
+        System.out.println(Integer.toBinaryString(value));
+        System.out.println(Integer.toBinaryString((value & 0x3)));
+        System.out.println(Integer.toBinaryString((value >> 2) & 0x3 ));
+        System.out.println(Integer.toBinaryString((value >> 4) & 0x3 ));
+        System.out.println(Integer.toBinaryString((value >> 6) & 0x3 ));
     }
 }

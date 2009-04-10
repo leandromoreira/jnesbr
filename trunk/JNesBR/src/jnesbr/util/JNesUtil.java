@@ -90,6 +90,10 @@ public class JNesUtil {
     public static String giveMeHexaStringFormattedWith2Space(int value) {
         return fillIfNeedsWith(2, "0", Integer.toHexString(value).toUpperCase());
     }
+    
+    public static String giveMeBinaryStringFormattedWith2Space(int value) {
+        return fillIfNeedsWith(2, "0", Integer.toBinaryString(value).toUpperCase());
+    }
 
     public static short rotateLeft(short operand) {
         int carry = ((operand >> 7) & 0x1);
