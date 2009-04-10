@@ -87,7 +87,6 @@ public class INesROM {
         if (pc10Game == 0x1){
             fillWith8KFrom(rom);
         }
-        fillTitleFrom(rom);
     }
 
     private void fillPGR_ROMFrom(ByteBuffer rom) {
@@ -105,18 +104,6 @@ public class INesROM {
         for (int i = 0; i < CHR_ROMsize; i++) {
             chr_rom[i] = readNextUnsignedByteFrom(rom);
         }
-    }
-
-    private void fillTitleFrom(ByteBuffer rom) {
-        StringBuilder title = new StringBuilder();
-        try {
-            for (int i = 0; i < 128; i++) {
-                title.append(String.valueOf((char) readNextUnsignedByteFrom(rom)));
-            }
-        } catch (BufferUnderflowException ex) {
-            System.err.println("Rom without name in final bytes.");
-        }
-        titleRom = title.toString();
     }
 
     private void fillTrainerWith512BytesFrom(ByteBuffer rom) {

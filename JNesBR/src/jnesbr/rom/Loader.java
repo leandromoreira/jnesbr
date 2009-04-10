@@ -54,11 +54,12 @@ public class Loader {
                     Emulator.getInstance().getMemory().write(PRG_ROM_START + i, game.pgr_rom[i]);
                 }
                 break;
-            default:
-                //memory mapper dependent, memory.addHandler to ensure this!
-                //each mapper has a way to fill initial and switch pages!
+            default: //case MemoryMapper
+                //TODO: memory mapper chooser: memory.addHandler to ensure this!
+                //each mapper could has a way to fill initial prg rom and switch pages!
                 int x = 0;
                 for (int i = PRG_ROM_START ; i <= PRG_ROM_END; i++) {
+                    //just mocking the following two prg banks
                     Emulator.getInstance().getMemory().write(PRG_ROM_START + x, game.pgr_rom[x++]);
                 }
         }

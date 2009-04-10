@@ -18,6 +18,8 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.GeneralInstruction;
+import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 
 /**
  * @author dreampeppers99
@@ -35,7 +37,7 @@ public class BRKImplied extends GeneralInstruction {
         cpu.push((short) ((cpu.programCounter + 1) & 0xFF));
         cpu.push(cpu.processorStatus());
         cpu.flagIRQ = 1;
-        cpu.programCounter = Cpu2A03.InterruptIRQBRK;
+        cpu.programCounter = JNesUtil.get16BitLittleEndian(Memory.getMemory().read(Cpu2A03.InterruptIRQBRK), Memory.getMemory().read(Cpu2A03.InterruptIRQBRK + 1));
     }
 
     @Override

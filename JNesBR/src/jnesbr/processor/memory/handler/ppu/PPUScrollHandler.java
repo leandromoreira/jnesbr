@@ -16,9 +16,18 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.memory.handler.ppu;
 
+import jnesbr.processor.memory.Memory;
+import jnesbr.processor.memory.MemoryMap;
+
 /**
  * @author dreampeppers99
  */
 public class PPUScrollHandler {
 
+    private void mirror(int address, short value) {
+        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
+            Memory.getMemory().writeUnhandled(address + 0x08, value);
+            address += 8;
+        }
+    }
 }
