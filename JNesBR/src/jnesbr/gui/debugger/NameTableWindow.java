@@ -63,10 +63,10 @@ public class NameTableWindow extends javax.swing.JFrame {
         int initialY = 35;
         int x = initialX;
         int y = initialY;
-        int[] upperBitsColor = new int[961];
+        int[] upperBitsColor = new int[1024];
         int initIndex = 0;
         Graphics grap = jPnNameTable.getGraphics();
-        fillUpperBitColorMatrix(initialAddress,upperBitsColor);
+        fillUpperBitColorMatrix(initialAddress, upperBitsColor);
 
         for (int line = 0; line < 30; line++) {
             for (int col = 0; col < 32; col++) {
@@ -83,7 +83,7 @@ public class NameTableWindow extends javax.swing.JFrame {
         }
     }
 
-    private void fillUpperBitColorMatrix(int initialAddress,int[] upperBitsColor) {
+    private void fillUpperBitColorMatrix(int initialAddress, int[] upperBitsColor) {
         int initIndex = 0;
         for (int att = 0; att < 64; att++) {
             short value = VideoMemory.getMemory().read(initialAddress + att);
@@ -97,19 +97,17 @@ public class NameTableWindow extends javax.swing.JFrame {
             upperBitsColor[initIndex + 3] = ((value >> 2) & 0x3);
             upperBitsColor[initIndex + 34] = ((value >> 2) & 0x3);
             upperBitsColor[initIndex + 35] = ((value >> 2) & 0x3);
-            //ignoring the 2 last rows; 32x30 on nametable but attribute table is 32*32
-            if (initIndex < 896) {
-                //third 2 upper bits
-                upperBitsColor[initIndex + 64] = ((value >> 4) & 0x3);
-                upperBitsColor[initIndex + 65] = ((value >> 4) & 0x3);
-                upperBitsColor[initIndex + 96] = ((value >> 4) & 0x3);
-                upperBitsColor[initIndex + 97] = ((value >> 4) & 0x3);
-                //fourth 2 upper bits
-                upperBitsColor[initIndex + 66] = ((value >> 6) & 0x3);
-                upperBitsColor[initIndex + 67] = ((value >> 6) & 0x3);
-                upperBitsColor[initIndex + 98] = ((value >> 6) & 0x3);
-                upperBitsColor[initIndex + 99] = ((value >> 6) & 0x3);
-            }
+            //third 2 upper bits
+            upperBitsColor[initIndex + 64] = ((value >> 4) & 0x3);
+            upperBitsColor[initIndex + 65] = ((value >> 4) & 0x3);
+            upperBitsColor[initIndex + 96] = ((value >> 4) & 0x3);
+            upperBitsColor[initIndex + 97] = ((value >> 4) & 0x3);
+            //fourth 2 upper bits
+            upperBitsColor[initIndex + 66] = ((value >> 6) & 0x3);
+            upperBitsColor[initIndex + 67] = ((value >> 6) & 0x3);
+            upperBitsColor[initIndex + 98] = ((value >> 6) & 0x3);
+            upperBitsColor[initIndex + 99] = ((value >> 6) & 0x3);
+
             initIndex += 4;
             if (initIndex == 32) {
                 initIndex = 128;
