@@ -14,14 +14,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.memory.handler;
+package jnesbr.video.memory.handler;
 
+import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.memory.VideoMemory;
 
 /**
  * @author dreampeppers99
  */
-public class NormalHandler implements Handler {
+public class NormalVideoMemoryHandler implements Handler {
 
     public void writeAt(int address, short value) {
         VideoMemory.getMemory().writeUnhandled(address, value);
@@ -30,4 +31,5 @@ public class NormalHandler implements Handler {
     public short readFrom(int address) {
         return VideoMemory.getMemory().readUnhandled(address);
     }
+
 }

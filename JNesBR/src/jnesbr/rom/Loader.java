@@ -25,7 +25,8 @@ import static jnesbr.processor.memory.MemoryMap.*;
  * @author dreampeppers99
  */
 public class Loader {
-    private static final short ONE_BANK = 1, TWO_BANKS = 2;
+
+    private static final short ONE_BANK = 1,  TWO_BANKS = 2;
     private INesROM game;
 
     public void load(ByteBuffer rom) {
@@ -41,34 +42,36 @@ public class Loader {
     public String getHeader() {
         return game.toString();
     }
+
     private void fillMainMemoryWith(INesROM game) {
         switch (game.PRG_ROMPageCount16K) {
             case ONE_BANK:
                 for (int i = 0; i < game.pgr_rom.length; i++) {
-                    Emulator.getInstance().getMemory().write(LOWER_BANK_START + i, game.pgr_rom[i]);
-                    Emulator.getInstance().getMemory().write(UPPER_BANK_START + i, game.pgr_rom[i]);
+                    Emulator.getInstance().getMemory().writeUnhandled(LOWER_BANK_START + i, game.pgr_rom[i]);
+                    Emulator.getInstance().getMemory().writeUnhandled(UPPER_BANK_START + i, game.pgr_rom[i]);
                 }
                 break;
             case TWO_BANKS:
                 for (int i = 0; i < game.pgr_rom.length; i++) {
-                    Emulator.getInstance().getMemory().write(PRG_ROM_START + i, game.pgr_rom[i]);
+                    Emulator.getInstance().getMemory().writeUnhandled(PRG_ROM_START + i, game.pgr_rom[i]);
                 }
                 break;
             default: //case MemoryMapper
                 //TODO: memory mapper chooser: memory.addHandler to ensure this!
                 //each mapper could has a way to fill initial prg rom and switch pages!
                 int x = 0;
-                for (int i = PRG_ROM_START ; i <= PRG_ROM_END; i++) {
+                for (int i = PRG_ROM_START; i <= PRG_ROM_END; i++) {
                     //just mocking the following two prg banks
-                    Emulator.getInstance().getMemory().write(PRG_ROM_START + x, game.pgr_rom[x++]);
+                    Emulator.getInstance().getMemory().writeUnhandled(PRG_ROM_START + x, game.pgr_rom[x++]);
                 }
         }
     }
+
     private void fillPPUMemoryWith(INesROM game) {
         switch (game.CHR_ROMPageCount8K) {
             case ONE_BANK:
                 for (int i = 0; i < game.chr_rom.length; i++) {
-                    VideoMemory.getMemory().write(i,game.chr_rom[i] );
+                    VideoMemory.getMemory().writeUnhandled(i, game.chr_rom[i]);
                 }
                 break;
             default:
