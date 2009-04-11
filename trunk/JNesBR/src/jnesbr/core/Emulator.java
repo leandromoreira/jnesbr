@@ -23,6 +23,8 @@ import jnesbr.rom.INesROM;
 import jnesbr.rom.Loader;
 import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
+import jnesbr.video.SpriteRAM;
+import jnesbr.video.memory.VideoMemory;
 
 /**
  * @author dreampeppers99
@@ -33,9 +35,7 @@ public class Emulator implements Runnable {
     private Loader loader;
     private Cpu2A03 cpu;
     private Ppu2C02 gpu;
-    private Memory memory;
-    //private final static int CYCLES_TO_SCANLINE = 114;
-    private final static int CYCLES_TO_SCANLINE = 34;
+    private final static int CYCLES_TO_SCANLINE = 114;
 
     public static Emulator getInstance() {
         if (emulator == null) {
@@ -47,7 +47,18 @@ public class Emulator implements Runnable {
     private Emulator() {
         cpu = new Cpu2A03();
         gpu = Ppu2C02.getInstance();
-        memory = Memory.getMemory();
+    }
+
+    public Memory getMemory() {
+        return Memory.getMemory();
+    }
+
+    public VideoMemory getVideoMemory() {
+        return VideoMemory.getMemory();
+    }
+
+    public SpriteRAM getSpriteRAM() {
+        return SpriteRAM.getInstance();
     }
 
     public Cpu2A03 getCpu() {
@@ -80,6 +91,7 @@ public class Emulator implements Runnable {
     public void reset() {
         Emulator.getInstance().getCpu().reset();
         Emulator.getInstance().getMemory().reset();
+        Emulator.getInstance().getPPU().reset();
     }
 
     public INesROM rom() {
@@ -110,9 +122,5 @@ public class Emulator implements Runnable {
 
     public String actualLine() {
         return cpu.actualLineDebug;
-    }
-
-    public Memory getMemory() {
-        return memory;
     }
 }

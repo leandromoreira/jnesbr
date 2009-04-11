@@ -14,20 +14,34 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.processor.memory.handler;
-
-import jnesbr.video.memory.VideoMemory;
+package jnesbr.video;
 
 /**
  * @author dreampeppers99
  */
-public class NormalHandler implements Handler {
+public class SpriteRAM {
 
-    public void writeAt(int address, short value) {
-        VideoMemory.getMemory().writeUnhandled(address, value);
+    private static SpriteRAM instance;
+
+    public static SpriteRAM getInstance() {
+        if (instance == null) {
+            instance = new SpriteRAM();
+        }
+        return instance;
+    }
+    private short[] spriteMemory = new short[0x100];
+
+    private SpriteRAM() {
     }
 
-    public short readFrom(int address) {
-        return VideoMemory.getMemory().readUnhandled(address);
+    public void add(int address, short byt) {
+        spriteMemory[address] = byt;
+    }
+
+    public short get(int address) {
+        return spriteMemory[address];
+    }
+
+    public void doDMA(short[] array,int length){
     }
 }

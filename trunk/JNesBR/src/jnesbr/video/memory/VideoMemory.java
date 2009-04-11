@@ -19,7 +19,11 @@ package jnesbr.video.memory;
 import java.util.HashMap;
 import java.util.Map;
 import jnesbr.processor.memory.handler.Handler;
+import jnesbr.processor.memory.handler.NormalHandler;
 import jnesbr.video.memory.handler.HigherAddressHandler;
+import jnesbr.video.memory.handler.PaletteHandler;
+import jnesbr.video.memory.handler.PartialNameTableHandler;
+import static jnesbr.video.memory.VideoMemoryMap.*;
 
 /**
  * @author dreampeppers99
@@ -29,10 +33,26 @@ public class VideoMemory {
     private static VideoMemory instance;
     private short[] memory = new short[0x10000];
     private Map<Integer, Handler> handlers = new HashMap<Integer, Handler>();
-    private static final int HIGHER = 1;
+    private static final int HIGHER = 0xFFFF1,  NORMAL = 0xFFFF2,  PALETTE = 0xFFFF3, NAMETABLE = 0xFFFF4;
 
     private VideoMemory() {
         handlers.put(HIGHER, new HigherAddressHandler());
+        handlers.put(NORMAL, new NormalHandler());
+        handlers.put(PALETTE, new PaletteHandler());
+        handlers.put(NAMETABLE, new PartialNameTableHandler());
+    }
+
+    private Handler getHandler(int address) {
+        if (address >= 0x4000 && address <= 0xFFFF) {
+            return handlers.get(HIGHER);
+        }
+        if (address >= BG_SPR_PALLETE_START && address <= BG_SPR_PALLETE_END) {
+            return handlers.get(PALETTE);
+        }
+        if (address >= 0x2000 && address <= 0x2EFF) {
+            return handlers.get(NAMETABLE);
+        }
+        return handlers.get(NORMAL);
     }
 
     public static VideoMemory getMemory() {
@@ -42,11 +62,23 @@ public class VideoMemory {
         return instance;
     }
 
+    public void reset() {
+        memory = new short[0x10000];
+    }
+
     public short read(int address) {
+        return getHandler(address).readFrom(address);
+    }
+
+    public short readUnhandled(int address) {
         return memory[address];
     }
 
     public void write(int address, short value) {
+        getHandler(address).writeAt(address, value);
+    }
+
+    public void writeUnhandled(int address, short value) {
         memory[address] = value;
     }
 }
