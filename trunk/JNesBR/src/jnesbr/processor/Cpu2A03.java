@@ -21,6 +21,7 @@ import jnesbr.processor.instructions.types.*;
 import jnesbr.processor.instructions.*;
 import java.util.HashMap;
 import java.util.Map;
+import jnesbr.core.Emulator;
 import jnesbr.debugger.AssemblerLine;
 import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
@@ -34,7 +35,8 @@ public class Cpu2A03 {
     public short accumulator,  registerX,  registerY;
     public short stackPointer;
     private short processorStatus;
-    public int programCounter,  oldProgramCounter, disassemblerProgramCounter;
+    public int programCounter,  oldProgramCounter;
+    private int disassemblerProgramCounter;
     public byte flagCarry,  flagZero,  flagIRQ,  flagDecimalMode,  flagBreak,  flagNotUsed,  flagOverflow,  flagSign;
     public static final int InterruptNMI = 0xFFFA;
     public static final int InterruptRESET = 0xFFFC;
@@ -46,6 +48,15 @@ public class Cpu2A03 {
     public Cpu2A03() {
         reset();
         initInstructionTable();
+    }
+
+    public void enterDisassemblerMode() {
+        disassemblerProgramCounter = programCounter;
+        programCounter = 0x8000;
+    }
+
+    public void leaveDisassemblerMode() {
+        programCounter = disassemblerProgramCounter;
     }
 
     public short pull() {
@@ -68,6 +79,10 @@ public class Cpu2A03 {
     public void setProcessorStatus(short p) {
         processorStatus = p;
         updateFlags();
+    }
+
+    private boolean iNesRomIsOnePRGBank() {
+        return (Emulator.getInstance().rom().PRG_ROMPageCount16K == 1);
     }
 
     private void updateFlags() {
@@ -122,7 +137,7 @@ public class Cpu2A03 {
         if (flagBreak == 1) {
             return;
         }
-        
+
         flagBreak = 0;
         push((short) (((programCounter + 1) >> 8) & 0xFF));
         push((short) ((programCounter + 1) & 0xFF));
@@ -383,11 +398,26 @@ public class Cpu2A03 {
     }
 
     public AssemblerLine disassemblerStep() {
-        oldProgramCounter = disassemblerProgramCounter;
-        int opCode = Memory.getMemory().read(disassemblerProgramCounter);
-        Instruction actualInstruction = getInstructionFrom(opCode);
-        actualLineDebug = actualInstruction.disassembler();
-        disassemblerProgramCounter += actualInstruction.size();
+        oldProgramCounter = programCounter;
+        if (iNesRomIsOnePRGBank()) {
+            if (programCounter == 0xBFFA ||
+                    programCounter == 0xBFFC ||
+                    programCounter == 0xBFFE) {
+                int opCode = 0xFF;
+                actualLineDebug = "VECTOR TABLE";
+                programCounter += 2;
+            } else {
+                int opCode = Memory.getMemory().read(programCounter);
+                Instruction actualInstruction = getInstructionFrom(opCode);
+                actualLineDebug = actualInstruction.disassembler();
+                programCounter += actualInstruction.size();
+            }
+        } else {
+            int opCode = Memory.getMemory().read(programCounter);
+            Instruction actualInstruction = getInstructionFrom(opCode);
+            actualLineDebug = actualInstruction.disassembler();
+            programCounter += actualInstruction.size();
+        }
         return new AssemblerLine(oldProgramCounter, actualLineDebug);
     }
 }
