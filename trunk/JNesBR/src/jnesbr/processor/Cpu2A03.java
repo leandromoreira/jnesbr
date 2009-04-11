@@ -85,6 +85,13 @@ public class Cpu2A03 {
         return (Emulator.getInstance().rom().PRG_ROMPageCount16K == 1);
     }
 
+    private void normalDisassembler() {
+        int opCode = Memory.getMemory().read(programCounter);
+        Instruction actualInstruction = getInstructionFrom(opCode);
+        actualLineDebug = actualInstruction.disassembler();
+        programCounter += actualInstruction.size();
+    }
+
     private void updateFlags() {
         flagBreak = giveMeBit4From(processorStatus);
         flagCarry = giveMeBit0From(processorStatus);
@@ -403,20 +410,33 @@ public class Cpu2A03 {
             if (programCounter == 0xBFFA ||
                     programCounter == 0xBFFC ||
                     programCounter == 0xBFFE) {
-                int opCode = 0xFF;
                 actualLineDebug = "VECTOR TABLE";
                 programCounter += 2;
             } else {
-                int opCode = Memory.getMemory().read(programCounter);
-                Instruction actualInstruction = getInstructionFrom(opCode);
-                actualLineDebug = actualInstruction.disassembler();
-                programCounter += actualInstruction.size();
+                normalDisassembler();
             }
         } else {
-            int opCode = Memory.getMemory().read(programCounter);
-            Instruction actualInstruction = getInstructionFrom(opCode);
-            actualLineDebug = actualInstruction.disassembler();
-            programCounter += actualInstruction.size();
+            if (programCounter == 0xBFFA ||
+                    programCounter == 0xBFFC ||
+                    programCounter == 0xBFFE) {
+
+                short valueBFFA = Memory.getMemory().read(0xBFFA);
+                short valueBFFC = Memory.getMemory().read(0xBFFC);
+                short valueBFFE = Memory.getMemory().read(0xBFFE);
+
+                short valueFFFA = Memory.getMemory().read(0xFFFA);
+                short valueFFFC = Memory.getMemory().read(0xFFFC);
+                short valueFFFE = Memory.getMemory().read(0xFFFE);
+
+                if (valueBFFA == valueFFFA && valueBFFC == valueFFFC && valueBFFE == valueFFFE) {
+                    actualLineDebug = "VECTOR TABLE";
+                    programCounter += 2;
+                } else {
+                    normalDisassembler();
+                }
+            } else {
+                normalDisassembler();
+            }
         }
         return new AssemblerLine(oldProgramCounter, actualLineDebug);
     }
