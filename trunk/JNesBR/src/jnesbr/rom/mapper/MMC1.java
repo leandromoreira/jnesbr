@@ -30,7 +30,10 @@ public class MMC1 implements Handler {
     private Register1 register1 = new Register1();
     private Register2 register2 = new Register2();
     private Register3 register3 = new Register3();
-    
+
+    public void fillCHR(INesROM game){
+
+    }
     public void fillPRG(INesROM game) {
         Memory mem = Memory.getMemory();
         int x = 0;
