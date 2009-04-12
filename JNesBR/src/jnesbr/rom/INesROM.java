@@ -16,7 +16,6 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.rom;
 
-import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import jnesbr.util.JNesUtil;
 import static jnesbr.util.JNesUtil.*;
@@ -28,8 +27,8 @@ public class INesROM {
 
     public String romId;
     public short formatId;
-    public short PRG_ROMPageCount16K;
-    public short CHR_ROMPageCount8K;
+    public short PRGROM16KPageCount;
+    public short CHRROM8KPageCount;
     public short cartridgeTypeLSB;
         public short mirroringType;
         public short batteryPresence;
@@ -64,8 +63,8 @@ public class INesROM {
 
         if (!romId.equals("NES") || formatId != 0x1A ) throw new IllegalArgumentException("The file isn't a iNes!");
 
-        PRG_ROMPageCount16K = readNextUnsignedByteFrom(rom);
-        CHR_ROMPageCount8K = readNextUnsignedByteFrom(rom);
+        PRGROM16KPageCount = readNextUnsignedByteFrom(rom);
+        CHRROM8KPageCount = readNextUnsignedByteFrom(rom);
         cartridgeTypeLSB = readNextUnsignedByteFrom(rom);
             setCartridgeTypeLSBAttributes();
         cartridgeTypeMSB = readNextUnsignedByteFrom(rom);
@@ -90,16 +89,16 @@ public class INesROM {
     }
 
     private void fillPGR_ROMFrom(ByteBuffer rom) {
-        PRG_ROMsize = PRG_ROMPageCount16K * 16 * 1024 ;
+        PRG_ROMsize = PRGROM16KPageCount * 16 * 1024 ;
         pgr_rom = new short[PRG_ROMsize];
         for (int i = 0; i < PRG_ROMsize; i++) {
             pgr_rom[i] = readNextUnsignedByteFrom(rom);
         }
     }
     private void fillCHR_ROMFrom(ByteBuffer rom) {
-        if (CHR_ROMPageCount8K == 0) return;
+        if (CHRROM8KPageCount == 0) return;
 
-        CHR_ROMsize = CHR_ROMPageCount8K * 8 * 1024 ;
+        CHR_ROMsize = CHRROM8KPageCount * 8 * 1024 ;
         chr_rom = new short[CHR_ROMsize];
         for (int i = 0; i < CHR_ROMsize; i++) {
             chr_rom[i] = readNextUnsignedByteFrom(rom);
@@ -141,8 +140,8 @@ public class INesROM {
         sb.append("==========iNes Header==========\n");
         sb.append("Rom Id:\t\t"+romId+"\n");
         sb.append("Format Id:\t\t"+ JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(formatId).toUpperCase()) +"\n");
-        sb.append("Pages PRG16K:\t\t"+PRG_ROMPageCount16K+"\n");
-        sb.append("Pages CHR8K:\t\t"+CHR_ROMPageCount8K+"\n");
+        sb.append("Pages PRG16K:\t\t"+PRGROM16KPageCount+"\n");
+        sb.append("Pages CHR8K:\t\t"+CHRROM8KPageCount+"\n");
 
         sb.append("Cartridge LSB:\n");
         sb.append("\tMirroring type:\t\t"+ ((mirroringType==0)?"Horizontal":"Vertical") +"\n");

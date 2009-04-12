@@ -52,7 +52,7 @@ public class Main extends javax.swing.JFrame {
             ImageIcon icon = new ImageIcon(getClass().getResource("resources/icon.PNG"));
             super.setIconImage(icon.getImage());
         } catch (Exception e) {
-            System.out.println("Icone erro:\n" + e.getMessage());
+            System.out.println("Icon resource err :\n" + e.getMessage());
         }
     }
 
@@ -387,7 +387,7 @@ public class Main extends javax.swing.JFrame {
 
     private JFileChooser makeJFileChooser() {
         final JFileChooser fc = new JFileChooser();
-        fc.setDialogTitle("Open NES File");
+        fc.setDialogTitle("Open iNES File");
         fc.setCurrentDirectory(new java.io.File("."));
         return fc;
     }

@@ -28,7 +28,7 @@ public class UNROM {
 
     public void fillMemory(INesROM rom){
         short firstBank  = 0;
-        short lastBank = rom.PRG_ROMPageCount16K;
+        short lastBank = rom.PRGROM16KPageCount;
 
         int x = firstBank;
         for (int i = LOWER_BANK_START ; i <= LOWER_BANK_END ; i++ ){

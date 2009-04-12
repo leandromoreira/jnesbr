@@ -48,8 +48,8 @@ public class Ppu2C02 {
     }
 
     public void initPatternTable() {
-        if (Emulator.getInstance().haveTablePattern()) {
-            short[] chr_rom = Emulator.getInstance().giveMeTablePattern();
+        if (Emulator.getInstance().havePatternTable()) {
+            short[] chr_rom = Emulator.getInstance().giveMePatternTable();
             int addressComplement = 0;
             for (int index = 0; index < chr_rom.length; addressComplement += 16, index += 16) {
                 int[][] tile = new int[8][8];
@@ -81,5 +81,16 @@ public class Ppu2C02 {
 
     public Map<Integer, int[][]> getPatternTable() {
         return patternTable;
+    }
+
+    public void scanLine() {
+        //mocking scanline timing
+        ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
+        ppuStatus.sprite0Hit = 0;
+
+        if (ppuControl.executeNMIOnVBlank == 1) {
+            Emulator.getInstance().getCpu().nmi();
+            //todo: or maybe i just throw an exception
+        }
     }
 }

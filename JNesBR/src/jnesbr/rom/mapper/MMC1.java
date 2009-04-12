@@ -38,7 +38,7 @@ public class MMC1 implements Handler {
             mem.writeUnhandled(index, game.pgr_rom[x++]);
         }
         //TODO: continue evoluting this idea ! {this should be the last page}
-        x = game.PRG_ROMPageCount16K * 16 * 1024;
+        x = game.PRGROM16KPageCount * 16 * 1024;
         for (int index = UPPER_BANK_START; index <= UPPER_BANK_END; index++) {
             mem.writeUnhandled(index, game.pgr_rom[x++]);
         }

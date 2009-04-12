@@ -256,7 +256,7 @@ public class PatternTableViewer extends javax.swing.JFrame {
     private Map<Integer, int[][]> patternTable;
     private void jBtnShowNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnShowNextActionPerformed
         jLblPage.setText("");
-        if (Emulator.getInstance().rom().CHR_ROMPageCount8K == 0) {
+        if (Emulator.getInstance().rom().CHRROM8KPageCount == 0) {
             jLblPage.setText("There no video memory bank on rom file.");
             return;
         }
@@ -265,16 +265,16 @@ public class PatternTableViewer extends javax.swing.JFrame {
                 Arrays.copyOfRange(Emulator.getInstance().rom().chr_rom, addressInitial,
                 (addressInitial + 8 * 1024)));
         actualChrPage++;
-        if (actualChrPage >= Emulator.getInstance().rom().CHR_ROMPageCount8K * 8 * 1024) {
+        if (actualChrPage >= Emulator.getInstance().rom().CHRROM8KPageCount * 8 * 1024) {
             actualChrPage = 0;
         }
-        if (Emulator.getInstance().rom().CHR_ROMPageCount8K == 1) {
+        if (Emulator.getInstance().rom().CHRROM8KPageCount == 1) {
             actualChrPage = 0;
         }
 
         actualChrPageNumber++;
-        status = "Page " + actualChrPageNumber + " from " + Emulator.getInstance().rom().CHR_ROMPageCount8K;
-        if (actualChrPageNumber == Emulator.getInstance().rom().CHR_ROMPageCount8K) {
+        status = "Page " + actualChrPageNumber + " from " + Emulator.getInstance().rom().CHRROM8KPageCount;
+        if (actualChrPageNumber == Emulator.getInstance().rom().CHRROM8KPageCount) {
             actualChrPage = 0;
             actualChrPageNumber = 0;
         }

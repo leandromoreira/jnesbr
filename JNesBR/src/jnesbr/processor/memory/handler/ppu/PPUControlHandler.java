@@ -18,7 +18,7 @@ package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.handler.*;
 import jnesbr.processor.memory.*;
-import jnesbr.util.JNesUtil;
+import static jnesbr.util.JNesUtil.*;
 import jnesbr.video.PPUControll;
 import jnesbr.video.Ppu2C02;
 
@@ -31,15 +31,15 @@ public class PPUControlHandler implements Handler {
     public void writeAt(int address, short value) {
         
         ppuControll = Ppu2C02.getInstance().ppuControl;
-        ppuControll.executeNMIOnVBlank = (byte) JNesUtil.giveMeBit7From(value);
-        ppuControll.masterOrSlave = (byte) JNesUtil.giveMeBit6From(value);
-        ppuControll.spriteSize = (byte) JNesUtil.giveMeBit5From(value);
-        ppuControll.patternTableAddressBackground = (byte) JNesUtil.giveMeBit4From(value);
-        ppuControll.patternTableAddress8x8Sprites = (byte) JNesUtil.giveMeBit3From(value);
-        ppuControll.port2007AddressIncrement = (byte) JNesUtil.giveMeBit2From(value);
-        ppuControll.nameTableAddress = (byte) (JNesUtil.giveMeBit0From(value) >> 1 | JNesUtil.giveMeBit1From(value));
-        ppuControll.horizontalScrollBy256 = (byte) JNesUtil.giveMeBit0From(value);
-        ppuControll.verticalScrollBy240 = (byte) JNesUtil.giveMeBit1From(value);
+        ppuControll.executeNMIOnVBlank = giveMeBit7From(value);
+        ppuControll.masterOrSlave = giveMeBit6From(value);
+        ppuControll.spriteSize = giveMeBit5From(value);
+        ppuControll.patternTableAddressBackground = giveMeBit4From(value);
+        ppuControll.patternTableAddress8x8Sprites = giveMeBit3From(value);
+        ppuControll.port2007AddressIncrement = giveMeBit2From(value);
+        ppuControll.nameTableAddress = (byte)(giveMeBit0From(value) >> 1 | giveMeBit1From(value));
+        ppuControll.horizontalScrollBy256 = giveMeBit0From(value);
+        ppuControll.verticalScrollBy240 = giveMeBit1From(value);
         Memory.getMemory().writeUnhandled(address, value);
         mirror(address, value);
     }
@@ -52,7 +52,6 @@ public class PPUControlHandler implements Handler {
     }
 
     public short readFrom(int address) {
-        //The address $2000 is just Write-Only on the real nes here is the debug stuffs.
         return Memory.getMemory().readUnhandled(address);
     }
 }

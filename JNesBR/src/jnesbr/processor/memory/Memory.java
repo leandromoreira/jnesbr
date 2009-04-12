@@ -62,7 +62,7 @@ public class Memory {
 
     private Memory() {
         handlers.put(NORMAL, new NormalHandler());
-        handlers.put(ZERO_PAGE_STACK_AND_RAM, new ZeroPageHandler());
+        handlers.put(ZERO_PAGE_STACK_AND_RAM, new RAMHandler());
         handlers.put(PPU_CONTROL, new PPUControlHandler());
         handlers.put(PPU_MASK, new PPUMaskHandler());
         handlers.put(PPU_STATUS, new PPUStatusHandler());

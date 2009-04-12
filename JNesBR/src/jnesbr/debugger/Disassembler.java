@@ -16,8 +16,24 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.debugger;
 
+import java.util.ArrayList;
+import java.util.List;
+import jnesbr.core.Emulator;
+
 /**
  * @author dreampeppers99
  */
 public class Disassembler {
+
+    public static List<AssemblerLine> disassembler() {
+        List<AssemblerLine> assembler = new ArrayList<AssemblerLine>();
+        Emulator.getInstance().getCpu().enterDisassemblerMode();
+        AssemblerLine ass = Emulator.getInstance().getCpu().disassemblerStep();
+        while (ass.pc < 0xFFFA) {
+            assembler.add(ass);
+            ass = Emulator.getInstance().getCpu().disassemblerStep();
+        }
+        Emulator.getInstance().getCpu().leaveDisassemblerMode();
+        return assembler;
+    }
 }

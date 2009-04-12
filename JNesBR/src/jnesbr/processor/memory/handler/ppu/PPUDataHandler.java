@@ -34,8 +34,7 @@ public class PPUDataHandler implements Handler {
     public void writeAt(int address, short value) {
         pPUData = Ppu2C02.getInstance().pPUData;
         pPUData.data = value;
-        VideoMemory.getMemory().write(Ppu2C02.getInstance().pPUAddress.completeAddress,
-                pPUData.data);
+        VideoMemory.getMemory().write(Ppu2C02.getInstance().pPUAddress.completeAddress, pPUData.data);
         if (Ppu2C02.getInstance().ppuControl.port2007AddressIncrement == PPUControll.IncrementBy1) {
             Ppu2C02.getInstance().pPUAddress.completeAddress++;
         } else {
@@ -53,7 +52,7 @@ public class PPUDataHandler implements Handler {
     }
 
     public short readFrom(int address) {
-        short value = VideoMemory.getMemory().read(Ppu2C02.getInstance().pPUAddress.completeAddress);
+        short value = VideoMemory.getMemory().readUnhandled(Ppu2C02.getInstance().pPUAddress.completeAddress);
         if (Ppu2C02.getInstance().ppuControl.port2007AddressIncrement == PPUControll.IncrementBy1) {
             Ppu2C02.getInstance().pPUAddress.completeAddress++;
         } else {
