@@ -36,7 +36,7 @@ public class Cpu2A03 {
     public short stackPointer;
     private short processorStatus;
     public int programCounter,  oldProgramCounter;
-    private int disassemblerProgramCounter;
+    private int lastProgramCounter;
     public byte flagCarry,  flagZero,  flagIRQ,  flagDecimalMode,  flagBreak,  flagNotUsed,  flagOverflow,  flagSign;
     public static final int InterruptNMI = 0xFFFA;
     public static final int InterruptRESET = 0xFFFC;
@@ -51,12 +51,12 @@ public class Cpu2A03 {
     }
 
     public void enterDisassemblerMode() {
-        disassemblerProgramCounter = programCounter;
+        lastProgramCounter = programCounter;
         programCounter = 0x8000;
     }
 
     public void leaveDisassemblerMode() {
-        programCounter = disassemblerProgramCounter;
+        programCounter = lastProgramCounter;
     }
 
     public short pull() {
@@ -82,7 +82,7 @@ public class Cpu2A03 {
     }
 
     private boolean iNesRomIsOnePRGBank() {
-        return (Emulator.getInstance().rom().PRG_ROMPageCount16K == 1);
+        return (Emulator.getInstance().rom().PRGROM16KPageCount == 1);
     }
 
     private void normalDisassembler() {

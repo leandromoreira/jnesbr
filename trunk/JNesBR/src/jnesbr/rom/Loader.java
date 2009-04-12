@@ -44,7 +44,7 @@ public class Loader {
     }
 
     private void fillMainMemoryWith(INesROM game) {
-        switch (game.PRG_ROMPageCount16K) {
+        switch (game.PRGROM16KPageCount) {
             case ONE_BANK:
                 for (int i = 0; i < game.pgr_rom.length; i++) {
                     Emulator.getInstance().getMemory().writeUnhandled(LOWER_BANK_START + i, game.pgr_rom[i]);
@@ -68,7 +68,7 @@ public class Loader {
     }
 
     private void fillPPUMemoryWith(INesROM game) {
-        switch (game.CHR_ROMPageCount8K) {
+        switch (game.CHRROM8KPageCount) {
             case ONE_BANK:
                 for (int i = 0; i < game.chr_rom.length; i++) {
                     VideoMemory.getMemory().writeUnhandled(i, game.chr_rom[i]);

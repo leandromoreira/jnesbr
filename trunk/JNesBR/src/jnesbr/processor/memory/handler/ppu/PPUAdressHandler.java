@@ -52,7 +52,6 @@ public class PPUAdressHandler implements Handler {
     }
 
     public short readFrom(int address) {
-        //The address $2006 is just 2x Write-Only on the real nes here is the debug stuffs.
         return Memory.getMemory().readUnhandled(address);
     }
 }

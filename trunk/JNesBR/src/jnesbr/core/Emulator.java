@@ -21,7 +21,6 @@ import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
 import jnesbr.rom.INesROM;
 import jnesbr.rom.Loader;
-import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
 import jnesbr.video.SpriteRAM;
 import jnesbr.video.memory.VideoMemory;
@@ -73,11 +72,11 @@ public class Emulator implements Runnable {
         return loader.getHeader();
     }
 
-    public boolean haveTablePattern() {
-        return loader.getGame().CHR_ROMPageCount8K != 0;
+    public boolean havePatternTable() {
+        return loader.getGame().CHRROM8KPageCount != 0;
     }
 
-    public short[] giveMeTablePattern() {
+    public short[] giveMePatternTable() {
         return java.util.Arrays.copyOf(loader.getGame().chr_rom, loader.getGame().chr_rom.length);
     }
 
@@ -102,20 +101,22 @@ public class Emulator implements Runnable {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    public void unpause() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void stop() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     public void run() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void stepDebugger() {
         if (cpu.cycles >= CYCLES_TO_SCANLINE) {
-            //mocking scanline timing
             cpu.cycles = 0;
-            Ppu2C02.getInstance().ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
-            Ppu2C02.getInstance().ppuStatus.sprite0Hit = 0;
-
-            if (Ppu2C02.getInstance().ppuControl.executeNMIOnVBlank == 1) {
-                cpu.nmi();
-            }
+            Ppu2C02.getInstance().scanLine();
         }
         cpu.debugStep();
     }

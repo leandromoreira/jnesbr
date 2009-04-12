@@ -25,6 +25,7 @@ import javax.swing.text.JTextComponent;
 import jnesbr.core.Emulator;
 import jnesbr.debugger.AssemblerLine;
 import jnesbr.debugger.Debugger;
+import jnesbr.debugger.Disassembler;
 import jnesbr.util.JNesUtil;
 import jnesbr.util.JTableHelper;
 
@@ -1106,7 +1107,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
     }
 
     private void updateMainCode() {
-        List<AssemblerLine> assembler = Debugger.disassembler();
+        List<AssemblerLine> assembler = Disassembler.disassembler();
         fillTable(assembler);
     }
 
@@ -1115,7 +1116,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
         for (Iterator<AssemblerLine> it = assembler.iterator(); it.hasNext();) {
             AssemblerLine assemblerLine = it.next();
             jTableDebugger.setValueAt(Integer.toHexString(assemblerLine.pc).toUpperCase(), row, addressColunm);
-            jTableDebugger.setValueAt(assemblerLine.code.toUpperCase(), row, codeColunm);
+            jTableDebugger.setValueAt(assemblerLine.asm6502Code.toUpperCase(), row, codeColunm);
             row++;
         }
     }

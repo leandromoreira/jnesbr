@@ -21,10 +21,10 @@ package jnesbr.debugger;
  */
 public class AssemblerLine {
     public int pc;
-    public String code;
+    public String asm6502Code;
 
-    public AssemblerLine(int oldProgramCounter, String actualLineDebug) {
-        this.pc = oldProgramCounter;
-        this.code = actualLineDebug;
+    public AssemblerLine(int programCounter, String actualLineASM6502) {
+        this.pc = programCounter;
+        this.asm6502Code = actualLineASM6502;
     }
 }

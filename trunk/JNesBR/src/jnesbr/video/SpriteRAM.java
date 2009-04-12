@@ -16,6 +16,8 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.video;
 
+import java.util.Arrays;
+
 /**
  * @author dreampeppers99
  */
@@ -32,6 +34,10 @@ public class SpriteRAM {
     private short[] spriteMemory = new short[0x100];
 
     private SpriteRAM() {
+    }
+
+    public short[] spriteRAM(){
+        return Arrays.copyOf(spriteMemory, spriteMemory.length);
     }
 
     public void add(int address, short byt) {

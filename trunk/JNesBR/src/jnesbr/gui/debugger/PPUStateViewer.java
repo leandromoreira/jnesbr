@@ -911,7 +911,7 @@ public class PPUStateViewer extends javax.swing.JFrame {
         if (ppuStatus.sprite0Hit == 1) {
             jChkSprite0.setSelected(true);
         }
-        if (ppuStatus.spriteOverflow == 1) {
+        if (ppuStatus.moreThan8ObjectsOnScanLine == 1) {
             jChkHasSpriteOverFlow.setSelected(true);
         }
     }

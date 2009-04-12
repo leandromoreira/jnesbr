@@ -25,10 +25,10 @@ import jnesbr.video.memory.VideoMemory;
 public class HigherAddressHandler implements Handler {
 
     public void writeAt(int address, short value) {
-        VideoMemory.getMemory().write(address - 0x4000, value);
+        VideoMemory.getMemory().writeUnhandled(address - 0x4000, value);
     }
 
     public short readFrom(int address) {
-        return VideoMemory.getMemory().read(address - 0x4000);
+        return VideoMemory.getMemory().readUnhandled(address - 0x4000);
     }
 }

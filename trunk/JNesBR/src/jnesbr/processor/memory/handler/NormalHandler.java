@@ -16,7 +16,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.memory.handler;
 
-import jnesbr.video.memory.VideoMemory;
+import jnesbr.processor.memory.Memory;
 
 /**
  * @author dreampeppers99
@@ -24,10 +24,10 @@ import jnesbr.video.memory.VideoMemory;
 public class NormalHandler implements Handler {
 
     public void writeAt(int address, short value) {
-        VideoMemory.getMemory().writeUnhandled(address, value);
+        Memory.getMemory().writeUnhandled(address, value);
     }
 
     public short readFrom(int address) {
-        return VideoMemory.getMemory().readUnhandled(address);
+        return Memory.getMemory().readUnhandled(address);
     }
 }

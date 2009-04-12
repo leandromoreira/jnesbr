@@ -45,9 +45,9 @@ public class NameTableWindow extends javax.swing.JFrame {
             for (int col = 0; col < 32; col++) {
                 grap.setColor(Color.BLACK);
                 grap.drawRect(x, y, rectangleSize, rectangleSize);
-                grap.setColor(Color.WHITE);
+                grap.setColor(Color.orange);
                 grap.fillRect(x, y, rectangleSize, rectangleSize);
-                grap.setColor(Color.BLACK);
+                grap.setColor(Color.RED);
                 short value = VideoMemory.getMemory().read(initialAddress++);
                 grap.drawString(JNesUtil.giveMeHexaStringFormattedWith2Space(value), x, y + 12);
                 x += rectangleSize + 1;
@@ -72,9 +72,9 @@ public class NameTableWindow extends javax.swing.JFrame {
             for (int col = 0; col < 32; col++) {
                 grap.setColor(Color.BLACK);
                 grap.drawRect(x, y, rectangleSize, rectangleSize);
-                grap.setColor(Color.WHITE);
+                grap.setColor(Color.orange);
                 grap.fillRect(x, y, rectangleSize, rectangleSize);
-                grap.setColor(Color.BLACK);
+                grap.setColor(Color.RED);
                 grap.drawString(JNesUtil.giveMeBinaryStringFormattedWith2Space(upperBitsColor[initIndex++]), x, y + 12);
                 x += rectangleSize + 1;
             }
