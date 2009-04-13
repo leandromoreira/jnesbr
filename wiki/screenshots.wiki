@@ -3,6 +3,12 @@
 
 = Screenshots =
 
+Date: 04-13-09 08:04
+
+Sprite Attribute RAM Viewer (OAM)
+
+http://www.uploadimagens.com/upload/a3ca2d6052650551f510f88f25d81fcf.jpg
+
 Date: 04-10-09 17:02
 
 JNesBR - Alfa version main screen
