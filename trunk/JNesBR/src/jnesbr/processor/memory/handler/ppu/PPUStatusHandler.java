@@ -37,6 +37,7 @@ public class PPUStatusHandler implements Handler {
     public short readFrom(int address) {
         //todo: understand this... "When a read from $2002 occurs, bit 7 is reset to 0 as are $2005 and $2006."
         ppuStatus = Ppu2C02.getInstance().ppuStatus;
+        ppuStatus.flipflop = 0;
         Memory.getMemory().writeUnhandled(address, (short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.moreThan8ObjectsOnScanLine << 5)));
         mirror(address,(short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.moreThan8ObjectsOnScanLine << 5)));
         return Memory.getMemory().readUnhandled(address);

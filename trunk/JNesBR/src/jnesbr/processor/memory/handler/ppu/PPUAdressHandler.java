@@ -20,6 +20,7 @@ import jnesbr.processor.memory.Memory;
 import jnesbr.processor.memory.MemoryMap;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.PPUAddress;
+import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
 
 /**
@@ -28,17 +29,18 @@ import jnesbr.video.Ppu2C02;
 public class PPUAdressHandler implements Handler {
 
     private PPUAddress pPUAddress;
-    private byte marker = 0;
+    private PPUStatus ppuStatus;
 
     public void writeAt(int address, short value) {
         pPUAddress = Ppu2C02.getInstance().pPUAddress;
-        if (marker == 0) {
+        ppuStatus = Ppu2C02.getInstance().ppuStatus;
+        if (ppuStatus.flipflop == 0) {
             pPUAddress.firstData = value;
-            marker++;
+            ppuStatus.flipflop++;
         } else {
             pPUAddress.secondData = value;
             pPUAddress.completeAddress = (pPUAddress.firstData<<8) | pPUAddress.secondData;
-            marker--;
+            ppuStatus.flipflop--;
         }
         Memory.getMemory().writeUnhandled(address, value);
         mirror(address, value);

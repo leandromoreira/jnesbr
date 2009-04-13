@@ -834,7 +834,7 @@ public class PPUStateViewer extends javax.swing.JFrame {
         } else {
             jChkSpriteSize8x16.setSelected(true);
         }
-        if (ppuControll.patternTableAddress8x8Sprites == 0) {
+        if (ppuControll.patternTableAddressSprites == 0) {
             jChkSpritePatternTable0000.setSelected(true);
         } else {
             jChkSpritePatternTable1000.setSelected(true);

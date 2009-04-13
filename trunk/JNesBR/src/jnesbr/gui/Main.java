@@ -36,6 +36,7 @@ import jnesbr.gui.debugger.ActualPalette;
 import jnesbr.gui.debugger.MemoryVideoView;
 import jnesbr.gui.debugger.NESPaletteSystem;
 import jnesbr.gui.debugger.NameTableWindow;
+import jnesbr.gui.debugger.OAMWindow;
 import jnesbr.gui.debugger.PPUStateViewer;
 import jnesbr.gui.debugger.PatternTableViewer;
 
@@ -84,6 +85,7 @@ public class Main extends javax.swing.JFrame {
         jMnuPalette = new javax.swing.JMenuItem();
         jMnuPPUState = new javax.swing.JMenuItem();
         jMnuNameTable = new javax.swing.JMenuItem();
+        jMnuShowSpriteRAM = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JSeparator();
         JmnuDebbugerShow = new javax.swing.JMenuItem();
         jMnuAbout = new javax.swing.JMenu();
@@ -229,6 +231,14 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMnuDebugger.add(jMnuNameTable);
+
+        jMnuShowSpriteRAM.setText("Show Sprite RAM (OAM)");
+        jMnuShowSpriteRAM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuShowSpriteRAMActionPerformed(evt);
+            }
+        });
+        jMnuDebugger.add(jMnuShowSpriteRAM);
         jMnuDebugger.add(jSeparator2);
 
         JmnuDebbugerShow.setText("Show Debugger");
@@ -381,6 +391,10 @@ public class Main extends javax.swing.JFrame {
         new NameTableWindow().setVisible(true);
     }//GEN-LAST:event_jMnuNameTableActionPerformed
 
+    private void jMnuShowSpriteRAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuShowSpriteRAMActionPerformed
+        new OAMWindow().setVisible(true);
+    }//GEN-LAST:event_jMnuShowSpriteRAMActionPerformed
+
     private boolean userChooseSomething(int returnVal) {
         return returnVal == JFileChooser.APPROVE_OPTION;
     }
@@ -423,6 +437,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMnuPalette;
     private javax.swing.JMenuItem jMnuPatternTableViewer;
     private javax.swing.JMenuItem jMnuShowHeader;
+    private javax.swing.JMenuItem jMnuShowSpriteRAM;
     private javax.swing.JMenuItem jMnuVideoMemoryView;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

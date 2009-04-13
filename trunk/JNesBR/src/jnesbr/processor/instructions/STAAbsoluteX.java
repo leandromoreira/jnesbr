@@ -31,7 +31,7 @@ public class STAAbsoluteX extends AbsoluteIndexedInstruction{
 
     @Override
     public void interpret() {
-        Memory.getMemory().write(getOperand(cpu.registerX), cpu.accumulator);
+        Memory.getMemory().write(getOperandAddress()+cpu.registerX, cpu.accumulator);
         cpu.programCounter += 3;
     }
 

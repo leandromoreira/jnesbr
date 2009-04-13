@@ -16,11 +16,16 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.gui.debugger;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.text.JTextComponent;
 import jnesbr.core.Emulator;
 import jnesbr.debugger.AssemblerLine;
@@ -47,6 +52,27 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jTableDebugger.getColumnModel().getColumn(1).setResizable(false);
         jTableDebugger.getColumnModel().getColumn(2).setResizable(false);
         jTableDebugger.getColumnModel().getColumn(1).setMaxWidth(60);
+        jTableDebugger.getColumnModel().getColumn(1).setCellRenderer
+        (
+        new TableCellRenderer() {
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0x00, 0x00, 0x66, null)[0], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[1], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[2]));
+                return renderer;
+            }
+        }
+        );
+        //#FF7246
+        jTableDebugger.getColumnModel().getColumn(0).setCellRenderer
+        (
+        new TableCellRenderer() {
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[0], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[1], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[2]));
+                return renderer;
+            }
+        }
+        );
     }
 
     @SuppressWarnings("unchecked")

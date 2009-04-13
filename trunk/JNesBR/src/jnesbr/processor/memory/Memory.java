@@ -67,7 +67,10 @@ public class Memory {
         handlers.put(PPU_MASK, new PPUMaskHandler());
         handlers.put(PPU_STATUS, new PPUStatusHandler());
         handlers.put(PPU_ADDRESS, new PPUAdressHandler());
+        handlers.put(PPU_OAM_ADDRESS, new PPUOAMAddressHandler());
+        handlers.put(PPU_OAM_DATA, new PPUOAMDataHandler());
         handlers.put(PPU_DATA, new PPUDataHandler());
+        handlers.put(DIRECT_MEMORY_ACCESS, new PPUDirectMemoryAccessHandler());
     }
 
     public void reset() {

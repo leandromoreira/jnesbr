@@ -14,16 +14,23 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.video;
+package jnesbr.rom.mapper;
 
 /**
  * @author dreampeppers99
  */
-public class PPUStatus {
-    public byte verticalBlankStarted;
-        public final static byte InVBlank = 1;
-        public final static byte NotInVBlank = 0;
-    public byte sprite0Hit;
-    public byte moreThan8ObjectsOnScanLine;
-    public byte flipflop;
+public class NesMapperUtil {
+
+    public void switchBank(short[] sour, short[] dest) {
+        short[] matrix = new short[0xFFFF];
+        short size = 256;
+        int actual = 0;
+        for (int i = 0; i < 256; i++) {
+            actual = i;
+            System.out.println("Bank : " + i);
+            System.out.println("Init : " + (actual * size));
+            System.out.println("End  : " + ((actual * size) + size));
+            System.out.println("======================================");
+        }
+    }
 }
