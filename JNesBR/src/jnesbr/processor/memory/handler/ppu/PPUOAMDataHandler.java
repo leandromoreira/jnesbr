@@ -18,11 +18,25 @@ package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
 import jnesbr.processor.memory.MemoryMap;
+import jnesbr.processor.memory.handler.Handler;
+import jnesbr.video.Ppu2C02;
+import jnesbr.video.SpriteRAM;
 
 /**
  * @author dreampeppers99
  */
-public class PPUOAMDataHandler {
+public class PPUOAMDataHandler implements Handler {
+
+    public void writeAt(int address, short value) {
+        SpriteRAM.getInstance().add(Ppu2C02.getInstance().ppuOAMAddress.address,value);
+        Ppu2C02.getInstance().ppuOAMAddress.address++;
+        Memory.getMemory().writeUnhandled(address, value);
+        mirror(address, value);
+    }
+
+    public short readFrom(int address) {
+        return SpriteRAM.getInstance().get(Ppu2C02.getInstance().ppuOAMAddress.address);
+    }
 
     private void mirror(int address, short value) {
         while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {

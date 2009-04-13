@@ -19,11 +19,6 @@ package jnesbr.video;
 /**
  * @author dreampeppers99
  */
-public class PPUStatus {
-    public byte verticalBlankStarted;
-        public final static byte InVBlank = 1;
-        public final static byte NotInVBlank = 0;
-    public byte sprite0Hit;
-    public byte moreThan8ObjectsOnScanLine;
-    public byte flipflop;
+public class PPUOAMData {
+    public short data;
 }

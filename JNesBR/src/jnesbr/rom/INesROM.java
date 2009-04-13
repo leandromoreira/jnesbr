@@ -31,6 +31,8 @@ public class INesROM {
     public short CHRROM8KPageCount;
     public short cartridgeTypeLSB;
         public short mirroringType;
+            public static final short HORIZONTAL = 0;
+            public static final short VERTICAL = 1;
         public short batteryPresence;
         public short trainerPresence;
         public short fourScreenMirroring;

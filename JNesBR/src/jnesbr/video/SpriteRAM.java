@@ -24,6 +24,7 @@ import java.util.Arrays;
 public class SpriteRAM {
 
     private static SpriteRAM instance;
+    private int index;
 
     public static SpriteRAM getInstance() {
         if (instance == null) {
@@ -34,18 +35,23 @@ public class SpriteRAM {
     private short[] spriteMemory = new short[0x100];
 
     private SpriteRAM() {
+        index = 0;
+    }
+
+    public void add(short address, short value) {
+        spriteMemory[address] = value;
     }
 
     public short[] spriteRAM(){
         return Arrays.copyOf(spriteMemory, spriteMemory.length);
     }
 
-    public void add(int address, short byt) {
-        spriteMemory[address] = byt;
+    public void add(short byt) {
+        spriteMemory[index++] = byt;
     }
 
-    public short get(int address) {
-        return spriteMemory[address];
+    public short get(int index) {
+        return spriteMemory[index];
     }
 
     public void doDMA(short[] array,int length){

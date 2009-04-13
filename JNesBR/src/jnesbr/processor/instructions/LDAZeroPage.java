@@ -39,7 +39,7 @@ public class LDAZeroPage extends ZeroPageInstruction {
 
     @Override
     public String disassembler() {
-        return "LDA $"+ JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperand())) ;
+        return "LDA $"+ JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(getOperandAddress())) ;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class PPUControlHandler implements Handler {
         ppuControll.masterOrSlave = giveMeBit6From(value);
         ppuControll.spriteSize = giveMeBit5From(value);
         ppuControll.patternTableAddressBackground = giveMeBit4From(value);
-        ppuControll.patternTableAddress8x8Sprites = giveMeBit3From(value);
+        ppuControll.patternTableAddressSprites = giveMeBit3From(value);
         ppuControll.port2007AddressIncrement = giveMeBit2From(value);
         ppuControll.nameTableAddress = (byte)(giveMeBit0From(value) >> 1 | giveMeBit1From(value));
         ppuControll.horizontalScrollBy256 = giveMeBit0From(value);

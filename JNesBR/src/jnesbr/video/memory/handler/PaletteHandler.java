@@ -34,7 +34,7 @@ public class PaletteHandler implements Handler {
         return VideoMemory.getMemory().readUnhandled(address);
     }
     private void mirror(int address,short value){
-        while ((address + 0x32) <= VideoMemoryMap.BG_SPR_PALLETE_END) {
+        while ((address + 0x32) <= VideoMemoryMap.MIRROR1_END) {
             VideoMemory.getMemory().writeUnhandled(address + 0x32, value);
             address += 32;
         }

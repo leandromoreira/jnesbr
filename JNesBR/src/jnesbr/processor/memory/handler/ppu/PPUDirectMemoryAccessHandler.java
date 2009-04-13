@@ -16,19 +16,38 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.memory.handler.ppu;
 
+import jnesbr.core.Emulator;
+import jnesbr.processor.memory.Memory;
 import jnesbr.processor.memory.handler.Handler;
+import jnesbr.video.Ppu2C02;
+import jnesbr.video.SpriteRAM;
 
 /**
  * @author dreampeppers99
  */
 public class PPUDirectMemoryAccessHandler implements Handler {
-
+//todo: understand this
+/*Specifies the destination address 
+ in Sprite RAM for use with Port 2004h (Single byte write),
+ and Port 4014h (256 bytes DMA transfer).*/
     public void writeAt(int address, short value) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Memory.getMemory().writeUnhandled(address, value);
+        fillSpriteRAM(value * 0x100);
+        Emulator.getInstance().getCpu().cycles += 512;
     }
 
     public short readFrom(int address) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Memory.getMemory().readUnhandled(address);
     }
 
+    private void fillSpriteRAM(int firstAddress) {
+        short address = Ppu2C02.getInstance().ppuOAMAddress.address;
+        SpriteRAM sprMemory = SpriteRAM.getInstance();
+        Memory mem = Memory.getMemory();
+        int max = firstAddress + 0xFF;
+        for (int index = firstAddress; index <= max; index++) {
+            sprMemory.add((short)(address & 0xFF) ,mem.readUnhandled(index));
+            address++;
+        }
+    }
 }
