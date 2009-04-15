@@ -14,9 +14,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.video;
+package jnesbr.video.sprite;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author dreampeppers99
@@ -25,6 +27,7 @@ public class SpriteRAM {
 
     private static SpriteRAM instance;
     private int index;
+    private Map<Integer, Sprite> sprites;
 
     public static SpriteRAM getInstance() {
         if (instance == null) {
@@ -36,13 +39,14 @@ public class SpriteRAM {
 
     private SpriteRAM() {
         index = 0;
+        sprites = new HashMap<Integer, Sprite>();
     }
 
     public void add(short address, short value) {
         spriteMemory[address] = value;
     }
 
-    public short[] spriteRAM(){
+    public short[] spriteRAM() {
         return Arrays.copyOf(spriteMemory, spriteMemory.length);
     }
 
@@ -54,6 +58,13 @@ public class SpriteRAM {
         return spriteMemory[index];
     }
 
-    public void doDMA(short[] array,int length){
+    public Sprite getSprite(int index) {
+        return new Sprite(spriteMemory[index * 4],
+                spriteMemory[index * 4 + 1],
+                spriteMemory[index * 4 + 2],
+                spriteMemory[index * 4 + 3]);
+    }
+
+    public void doDMA(short[] array, int length) {
     }
 }

@@ -19,6 +19,7 @@ package jnesbr.debugger;
 import java.util.ArrayList;
 import java.util.List;
 import jnesbr.core.Emulator;
+import jnesbr.processor.Cpu2A03;
 
 /**
  * @author dreampeppers99
@@ -28,10 +29,10 @@ public class Disassembler {
     public static List<AssemblerLine> disassembler() {
         List<AssemblerLine> assembler = new ArrayList<AssemblerLine>();
         Emulator.getInstance().getCpu().enterDisassemblerMode();
-        AssemblerLine ass = Emulator.getInstance().getCpu().disassemblerStep();
-        while (ass.pc < 0xFFFA) {
-            assembler.add(ass);
-            ass = Emulator.getInstance().getCpu().disassemblerStep();
+        AssemblerLine assemblerLine = Emulator.getInstance().getCpu().disassemblerStep();
+        while (assemblerLine.pc < Cpu2A03.InterruptNMI) {
+            assembler.add(assemblerLine);
+            assemblerLine = Emulator.getInstance().getCpu().disassemblerStep();
         }
         Emulator.getInstance().getCpu().leaveDisassemblerMode();
         return assembler;

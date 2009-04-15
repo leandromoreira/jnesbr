@@ -21,61 +21,61 @@ import java.nio.ByteBuffer;
 /**
  * @author dreampeppers99
  */
-public class JNesUtil {
+public final class JNesUtil {
 
-    public static short get8FirstBits(int value) {
+    public final static short get8FirstBits(final int value) {
         return (short) (value & 0xFF);
     }
 
-    public static short get8SecondBits(int value) {
+    public final static short get8SecondBits(final int value) {
         return (short) (value >> 8);
     }
 
-    public static int get16BitLittleEndian(short byte1, short byte2) {
+    public final static int get16BitLittleEndian(final short byte1, final short byte2) {
         return ((byte2 << 8) | byte1);
     }
 
-    public static short readNextUnsignedByteFrom(ByteBuffer readbuffer) {
+    public final static short readNextUnsignedByteFrom(final ByteBuffer readbuffer) {
         return (short) (readbuffer.get() & 0xff);
     }
 
-    public static short readUnsignedByte(byte value) {
+    public final static short readUnsignedByte(final byte value) {
         return (short) (value & 0xff);
     }
 
-    public static byte giveMeBit0From(short value) {
+    public final static byte giveMeBit0From(final short value) {
         return (byte) (value & 0x1);
     }
 
-    public static byte giveMeBit1From(short value) {
+    public final static byte giveMeBit1From(final short value) {
         return (byte) ((value >> 1) & 0x1);
     }
 
-    public static byte giveMeBit2From(short value) {
+    public final static byte giveMeBit2From(final short value) {
         return (byte) ((value >> 2) & 0x1);
     }
 
-    public static byte giveMeBit3From(short value) {
+    public final static byte giveMeBit3From(final short value) {
         return (byte) ((value >> 3) & 0x1);
     }
 
-    public static byte giveMeBit4From(short value) {
+    public final static byte giveMeBit4From(final short value) {
         return (byte) ((value >> 4) & 0x1);
     }
 
-    public static byte giveMeBit5From(short value) {
+    public final static byte giveMeBit5From(final short value) {
         return (byte) ((value >> 5) & 0x1);
     }
 
-    public static byte giveMeBit6From(short value) {
+    public final static byte giveMeBit6From(final short value) {
         return (byte) ((value >> 6) & 0x1);
     }
 
-    public static byte giveMeBit7From(short value) {
+    public final static byte giveMeBit7From(final short value) {
         return (byte) ((value >> 7) & 0x1);
     }
 
-    public static String fillIfNeedsWith(int times, String word, String value) {
+    public final static String fillIfNeedsWith(int times, final String word, String value) {
         times = times - value.length() + 1;
         for (int i = 1; i < times; i++) {
             value = word + value;
@@ -83,32 +83,32 @@ public class JNesUtil {
         return value;
     }
 
-    public static String giveMeHexaStringFormattedWith4Space(int value) {
+    public final static String giveMeHexaStringFormattedWith4Space(final int value) {
         return fillIfNeedsWith(4, "0", Integer.toHexString(value).toUpperCase());
     }
 
-    public static String giveMeHexaStringFormattedWith2Space(int value) {
+    public final static String giveMeHexaStringFormattedWith2Space(final int value) {
         return fillIfNeedsWith(2, "0", Integer.toHexString(value).toUpperCase());
     }
-    
-    public static String giveMeBinaryStringFormattedWith2Space(int value) {
+
+    public final static String giveMeBinaryStringFormattedWith2Space(final int value) {
         return fillIfNeedsWith(2, "0", Integer.toBinaryString(value).toUpperCase());
     }
 
-    public static short rotateLeft(short operand) {
+    public final static short rotateLeft(final short operand) {
         int carry = ((operand >> 7) & 0x1);
         int result = (operand << 1) & 0xFF;
         return (short) (result | carry);
     }
 
-    public static short rotateRight(short operand) {
+    public final static short rotateRight(final short operand) {
         int carry = (operand & 0x1);
         int result = (operand >> 1) & 0xFF;
         return (short) (result | (carry << 7));
     }
-    //TODO: CHECK AND TEST THIS.
-    public static byte overflowInAddition(int value){
-        byte result = (byte)(value & 0xFF);
+
+    public final static byte overflowInAddition(final int value) {
+        byte result = (byte) (value & 0xFF);
         return (byte) ((result > 127 || result < -128) ? 1 : 0);
     }
 }
