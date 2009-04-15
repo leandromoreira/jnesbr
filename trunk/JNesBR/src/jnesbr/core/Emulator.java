@@ -22,7 +22,7 @@ import jnesbr.processor.memory.Memory;
 import jnesbr.rom.INesROM;
 import jnesbr.rom.Loader;
 import jnesbr.video.Ppu2C02;
-import jnesbr.video.SpriteRAM;
+import jnesbr.video.sprite.SpriteRAM;
 import jnesbr.video.memory.VideoMemory;
 
 /**

@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import jnesbr.util.JNesUtil;
 import jnesbr.video.PPUControll;
 import jnesbr.video.Ppu2C02;
-import jnesbr.video.SpriteRAM;
+import jnesbr.video.sprite.SpriteRAM;
 
 /**
  *
@@ -46,13 +46,18 @@ public class OAMWindow extends javax.swing.JFrame {
             String attributes = "";
             String xCoordinate = "";
             
-            yCoordinate = String.valueOf(sprRAM.get(oamIndex));
+            yCoordinate = String.valueOf(sprRAM.get(oamIndex)-1);
+            if(Integer.valueOf(yCoordinate)>=0xEF && Integer.valueOf(yCoordinate)<=0xFF){
+                yCoordinate += " hidden";
+            }
+
             if (Ppu2C02.getInstance().ppuControl.spriteSize==PPUControll.SPRITE8x8){
                 tileNumber = JNesUtil.giveMeHexaStringFormattedWith2Space(sprRAM.get(oamIndex+1));
                 String address = (Ppu2C02.getInstance().ppuControl.patternTableAddressSprites == PPUControll.VRAM0x0000)?"0000" : "1000";
                 tileNumber += " Pattern="+address;
             }else{
-                tileNumber = JNesUtil.giveMeHexaStringFormattedWith2Space(sprRAM.get(oamIndex+1)>>1);
+                //todo:understand it...
+                tileNumber = JNesUtil.giveMeHexaStringFormattedWith2Space(sprRAM.get(oamIndex+1)&0);
                 String address = ((sprRAM.get(oamIndex+1)&0) == 0)?"0000" : "1000";
                 tileNumber += " Pattern="+address;
                 //todo: bit 0 defines who is the owner pattern table???

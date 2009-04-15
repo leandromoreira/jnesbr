@@ -20,7 +20,7 @@ import jnesbr.processor.memory.Memory;
 import jnesbr.processor.memory.MemoryMap;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.Ppu2C02;
-import jnesbr.video.SpriteRAM;
+import jnesbr.video.sprite.SpriteRAM;
 
 /**
  * @author dreampeppers99
