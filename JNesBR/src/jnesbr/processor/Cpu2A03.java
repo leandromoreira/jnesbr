@@ -40,7 +40,7 @@ public class Cpu2A03 {
     public static final int InterruptRESET = 0xFFFC;
     public static final int InterruptIRQBRK = 0xFFFE;
     public int cycles;
-    private Instruction[] instructionSet = new Instruction[0xFF];
+    private Instruction[] instructionSet = new Instruction[0x100];
     public String actualLineDebug;
 
     public Cpu2A03() {
