@@ -21,6 +21,7 @@ import jnesbr.video.PPUAddress;
 import jnesbr.video.PPUControll;
 import jnesbr.video.PPUData;
 import jnesbr.video.PPUMask;
+import jnesbr.video.PPUScroll;
 import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
 
@@ -69,6 +70,11 @@ public class PPUStateViewer extends javax.swing.JFrame {
         jChkIntensifyReds.setSelected(false);
         jChkMonochromo.setSelected(false);
         jChkSpriteRenderingEnable.setSelected(false);
+    }
+
+    private void cleanPPUScroll() {
+        jTxtHorizontalOrigin.setText("");
+        jTxtVerticalOrigin.setText("");
     }
 
     private void cleanPPUStatus() {
@@ -121,6 +127,10 @@ public class PPUStateViewer extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
+        jTxtHorizontalOrigin = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jTxtVerticalOrigin = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jTxtFirst2006Value1 = new javax.swing.JTextField();
@@ -538,15 +548,39 @@ public class PPUStateViewer extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("OAM Data $2004", jPanel6);
 
+        jTxtHorizontalOrigin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel12.setText("Horizontal Origin");
+
+        jLabel13.setText("Vertical Origin");
+
+        jTxtVerticalOrigin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 549, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTxtHorizontalOrigin, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addComponent(jLabel13)
+                .addGap(18, 18, 18)
+                .addComponent(jTxtVerticalOrigin, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jTxtHorizontalOrigin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtVerticalOrigin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addContainerGap(298, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("PPU Scroll $2005", jPanel7);
@@ -739,6 +773,12 @@ public class PPUStateViewer extends javax.swing.JFrame {
         cleanPPUMask();
         cleanPPUAddress();
         cleanPPUData();
+        cleanPPUScroll();
+    }
+
+    private void refresh(PPUScroll ppuScroll) {
+        jTxtHorizontalOrigin.setText(String.valueOf(ppuScroll.horizontalScrollOrigin));
+        jTxtVerticalOrigin.setText(String.valueOf(ppuScroll.verticalScrollOrigin));
     }
 
     private void refreshAll() {
@@ -748,11 +788,14 @@ public class PPUStateViewer extends javax.swing.JFrame {
         PPUMask ppuMask = ppu.ppuMask;
         PPUAddress ppuAddress = ppu.pPUAddress;
         PPUData pPUData = ppu.pPUData;
-        refreshPPUControll(ppuControll);
-        refreshPPUStatus(ppuStatus);
-        refreshPPUMask(ppuMask);
-        refreshPPUAddress(ppuAddress);
-        refreshPPUData(pPUData);
+        PPUScroll ppuScroll = ppu.ppuScroll;
+
+        refresh(ppuControll);
+        refresh(ppuStatus);
+        refresh(ppuMask);
+        refresh(ppuAddress);
+        refresh(pPUData);
+        refresh(ppuScroll);
     }
 
     public static void main(String args[]) {
@@ -794,6 +837,8 @@ public class PPUStateViewer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -815,17 +860,19 @@ public class PPUStateViewer extends javax.swing.JFrame {
     private javax.swing.JTextField jTxtFirst2006Address;
     private javax.swing.JTextField jTxtFirst2006Value1;
     private javax.swing.JTextField jTxtFirst2006Value2;
+    private javax.swing.JTextField jTxtHorizontalOrigin;
     private javax.swing.JTextField jTxtPPUData;
+    private javax.swing.JTextField jTxtVerticalOrigin;
     // End of variables declaration//GEN-END:variables
 
-    private void refreshPPUAddress(PPUAddress ppuAddress) {
+    private void refresh(PPUAddress ppuAddress) {
         jTxtFirst2006Address.setText(JNesUtil.giveMeHexaStringFormattedWith2Space(ppuAddress.completeAddress));
         jTxtFirst2006Value1.setText(JNesUtil.giveMeHexaStringFormattedWith2Space(ppuAddress.firstData));
         jTxtFirst2006Value2.setText(JNesUtil.giveMeHexaStringFormattedWith2Space(ppuAddress.secondData));
     }
     // End of variables declaration
 
-    private void refreshPPUControll(PPUControll ppuControll) {
+    private void refresh(PPUControll ppuControll) {
         if (ppuControll.executeNMIOnVBlank == 1) {
             jChkExecuteNMIonVblank.setSelected(true);
         }
@@ -860,11 +907,11 @@ public class PPUStateViewer extends javax.swing.JFrame {
         }
     }
 
-    private void refreshPPUData(PPUData pPUData) {
+    private void refresh(PPUData pPUData) {
         jTxtPPUData.setText(JNesUtil.giveMeHexaStringFormattedWith2Space(pPUData.data));
     }
 
-    private void refreshPPUMask(PPUMask ppuMask) {
+    private void refresh(PPUMask ppuMask) {
         if (ppuMask.intensifyBlues == 1) {
             jChkIntensifyBlues.setSelected(true);
         }
@@ -904,7 +951,7 @@ public class PPUStateViewer extends javax.swing.JFrame {
         }
     }
 
-    private void refreshPPUStatus(PPUStatus ppuStatus) {
+    private void refresh(PPUStatus ppuStatus) {
         if (ppuStatus.verticalBlankStarted == PPUStatus.InVBlank) {
             jChkIsVB.setSelected(true);
         }

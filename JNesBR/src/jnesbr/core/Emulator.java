@@ -21,7 +21,9 @@ import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
 import jnesbr.rom.INesROM;
 import jnesbr.rom.Loader;
+import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
+import static jnesbr.video.Ppu2C02.*;
 import jnesbr.video.sprite.SpriteRAM;
 import jnesbr.video.memory.VideoMemory;
 
@@ -34,7 +36,6 @@ public class Emulator implements Runnable {
     private Loader loader;
     private Cpu2A03 cpu;
     private Ppu2C02 gpu;
-    private final static int CYCLES_TO_SCANLINE = 114;
 
     public static Emulator getInstance() {
         if (emulator == null) {
@@ -115,8 +116,15 @@ public class Emulator implements Runnable {
 
     public void stepDebugger() {
         if (cpu.cycles >= CYCLES_TO_SCANLINE) {
-            cpu.cycles = 0;
-            Ppu2C02.getInstance().scanLine();
+            if (Ppu2C02.getInstance().ppuStatus.verticalBlankStarted == PPUStatus.NotInVBlank) {
+                cpu.cycles = 0;
+                Ppu2C02.getInstance().scanLine();
+            }else{
+                if (cpu.cycles >= CYCLES_TO_VBLANK ){
+                    cpu.cycles = 0;
+                    Ppu2C02.getInstance().ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
+                }
+            }
         }
         cpu.debugStep();
     }

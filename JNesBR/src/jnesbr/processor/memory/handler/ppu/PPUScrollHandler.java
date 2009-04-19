@@ -27,6 +27,7 @@ import jnesbr.video.Ppu2C02;
  * @author dreampeppers99
  */
 public class PPUScrollHandler implements Handler {
+
     private PPUStatus ppuStatus;
     private PPUScroll ppuScroll;
 
@@ -37,6 +38,7 @@ public class PPUScrollHandler implements Handler {
             ppuScroll.horizontalScrollOrigin = value;
             ppuStatus.flipflop++;
         } else {
+            value = (short) ((value >= 240) ? value - 256 : value);
             ppuScroll.verticalScrollOrigin = value;
             ppuStatus.flipflop--;
         }

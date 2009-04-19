@@ -22,11 +22,9 @@ package jnesbr.test;
 public class Test {
 
     public static void main(String[] args) {
-        int value = Integer.valueOf("00111001", 2);
-        System.out.println(Integer.toBinaryString(value));
-        System.out.println(Integer.toBinaryString((value & 0x3)));
-        System.out.println(Integer.toBinaryString((value >> 2) & 0x3 ));
-        System.out.println(Integer.toBinaryString((value >> 4) & 0x3 ));
-        System.out.println(Integer.toBinaryString((value >> 6) & 0x3 ));
+        int lastValue = 0xFFF;
+        for (int i = 0; i < lastValue; i++) {
+            if(i%114==0) System.out.println("Is module: "+i);
+        }
     }
 }
