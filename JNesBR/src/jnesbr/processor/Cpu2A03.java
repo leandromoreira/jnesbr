@@ -19,8 +19,6 @@ package jnesbr.processor;
 
 import jnesbr.processor.instructions.types.*;
 import jnesbr.processor.instructions.*;
-import java.util.HashMap;
-import java.util.Map;
 import jnesbr.core.Emulator;
 import jnesbr.debugger.AssemblerLine;
 import jnesbr.processor.memory.Memory;
@@ -42,7 +40,7 @@ public class Cpu2A03 {
     public static final int InterruptRESET = 0xFFFC;
     public static final int InterruptIRQBRK = 0xFFFE;
     public int cycles;
-    private Map<Integer, Instruction> instructions = new HashMap<Integer, Instruction>();
+    private Instruction[] instructionSet = new Instruction[0xFF];
     public String actualLineDebug;
 
     public Cpu2A03() {
@@ -156,178 +154,178 @@ public class Cpu2A03 {
 
     public void initInstructionTable() {
         //Register to Register Transfer.
-        instructions.put(0xA8, new TAYImplied(this));
-        instructions.put(0xAA, new TAXImplied(this));
-        instructions.put(0xBA, new TSXImplied(this));
-        instructions.put(0x98, new TYAImplied(this));
-        instructions.put(0x8A, new TXAImplied(this));
-        instructions.put(0x9A, new TXSImplied(this));
+        instructionSet[0xA8] = new TAYImplied(this);
+        instructionSet[0xAA] = new TAXImplied(this);
+        instructionSet[0xBA] = new TSXImplied(this);
+        instructionSet[0x98] = new TYAImplied(this);
+        instructionSet[0x8A] = new TXAImplied(this);
+        instructionSet[0x9A] = new TXSImplied(this);
         //Load Register from Memory.
-        instructions.put(0xA9, new LDAImmediate(this));
-        instructions.put(0xA5, new LDAZeroPage(this));
-        instructions.put(0xB5, new LDAZeroPageX(this));
-        instructions.put(0xAD, new LDAAbsolute(this));
-        instructions.put(0xBD, new LDAAbsoluteIndexedX(this)); //this check page change
-        instructions.put(0xB9, new LDAAbsoluteIndexedY(this)); //this check page change
-        instructions.put(0xA1, new LDAIndexedIndirectX(this));
-        instructions.put(0xB1, new LDAIndirectIndexedY(this)); //this check page change
-        instructions.put(0xA2, new LDXImmediate(this));
-        instructions.put(0xA6, new LDXZeroPage(this));
-        instructions.put(0xB6, new LDXZeroPageY(this));
-        instructions.put(0xAE, new LDXAbsolute(this));
-        instructions.put(0xBE, new LDXAbsoluteY(this));
-        instructions.put(0xA0, new LDYImmediate(this));
-        instructions.put(0xA4, new LDYZeroPage(this));
-        instructions.put(0xB4, new LDYZeroPageIndexed(this));
-        instructions.put(0xAC, new LDYAbsolute(this));
-        instructions.put(0xBC, new LDYAbsoluteIndexed(this)); //this check page change
+        instructionSet[0xA9] = new LDAImmediate(this);
+        instructionSet[0xA5] = new LDAZeroPage(this);
+        instructionSet[0xB5] = new LDAZeroPageX(this);
+        instructionSet[0xAD] = new LDAAbsolute(this);
+        instructionSet[0xBD] = new LDAAbsoluteIndexedX(this); //this check page change
+        instructionSet[0xB9] = new LDAAbsoluteIndexedY(this); //this check page change
+        instructionSet[0xA1] = new LDAIndexedIndirectX(this);
+        instructionSet[0xB1] = new LDAIndirectIndexedY(this); //this check page change
+        instructionSet[0xA2] = new LDXImmediate(this);
+        instructionSet[0xA6] = new LDXZeroPage(this);
+        instructionSet[0xB6] = new LDXZeroPageY(this);
+        instructionSet[0xAE] = new LDXAbsolute(this);
+        instructionSet[0xBE] = new LDXAbsoluteY(this);
+        instructionSet[0xA0] = new LDYImmediate(this);
+        instructionSet[0xA4] = new LDYZeroPage(this);
+        instructionSet[0xB4] = new LDYZeroPageIndexed(this);
+        instructionSet[0xAC] = new LDYAbsolute(this);
+        instructionSet[0xBC] = new LDYAbsoluteIndexed(this); //this check page change
         //Store Register in Memory.
-        instructions.put(0x85, new STAZeroPage(this));
-        instructions.put(0x95, new STAZeroPageIndexedX(this));
-        instructions.put(0x8D, new STAAbsolute(this));
-        instructions.put(0x9D, new STAAbsoluteX(this));
-        instructions.put(0x99, new STAAbsoluteY(this));
-        instructions.put(0x81, new STAIndexedIndirect(this)); //observe this and try to replicate
-        instructions.put(0x91, new STAIndirectIndexedY(this));//observe this and try to replicate
-        instructions.put(0x86, new STXZeroPage(this));
-        instructions.put(0x96, new STXZeroPageY(this));
-        instructions.put(0x8E, new STXAbsolute(this));
-        instructions.put(0x84, new STYZeroPage(this));
-        instructions.put(0x94, new STYZeroPageX(this));
-        instructions.put(0x8C, new STYAbsolute(this));
+        instructionSet[0x85] = new STAZeroPage(this);
+        instructionSet[0x95] = new STAZeroPageIndexedX(this);
+        instructionSet[0x8D] = new STAAbsolute(this);
+        instructionSet[0x9D] = new STAAbsoluteX(this);
+        instructionSet[0x99] = new STAAbsoluteY(this);
+        instructionSet[0x81] = new STAIndexedIndirect(this); //observe this and try to replicate
+        instructionSet[0x91] = new STAIndirectIndexedY(this);//observe this and try to replicate
+        instructionSet[0x86] = new STXZeroPage(this);
+        instructionSet[0x96] = new STXZeroPageY(this);
+        instructionSet[0x8E] = new STXAbsolute(this);
+        instructionSet[0x84] = new STYZeroPage(this);
+        instructionSet[0x94] = new STYZeroPageX(this);
+        instructionSet[0x8C] = new STYAbsolute(this);
         //Push/Pull.
-        instructions.put(0x48, new PHAImplied(this));
-        instructions.put(0x08, new PHPImplied(this));
-        instructions.put(0x68, new PLAImplied(this));
-        instructions.put(0x28, new PLPImplied(this));
+        instructionSet[0x48] = new PHAImplied(this);
+        instructionSet[0x08] = new PHPImplied(this);
+        instructionSet[0x68] = new PLAImplied(this);
+        instructionSet[0x28] = new PLPImplied(this);
         //Add memory to accumulator with carry.
-        instructions.put(0x69, new ADCImmediate(this));
-        instructions.put(0x65, new ADCZeroPage(this));
-        instructions.put(0x75, new ADCZeroPageX(this));
-        instructions.put(0x6D, new ADCAbsolute(this));
-        instructions.put(0x7D, new ADCAbsoluteIndexedX(this)); //this check page change
-        instructions.put(0x79, new ADCAbsoluteIndexedY(this)); //this check page change
-        instructions.put(0x61, new ADCIndexedIndirect(this));
-        instructions.put(0x71, new ADCIndirectIndexed(this));//this check page change
+        instructionSet[0x69] = new ADCImmediate(this);
+        instructionSet[0x65] = new ADCZeroPage(this);
+        instructionSet[0x75] = new ADCZeroPageX(this);
+        instructionSet[0x6D] = new ADCAbsolute(this);
+        instructionSet[0x7D] = new ADCAbsoluteIndexedX(this); //this check page change
+        instructionSet[0x79] = new ADCAbsoluteIndexedY(this); //this check page change
+        instructionSet[0x61] = new ADCIndexedIndirect(this);
+        instructionSet[0x71] = new ADCIndirectIndexed(this);//this check page change
         //Subtract memory from accumulator with borrow.
-        instructions.put(0xE9, new SBCImmediate(this));
-        instructions.put(0xE5, new SBCZeroPage(this));
-        instructions.put(0xF5, new SBCZeroPageIndexedX(this));
-        instructions.put(0xED, new SBCAbsolute(this));
-        instructions.put(0xFD, new SBCAbsoluteIndexedX(this));//this check page change
-        instructions.put(0xF9, new SBCAbsoluteIndexedY(this));//this check page change
-        instructions.put(0xE1, new SBCIndexedIndirect(this));
-        instructions.put(0xF1, new SBCIndirectIndexed(this));//this check page change
+        instructionSet[0xE9] = new SBCImmediate(this);
+        instructionSet[0xE5] = new SBCZeroPage(this);
+        instructionSet[0xF5] = new SBCZeroPageIndexedX(this);
+        instructionSet[0xED] = new SBCAbsolute(this);
+        instructionSet[0xFD] = new SBCAbsoluteIndexedX(this);//this check page change
+        instructionSet[0xF9] = new SBCAbsoluteIndexedY(this);//this check page change
+        instructionSet[0xE1] = new SBCIndexedIndirect(this);
+        instructionSet[0xF1] = new SBCIndirectIndexed(this);//this check page change
         //Logical AND memory with accumulator.
-        instructions.put(0x29, new AndImmediate(this));
-        instructions.put(0x25, new ANDZeroPage(this));
-        instructions.put(0x35, new ANDZeroPageX(this));
-        instructions.put(0x2D, new ANDAbsolute(this));
-        instructions.put(0x3D, new ANDAbsoluteIndexedX(this));//this check page change
-        instructions.put(0x39, new ANDAbsoluteIndexedY(this));//this check page change
-        instructions.put(0x21, new ANDIndexedIndirect(this));
-        instructions.put(0x31, new ANDIndirectIndexed(this));//this check page change
+        instructionSet[0x29] = new AndImmediate(this);
+        instructionSet[0x25] = new ANDZeroPage(this);
+        instructionSet[0x35] = new ANDZeroPageX(this);
+        instructionSet[0x2D] = new ANDAbsolute(this);
+        instructionSet[0x3D] = new ANDAbsoluteIndexedX(this);//this check page change
+        instructionSet[0x39] = new ANDAbsoluteIndexedY(this);//this check page change
+        instructionSet[0x21] = new ANDIndexedIndirect(this);
+        instructionSet[0x31] = new ANDIndirectIndexed(this);//this check page change
         //Exclusive-OR memory with accumulator.
-        instructions.put(0x49, new EORImmediate(this));
-        instructions.put(0x45, new EORZeroPage(this));
-        instructions.put(0x55, new EORZeroPageX(this));
-        instructions.put(0x4D, new EORAbsolute(this));
-        instructions.put(0x5D, new EORAbsoluteX(this));//this check page change
-        instructions.put(0x59, new EORAbsoluteY(this));//this check page change
-        instructions.put(0x41, new EORIndexedIndirect(this));
-        instructions.put(0x51, new EORIndirectIndexed(this));//this check page change
+        instructionSet[0x49] = new EORImmediate(this);
+        instructionSet[0x45] = new EORZeroPage(this);
+        instructionSet[0x55] = new EORZeroPageX(this);
+        instructionSet[0x4D] = new EORAbsolute(this);
+        instructionSet[0x5D] = new EORAbsoluteX(this);//this check page change
+        instructionSet[0x59] = new EORAbsoluteY(this);//this check page change
+        instructionSet[0x41] = new EORIndexedIndirect(this);
+        instructionSet[0x51] = new EORIndirectIndexed(this);//this check page change
         //Logical OR memory with accumulator.
-        instructions.put(0x09, new ORAImmediate(this));
-        instructions.put(0x05, new ORAZeroPage(this));
-        instructions.put(0x15, new ORAZeroPageX(this));
-        instructions.put(0x0D, new ORAAbsolute(this));
-        instructions.put(0x1D, new ORAAbsoluteX(this));//this check page change
-        instructions.put(0x19, new ORAAbsoluteY(this));//this check page change
-        instructions.put(0x01, new ORAIndirectIndexedX(this));
-        instructions.put(0x11, new ORAIndirectIndexedY(this));//this check page change
+        instructionSet[0x09] = new ORAImmediate(this);
+        instructionSet[0x05] = new ORAZeroPage(this);
+        instructionSet[0x15] = new ORAZeroPageX(this);
+        instructionSet[0x0D] = new ORAAbsolute(this);
+        instructionSet[0x1D] = new ORAAbsoluteX(this);//this check page change
+        instructionSet[0x19] = new ORAAbsoluteY(this);//this check page change
+        instructionSet[0x01] = new ORAIndirectIndexedX(this);
+        instructionSet[0x11] = new ORAIndirectIndexedY(this);//this check page change
         //Compare.
-        instructions.put(0xC9, new CMPImmediate(this));
-        instructions.put(0xC5, new CMPZeroPage(this));
-        instructions.put(0xD5, new CMPZeroPageX(this));
-        instructions.put(0xCD, new CMPAbsolute(this));
-        instructions.put(0xDD, new CMPAbsoluteX(this));//this check page change
-        instructions.put(0xD9, new CMPAbsoluteY(this));//this check page change
-        instructions.put(0xC1, new CMPIndirectIndexedX(this));
-        instructions.put(0xD1, new CMPIndirectIndexedY(this));//this check page change
-        instructions.put(0xE0, new CPXImmediate(this));
-        instructions.put(0xE4, new CPXZeroPage(this));
-        instructions.put(0xEC, new CPXAbsolute(this));
-        instructions.put(0xC0, new CPYImmediate(this));
-        instructions.put(0xC4, new CPYZeroPage(this));
-        instructions.put(0xCC, new CPYAbsolute(this));
+        instructionSet[0xC9] = new CMPImmediate(this);
+        instructionSet[0xC5] = new CMPZeroPage(this);
+        instructionSet[0xD5] = new CMPZeroPageX(this);
+        instructionSet[0xCD] = new CMPAbsolute(this);
+        instructionSet[0xDD] = new CMPAbsoluteX(this);//this check page change
+        instructionSet[0xD9] = new CMPAbsoluteY(this);//this check page change
+        instructionSet[0xC1] = new CMPIndirectIndexedX(this);
+        instructionSet[0xD1] = new CMPIndirectIndexedY(this);//this check page change
+        instructionSet[0xE0] = new CPXImmediate(this);
+        instructionSet[0xE4] = new CPXZeroPage(this);
+        instructionSet[0xEC] = new CPXAbsolute(this);
+        instructionSet[0xC0] = new CPYImmediate(this);
+        instructionSet[0xC4] = new CPYZeroPage(this);
+        instructionSet[0xCC] = new CPYAbsolute(this);
         //Bit Test.
-        instructions.put(0x24, new BITZeroPage(this));
-        instructions.put(0x2C, new BITAbsolute(this));
+        instructionSet[0x24] = new BITZeroPage(this);
+        instructionSet[0x2C] = new BITAbsolute(this);
         //Increment by one.
-        instructions.put(0xE6, new INCZeroPage(this));
-        instructions.put(0xF6, new INCZeroPageIndexed(this));
-        instructions.put(0xEE, new INCAbsolute(this));
-        instructions.put(0xFE, new INCAbsoluteX(this));
-        instructions.put(0xE8, new INXImplied(this));
-        instructions.put(0xC8, new INYImplied(this));
+        instructionSet[0xE6] = new INCZeroPage(this);
+        instructionSet[0xF6] = new INCZeroPageIndexed(this);
+        instructionSet[0xEE] = new INCAbsolute(this);
+        instructionSet[0xFE] = new INCAbsoluteX(this);
+        instructionSet[0xE8] = new INXImplied(this);
+        instructionSet[0xC8] = new INYImplied(this);
         //Decrement by one.
-        instructions.put(0xC6, new DECZeroPage(this));
-        instructions.put(0xD6, new DECZeroPageX(this));
-        instructions.put(0xCE, new DECAbsolute(this));
-        instructions.put(0xDE, new DECAbsoluteX(this));
-        instructions.put(0xCA, new DEXImplied(this));
-        instructions.put(0x88, new DEYImplied(this));
+        instructionSet[0xC6] = new DECZeroPage(this);
+        instructionSet[0xD6] = new DECZeroPageX(this);
+        instructionSet[0xCE] = new DECAbsolute(this);
+        instructionSet[0xDE] = new DECAbsoluteX(this);
+        instructionSet[0xCA] = new DEXImplied(this);
+        instructionSet[0x88] = new DEYImplied(this);
         //Shift Left.
-        instructions.put(0x0A, new ASLAccumulator(this));
-        instructions.put(0x06, new ASLZeroPage(this));
-        instructions.put(0x16, new ASLZeroPageX(this));
-        instructions.put(0x0E, new ASLAbsolute(this));
-        instructions.put(0x1E, new ASLAbsoluteX(this));
+        instructionSet[0x0A] = new ASLAccumulator(this);
+        instructionSet[0x06] = new ASLZeroPage(this);
+        instructionSet[0x16] = new ASLZeroPageX(this);
+        instructionSet[0x0E] = new ASLAbsolute(this);
+        instructionSet[0x1E] = new ASLAbsoluteX(this);
         //Shift Right.
-        instructions.put(0x4A, new LSRAccumulator(this));
-        instructions.put(0x46, new LSRZeroPage(this));
-        instructions.put(0x56, new LSRZeroPageX(this));
-        instructions.put(0x4E, new LSRAbsolute(this));
-        instructions.put(0x5E, new LSRAbsoluteX(this));
+        instructionSet[0x4A] = new LSRAccumulator(this);
+        instructionSet[0x46] = new LSRZeroPage(this);
+        instructionSet[0x56] = new LSRZeroPageX(this);
+        instructionSet[0x4E] = new LSRAbsolute(this);
+        instructionSet[0x5E] = new LSRAbsoluteX(this);
         //Rotate Left through Carry.
-        instructions.put(0x2A, new ROLAccumulator(this));
-        instructions.put(0x26, new ROLZeroPage(this));
-        instructions.put(0x36, new ROLZeroPageX(this));
-        instructions.put(0x2E, new ROLAbsolute(this));
-        instructions.put(0x3E, new ROLAbsoluteX(this));
+        instructionSet[0x2A] = new ROLAccumulator(this);
+        instructionSet[0x26] = new ROLZeroPage(this);
+        instructionSet[0x36] = new ROLZeroPageX(this);
+        instructionSet[0x2E] = new ROLAbsolute(this);
+        instructionSet[0x3E] = new ROLAbsoluteX(this);
         //Rotate Right through Carry.
-        instructions.put(0x6A, new RORAccumulator(this));
-        instructions.put(0x66, new RORZeroPage(this));
-        instructions.put(0x76, new RORZeroPageX(this));
-        instructions.put(0x6E, new RORAbsolute(this));
-        instructions.put(0x7E, new RORAbsoluteX(this));
+        instructionSet[0x6A] = new RORAccumulator(this);
+        instructionSet[0x66] = new RORZeroPage(this);
+        instructionSet[0x76] = new RORZeroPageX(this);
+        instructionSet[0x6E] = new RORAbsolute(this);
+        instructionSet[0x7E] = new RORAbsoluteX(this);
         //Normal Jumps.
-        instructions.put(0x4C, new JMPAbsolute(this));
-        instructions.put(0x6C, new JMPIndirect(this));
-        instructions.put(0x20, new JSRAbsolute(this));
-        instructions.put(0x40, new RTIImplied(this));
-        instructions.put(0x60, new RTSImplied(this));
+        instructionSet[0x4C] = new JMPAbsolute(this);
+        instructionSet[0x6C] = new JMPIndirect(this);
+        instructionSet[0x20] = new JSRAbsolute(this);
+        instructionSet[0x40] = new RTIImplied(this);
+        instructionSet[0x60] = new RTSImplied(this);
         //Conditional Branch Instructions.
-        instructions.put(0x10, new BPLRelative(this));
-        instructions.put(0x30, new BMIRelative(this));
-        instructions.put(0x50, new BVCRelative(this));
-        instructions.put(0x70, new BVSRelative(this));
-        instructions.put(0x90, new BCCRelative(this));
-        instructions.put(0xB0, new BCSRelative(this));
-        instructions.put(0xD0, new BNERelative(this));
-        instructions.put(0xF0, new BEQRelative(this));
-        //Interrupts, Exceptions, Breakpoints.
-        instructions.put(0x00, new BRKImplied(this));
+        instructionSet[0x10] = new BPLRelative(this);
+        instructionSet[0x30] = new BMIRelative(this);
+        instructionSet[0x50] = new BVCRelative(this);
+        instructionSet[0x70] = new BVSRelative(this);
+        instructionSet[0x90] = new BCCRelative(this);
+        instructionSet[0xB0] = new BCSRelative(this);
+        instructionSet[0xD0] = new BNERelative(this);
+        instructionSet[0xF0] = new BEQRelative(this);
+        //Interrupts] = Exceptions] = Breakpoints.
+        instructionSet[0x00] = new BRKImplied(this);
         //CPU Control.
-        instructions.put(0x18, new CLCImplied(this));
-        instructions.put(0x58, new CLIImplied(this));
-        instructions.put(0xD8, new CLDImplied(this));
-        instructions.put(0xB8, new CLVImplied(this));
-        instructions.put(0x38, new SECImplied(this));
-        instructions.put(0x78, new SEIImplied(this));
-        instructions.put(0xF8, new SEDImplied(this));
+        instructionSet[0x18] = new CLCImplied(this);
+        instructionSet[0x58] = new CLIImplied(this);
+        instructionSet[0xD8] = new CLDImplied(this);
+        instructionSet[0xB8] = new CLVImplied(this);
+        instructionSet[0x38] = new SECImplied(this);
+        instructionSet[0x78] = new SEIImplied(this);
+        instructionSet[0xF8] = new SEDImplied(this);
         //No Operation.
-        instructions.put(0xEA, new NOPImplied(this));
+        instructionSet[0xEA] = new NOPImplied(this);
 
 
     //#######ILLEGAL 6502 OPCODES#############
@@ -335,49 +333,49 @@ public class Cpu2A03 {
 
 
     //NUL/NOP and KIL/JAM/HLT
-       /* instructions.put(0x1A, new NOPImplied(this));
-    instructions.put(0x3A, new NOPImplied(this));
-    instructions.put(0x5A, new NOPImplied(this));
-    instructions.put(0x7A, new NOPImplied(this));
-    instructions.put(0xDA, new NOPImplied(this));
-    instructions.put(0xFA, new NOPImplied(this));
-    instructions.put(0x80, new NOPImmediate(this));
-    instructions.put(0x82, new NOPImmediate(this));
-    instructions.put(0x89, new NOPImmediate(this));
-    instructions.put(0xC2, new NOPImmediate(this));
-    instructions.put(0xE2, new NOPImmediate(this));
-    instructions.put(0x04, new NOPZeroPage(this));
-    instructions.put(0x44, new NOPZeroPage(this));
-    instructions.put(0x64, new NOPZeroPage(this));
-    instructions.put(0x14, new NOPZeroPageIndexedX(this));
-    instructions.put(0x34, new NOPZeroPageIndexedX(this));
-    instructions.put(0x54, new NOPZeroPageIndexedX(this));
-    instructions.put(0x74, new NOPZeroPageIndexedX(this));
-    instructions.put(0xD4, new NOPZeroPageIndexedX(this));
-    instructions.put(0xF4, new NOPZeroPageIndexedX(this));
-    instructions.put(0x0C, new NOPAbsolute(this));
-    instructions.put(0x1C, new NOPAbsoluteX(this)); //check page change
-    instructions.put(0x3C, new NOPAbsoluteX(this)); //check page change
-    instructions.put(0x5C, new NOPAbsoluteX(this)); //check page change
-    instructions.put(0x7C, new NOPAbsoluteX(this)); //check page change
-    instructions.put(0xDC, new NOPAbsoluteX(this)); //check page change
-    instructions.put(0xFC, new NOPAbsoluteX(this)); //check page change
-    instructions.put(0x02, new KILImplied(this));
-    instructions.put(0x12, new KILImplied(this));
-    instructions.put(0x22, new KILImplied(this));
-    instructions.put(0x32, new KILImplied(this));
-    instructions.put(0x42, new KILImplied(this));
-    instructions.put(0x52, new KILImplied(this));
-    instructions.put(0x62, new KILImplied(this));
-    instructions.put(0x72, new KILImplied(this));
-    instructions.put(0x92, new KILImplied(this));
-    instructions.put(0xB2, new KILImplied(this));
-    instructions.put(0xD2, new KILImplied(this));
-    instructions.put(0xF2, new KILImplied(this));*/
+       /* instructionSet[0x1A] = new NOPImplied(this);
+    instructionSet[0x3A] = new NOPImplied(this);
+    instructionSet[0x5A] = new NOPImplied(this);
+    instructionSet[0x7A] = new NOPImplied(this);
+    instructionSet[0xDA] = new NOPImplied(this);
+    instructionSet[0xFA] = new NOPImplied(this);
+    instructionSet[0x80] = new NOPImmediate(this);
+    instructionSet[0x82] = new NOPImmediate(this);
+    instructionSet[0x89] = new NOPImmediate(this);
+    instructionSet[0xC2] = new NOPImmediate(this);
+    instructionSet[0xE2] = new NOPImmediate(this);
+    instructionSet[0x04] = new NOPZeroPage(this);
+    instructionSet[0x44] = new NOPZeroPage(this);
+    instructionSet[0x64] = new NOPZeroPage(this);
+    instructionSet[0x14] = new NOPZeroPageIndexedX(this);
+    instructionSet[0x34] = new NOPZeroPageIndexedX(this);
+    instructionSet[0x54] = new NOPZeroPageIndexedX(this);
+    instructionSet[0x74] = new NOPZeroPageIndexedX(this);
+    instructionSet[0xD4] = new NOPZeroPageIndexedX(this);
+    instructionSet[0xF4] = new NOPZeroPageIndexedX(this);
+    instructionSet[0x0C] = new NOPAbsolute(this);
+    instructionSet[0x1C] = new NOPAbsoluteX(this); //check page change
+    instructionSet[0x3C] = new NOPAbsoluteX(this); //check page change
+    instructionSet[0x5C] = new NOPAbsoluteX(this); //check page change
+    instructionSet[0x7C] = new NOPAbsoluteX(this); //check page change
+    instructionSet[0xDC] = new NOPAbsoluteX(this); //check page change
+    instructionSet[0xFC] = new NOPAbsoluteX(this); //check page change
+    instructionSet[0x02] = new KILImplied(this);
+    instructionSet[0x12] = new KILImplied(this);
+    instructionSet[0x22] = new KILImplied(this);
+    instructionSet[0x32] = new KILImplied(this);
+    instructionSet[0x42] = new KILImplied(this);
+    instructionSet[0x52] = new KILImplied(this);
+    instructionSet[0x62] = new KILImplied(this);
+    instructionSet[0x72] = new KILImplied(this);
+    instructionSet[0x92] = new KILImplied(this);
+    instructionSet[0xB2] = new KILImplied(this);
+    instructionSet[0xD2] = new KILImplied(this);
+    instructionSet[0xF2] = new KILImplied(this);*/
     }
 
     public Instruction getInstructionFrom(int opCode) {
-        Instruction instruction = (instructions.get(opCode) == null ? new StillNotImplemented(this, opCode) : instructions.get(opCode));
+        Instruction instruction = (instructionSet[opCode] == null ? new StillNotImplemented(this, opCode) : instructionSet[opCode]);
         return instruction;
     }
 
