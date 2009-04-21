@@ -35,6 +35,10 @@ public class SpriteRAM {
     }
     private short[] spriteMemory = new short[0x100];
 
+    public void reset() {
+        spriteMemory = new short[0x100];
+    }
+
     private SpriteRAM() {
         index = 0;
     }
