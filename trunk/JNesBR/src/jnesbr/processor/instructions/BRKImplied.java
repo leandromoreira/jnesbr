@@ -52,7 +52,7 @@ public class BRKImplied extends GeneralInstruction {
 
     @Override
     public short size() {
-        return 1;
+        return 2;
     }
 
     @Override
