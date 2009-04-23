@@ -21,12 +21,14 @@ import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -1063,38 +1065,76 @@ public class DebuggerWindow extends javax.swing.JFrame {
         stepShortCut(evt);
     }//GEN-LAST:event_jBtnRefreshMemoryWacthKeyPressed
 
+    private JFileChooser makeSaveDialog() {
+        final JFileChooser fc = new JFileChooser();
+        fc.setDialogType(JFileChooser.SAVE_DIALOG);
+        fc.setDialogTitle("Save 6502 Asm");
+        fc.setCurrentDirectory(new java.io.File("."));
+        return fc;
+    }
+
+    private boolean userChooseSomething(int returnVal) {
+        return returnVal == JFileChooser.APPROVE_OPTION;
+    }
+
     private void jBtnSaveSourceCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveSourceCodeActionPerformed
-        File file = new File("source_code.txt");
-        BufferedOutputStream  ou = null;
-        if (file.exists()) {
-            file.delete();
-        }
         try {
-            file.createNewFile();
+            final JFileChooser fc = makeSaveDialog();
+            int returnVal = fc.showSaveDialog(this);
+            if (userChooseSomething(returnVal)) {
+                File file = fc.getSelectedFile();
+                FileWriter assemblerFile = null;
+                try {
+                    assemblerFile = new FileWriter(file);
+                } catch (IOException ex) {
+                    Logger.getLogger(DebuggerWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if (file.exists()) {
+                    file.delete();
+                }
+                try {
+                    file.createNewFile();
 
-            int row = 0 ;
-            int colAddress = 1;
-            int colCode = 2;
+                    int row = 0;
+                    int colAddress = 1;
+                    int colCode = 2;
 
-            String address = jTableDebugger.getValueAt(row, colAddress).toString();
-            while(address!=null){
-                String line = jTableDebugger.getValueAt(row, colAddress).toString() + ":"
-                        + jTableDebugger.getValueAt(row, colCode).toString();
-                row++;
-                System.out.println(line);
-                if(address!=null){
-                    if (address.equals("")){
-                        address = null;
+                    String address = jTableDebugger.getValueAt(row, colAddress).toString();
+                    while (address != null) {
+                        String line = jTableDebugger.getValueAt(row, colAddress).toString() + ":" + jTableDebugger.getValueAt(row, colCode).toString();
+                        assemblerFile.write(line + "\n");
+                        row++;
+                        if (jTableDebugger.getValueAt(row, colAddress) == null) {
+                            address = null;
+                        } else {
+                            address = jTableDebugger.getValueAt(row, colAddress).toString();
+                        }
+                        if (address != null) {
+                            if (address.equals("")) {
+                                address = null;
+                            }
+                        }
+                    }
+
+                } catch (IOException ex) {
+                    Logger.getLogger(DebuggerWindow.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    if (assemblerFile != null) {
+                        try {
+                            assemblerFile.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(DebuggerWindow.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             }
-        } catch (IOException ex) {
-            Logger.getLogger(DebuggerWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex, "Error on Save 6502 ASM", JOptionPane.ERROR_MESSAGE);
         }
 }//GEN-LAST:event_jBtnSaveSourceCodeActionPerformed
 
     private void jBtnSaveSourceCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnSaveSourceCodeKeyPressed
-        // TODO add your handling code here:
+        stepShortCut(evt);
 }//GEN-LAST:event_jBtnSaveSourceCodeKeyPressed
 
     public void stepShortCut(java.awt.event.KeyEvent evt) {
