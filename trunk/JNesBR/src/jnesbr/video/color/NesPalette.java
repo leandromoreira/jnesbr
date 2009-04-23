@@ -53,8 +53,8 @@ public class NesPalette {
         nesColors.put(index++, getColor(0x00, 0x3F, 0x17));
         nesColors.put(index++, getColor(0x1B, 0x3F, 0x5F));
         nesColors.put(index++, getColor(0x00, 0x00, 0x00));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
+        nesColors.put(index++, getColor(0x05, 0x05, 0x05));
+        nesColors.put(index++, getColor(0x05, 0x05, 0x05));
         nesColors.put(index++, getColor(0xBC, 0xBC, 0xBC));
         nesColors.put(index++, getColor(0x00, 0x73, 0xEF));
         nesColors.put(index++, getColor(0x23, 0x3B, 0xEF));
@@ -68,9 +68,9 @@ public class NesPalette {
         nesColors.put(index++, getColor(0x00, 0xAB, 0x00));
         nesColors.put(index++, getColor(0x00, 0x93, 0x3B));
         nesColors.put(index++, getColor(0x00, 0x83, 0x8B));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
+        nesColors.put(index++, getColor(0x21, 0x21, 0x21));
+        nesColors.put(index++, getColor(0x09, 0x09, 0x09));
+        nesColors.put(index++, getColor(0x09, 0x09, 0x09));
         nesColors.put(index++, getColor(0xFF, 0xFF, 0xFF));
         nesColors.put(index++, getColor(0x3F, 0xBF, 0xFF));
         nesColors.put(index++, getColor(0x5F, 0x97, 0xFF));
@@ -84,9 +84,9 @@ public class NesPalette {
         nesColors.put(index++, getColor(0x4F, 0xDF, 0x4B));
         nesColors.put(index++, getColor(0x58, 0xF8, 0x98));
         nesColors.put(index++, getColor(0x00, 0xEB, 0xDB));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
+        nesColors.put(index++, getColor(0x5E, 0x5E, 0x5E));
+        nesColors.put(index++, getColor(0x0D, 0x0D, 0x0D));
+        nesColors.put(index++, getColor(0x0D, 0x0D, 0x0D));
         nesColors.put(index++, getColor(0xFF, 0xFF, 0xFF));
         nesColors.put(index++, getColor(0xAB, 0xE7, 0xFF));
         nesColors.put(index++, getColor(0xC7, 0xD7, 0xFF));
@@ -100,8 +100,8 @@ public class NesPalette {
         nesColors.put(index++, getColor(0xAB, 0xF3, 0xBF));
         nesColors.put(index++, getColor(0xB3, 0xFF, 0xCF));
         nesColors.put(index++, getColor(0x9F, 0xFF, 0xF3));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
-        nesColors.put(index++, getColor(0x00, 0x00, 0x00));
+        nesColors.put(index++, getColor(0xDD, 0xDD, 0xDD));
+        nesColors.put(index++, getColor(0x11, 0x11, 0x11));
+        nesColors.put(index++, getColor(0x11, 0x11, 0x11));
     }
 }

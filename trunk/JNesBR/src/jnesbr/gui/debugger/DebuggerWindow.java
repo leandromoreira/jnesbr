@@ -19,8 +19,14 @@ package jnesbr.gui.debugger;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -52,27 +58,25 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jTableDebugger.getColumnModel().getColumn(1).setResizable(false);
         jTableDebugger.getColumnModel().getColumn(2).setResizable(false);
         jTableDebugger.getColumnModel().getColumn(1).setMaxWidth(60);
-        jTableDebugger.getColumnModel().getColumn(1).setCellRenderer
-        (
-        new TableCellRenderer() {
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0x00, 0x00, 0x66, null)[0], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[1], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[2]));
-                return renderer;
-            }
-        }
-        );
+        jTableDebugger.getColumnModel().getColumn(1).setCellRenderer(
+                new TableCellRenderer() {
+
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                        Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                        renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0x00, 0x00, 0x66, null)[0], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[1], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[2]));
+                        return renderer;
+                    }
+                });
         //#FF7246
-        jTableDebugger.getColumnModel().getColumn(0).setCellRenderer
-        (
-        new TableCellRenderer() {
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[0], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[1], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[2]));
-                return renderer;
-            }
-        }
-        );
+        jTableDebugger.getColumnModel().getColumn(0).setCellRenderer(
+                new TableCellRenderer() {
+
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                        Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                        renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[0], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[1], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[2]));
+                        return renderer;
+                    }
+                });
     }
 
     @SuppressWarnings("unchecked")
@@ -130,6 +134,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jTxtValue2Bin = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jBtnSaveSourceCode = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Debugger");
@@ -314,7 +319,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
                         .addComponent(jChkU)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jChkB)))
-                .addContainerGap(486, Short.MAX_VALUE))
+                .addContainerGap(497, Short.MAX_VALUE))
         );
         jPnRegistersLayout.setVerticalGroup(
             jPnRegistersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -485,7 +490,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableDebugger);
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel8.setText("Memory Instant Watch");
 
         jLabel9.setText("Hex. Address");
@@ -652,13 +657,28 @@ public class DebuggerWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel12.setForeground(new java.awt.Color(0, 0, 102));
         jLabel12.setText("Regular Debug Output");
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel13.setForeground(new java.awt.Color(0, 0, 102));
         jLabel13.setText("Console Debug Output");
+
+        jBtnSaveSourceCode.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtnSaveSourceCode.setForeground(new java.awt.Color(0, 0, 102));
+        jBtnSaveSourceCode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/icon.PNG"))); // NOI18N
+        jBtnSaveSourceCode.setText("Save Source Code");
+        jBtnSaveSourceCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnSaveSourceCodeActionPerformed(evt);
+            }
+        });
+        jBtnSaveSourceCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnSaveSourceCodeKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -673,33 +693,6 @@ public class DebuggerWindow extends javax.swing.JFrame {
                         .addComponent(jBtnRefreshMemoryWacth))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGap(2, 2, 2)
-                                        .addComponent(jLabel9))
-                                    .addComponent(jTxtAddress1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
-                                    .addComponent(jTxtAddress0, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTxtAddress2, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jTxtValue1)
-                                    .addComponent(jTxtValue0, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                                    .addComponent(jTxtValue2))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTxtValue1Bin)
-                                            .addComponent(jTxtValue0Bin, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                                            .addComponent(jTxtValue2Bin, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(71, 71, 71)
-                                        .addComponent(jLabel11))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(112, 112, 112)
-                                .addComponent(jLabel8))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jBtnRun)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -719,7 +712,38 @@ public class DebuggerWindow extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBtnDeleteBreakpoint))
                             .addComponent(jLabel12)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addGap(2, 2, 2)
+                                                .addComponent(jLabel9))
+                                            .addComponent(jTxtAddress1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                                            .addComponent(jTxtAddress0, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTxtAddress2, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel10)
+                                            .addComponent(jTxtValue1)
+                                            .addComponent(jTxtValue0, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                                            .addComponent(jTxtValue2))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(jTxtValue1Bin)
+                                                    .addComponent(jTxtValue0Bin, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                                                    .addComponent(jTxtValue2Bin, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(71, 71, 71)
+                                                .addComponent(jLabel11))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(112, 112, 112)
+                                        .addComponent(jLabel8)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                                .addComponent(jBtnSaveSourceCode)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -789,7 +813,10 @@ public class DebuggerWindow extends javax.swing.JFrame {
                                 .addComponent(jTxtValue2Bin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnRefreshMemoryWacth))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBtnSaveSourceCode, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -1036,6 +1063,40 @@ public class DebuggerWindow extends javax.swing.JFrame {
         stepShortCut(evt);
     }//GEN-LAST:event_jBtnRefreshMemoryWacthKeyPressed
 
+    private void jBtnSaveSourceCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveSourceCodeActionPerformed
+        File file = new File("source_code.txt");
+        BufferedOutputStream  ou = null;
+        if (file.exists()) {
+            file.delete();
+        }
+        try {
+            file.createNewFile();
+
+            int row = 0 ;
+            int colAddress = 1;
+            int colCode = 2;
+
+            String address = jTableDebugger.getValueAt(row, colAddress).toString();
+            while(address!=null){
+                String line = jTableDebugger.getValueAt(row, colAddress).toString() + ":"
+                        + jTableDebugger.getValueAt(row, colCode).toString();
+                row++;
+                System.out.println(line);
+                if(address!=null){
+                    if (address.equals("")){
+                        address = null;
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(DebuggerWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}//GEN-LAST:event_jBtnSaveSourceCodeActionPerformed
+
+    private void jBtnSaveSourceCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnSaveSourceCodeKeyPressed
+        // TODO add your handling code here:
+}//GEN-LAST:event_jBtnSaveSourceCodeKeyPressed
+
     public void stepShortCut(java.awt.event.KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_F6) {
             stepDebugger();
@@ -1058,6 +1119,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
     private javax.swing.JButton jBtnPause;
     private javax.swing.JButton jBtnRefreshMemoryWacth;
     private javax.swing.JButton jBtnRun;
+    private javax.swing.JButton jBtnSaveSourceCode;
     private javax.swing.JButton jBtnStep;
     private javax.swing.JButton jBtnStop;
     private javax.swing.JButton jBtnText;

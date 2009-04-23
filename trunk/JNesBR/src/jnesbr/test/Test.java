@@ -22,9 +22,21 @@ package jnesbr.test;
 public class Test {
 
     public static void main(String[] args) {
-        int lastValue = 0xFFF;
-        for (int i = 0; i < lastValue; i++) {
-            if(i%114==0) System.out.println("Is module: "+i);
-        }
+//        (JMP)  $89FF                      LDA ($FF), Y (Y=3)
+//	        $8900: $A2                        $0000: $9A
+//	        $89FF: $3C                        $00FF: $24
+//	        $8A00: $78                        $0100: $72
+//	        PC = $A23C
+        int word = 0xAAFF;
+        int msb , lsb;
+        msb = word >> 8;
+        lsb = word & 0xFF;
+        lsb = (lsb+1) & 0xFF;
+        System.out.println("msb " + Integer.toHexString(msb).toUpperCase());
+        System.out.println("lsb " + Integer.toHexString(lsb).toUpperCase());
+        System.out.println(Integer.toHexString(msb << 8 | lsb).toUpperCase());
+
+
+
     }
 }
