@@ -42,42 +42,6 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                                      <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jTxtAddress1" alignment="0" pref="67" max="32767" attributes="0"/>
-                                  <Component id="jTxtAddress0" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jTxtAddress2" alignment="0" max="32767" attributes="1"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTxtValue1" alignment="0" max="32767" attributes="1"/>
-                                  <Component id="jTxtValue0" alignment="0" pref="60" max="32767" attributes="1"/>
-                                  <Component id="jTxtValue2" alignment="0" max="32767" attributes="1"/>
-                              </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jTxtValue1Bin" alignment="0" max="32767" attributes="1"/>
-                                          <Component id="jTxtValue0Bin" alignment="0" pref="60" max="32767" attributes="1"/>
-                                          <Component id="jTxtValue2Bin" alignment="0" min="-2" pref="155" max="-2" attributes="1"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-                                      <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jBtnRun" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jBtnStop" min="-2" max="-2" attributes="0"/>
@@ -98,7 +62,49 @@
                               <Component id="jBtnDeleteBreakpoint" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="630" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="641" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="jTxtAddress1" alignment="0" pref="67" max="32767" attributes="0"/>
+                                          <Component id="jTxtAddress0" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jTxtAddress2" alignment="0" max="32767" attributes="1"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jTxtValue1" alignment="0" max="32767" attributes="1"/>
+                                          <Component id="jTxtValue0" alignment="0" pref="60" max="32767" attributes="1"/>
+                                          <Component id="jTxtValue2" alignment="0" max="32767" attributes="1"/>
+                                      </Group>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="jTxtValue1Bin" alignment="0" max="32767" attributes="1"/>
+                                                  <Component id="jTxtValue0Bin" alignment="0" pref="60" max="32767" attributes="1"/>
+                                                  <Component id="jTxtValue2Bin" alignment="0" min="-2" pref="155" max="-2" attributes="1"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+                                              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace pref="180" max="32767" attributes="0"/>
+                              <Component id="jBtnSaveSourceCode" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -188,7 +194,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jBtnRefreshMemoryWacth" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" alignment="0" min="-2" pref="248" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPane1" min="-2" pref="248" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jBtnSaveSourceCode" min="-2" pref="37" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -265,7 +275,7 @@
                           <Component id="jChkB" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="486" max="32767" attributes="0"/>
+                  <EmptySpace pref="497" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -797,6 +807,24 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Console Debug Output"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jBtnSaveSourceCode">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="66" green="0" red="0" type="rgb"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/jnesbr/gui/resources/icon.PNG"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Save Source Code"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnSaveSourceCodeActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jBtnSaveSourceCodeKeyPressed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

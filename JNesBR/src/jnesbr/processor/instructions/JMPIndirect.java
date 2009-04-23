@@ -18,6 +18,7 @@ package jnesbr.processor.instructions;
 
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.instructions.types.AbsoluteInstruction;
+import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
@@ -31,7 +32,15 @@ public class JMPIndirect extends AbsoluteInstruction {
 
     @Override
     public void interpret() {
-        cpu.programCounter = getOperand();
+        int fullWord = getOperandAddress();
+        int msb , lsb;
+        msb = fullWord >> 8;
+        lsb = fullWord & 0xFF;
+        short lowByte = Memory.getMemory().read(fullWord);
+        lsb = (lsb+1) & 0xFF;
+        fullWord = msb << 8 | lsb;
+        short highByte = Memory.getMemory().read(fullWord);
+        cpu.programCounter = JNesUtil.get16BitLittleEndian(lowByte, highByte);
     }
 
     @Override
