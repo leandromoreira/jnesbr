@@ -14,13 +14,35 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.test;
+package jnesbr.video;
+
+import java.awt.Color;
+import java.util.Arrays;
 
 /**
  * @author dreampeppers99
  */
-public class Test {
+public final class Frame {
 
-    public static void main(String[] args) {
+    private static final int WIDTH = 256,  HEIGHT = 240;
+    private Color[][] frame = new Color[WIDTH][HEIGHT];
+    private static Frame instance;
+
+    public static Frame getInstance() {
+        if (instance == null) {
+            instance = new Frame();
+        }
+        return instance;
+    }
+
+    public void setPixel(Color pixel, int x, int y) {
+        frame[x][y] = pixel;
+    }
+
+    public Color[][] getFrame() {
+        return Arrays.copyOf(frame, WIDTH * HEIGHT);
+    }
+
+    private Frame() {
     }
 }

@@ -62,8 +62,8 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jBtnRun = new javax.swing.JButton();
+        jBtnStop = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jMnuMain = new javax.swing.JMenuBar();
         jMnuFile = new javax.swing.JMenu();
@@ -103,24 +103,24 @@ public class Main extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/run.PNG"))); // NOI18N
-        jButton1.setMnemonic('r');
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBtnRun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/run.PNG"))); // NOI18N
+        jBtnRun.setMnemonic('r');
+        jBtnRun.setFocusable(false);
+        jBtnRun.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jBtnRun.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnRun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBtnRunActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(jBtnRun);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/stop.PNG"))); // NOI18N
-        jButton2.setMnemonic('s');
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton2);
+        jBtnStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/stop.PNG"))); // NOI18N
+        jBtnStop.setMnemonic('s');
+        jBtnStop.setFocusable(false);
+        jBtnStop.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jBtnStop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jBtnStop);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/firstscreen.PNG"))); // NOI18N
 
@@ -320,8 +320,9 @@ public class Main extends javax.swing.JFrame {
         romHeaderFrame.setVisible(true);
     }//GEN-LAST:event_jMnuShowHeaderActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jBtnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRunActionPerformed
+        new ScreenWindow().setVisible(true);
+}//GEN-LAST:event_jBtnRunActionPerformed
 
     private void jMnuMemoryViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuMemoryViewActionPerformed
         MemoryView mv = new MemoryView();
@@ -417,8 +418,8 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem JmnuDebbugerShow;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jBtnRun;
+    private javax.swing.JButton jBtnStop;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMnuAbout;

@@ -31,9 +31,9 @@ public abstract class IndirectXInstruction extends GeneralInstruction {
 
     @Override
     public short getOperand() {
-        short first = (short) (Memory.getMemory().read(cpu.programCounter + 1) + cpu.registerX);
+        short first = (short) (Memory.getMemory().read((cpu.programCounter + 1 + cpu.registerX) & 0xFF));
         short firstValue = Memory.getMemory().read(first);
-        short second = (short) (Memory.getMemory().read(cpu.programCounter + 1) + cpu.registerX + 1);
+        short second = (short) (Memory.getMemory().read((cpu.programCounter + 2 + cpu.registerX) & 0xFF));
         short secondValue = Memory.getMemory().read(second);
         return Memory.getMemory().read(JNesUtil.get16BitLittleEndian(firstValue, secondValue));
     }
