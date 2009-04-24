@@ -36,6 +36,7 @@ public class Emulator implements Runnable {
     private Loader loader;
     private Cpu2A03 cpu;
     private Ppu2C02 gpu;
+    public boolean stopped,  paused,  running;
 
     public static Emulator getInstance() {
         if (emulator == null) {
@@ -111,7 +112,9 @@ public class Emulator implements Runnable {
     }
 
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet.");
+            while (cpu.cycles < CYCLES_TO_SCANLINE) {
+                cpu.step();
+            }
     }
 
     public void stepDebugger() {
@@ -119,8 +122,8 @@ public class Emulator implements Runnable {
             if (Ppu2C02.getInstance().ppuStatus.verticalBlankStarted == PPUStatus.NotInVBlank) {
                 cpu.cycles = 0;
                 Ppu2C02.getInstance().scanLine();
-            }else{
-                if (cpu.cycles >= CYCLES_TO_VBLANK ){
+            } else {
+                if (cpu.cycles >= CYCLES_TO_VBLANK) {
                     cpu.cycles = 0;
                     Ppu2C02.getInstance().ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
                 }
