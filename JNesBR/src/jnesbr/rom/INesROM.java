@@ -149,7 +149,7 @@ public class INesROM {
         sb.append("\tMirroring type:\t\t"+ ((mirroringType==0)?"Horizontal":"Vertical") +"\n");
         sb.append("\tBattery presence:\t\t"+ ((batteryPresence==1)?"Yes":"No") +"\n");
         sb.append("\tTrainer presence:\t\t"+ ((trainerPresence==1)?"Yes":"No") +"\n");
-        sb.append("\tScreen Mirroring:\t\t"+ ((fourScreenMirroring==1)?"Yes":"No") +"\n");
+        sb.append("\tFour Screen Mirroring:\t\t"+ ((fourScreenMirroring==1)?"Yes":"No") +"\n");
         sb.append("\tMapper :\t\t"+ INesMapperUtil.getName(mapperNumber) +"\n");
 
         sb.append("Cartridge MSB:\n");

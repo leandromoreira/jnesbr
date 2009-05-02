@@ -14,29 +14,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.rom;
+package jnesbr.rom.mapper;
+
+import java.util.Map;
+import jnesbr.processor.memory.handler.Handler;
+import jnesbr.rom.INesROM;
 
 /**
  * @author dreampeppers99
  */
-public class INesMapperUtil {
-
-    private static String[] helpers = new String[0xFF];
-    static{
-        helpers[0]="No Mapper";
-        helpers[1]="MMC1";
-        helpers[2]="UNROM";
-        helpers[3]="CNROM";
-        helpers[4]="MMC3";
-        helpers[5]="MMC5";
-        helpers[6]="FFE";
-        helpers[7]="AOROM";
-        helpers[8]="FFE";
-        helpers[9]="MMC2";
-        helpers[10]="MMC4";
-    }
-    public static String getName(int code){
-        if (code>=0xFF || code<0) throw new IllegalArgumentException("There is no mapped mappers for this code ["+code+"]");
-        return (helpers[code]!=null?helpers[code]:"Not Found");
-    }
+public interface Mapper extends Handler {
+    short id();
+    void fillAddressRangeObserver(Map<Integer, Handler> handler);
+    void fillCHR(INesROM game);
+    void fillPRG(INesROM game);
 }

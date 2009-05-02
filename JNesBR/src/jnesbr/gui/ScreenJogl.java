@@ -47,8 +47,13 @@ public class ScreenJogl extends JFrame {
             @Override
             @SuppressWarnings("empty-statement")
             public void run() {
+                try{
                 while (true) {
+                    Thread.sleep(17);
                     canvas.display();
+                }
+                }catch(Exception ex){
+                    System.out.println("err "+ex);
                 }
             }
         });
