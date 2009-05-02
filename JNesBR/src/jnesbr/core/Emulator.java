@@ -21,7 +21,6 @@ import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
 import jnesbr.rom.INesROM;
 import jnesbr.rom.Loader;
-import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
 import static jnesbr.video.Ppu2C02.*;
 import jnesbr.video.sprite.SpriteRAM;
@@ -35,7 +34,7 @@ public class Emulator implements Runnable {
     private static Emulator emulator;
     private Loader loader;
     private Cpu2A03 cpu;
-    private Ppu2C02 gpu;
+    private Ppu2C02 ppu;
     public boolean stopped,  paused,  running;
 
     public static Emulator getInstance() {
@@ -47,7 +46,7 @@ public class Emulator implements Runnable {
 
     private Emulator() {
         cpu = new Cpu2A03();
-        gpu = Ppu2C02.getInstance();
+        ppu = Ppu2C02.getInstance();
     }
 
     public Memory getMemory() {
@@ -67,7 +66,7 @@ public class Emulator implements Runnable {
     }
 
     public Ppu2C02 getPPU() {
-        return gpu;
+        return ppu;
     }
 
     public String getRomHeader() {
@@ -112,24 +111,29 @@ public class Emulator implements Runnable {
     }
 
     public void run() {
-            while (cpu.cycles < CYCLES_TO_SCANLINE) {
-                cpu.step();
+        try {
+            while (!stopped) {
+                while (!paused) {
+                    while (running) {
+                        while (cpu.cycles < CYCLES_TO_SCANLINE) {
+                            cpu.step();
+                        }
+                        cpu.cycles = 0;
+                        ppu.scanLine();
+                    }
+                }
             }
+        } catch (Exception ex) {
+        }
     }
 
     public void stepDebugger() {
-        if (cpu.cycles >= CYCLES_TO_SCANLINE) {
-            if (Ppu2C02.getInstance().ppuStatus.verticalBlankStarted == PPUStatus.NotInVBlank) {
-                cpu.cycles = 0;
-                Ppu2C02.getInstance().scanLine();
-            } else {
-                if (cpu.cycles >= CYCLES_TO_VBLANK) {
-                    cpu.cycles = 0;
-                    Ppu2C02.getInstance().ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
-                }
-            }
+        if (cpu.cycles < CYCLES_TO_SCANLINE) {
+            cpu.debugStep();
+            return;
         }
-        cpu.debugStep();
+        cpu.cycles = 0;
+        ppu.scanLine();
     }
 
     public String actualLine() {
