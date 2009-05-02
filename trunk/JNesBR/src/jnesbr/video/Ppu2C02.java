@@ -19,6 +19,7 @@ package jnesbr.video;
 import java.util.HashMap;
 import java.util.Map;
 import jnesbr.core.Emulator;
+import jnesbr.video.sprite.SpriteRAM;
 
 /**
  * @author dreampeppers99
@@ -30,7 +31,7 @@ public class Ppu2C02 {
     public final static int CYCLES_TO_VBLANK = CYCLES_TO_SCANLINE * 20;
     public final static int FRAME_BY_MS = 17;
     private int actualScanLine = 0;
-
+    private short pixelCounter = 0;
     private static Ppu2C02 instance;
     public PPUControll ppuControl = new PPUControll();
     public PPUStatus ppuStatus = new PPUStatus();
@@ -92,16 +93,36 @@ public class Ppu2C02 {
     public Map<Integer, int[][]> getPatternTable() {
         return patternTable;
     }
+    private boolean inVblank = (actualScanLine >= 243 & actualScanLine <= 262);
 
     public void scanLine() {
-        actualScanLine++;
-        //mocking scanline timing
-        ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
-        ppuStatus.sprite0Hit = 0;
+        if (actualScanLine >= 1 & actualScanLine <= 241) {
+            //will fetch data from name, attribute, and pattern tables
+            //during a scanline to produce an image on the screen
 
-        if (ppuControl.executeNMIOnVBlank == 1) {
-            Emulator.getInstance().getCpu().nmi();
-            //todo: or maybe i just throw an exception
+            actualScanLine++;
+        } else {
+            switch (actualScanLine) {
+                case 0:
+                    ppuStatus.moreThan8ObjectsOnScanLine = 0;
+                    ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
+                    SpriteRAM.getInstance().reset();
+                    actualScanLine++;
+                    break;
+                case 242:
+                    actualScanLine++;
+                    break;
+            }
+            if (inVblank) {
+                if (actualScanLine == 243) {
+                    ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
+                    if (ppuControl.executeNMIOnVBlank == 1) {
+                        actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
+                        Emulator.getInstance().getCpu().nmi();
+                    }
+                }
+                actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
+            }
         }
     }
 }

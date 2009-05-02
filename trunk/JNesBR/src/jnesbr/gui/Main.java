@@ -321,7 +321,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnuShowHeaderActionPerformed
 
     private void jBtnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRunActionPerformed
-        new ScreenWindow().setVisible(true);
+    new ScreenJogl().setVisible(true);
 }//GEN-LAST:event_jBtnRunActionPerformed
 
     private void jMnuMemoryViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuMemoryViewActionPerformed

@@ -20,5 +20,5 @@ package jnesbr.core;
  * @author dreampeppers99
  */
 public class MetaInformation {
-    public static final String NAME = "JNesBR - 0.35";
+    public static final String NAME = "JNesBR - 0.55";
 }
