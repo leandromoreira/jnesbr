@@ -29,7 +29,7 @@ public class Ppu2C02 {
     public final static int CYCLES_TO_SCANLINE = 114;
     public final static int NUMBER_OF_SCANLINES = 240 + 3;
     public final static int CYCLES_TO_VBLANK = CYCLES_TO_SCANLINE * 20;
-    public final static int FRAME_BY_MS = 17;
+    public final static int MS_BY_FRAME = 17;
     private int actualScanLine = 0;
     private short pixelCounter = 0;
     private static Ppu2C02 instance;
@@ -119,10 +119,14 @@ public class Ppu2C02 {
                     if (ppuControl.executeNMIOnVBlank == 1) {
                         actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
                         Emulator.getInstance().getCpu().nmi();
+                        return;
                     }
                 }
                 actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
             }
         }
     }
+
+
+    
 }

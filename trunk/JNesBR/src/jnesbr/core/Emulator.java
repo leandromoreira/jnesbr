@@ -124,6 +124,7 @@ public class Emulator implements Runnable {
                 }
             }
         } catch (Exception ex) {
+            System.out.println("Error on thread emulator: "+ex);
         }
     }
 

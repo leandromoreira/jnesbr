@@ -17,7 +17,6 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.video;
 
 import java.awt.Color;
-import java.util.Arrays;
 
 /**
  * @author dreampeppers99
@@ -26,21 +25,30 @@ public final class Frame {
 
     private static final int WIDTH = 256,  HEIGHT = 240;
     private Color[][] frame = new Color[WIDTH][HEIGHT];
+    private float[][][] rgbFrame = new float[WIDTH][HEIGHT][3];
     private static Frame instance;
 
-    public static Frame getInstance() {
+    public final static Frame getInstance() {
         if (instance == null) {
             instance = new Frame();
         }
         return instance;
     }
 
-    public void setPixel(Color pixel, int x, int y) {
+    public final void setPixel(Color pixel, int x, int y) {
         frame[x][y] = pixel;
     }
 
-    public Color[][] getFrame() {
-        return Arrays.copyOf(frame, WIDTH * HEIGHT);
+    public final void setPixel(float[] pixel, int x, int y) {
+        rgbFrame[x][y] = pixel;
+    }
+
+    public final Color[][] getJava2DFrame() {
+        return frame;
+    }
+
+    public final float[][][] getRGBFrame() {
+        return rgbFrame;
     }
 
     private Frame() {

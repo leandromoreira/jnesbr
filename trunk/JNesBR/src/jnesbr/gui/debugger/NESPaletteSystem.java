@@ -103,9 +103,9 @@ public class NESPaletteSystem extends javax.swing.JFrame {
         int x = 3, y = 3;
         for (int i = 0; i < 64; i++) {
             graphics2D.setColor(Color.BLACK);
-            graphics2D.drawOval(x, y, rectangleSize, rectangleSize);
+            graphics2D.drawRect(x, y, rectangleSize, rectangleSize);
             graphics2D.setColor(NesPalette.getColor(i));
-            graphics2D.fillOval(x, y, rectangleSize, rectangleSize);
+            graphics2D.fillRect(x, y, rectangleSize, rectangleSize);
 
             String index = JNesUtil.giveMeHexaStringFormattedWith2Space(i);
             if (index.contains("D") || index.contains("E") || index.contains("F") || (Integer.valueOf(index,16)<=0x1C)) {
@@ -118,7 +118,7 @@ public class NESPaletteSystem extends javax.swing.JFrame {
                 graphics2D.setColor(Color.BLACK);
             }
 
-            graphics2D.drawString(index, x+7, y+18);
+            graphics2D.drawString(index, x+9, y+20);
 
             if (i <= 15) {
                 if (i == 15) {

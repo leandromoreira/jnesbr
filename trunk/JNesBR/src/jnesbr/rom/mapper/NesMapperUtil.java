@@ -21,7 +21,7 @@ package jnesbr.rom.mapper;
  */
 public class NesMapperUtil {
 
-    public void switchBank(short[] sour, short[] dest) {
+    public void switchBank(short[] source, short[] destination) {
         short[] matrix = new short[0xFFFF];
         short size = 256;
         int actual = 0;

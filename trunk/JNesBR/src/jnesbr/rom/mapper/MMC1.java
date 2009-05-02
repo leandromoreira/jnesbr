@@ -25,15 +25,20 @@ import static jnesbr.processor.memory.MemoryMap.*;
 /**
  * @author dreampeppers99
  */
-public class MMC1 implements Handler {
+public class MMC1 implements Mapper {
+
     private Register0 register0 = new Register0();
     private Register1 register1 = new Register1();
     private Register2 register2 = new Register2();
     private Register3 register3 = new Register3();
 
-    public void fillCHR(INesROM game){
-
+    public short id() {
+        return 1;
     }
+
+    public void fillCHR(INesROM game) {
+    }
+
     public void fillPRG(INesROM game) {
         Memory mem = Memory.getMemory();
         int x = 0;
@@ -52,10 +57,10 @@ public class MMC1 implements Handler {
         //$A000 - $BFFF
         //$C000 - $DFFF
         //$E000 - $FFFF
-        for (int address = 0x8000 ; address <= 0xFFFF ; address++ ){
+        for (int address = 0x8000; address <= 0xFFFF; address++) {
             handler.put(address, this);
         }
-        //maybe a beautiful solution... is needed here
+    //maybe a beautiful solution... is needed here
     }
 
     public void writeAt(int address, short value) {
@@ -67,9 +72,10 @@ public class MMC1 implements Handler {
     }
 
     private class Register0 {
+
         public byte mirroringFlag;
-            public final static byte HORIZONTAL = 0;
-            public final static byte VERTICAL = 1;
+        public final static byte HORIZONTAL = 0;
+        public final static byte VERTICAL = 1;
     }
 
     private class Register1 {

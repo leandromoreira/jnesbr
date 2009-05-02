@@ -18,11 +18,8 @@ package jnesbr.video.memory;
 
 import java.util.HashMap;
 import java.util.Map;
-import jnesbr.processor.memory.handler.Handler;
-import jnesbr.processor.memory.handler.NormalHandler;
-import jnesbr.video.memory.handler.HigherAddressHandler;
-import jnesbr.video.memory.handler.PaletteHandler;
-import jnesbr.video.memory.handler.PartialNameTableHandler;
+import jnesbr.processor.memory.handler.*;
+import jnesbr.video.memory.handler.*;
 import static jnesbr.video.memory.VideoMemoryMap.*;
 
 /**

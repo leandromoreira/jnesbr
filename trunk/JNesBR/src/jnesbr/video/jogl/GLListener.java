@@ -46,33 +46,37 @@ public class GLListener implements GLEventListener, KeyListener {
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
         gl.glTranslatef(0.375f, 0.375f, 0f);
+        gl.glClearColor(.3f, .3f, .3f, 0.f);
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
     }
 
     @Override
     public void display(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
         int x = 0, y = 0;
-        gl.glClearColor(.3f, .3f, .3f, 0.f);
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
-        Random rnd = new Random();
-        
         for (x = 0; x < 256; x++) {
             for (y = 0; y < 240; y++) {
+                gl.glColor3f((float) Math.random(), (float) Math.random(), (float) Math.random());
                 gl.glBegin(GL.GL_POINT);
-                    gl.glColor3i(rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-                    gl.glVertex2i(x, y);
+                gl.glVertex2i(x, y);
                 gl.glEnd();
             }
         }
 
+        gl.glColor3f((float) Math.random(), (float) Math.random(), (float) Math.random());
+        gl.glBegin(GL.GL_TRIANGLES);
+            gl.glVertex2f(0.035f, 0.50f);
+            gl.glVertex2f(0.045f, 0.40f);
+            gl.glVertex2f(0.055f, 0.30f);
+        gl.glEnd();
     }
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-//        drawable.getGL().glViewport(0, 0, width, height);
-//        drawable.getGL().glMatrixMode(GL.GL_MODELVIEW);
-//        drawable.getGL().glLoadIdentity();
+        drawable.getGL().glViewport(0, 0, width, height);
+        drawable.getGL().glMatrixMode(GL.GL_MODELVIEW);
+        drawable.getGL().glLoadIdentity();
     }
 
     @Override
@@ -86,12 +90,16 @@ public class GLListener implements GLEventListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == 39) {
+            System.out.println("39");
         }
         if (e.getKeyCode() == 37) {
+            System.out.println("37");
         }
         if (e.getKeyCode() == 38) {
+            System.out.println("38");
         }
         if (e.getKeyCode() == 40) {
+            System.out.println("40");
         }
 
     }
