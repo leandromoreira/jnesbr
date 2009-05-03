@@ -28,7 +28,7 @@ import static jnesbr.util.JNesUtil.*;
 /**
  * @author dreampeppers99
  */
-public class Cpu2A03 {
+public final class Cpu2A03 {
 
     public short accumulator,  registerX,  registerY;
     public short stackPointer;
@@ -42,56 +42,56 @@ public class Cpu2A03 {
     public int cycles;
     private Instruction[] instructionSet = new Instruction[0x100];
     public String actualLineDebug;
-    Instruction executeInstruction;
+    private Instruction executeInstruction;
 
     public Cpu2A03() {
         reset();
         initInstructionTable();
     }
 
-    public void enterDisassemblerMode() {
+    public final void enterDisassemblerMode() {
         lastProgramCounter = programCounter;
         programCounter = 0x8000;
     }
 
-    public void leaveDisassemblerMode() {
+    public final void leaveDisassemblerMode() {
         programCounter = lastProgramCounter;
     }
 
-    public short pull() {
+    public final short pull() {
         stackPointer++;
         stackPointer = (short) (stackPointer & 0xFF);
         return Memory.getMemory().read(stackPointer + 0x100);
     }
 
-    public void push(short value) {
+    public final void push(short value) {
         Memory.getMemory().write(stackPointer + 0x100, value);
         stackPointer--;
         stackPointer = (short) (stackPointer & 0xFF);
     }
 
-    public short processorStatus() {
+    public final short processorStatus() {
         mergeProcessorStatus();
         return processorStatus;
     }
 
-    public void setProcessorStatus(short p) {
+    public final void setProcessorStatus(short p) {
         processorStatus = p;
         updateFlags();
     }
 
-    private boolean iNesRomIsOnePRGBank() {
+    private final boolean iNesRomIsOnePRGBank() {
         return (Emulator.getInstance().rom().PRGROM16KPageCount == 1);
     }
 
-    private void normalDisassembler() {
+    private final void normalDisassembler() {
         int opCode = Memory.getMemory().read(programCounter);
         Instruction actualInstruction = getInstructionFrom(opCode);
         actualLineDebug = actualInstruction.disassembler();
         programCounter += actualInstruction.size();
     }
 
-    private void updateFlags() {
+    private final void updateFlags() {
         flagBreak = giveMeBit4From(processorStatus);
         flagCarry = giveMeBit0From(processorStatus);
         flagDecimalMode = giveMeBit3From(processorStatus);
@@ -102,7 +102,7 @@ public class Cpu2A03 {
         flagZero = giveMeBit1From(processorStatus);
     }
 
-    public void mergeProcessorStatus() {
+    public final void mergeProcessorStatus() {
         processorStatus = (short) (((flagSign) << 7) |
                 ((flagOverflow) << 6) |
                 ((flagNotUsed) << 5) |
@@ -113,7 +113,7 @@ public class Cpu2A03 {
                 ((flagCarry) & 0x1));
     }
 
-    public void reset() {
+    public final void reset() {
         stackPointer = 0xFF;
         accumulator = registerX = registerY = 0;
         flagBreak = 0;
@@ -129,7 +129,7 @@ public class Cpu2A03 {
         cycles = 0;
     }
 
-    public void nmi() {
+    public final void nmi() {
         flagBreak = 0;
         push((short) (((programCounter + 1) >> 8) & 0xFF));
         push((short) ((programCounter + 1) & 0xFF));
@@ -139,7 +139,7 @@ public class Cpu2A03 {
         cycles += 7;
     }
 
-    public void irq() {
+    public final void irq() {
         if (flagBreak == 1) {
             return;
         }
@@ -153,7 +153,7 @@ public class Cpu2A03 {
         cycles += 7;
     }
 
-    public void initInstructionTable() {
+    public final void initInstructionTable() {
         //Register to Register Transfer.
         instructionSet[0xA8] = new TAYImplied(this);
         instructionSet[0xAA] = new TAXImplied(this);
@@ -375,26 +375,26 @@ public class Cpu2A03 {
     instructionSet[0xF2] = new KILImplied(this);*/
     }
 
-    public Instruction getInstructionFrom(int opCode) {
+    public final Instruction getInstructionFrom(final int opCode) {
         Instruction instruction = (instructionSet[opCode] == null ? new StillNotImplemented(this, opCode) : instructionSet[opCode]);
         return instruction;
     }
 
-    public void setupFlagSign(short value) {
+    public final void setupFlagSign(final short value) {
         flagSign = (byte) ((value >> 7) & 0x1);
     }
 
-    public void setupFlagZero(short value) {
+    public final void setupFlagZero(final short value) {
         flagZero = (byte) ((value == 0) ? 1 : 0);
     }
 
-    public void step() {
+    public final void step() {
         executeInstruction = getInstructionFrom(Memory.getMemory().read(programCounter));
         executeInstruction.interpret();
         cycles += executeInstruction.cycles();
     }
 
-    public void debugStep() {
+    public final void debugStep() {
         oldProgramCounter = programCounter;
         int opCode = Memory.getMemory().read(programCounter);
         Instruction actualInstruction = getInstructionFrom(opCode);
@@ -403,7 +403,7 @@ public class Cpu2A03 {
         actualLineDebug = "0x" + fillIfNeedsWith(4, "0", Integer.toHexString(oldProgramCounter).toUpperCase()) + ":\t" + actualLineDebug + "\t;";
     }
 
-    public AssemblerLine disassemblerStep() {
+    public final AssemblerLine disassemblerStep() {
         oldProgramCounter = programCounter;
         if (iNesRomIsOnePRGBank()) {
             if (programCounter == 0xBFFA ||

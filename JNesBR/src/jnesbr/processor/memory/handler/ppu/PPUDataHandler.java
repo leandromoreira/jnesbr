@@ -27,54 +27,58 @@ import jnesbr.video.memory.VideoMemory;
 /**
  * @author dreampeppers99
  */
-public class PPUDataHandler implements Handler {
+public final class PPUDataHandler implements Handler {
 
     private PPUData pPUData;
-    private byte firstRead = 1;
+    private short buffer = 0xBF; //the first read will bring ?? value
+    private short returnValue;
+    private Ppu2C02 ppu;
+    private Memory mainMemory;
+    private VideoMemory videoMemory;
 
-    public void writeAt(int address, short value) {
-        pPUData = Ppu2C02.getInstance().pPUData;
+    public PPUDataHandler(){
+        ppu = Ppu2C02.getInstance();
+        mainMemory = Memory.getMemory();
+        videoMemory = VideoMemory.getMemory();
+    }
+
+    public final void writeAt(final int address, final short value) {
+        pPUData = ppu.pPUData;
         pPUData.data = value;
-        VideoMemory.getMemory().write(Ppu2C02.getInstance().pPUAddress.completeAddress, pPUData.data);
-        if (Ppu2C02.getInstance().ppuControl.port2007AddressIncrement == PPUControll.IncrementBy1) {
-            Ppu2C02.getInstance().pPUAddress.completeAddress++;
+        videoMemory.write(ppu.pPUAddress.completeAddress, pPUData.data);
+        if (ppu.ppuControl.port2007AddressIncrement == PPUControll.IncrementBy1) {
+            ppu.pPUAddress.completeAddress++;
         } else {
-            Ppu2C02.getInstance().pPUAddress.completeAddress += 32;
+            ppu.pPUAddress.completeAddress += 32;
         }
-        Memory.getMemory().writeUnhandled(address, value);
+        mainMemory.writeUnhandled(address, value);
         mirror(address, value);
     }
 
-    private void mirror(int address, short value) {
+    private final void mirror(int address,final short value) {
         while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
-            Memory.getMemory().writeUnhandled(address + 0x08, value);
+            mainMemory.writeUnhandled(address + 0x08, value);
             address += 8;
         }
     }
 
-    public short readFrom(int address) {
-        short value = 0;
-        if (firstRead != 1) {
-            value = read();
-        } else {
-            if (address >= 0x000 & address <= 0x3EFF) {
-                value = 0xBF;//first read is invalid!
-            } else {
-                value = read();
-            }
-            firstRead = 0;
+    public final short readFrom(final int address) {
+        if (ppu.pPUAddress.completeAddress >= 0x000 & ppu.pPUAddress.completeAddress <= 0x3EFF){
+            returnValue = buffer;
+            buffer = read();
+        }else{
+            returnValue = read();
         }
-        return value;
+        return returnValue;
     }
 
     private final short read() {
-        short value;
-        value = VideoMemory.getMemory().readUnhandled(Ppu2C02.getInstance().pPUAddress.completeAddress);
-        if (Ppu2C02.getInstance().ppuControl.port2007AddressIncrement == PPUControll.IncrementBy1) {
-            Ppu2C02.getInstance().pPUAddress.completeAddress++;
+        returnValue = videoMemory.readUnhandled(ppu.pPUAddress.completeAddress);
+        if (ppu.ppuControl.port2007AddressIncrement == PPUControll.IncrementBy1) {
+            ppu.pPUAddress.completeAddress++;
         } else {
-            Ppu2C02.getInstance().pPUAddress.completeAddress += 32;
+            ppu.pPUAddress.completeAddress += 32;
         }
-        return value;
+        return returnValue;
     }
 }
