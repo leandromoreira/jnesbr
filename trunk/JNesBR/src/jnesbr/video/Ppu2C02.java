@@ -42,6 +42,8 @@ public class Ppu2C02 {
     public PPUOAMAddress ppuOAMAddress = new PPUOAMAddress();
     public PPUOAMData ppuOAMdata = new PPUOAMData();
     private Map<Integer, int[][]> patternTable = new HashMap<Integer, int[][]>();
+    private Frame frame = Frame.getInstance();
+    private int x,y;
 
     public static Ppu2C02 getInstance() {
         if (instance == null) {
@@ -93,13 +95,10 @@ public class Ppu2C02 {
     public Map<Integer, int[][]> getPatternTable() {
         return patternTable;
     }
-    private boolean inVblank = (actualScanLine >= 243 & actualScanLine <= 262);
 
     public void scanLine() {
-        if (actualScanLine >= 1 & actualScanLine <= 241) {
-            //will fetch data from name, attribute, and pattern tables
-            //during a scanline to produce an image on the screen
-
+        if (actualScanLine >= 1 & actualScanLine <= 240) {
+            realScanline();
             actualScanLine++;
         } else {
             switch (actualScanLine) {
@@ -113,7 +112,8 @@ public class Ppu2C02 {
                     actualScanLine++;
                     break;
             }
-            if (inVblank) {
+            //if is in vblank period...
+            if ((actualScanLine >= 243 & actualScanLine <= 262)) {
                 if (actualScanLine == 243) {
                     ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
                     if (ppuControl.executeNMIOnVBlank == 1) {
@@ -124,6 +124,21 @@ public class Ppu2C02 {
                 }
                 actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
             }
+        }
+    }
+
+    private final int nameTable(int tileIndex) {
+        return 0;
+    }
+
+    private void realScanline() {
+        //will fetch data from name, attribute, and pattern tables
+        //during a scanline to produce an image on the screen
+        y = actualScanLine - 1;
+        for (x = 0; x < 256; x++) {
+            int tileIndex = (int) x / 8;
+            int tileNumber = nameTable(tileIndex);
+            frame.setPixel(new float[]{1f, 2f, 3f}, x, y);
         }
     }
 
