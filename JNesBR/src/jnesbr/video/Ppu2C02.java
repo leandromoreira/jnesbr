@@ -43,7 +43,7 @@ public class Ppu2C02 {
     public PPUOAMData ppuOAMdata = new PPUOAMData();
     private Map<Integer, int[][]> patternTable = new HashMap<Integer, int[][]>();
     private Frame frame = Frame.getInstance();
-    private int x,y;
+    private int x,  y;
 
     public static Ppu2C02 getInstance() {
         if (instance == null) {
@@ -108,6 +108,9 @@ public class Ppu2C02 {
                     SpriteRAM.getInstance().reset();
                     actualScanLine++;
                     break;
+                case 241:
+                    actualScanLine++;
+                    break;
                 case 242:
                     actualScanLine++;
                     break;
@@ -116,11 +119,16 @@ public class Ppu2C02 {
             if ((actualScanLine >= 243 & actualScanLine <= 262)) {
                 if (actualScanLine == 243) {
                     ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
-                    if (ppuControl.executeNMIOnVBlank == 1) {
-                        actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
-                        Emulator.getInstance().getCpu().nmi();
-                        return;
-                    }
+//                    if (ppuControl.executeNMIOnVBlank == 1) {
+//                        actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
+//                        Emulator.getInstance().getCpu().nmi();
+//                        return;
+//                    }
+                }
+                if (ppuControl.executeNMIOnVBlank == 1) {
+                    actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
+                    Emulator.getInstance().getCpu().nmi();
+                    return;
                 }
                 actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
             }
@@ -141,7 +149,4 @@ public class Ppu2C02 {
             frame.setPixel(new float[]{1f, 2f, 3f}, x, y);
         }
     }
-
-
-    
 }
