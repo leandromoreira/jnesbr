@@ -16,13 +16,26 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.test;
 
+import jnesbr.util.JNesUtil;
+
 /**
  * @author dreampeppers99
  */
 public class Test {
+
     public static void main(String[] args) {
-        for (int i = 0; i < 256; i++) {
-            System.out.println((int)i/8);
-        }
+        int[] addresses = new int[4];
+        //0000 - 3FFF = 4000 Real physic
+        //4000 - 7FFF = 4000 mirroring
+        // 4000 = 0  7FFE = 3FFE
+        //8000 - BFFF = 4000 mirroring
+        // 8103 = 0103  BCFE = 3CFE
+        //C000 - FFFF = 4000 mirroring
+        // 4000 = 0  7FFE = 3FFE
+        addresses[0] = 0xFFFE;
+        System.out.println(JNesUtil.giveMeHexaStringFormattedWith4Space(addresses[0] & 0x3FFF));
+        addresses[1] = 0x8F00;
+        addresses[2] = 0xF000;
+        addresses[3] = 0xFFFF;
     }
 }
