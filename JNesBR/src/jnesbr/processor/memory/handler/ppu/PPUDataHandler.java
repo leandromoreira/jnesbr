@@ -30,6 +30,7 @@ import jnesbr.video.memory.VideoMemory;
 public class PPUDataHandler implements Handler {
 
     private PPUData pPUData;
+    private byte firstRead = 1;
 
     public void writeAt(int address, short value) {
         pPUData = Ppu2C02.getInstance().pPUData;
@@ -52,7 +53,23 @@ public class PPUDataHandler implements Handler {
     }
 
     public short readFrom(int address) {
-        short value = VideoMemory.getMemory().readUnhandled(Ppu2C02.getInstance().pPUAddress.completeAddress);
+        short value = 0;
+        if (firstRead != 1) {
+            value = read();
+        } else {
+            if (address >= 0x000 & address <= 0x3EFF) {
+                value = 0xBF;//first read is invalid!
+            } else {
+                value = read();
+            }
+            firstRead = 0;
+        }
+        return value;
+    }
+
+    private final short read() {
+        short value;
+        value = VideoMemory.getMemory().readUnhandled(Ppu2C02.getInstance().pPUAddress.completeAddress);
         if (Ppu2C02.getInstance().ppuControl.port2007AddressIncrement == PPUControll.IncrementBy1) {
             Ppu2C02.getInstance().pPUAddress.completeAddress++;
         } else {
