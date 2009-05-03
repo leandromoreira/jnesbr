@@ -36,6 +36,7 @@ public class Memory {
     public static Memory getMemory() {
         if (instance == null) {
             instance = new Memory();
+            instance.initHandlers();
         }
         return instance;
     }
@@ -61,16 +62,6 @@ public class Memory {
     }
 
     private Memory() {
-        handlers.put(NORMAL, new NormalHandler());
-        handlers.put(ZERO_PAGE_STACK_AND_RAM, new RAMHandler());
-        handlers.put(PPU_CONTROL, new PPUControlHandler());
-        handlers.put(PPU_MASK, new PPUMaskHandler());
-        handlers.put(PPU_STATUS, new PPUStatusHandler());
-        handlers.put(PPU_ADDRESS, new PPUAdressHandler());
-        handlers.put(PPU_OAM_ADDRESS, new PPUOAMAddressHandler());
-        handlers.put(PPU_OAM_DATA, new PPUOAMDataHandler());
-        handlers.put(PPU_DATA, new PPUDataHandler());
-        handlers.put(DIRECT_MEMORY_ACCESS, new PPUDirectMemoryAccessHandler());
     }
 
     public void reset() {
@@ -99,5 +90,18 @@ public class Memory {
         }
 
         return handlers.get(NORMAL);
+    }
+
+    private void initHandlers() {
+        handlers.put(NORMAL, new NormalHandler());
+        handlers.put(ZERO_PAGE_STACK_AND_RAM, new RAMHandler());
+        handlers.put(PPU_CONTROL, new PPUControlHandler());
+        handlers.put(PPU_MASK, new PPUMaskHandler());
+        handlers.put(PPU_STATUS, new PPUStatusHandler());
+        handlers.put(PPU_ADDRESS, new PPUAdressHandler());
+        handlers.put(PPU_OAM_ADDRESS, new PPUOAMAddressHandler());
+        handlers.put(PPU_OAM_DATA, new PPUOAMDataHandler());
+        handlers.put(PPU_DATA, new PPUDataHandler());
+        handlers.put(DIRECT_MEMORY_ACCESS, new PPUDirectMemoryAccessHandler());
     }
 }

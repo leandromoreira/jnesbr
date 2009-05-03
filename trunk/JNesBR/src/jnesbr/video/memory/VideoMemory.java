@@ -39,6 +39,7 @@ public class VideoMemory {
     }
 
     private Handler getHandler(int address) {
+        //todo: isn't better just made the wrapround??? (without checks)
         if (address >= 0x4000) {
             address &= 0x3FFF;
         }
