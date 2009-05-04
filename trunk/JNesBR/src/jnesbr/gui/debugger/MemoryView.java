@@ -65,7 +65,7 @@ public class MemoryView extends javax.swing.JFrame {
             }
         });
 
-        jCboMap.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "LOWER BANK", "UPPER BANK", "ZERO PAGE", "STACK", "RAM", "MIRROR ZERO PAGE", "MIRROR STACK", "MIRROR RAM", "MIRROR 1 ZERO PAGE", "MIRROR 1 STACK", "MIRROR 1 RAM", "MIRROR 2 ZERO PAGE", "MIRROR 2 STACK", "MIRROR 2 RAM", "IO REGISTERS", "EXPANSION ROM", "SAVE RAM" }));
+        jCboMap.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "LOWER BANK", "UPPER BANK", "ZERO PAGE", "STACK", "RAM", "IO REGISTERS", "EXPANSION ROM", "SAVE RAM" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

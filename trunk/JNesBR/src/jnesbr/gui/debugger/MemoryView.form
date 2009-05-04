@@ -86,24 +86,15 @@
     <Component class="javax.swing.JComboBox" name="jCboMap">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="17">
+          <StringArray count="8">
             <StringItem index="0" value="LOWER BANK"/>
             <StringItem index="1" value="UPPER BANK"/>
             <StringItem index="2" value="ZERO PAGE"/>
             <StringItem index="3" value="STACK"/>
             <StringItem index="4" value="RAM"/>
-            <StringItem index="5" value="MIRROR ZERO PAGE"/>
-            <StringItem index="6" value="MIRROR STACK"/>
-            <StringItem index="7" value="MIRROR RAM"/>
-            <StringItem index="8" value="MIRROR 1 ZERO PAGE"/>
-            <StringItem index="9" value="MIRROR 1 STACK"/>
-            <StringItem index="10" value="MIRROR 1 RAM"/>
-            <StringItem index="11" value="MIRROR 2 ZERO PAGE"/>
-            <StringItem index="12" value="MIRROR 2 STACK"/>
-            <StringItem index="13" value="MIRROR 2 RAM"/>
-            <StringItem index="14" value="IO REGISTERS"/>
-            <StringItem index="15" value="EXPANSION ROM"/>
-            <StringItem index="16" value="SAVE RAM"/>
+            <StringItem index="5" value="IO REGISTERS"/>
+            <StringItem index="6" value="EXPANSION ROM"/>
+            <StringItem index="7" value="SAVE RAM"/>
           </StringArray>
         </Property>
       </Properties>
