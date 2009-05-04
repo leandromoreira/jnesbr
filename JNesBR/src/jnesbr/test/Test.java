@@ -32,10 +32,7 @@ public class Test {
         // 8103 = 0103  BCFE = 3CFE
         //C000 - FFFF = 4000 mirroring
         // 4000 = 0  7FFE = 3FFE
-        addresses[0] = 0x3FFF;
-        System.out.println(JNesUtil.giveMeHexaStringFormattedWith4Space(addresses[0] & 0x3FFF));
-        addresses[1] = 0x8F00;
-        addresses[2] = 0xF000;
-        addresses[3] = 0xFFFF;
+        addresses[0] = 0x2001;//2009
+        System.out.println(JNesUtil.giveMeHexaStringFormattedWith4Space(addresses[0] & 0xE007));
     }
 }

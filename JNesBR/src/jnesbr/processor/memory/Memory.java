@@ -25,11 +25,10 @@ import static jnesbr.processor.memory.MemoryMap.*;
 /**
  * @author dreampeppers99
  */
-public class Memory {
+public final class Memory {
 
     private static Memory instance;
     private short[] memory = new short[0x10000];
-    //todo: should reset this ... where?
     private Map<Integer, Handler> handlers = new HashMap<Integer, Handler>();
     private final static int ZERO_PAGE_STACK_AND_RAM = 0xFFFF1,  NORMAL = 0xFFFF4;
 
@@ -80,7 +79,13 @@ public class Memory {
         memory[address] = value;
     }
 
-    private Handler getHandler(int address) {
+    private final Handler getHandler(int address) {
+
+        //The $2008-$3FFF mirroring.
+        if (address >= IO_MIRROR_START & address <= IO_MIRROR_END){
+            address &= 0xE007;
+        }
+
         Handler result = handlers.get(address);
         if (result != null) {
             return result;
@@ -92,7 +97,7 @@ public class Memory {
         return handlers.get(NORMAL);
     }
 
-    private void initHandlers() {
+    private final void initHandlers() {
         handlers.put(NORMAL, new NormalHandler());
         handlers.put(ZERO_PAGE_STACK_AND_RAM, new RAMHandler());
         handlers.put(PPU_CONTROL, new PPUControlHandler());

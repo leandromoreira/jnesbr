@@ -65,7 +65,7 @@ public class MemoryVideoView extends javax.swing.JFrame {
             }
         });
 
-        jCboMap.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pattern Table 0 (4K) (256 Tiles)", "Pattern Table 1 (4K) (256 Tiles)", "Name Table 0 and Attribute Table 0 (1K) (32x30 BG Map)", "Attribute Table 0", "Name Table 1 and Attribute Table 1 (1K) (32x30 BG Map)", "Attribute Table 1", "Name Table 2 and Attribute Table 2 (1K) (32x30 BG Map)", "Attribute Table 2", "Name Table 3 and Attribute Table 3 (1K) (32x30 BG Map)", "Attribute Table 3", "Mirror of 2000h-2EFFh", "Background and Sprite Palettes (25 entries used)", "Mirrors of 3F00h-3F1Fh" }));
+        jCboMap.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pattern Table 0 (4K) (256 Tiles)", "Pattern Table 1 (4K) (256 Tiles)", "Name Table 0 and Attribute Table 0 (1K) (32x30 BG Map)", "Attribute Table 0", "Name Table 1 and Attribute Table 1 (1K) (32x30 BG Map)", "Attribute Table 1", "Name Table 2 and Attribute Table 2 (1K) (32x30 BG Map)", "Attribute Table 2", "Name Table 3 and Attribute Table 3 (1K) (32x30 BG Map)", "Attribute Table 3", "Background and Sprite Palettes (25 entries used)" }));
         jCboMap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCboMapActionPerformed(evt);

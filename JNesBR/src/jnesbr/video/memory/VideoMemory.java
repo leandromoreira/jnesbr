@@ -30,7 +30,7 @@ public class VideoMemory {
     private static VideoMemory instance;
     private short[] memory = new short[0x10000];
     private Map<Integer, Handler> handlers = new HashMap<Integer, Handler>();
-    private static final int  NORMAL = 0xFFFF2,  PALETTE = 0xFFFF3, NAMETABLE = 0xFFFF4;
+    private static final int NORMAL = 0xFFFF2,  PALETTE = 0xFFFF3,  NAMETABLE = 0xFFFF4;
 
     private VideoMemory() {
         handlers.put(NORMAL, new NormalHandler());
@@ -39,10 +39,9 @@ public class VideoMemory {
     }
 
     private Handler getHandler(int address) {
-        //todo: isn't better just made the wrapround??? (without checks)
-        if (address >= 0x4000) {
-            address &= 0x3FFF;
-        }
+        
+        address &= 0x3FFF;// The Addresses $4000-$FFFF are a set of mirrorings from $0000-$3FFFF.
+
         if (address >= BG_SPR_PALLETE_START && address <= BG_SPR_PALLETE_END) {
             return handlers.get(PALETTE);
         }
