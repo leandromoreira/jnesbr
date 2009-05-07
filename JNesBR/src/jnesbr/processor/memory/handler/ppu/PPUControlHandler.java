@@ -25,12 +25,13 @@ import jnesbr.video.Ppu2C02;
 /**
  * @author dreampeppers99
  */
-public class PPUControlHandler implements Handler {
+public final class PPUControlHandler implements Handler {
     private PPUControll ppuControll;
+    private Ppu2C02 ppu = Ppu2C02.getInstance();
+    private Memory memory = Memory.getMemory();
 
-    public void writeAt(int address, short value) {
-        
-        ppuControll = Ppu2C02.getInstance().ppuControl;
+    public final void writeAt(final int address, final short value) {
+        ppuControll = ppu.ppuControl;
         ppuControll.executeNMIOnVBlank = giveMeBit7From(value);
         ppuControll.masterOrSlave = giveMeBit6From(value);
         ppuControll.spriteSize = giveMeBit5From(value);
@@ -40,18 +41,10 @@ public class PPUControlHandler implements Handler {
         ppuControll.nameTableAddress = (byte)(giveMeBit0From(value) >> 1 | giveMeBit1From(value));
         ppuControll.horizontalScrollBy256 = giveMeBit0From(value);
         ppuControll.verticalScrollBy240 = giveMeBit1From(value);
-        Memory.getMemory().writeUnhandled(address, value);
-        mirror(address, value);
+        memory.writeUnhandled(address, value);
     }
 
-    private void mirror(int address, short value) {
-        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
-            Memory.getMemory().writeUnhandled(address + 0x08, value);
-            address += 8;
-        }
-    }
-
-    public short readFrom(int address) {
-        return Memory.getMemory().readUnhandled(address);
+    public final short readFrom(final int address) {
+        return memory.readUnhandled(address);
     }
 }

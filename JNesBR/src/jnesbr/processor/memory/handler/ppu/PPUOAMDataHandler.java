@@ -17,7 +17,6 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
-import jnesbr.processor.memory.MemoryMap;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.Ppu2C02;
 import jnesbr.video.sprite.SpriteRAM;
@@ -25,23 +24,18 @@ import jnesbr.video.sprite.SpriteRAM;
 /**
  * @author dreampeppers99
  */
-public class PPUOAMDataHandler implements Handler {
+public final class PPUOAMDataHandler implements Handler {
+    private SpriteRAM sprRAM = SpriteRAM.getInstance();
+    private Ppu2C02 ppu = Ppu2C02.getInstance();
+    private Memory memory = Memory.getMemory();
 
-    public void writeAt(int address, short value) {
-        SpriteRAM.getInstance().add(Ppu2C02.getInstance().ppuOAMAddress.address,value);
-        Ppu2C02.getInstance().ppuOAMAddress.address++;
-        Memory.getMemory().writeUnhandled(address, value);
-        mirror(address, value);
+    public final void writeAt(final int address, final short value) {
+        sprRAM.add(ppu.ppuOAMAddress.address,value);
+        ppu.ppuOAMAddress.address++;
+        memory.writeUnhandled(address, value);
     }
 
-    public short readFrom(int address) {
-        return SpriteRAM.getInstance().get(Ppu2C02.getInstance().ppuOAMAddress.address);
-    }
-
-    private void mirror(int address, short value) {
-        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
-            Memory.getMemory().writeUnhandled(address + 0x08, value);
-            address += 8;
-        }
+    public final short readFrom(int address) {
+        return sprRAM.get(ppu.ppuOAMAddress.address);
     }
 }

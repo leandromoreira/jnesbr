@@ -26,14 +26,16 @@ import jnesbr.video.Ppu2C02;
 /**
  * @author dreampeppers99
  */
-public class PPUScrollHandler implements Handler {
+public final class PPUScrollHandler implements Handler {
 
     private PPUStatus ppuStatus;
     private PPUScroll ppuScroll;
+    private Ppu2C02 ppu = Ppu2C02.getInstance();
+    private Memory memory = Memory.getMemory();
 
-    public void writeAt(int address, short value) {
-        ppuStatus = Ppu2C02.getInstance().ppuStatus;
-        ppuScroll = Ppu2C02.getInstance().ppuScroll;
+    public final void writeAt(final int address, short value) {
+        ppuStatus = ppu.ppuStatus;
+        ppuScroll = ppu.ppuScroll;
         if (ppuStatus.flipflop == 0) {
             ppuScroll.horizontalScrollOrigin = value;
             ppuStatus.flipflop++;
@@ -42,18 +44,10 @@ public class PPUScrollHandler implements Handler {
             ppuScroll.verticalScrollOrigin = value;
             ppuStatus.flipflop--;
         }
-        Memory.getMemory().writeUnhandled(address, value);
-        mirror(address, value);
+        memory.writeUnhandled(address, value);
     }
 
-    public short readFrom(int address) {
-        return Memory.getMemory().readUnhandled(address);
-    }
-
-    private void mirror(int address, short value) {
-        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
-            Memory.getMemory().writeUnhandled(address + 0x08, value);
-            address += 8;
-        }
+    public final short readFrom(final int address) {
+        return memory.readUnhandled(address);
     }
 }

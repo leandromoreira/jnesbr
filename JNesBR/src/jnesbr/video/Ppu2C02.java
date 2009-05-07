@@ -105,7 +105,6 @@ public class Ppu2C02 {
                 case 0:
                     ppuStatus.moreThan8ObjectsOnScanLine = 0;
                     ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
-                    SpriteRAM.getInstance().reset();
                     actualScanLine++;
                     break;
                 case 241:

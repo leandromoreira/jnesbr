@@ -16,39 +16,14 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.video.memory;
 
-import java.util.HashMap;
-import java.util.Map;
-import jnesbr.processor.memory.handler.*;
-import jnesbr.video.memory.handler.*;
-import static jnesbr.video.memory.VideoMemoryMap.*;
-
 /**
  * @author dreampeppers99
  */
-public class VideoMemory {
-
+public final class VideoMemory {
     private static VideoMemory instance;
     private short[] memory = new short[0x10000];
-    private Map<Integer, Handler> handlers = new HashMap<Integer, Handler>();
-    private static final int NORMAL = 0xFFFF2,  PALETTE = 0xFFFF3,  NAMETABLE = 0xFFFF4;
 
     private VideoMemory() {
-        handlers.put(NORMAL, new NormalHandler());
-        handlers.put(PALETTE, new PaletteHandler());
-        handlers.put(NAMETABLE, new PartialNameTableHandler());
-    }
-
-    private Handler getHandler(int address) {
-        
-        address &= 0x3FFF;// The Addresses $4000-$FFFF are a set of mirrorings from $0000-$3FFFF.
-
-        if (address >= BG_SPR_PALLETE_START && address <= BG_SPR_PALLETE_END) {
-            return handlers.get(PALETTE);
-        }
-        if (address >= 0x2000 && address <= 0x2EFF) {
-            return handlers.get(NAMETABLE);
-        }
-        return handlers.get(NORMAL);
     }
 
     public static VideoMemory getMemory() {
@@ -58,23 +33,41 @@ public class VideoMemory {
         return instance;
     }
 
-    public void reset() {
+    public final void reset() {
         memory = new short[0x10000];
     }
 
-    public short read(int address) {
-        return getHandler(address).readFrom(address);
-    }
+    public final short read(int address) {
+        address &= 0x3FFF;// The Addresses $4000-$FFFF are a set of mirrorings from $0000-$3FFFF.
 
-    public short readUnhandled(int address) {
+        if (address >= 0x3000 & address <= 0x3EFF) {
+            address &= 0x2EFF;// The Name Table mirroring.
+        }
+
+        if (address >= 0x3F20 & address <= 0x3FFF) {
+            address &= 0x3F1F;// The Palette mirroring.
+        }
         return memory[address];
     }
 
-    public void write(int address, short value) {
-        getHandler(address).writeAt(address, value);
+    public final short readUnhandled(final int address) {
+        return memory[address];
     }
 
-    public void writeUnhandled(int address, short value) {
+    public final void write(int address, short value) {
+        address &= 0x3FFF;// The Addresses $4000-$FFFF are a set of mirrorings from $0000-$3FFFF.
+
+        if (address >= 0x3000 & address <= 0x3EFF) {
+            address &= 0x2EFF;// The Name Table mirroring.
+        }
+
+        if (address >= 0x3F20 & address <= 0x3FFF) {
+            address &= 0x3F1F;// The Palette mirroring.
+        }
+        memory[address] = value;
+    }
+
+    public final void writeUnhandled(final int address, final short value) {
         memory[address] = value;
     }
 }
