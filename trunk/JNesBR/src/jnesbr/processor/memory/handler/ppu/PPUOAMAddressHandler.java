@@ -17,7 +17,6 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
-import jnesbr.processor.memory.MemoryMap;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.PPUOAMAddress;
 import jnesbr.video.Ppu2C02;
@@ -25,23 +24,19 @@ import jnesbr.video.Ppu2C02;
 /**
  * @author dreampeppers99
  */
-public class PPUOAMAddressHandler implements Handler {
+public final class PPUOAMAddressHandler implements Handler {
+    private PPUOAMAddress ppuOAMaddress;
+    private Ppu2C02 ppu = Ppu2C02.getInstance();
+    private Memory memory = Memory.getMemory();
 
-    public void writeAt(int address, short value) {
-        PPUOAMAddress ppuOAMaddress = Ppu2C02.getInstance().ppuOAMAddress;
+    public final void writeAt(final int address, final short value) {
+        ppuOAMaddress = ppu.ppuOAMAddress;
         ppuOAMaddress.address = value;
-        Memory.getMemory().writeUnhandled(address, value);
-        mirror(address, value);
+        memory.writeUnhandled(address, value);
     }
 
-    public short readFrom(int address) {
-        return Memory.getMemory().readUnhandled(address);
+    public final short readFrom(final int address) {
+        return memory.readUnhandled(address);
     }
 
-    private void mirror(int address, short value) {
-        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
-            Memory.getMemory().writeUnhandled(address + 0x08, value);
-            address += 8;
-        }
-    }
 }

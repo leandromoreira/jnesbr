@@ -16,23 +16,22 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.test;
 
-import jnesbr.util.JNesUtil;
-
 /**
  * @author dreampeppers99
  */
 public class Test {
 
     public static void main(String[] args) {
-        int[] addresses = new int[4];
-        //0000 - 3FFF = 4000 Real physic
-        //4000 - 7FFF = 4000 mirroring
-        // 4000 = 0  7FFE = 3FFE
-        //8000 - BFFF = 4000 mirroring
-        // 8103 = 0103  BCFE = 3CFE
-        //C000 - FFFF = 4000 mirroring
-        // 4000 = 0  7FFE = 3FFE
-        addresses[0] = 0x2001;//2009
-        System.out.println(JNesUtil.giveMeHexaStringFormattedWith4Space(addresses[0] & 0xE007));
+//        3F00h-3F1Fh   Background and Sprite Palettes (25 entries used)
+//        3F20h-3FFFh   Mirrors of 3F00h-3F1Fh
+        int initPalette = 0x3F00, endPalette = 0x3F1F;
+        //11111100000000
+        //11111100011111
+        int initPaletteMirror = 0x3F20, endPaletteMirror = 0x3FFF;
+        System.out.println("There is " + (endPalette - initPalette) + " palette's entry." );
+        int testAddress = initPaletteMirror;
+        System.out.println( Integer.toHexString(testAddress & endPalette).toUpperCase());
+        testAddress++;
+        System.out.println( Integer.toHexString(testAddress & endPalette).toUpperCase());
     }
 }

@@ -40,7 +40,7 @@ public class PPUDirectMemoryAccessHandler implements Handler {
         return Memory.getMemory().readUnhandled(address);
     }
 
-    private void fillSpriteRAM(int firstAddress) {
+    private final void fillSpriteRAM(int firstAddress) {
         short address = Ppu2C02.getInstance().ppuOAMAddress.address;
         SpriteRAM sprMemory = SpriteRAM.getInstance();
         Memory mem = Memory.getMemory();

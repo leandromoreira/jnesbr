@@ -17,7 +17,6 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
-import jnesbr.processor.memory.MemoryMap;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
@@ -28,25 +27,20 @@ import jnesbr.video.Ppu2C02;
 public class PPUStatusHandler implements Handler {
 
     private PPUStatus ppuStatus;
+    private Memory memory = Memory.getMemory();
+    private Ppu2C02 ppu = Ppu2C02.getInstance();
 
-    public void writeAt(int address, short value) {
-        Memory.getMemory().writeUnhandled(address, value);
-        mirror(address,value);
+    public final void writeAt(final int address, final short value) {
+        //$2002 it's read-only.
+        memory.writeUnhandled(address, value);
     }
 
-    public short readFrom(int address) {
+    public final short readFrom(final int address) {
         //todo: understand this... "When a read from $2002 occurs, bit 7 is reset to 0 as are $2005 and $2006."
-        ppuStatus = Ppu2C02.getInstance().ppuStatus;
+        ppuStatus = ppu.ppuStatus;
         ppuStatus.flipflop = 0;
-        Memory.getMemory().writeUnhandled(address, (short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.moreThan8ObjectsOnScanLine << 5)));
-        mirror(address,(short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.moreThan8ObjectsOnScanLine << 5)));
-        return Memory.getMemory().readUnhandled(address);
-    }
-
-    private void mirror(int address, short value) {
-        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
-            Memory.getMemory().writeUnhandled(address + 0x08, value);
-            address += 8;
-        }
+        //memory.writeUnhandled(address, (short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.moreThan8ObjectsOnScanLine << 5)));
+        //return memory.readUnhandled(address);
+        return (short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.moreThan8ObjectsOnScanLine << 5));
     }
 }

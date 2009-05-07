@@ -26,12 +26,13 @@ import jnesbr.video.Ppu2C02;
 /**
  * @author dreampeppers99
  */
-public class PPUMaskHandler implements Handler {
-
+public final class PPUMaskHandler implements Handler {
+    private Memory memory = Memory.getMemory();
+    private Ppu2C02 ppu = Ppu2C02.getInstance();
     private PPUMask ppuMask;
 
-    public void writeAt(int address, short value) {
-        ppuMask = Ppu2C02.getInstance().ppuMask;
+    public final void writeAt(final int address, final short value) {
+        ppuMask = ppu.ppuMask;
         ppuMask.intensifyBlues = giveMeBit7From(value);
         ppuMask.intensifyGreens = giveMeBit6From(value);
         ppuMask.intensifyReds = giveMeBit5From(value);
@@ -40,19 +41,11 @@ public class PPUMaskHandler implements Handler {
         ppuMask.enableSpriteInLeftmost = giveMeBit2From(value);
         ppuMask.enableBackgroundInLeftmost = giveMeBit1From(value);
         ppuMask.grayscale = giveMeBit0From(value);
-        Memory.getMemory().writeUnhandled(address, value);
-        mirror(address, value);
+        memory.writeUnhandled(address, value);
 
     }
 
-    private void mirror(int address, short value) {
-        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
-            Memory.getMemory().writeUnhandled(address + 0x08, value);
-            address += 8;
-        }
-    }
-
-    public short readFrom(int address) {
-        return Memory.getMemory().readUnhandled(address);
+    public final short readFrom(final int address) {
+        return memory.readUnhandled(address);
     }
 }

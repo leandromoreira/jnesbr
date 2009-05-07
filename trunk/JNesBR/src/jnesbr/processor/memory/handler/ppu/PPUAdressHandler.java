@@ -17,7 +17,6 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
-import jnesbr.processor.memory.MemoryMap;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.PPUAddress;
 import jnesbr.video.PPUStatus;
@@ -26,14 +25,16 @@ import jnesbr.video.Ppu2C02;
 /**
  * @author dreampeppers99
  */
-public class PPUAdressHandler implements Handler {
+public final class PPUAdressHandler implements Handler {
 
     private PPUAddress pPUAddress;
     private PPUStatus ppuStatus;
+    private Ppu2C02 ppu = Ppu2C02.getInstance();
+    private Memory memory = Memory.getMemory();
 
-    public void writeAt(int address, short value) {
-        pPUAddress = Ppu2C02.getInstance().pPUAddress;
-        ppuStatus = Ppu2C02.getInstance().ppuStatus;
+    public final void writeAt(final int address, final short value) {
+        pPUAddress = ppu.pPUAddress;
+        ppuStatus = ppu.ppuStatus;
         if (ppuStatus.flipflop == 0) {
             pPUAddress.firstData = value;
             ppuStatus.flipflop++;
@@ -42,18 +43,10 @@ public class PPUAdressHandler implements Handler {
             pPUAddress.completeAddress = (pPUAddress.firstData<<8) | pPUAddress.secondData;
             ppuStatus.flipflop--;
         }
-        Memory.getMemory().writeUnhandled(address, value);
-        mirror(address, value);
+        memory.writeUnhandled(address, value);
     }
 
-    private void mirror(int address, short value) {
-        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
-            Memory.getMemory().writeUnhandled(address + 0x08, value);
-            address += 8;
-        }
-    }
-
-    public short readFrom(int address) {
-        return Memory.getMemory().readUnhandled(address);
+    public final short readFrom(final int address) {
+        return memory.readUnhandled(address);
     }
 }

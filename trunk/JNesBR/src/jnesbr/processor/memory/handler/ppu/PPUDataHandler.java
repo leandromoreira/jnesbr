@@ -17,7 +17,6 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
-import jnesbr.processor.memory.MemoryMap;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.PPUControll;
 import jnesbr.video.PPUData;
@@ -52,14 +51,6 @@ public final class PPUDataHandler implements Handler {
             ppu.pPUAddress.completeAddress += 32;
         }
         mainMemory.writeUnhandled(address, value);
-        mirror(address, value);
-    }
-
-    private final void mirror(int address,final short value) {
-        while ((address + 0x08) <= MemoryMap.IO_MIRROR_END) {
-            mainMemory.writeUnhandled(address + 0x08, value);
-            address += 8;
-        }
     }
 
     public final short readFrom(final int address) {
