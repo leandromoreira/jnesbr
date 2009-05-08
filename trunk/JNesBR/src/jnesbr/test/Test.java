@@ -16,22 +16,37 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.test;
 
+import jnesbr.video.memory.handler.NameTableMirroringManagement;
+
 /**
  * @author dreampeppers99
  */
 public class Test {
 
     public static void main(String[] args) {
-//        3F00h-3F1Fh   Background and Sprite Palettes (25 entries used)
-//        3F20h-3FFFh   Mirrors of 3F00h-3F1Fh
-        int initPalette = 0x3F00, endPalette = 0x3F1F;
-        //11111100000000
-        //11111100011111
-        int initPaletteMirror = 0x3F20, endPaletteMirror = 0x3FFF;
-        System.out.println("There is " + (endPalette - initPalette) + " palette's entry." );
-        int testAddress = initPaletteMirror;
-        System.out.println( Integer.toHexString(testAddress & endPalette).toUpperCase());
-        testAddress++;
-        System.out.println( Integer.toHexString(testAddress & endPalette).toUpperCase());
+        testHorizontal(0x2000, 0x2000, 0x2400);
+        testHorizontal(0x23F0, 0x2000, 0x2400);
+        testHorizontal(0x23FF, 0x2000, 0x2400);
+        testHorizontal(0x2400, 0x2000, 0x2400);
+        testHorizontal(0x25F0, 0x2000, 0x2400);
+        testHorizontal(0x27FF, 0x2000, 0x2400);
+
+        testHorizontal(0x2800, 0x2400, 0x27FF);
+        testHorizontal(0x290E, 0x2400, 0x27FF);
+        testHorizontal(0x2B0A, 0x2400, 0x27FF);
+        testHorizontal(0x2BFF, 0x2400, 0x27FF);
+        testHorizontal(0x2CFF, 0x2400, 0x27FF);
+        testHorizontal(0x2FFF, 0x2400, 0x27FF);
+
+    }
+
+    public static void testHorizontal(int address, int min, int max) {
+        address = NameTableMirroringManagement.translateAddressHorizontalMirroring(address);
+        String result = (address >= min & address <= max) ? "Pass" : "Fail";
+        if (result.equals("Pass")) {
+            System.out.println(result);
+        } else {
+            System.err.println(result);
+        }
     }
 }
