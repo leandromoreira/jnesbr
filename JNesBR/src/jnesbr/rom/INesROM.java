@@ -18,6 +18,7 @@ package jnesbr.rom;
 
 import java.nio.ByteBuffer;
 import jnesbr.util.JNesUtil;
+import jnesbr.video.memory.handler.NameTableMirroringManagement;
 import static jnesbr.util.JNesUtil.*;
 
 /**
@@ -30,18 +31,18 @@ public class INesROM {
     public short PRGROM16KPageCount;
     public short CHRROM8KPageCount;
     public short cartridgeTypeLSB;
-        public short mirroringType;
-            public static final short HORIZONTAL = 0;
-            public static final short VERTICAL = 1;
-        public short batteryPresence;
-        public short trainerPresence;
-        public short fourScreenMirroring;
-        public short mapperNumber;
+    public short mirroringType;
+    public static final short HORIZONTAL = 0;
+    public static final short VERTICAL = 1;
+    public short batteryPresence;
+    public short trainerPresence;
+    public short fourScreenMirroring;
+    public short mapperNumber;
     public short cartridgeTypeMSB;
-        public short unisystemGame;
-        public short pc10Game;
-        public short msbReserved;
-        public short msbMapperNumber;
+    public short unisystemGame;
+    public short pc10Game;
+    public short msbReserved;
+    public short msbMapperNumber;
     public short RAMPageCount8K;
     public short reserved0;
     public short reserved1;
@@ -50,7 +51,6 @@ public class INesROM {
     public short reserved4;
     public short reserved5;
     public short nonzero;
-
     public String titleRom;
     public short[] playChoiceZ80;
     public short[] trainer;
@@ -63,14 +63,16 @@ public class INesROM {
         romId = String.valueOf((char) readNextUnsignedByteFrom(rom)) + String.valueOf((char) readNextUnsignedByteFrom(rom)) + String.valueOf((char) readNextUnsignedByteFrom(rom));
         formatId = readNextUnsignedByteFrom(rom);
 
-        if (!romId.equals("NES") || formatId != 0x1A ) throw new IllegalArgumentException("The file isn't a iNes!");
+        if (!romId.equals("NES") || formatId != 0x1A) {
+            throw new IllegalArgumentException("The file isn't a iNes!");
+        }
 
         PRGROM16KPageCount = readNextUnsignedByteFrom(rom);
         CHRROM8KPageCount = readNextUnsignedByteFrom(rom);
         cartridgeTypeLSB = readNextUnsignedByteFrom(rom);
-            setCartridgeTypeLSBAttributes();
+        setCartridgeTypeLSBAttributes();
         cartridgeTypeMSB = readNextUnsignedByteFrom(rom);
-            setCartridgeTypeMSBAttributes();
+        setCartridgeTypeMSBAttributes();
         RAMPageCount8K = readNextUnsignedByteFrom(rom);
         reserved0 = readNextUnsignedByteFrom(rom);
         reserved1 = readNextUnsignedByteFrom(rom);
@@ -85,22 +87,26 @@ public class INesROM {
         }
         fillPGR_ROMFrom(rom);
         fillCHR_ROMFrom(rom);
-        if (pc10Game == 0x1){
+        if (pc10Game == 0x1) {
             fillWith8KFrom(rom);
         }
+        configNameTableMirroring();
     }
 
     private void fillPGR_ROMFrom(ByteBuffer rom) {
-        PRG_ROMsize = PRGROM16KPageCount * 16 * 1024 ;
+        PRG_ROMsize = PRGROM16KPageCount * 16 * 1024;
         pgr_rom = new short[PRG_ROMsize];
         for (int i = 0; i < PRG_ROMsize; i++) {
             pgr_rom[i] = readNextUnsignedByteFrom(rom);
         }
     }
-    private void fillCHR_ROMFrom(ByteBuffer rom) {
-        if (CHRROM8KPageCount == 0) return;
 
-        CHR_ROMsize = CHRROM8KPageCount * 8 * 1024 ;
+    private void fillCHR_ROMFrom(ByteBuffer rom) {
+        if (CHRROM8KPageCount == 0) {
+            return;
+        }
+
+        CHR_ROMsize = CHRROM8KPageCount * 8 * 1024;
         chr_rom = new short[CHR_ROMsize];
         for (int i = 0; i < CHR_ROMsize; i++) {
             chr_rom[i] = readNextUnsignedByteFrom(rom);
@@ -115,8 +121,8 @@ public class INesROM {
     }
 
     private void fillWith8KFrom(ByteBuffer rom) {
-        playChoiceZ80 = new short[8*1024];
-        for (int i = 0; i < (8*1024); i++) {
+        playChoiceZ80 = new short[8 * 1024];
+        for (int i = 0; i < (8 * 1024); i++) {
             playChoiceZ80[i] = readNextUnsignedByteFrom(rom);
         }
     }
@@ -132,42 +138,52 @@ public class INesROM {
     private void setCartridgeTypeMSBAttributes() {
         unisystemGame = giveMeBit0From(cartridgeTypeMSB);
         pc10Game = giveMeBit1From(cartridgeTypeMSB);
-        msbReserved = (short) ( (giveMeBit3From(cartridgeTypeMSB) << 1 ) & giveMeBit2From(cartridgeTypeMSB));
+        msbReserved = (short) ((giveMeBit3From(cartridgeTypeMSB) << 1) & giveMeBit2From(cartridgeTypeMSB));
         msbMapperNumber = (short) (cartridgeTypeMSB >> 4);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("==========iNes Header==========\n");
-        sb.append("Rom Id:\t\t"+romId+"\n");
-        sb.append("Format Id:\t\t"+ JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(formatId).toUpperCase()) +"\n");
-        sb.append("Pages PRG16K:\t\t"+PRGROM16KPageCount+"\n");
-        sb.append("Pages CHR8K:\t\t"+CHRROM8KPageCount+"\n");
+        sb.append("Rom Id:\t\t" + romId + "\n");
+        sb.append("Format Id:\t\t" + JNesUtil.fillIfNeedsWith(2, "0", Integer.toHexString(formatId).toUpperCase()) + "\n");
+        sb.append("Pages PRG16K:\t\t" + PRGROM16KPageCount + "\n");
+        sb.append("Pages CHR8K:\t\t" + CHRROM8KPageCount + "\n");
 
         sb.append("Cartridge LSB:\n");
-        sb.append("\tMirroring type:\t\t"+ ((mirroringType==0)?"Horizontal":"Vertical") +"\n");
-        sb.append("\tBattery presence:\t\t"+ ((batteryPresence==1)?"Yes":"No") +"\n");
-        sb.append("\tTrainer presence:\t\t"+ ((trainerPresence==1)?"Yes":"No") +"\n");
-        sb.append("\tFour Screen Mirroring:\t\t"+ ((fourScreenMirroring==1)?"Yes":"No") +"\n");
-        sb.append("\tMapper :\t\t"+ INesMapperUtil.getName(mapperNumber) +"\n");
+        sb.append("\tMirroring type:\t\t" + ((mirroringType == 0) ? "Horizontal" : "Vertical") + "\n");
+        sb.append("\tBattery presence:\t\t" + ((batteryPresence == 1) ? "Yes" : "No") + "\n");
+        sb.append("\tTrainer presence:\t\t" + ((trainerPresence == 1) ? "Yes" : "No") + "\n");
+        sb.append("\tFour Screen Mirroring:\t\t" + ((fourScreenMirroring == 1) ? "Yes" : "No") + "\n");
+        sb.append("\tMapper :\t\t" + INesMapperUtil.getName(mapperNumber) + "\n");
 
         sb.append("Cartridge MSB:\n");
-        sb.append("\tUnisystem game:\t\t"+ ((unisystemGame==1)?"Yes":"No") +"\n");
-        sb.append("\tPC10 game:\t\t"+ ((pc10Game==1)?"Yes":"No") +"\n");
-        sb.append("\tReserved:\t\t"+ msbReserved +"\n");
-        sb.append("\tMapper Number:\t\t"+ msbMapperNumber +"\n");
+        sb.append("\tUnisystem game:\t\t" + ((unisystemGame == 1) ? "Yes" : "No") + "\n");
+        sb.append("\tPC10 game:\t\t" + ((pc10Game == 1) ? "Yes" : "No") + "\n");
+        sb.append("\tReserved:\t\t" + msbReserved + "\n");
+        sb.append("\tMapper Number:\t\t" + msbMapperNumber + "\n");
 
-        sb.append("Pages RAM8K:\t\t"+RAMPageCount8K+"\n");
-        sb.append("Reserved0:\t\t"+reserved0+"\n");
-        sb.append("Reserved1:\t\t"+reserved1+"\n");
-        sb.append("Reserved2:\t\t"+reserved2+"\n");
-        sb.append("Reserved3:\t\t"+reserved3+"\n");
-        sb.append("Reserved4:\t\t"+reserved4+"\n");
-        sb.append("Reserved5:\t\t"+reserved5+"\n");
-        sb.append("Nonzero:\t\t"+nonzero+"\n");
+        sb.append("Pages RAM8K:\t\t" + RAMPageCount8K + "\n");
+        sb.append("Reserved0:\t\t" + reserved0 + "\n");
+        sb.append("Reserved1:\t\t" + reserved1 + "\n");
+        sb.append("Reserved2:\t\t" + reserved2 + "\n");
+        sb.append("Reserved3:\t\t" + reserved3 + "\n");
+        sb.append("Reserved4:\t\t" + reserved4 + "\n");
+        sb.append("Reserved5:\t\t" + reserved5 + "\n");
+        sb.append("Nonzero:\t\t" + nonzero + "\n");
         sb.append("==========iNes Header==========");
-        
+
         return sb.toString();
+    }
+
+    private final void configNameTableMirroring() {
+        if (fourScreenMirroring == 1) {
+            NameTableMirroringManagement.fourScreenSelected();
+        } else if (mirroringType == 0) {
+            NameTableMirroringManagement.horizontalSelected();
+        } else {
+            NameTableMirroringManagement.verticalSelected();
+        }
     }
 }

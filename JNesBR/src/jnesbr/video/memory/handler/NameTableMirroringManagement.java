@@ -21,6 +21,28 @@ package jnesbr.video.memory.handler;
  */
 public final class NameTableMirroringManagement {
 
+    public static byte horizontal,  vertical,  fourScreen,  singleScreen;
+
+    public static void fourScreenSelected() {
+        horizontal = vertical = singleScreen = 0;
+        fourScreen = 1;
+    }
+
+    public static void horizontalSelected() {
+        fourScreen = vertical = singleScreen = 0;
+        horizontal = 1;
+    }
+
+    public static void verticalSelected() {
+        fourScreen = horizontal = singleScreen = 0;
+        vertical = 1;
+    }
+
+    public static void singleSelected() {
+        fourScreen = horizontal = vertical = 0;
+        singleScreen = 1;
+    }
+
     public final static int translateAddressSingleMirroring(int address) {
         if (address >= 0x2400 & address <= 0x27FF) {
             address &= 0x23FF;
