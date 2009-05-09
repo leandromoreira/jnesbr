@@ -126,7 +126,7 @@ public final class Emulator implements Runnable {
                         while (cpu.cycles < CYCLES_TO_SCANLINE) {
                             cpu.step();
                         }
-                        cpu.cycles = 0;
+                        cpu.cycles = cpu.cycles - CYCLES_TO_SCANLINE;
                         ppu.scanLine();
                     }
                 }
@@ -141,7 +141,7 @@ public final class Emulator implements Runnable {
             cpu.debugStep();
             return;
         }
-        cpu.cycles = 0;
+        cpu.cycles = cpu.cycles - CYCLES_TO_SCANLINE;
         ppu.scanLine();
     }
 

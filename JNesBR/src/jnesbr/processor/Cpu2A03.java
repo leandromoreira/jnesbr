@@ -43,6 +43,7 @@ public final class Cpu2A03 {
     private Instruction[] instructionSet = new Instruction[0x100];
     public String actualLineDebug;
     private Instruction executeInstruction;
+    private Memory memory = Memory.getMemory();
 
     public Cpu2A03() {
         reset();
@@ -389,7 +390,7 @@ public final class Cpu2A03 {
     }
 
     public final void step() {
-        executeInstruction = getInstructionFrom(Memory.getMemory().read(programCounter));
+        executeInstruction = getInstructionFrom(memory.read(programCounter));
         executeInstruction.interpret();
         cycles += executeInstruction.cycles();
     }

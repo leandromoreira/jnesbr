@@ -14,15 +14,20 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.test;
+package jnesbr.core;
 
 /**
  * @author dreampeppers99
  */
-public class Test {
+public class IntegerRange implements Range<Integer,Integer,Integer> {
+    private int max, min;
+    public void setRange(Integer maximun, Integer minimun) {
+        max = maximun;
+        min = minimun;
+    }
 
-    public static void main(String[] args) {
-
+    public boolean isInside(Integer value) {
+        return (value >= min && value <= max);
     }
 
 }

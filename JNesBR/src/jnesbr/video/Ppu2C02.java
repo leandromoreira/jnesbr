@@ -97,17 +97,14 @@ public class Ppu2C02 {
     }
 
     public void scanLine() {
-        if (actualScanLine >= 1 & actualScanLine <= 240) {
+        if (actualScanLine >= 0 & actualScanLine <= 239) {
             realScanline();
-            actualScanLine++;
         } else {
             switch (actualScanLine) {
-                case 0:
-                    ppuStatus.moreThan8ObjectsOnScanLine = 0;
-                    ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
-                    actualScanLine++;
+                case -1:
+                    prerenderScanline();
                     break;
-                case 241:
+                case 240:
                     actualScanLine++;
                     break;
                 case 242:
@@ -138,6 +135,12 @@ public class Ppu2C02 {
         return 0;
     }
 
+    private final void prerenderScanline() {
+        ppuStatus.moreThan8ObjectsOnScanLine = 0;
+        ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
+        actualScanLine++;
+    }
+
     private void realScanline() {
         //will fetch data from name, attribute, and pattern tables
         //during a scanline to produce an image on the screen
@@ -147,5 +150,6 @@ public class Ppu2C02 {
             int tileNumber = nameTable(tileIndex);
             frame.setPixel(new float[]{1f, 2f, 3f}, x, y);
         }
+        actualScanLine++;
     }
 }
