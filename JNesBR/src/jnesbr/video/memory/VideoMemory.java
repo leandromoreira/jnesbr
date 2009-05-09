@@ -16,6 +16,8 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.video.memory;
 
+import jnesbr.video.memory.handler.NameTableMirroringManagement;
+
 /**
  * @author dreampeppers99
  */
@@ -46,6 +48,10 @@ public final class VideoMemory {
 
         if (address >= 0x3F20 & address <= 0x3FFF) {
             address &= 0x3F1F;// The Palette mirroring.
+        }
+
+        if (address >= 0x2000 && address <= 0x2FFF){
+            address = NameTableMirroringManagement.translate(address);
         }
         return memory[address];
     }

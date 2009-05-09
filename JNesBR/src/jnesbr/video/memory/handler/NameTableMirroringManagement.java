@@ -16,31 +16,58 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.video.memory.handler;
 
+import jnesbr.core.Command;
+
 /**
  * @author dreampeppers99
  */
 public final class NameTableMirroringManagement {
 
-    public static byte horizontal,  vertical,  fourScreen,  singleScreen;
+    public final static byte horizontal = 0 ,  vertical = 1,  fourScreen = 2,  singleScreen = 3;
+    private static byte actual;
+    private static Command[] kindsOfMirroring = new Command[4];
+
+    static{
+        kindsOfMirroring[horizontal] = new Command() {
+            public int execute(int address) {
+                return translateAddressHorizontalMirroring(address);
+            }
+        };
+        kindsOfMirroring[vertical] = new Command() {
+            public int execute(int address) {
+                return translateAddressVerticalMirroring(address);
+            }
+        };
+        kindsOfMirroring[fourScreen] = new Command() {
+            public int execute(int address) {
+                return address;
+            }
+        };
+        kindsOfMirroring[singleScreen] = new Command() {
+            public int execute(int address) {
+                return translateAddressSingleMirroring(address);
+            }
+        };
+    }
+
+    public static int translate(int address){
+        return kindsOfMirroring[actual].execute(address);
+    }
 
     public static void fourScreenSelected() {
-        horizontal = vertical = singleScreen = 0;
-        fourScreen = 1;
+        actual = fourScreen;
     }
 
     public static void horizontalSelected() {
-        fourScreen = vertical = singleScreen = 0;
-        horizontal = 1;
+        actual =horizontal;
     }
 
     public static void verticalSelected() {
-        fourScreen = horizontal = singleScreen = 0;
-        vertical = 1;
+        actual = vertical;
     }
 
     public static void singleSelected() {
-        fourScreen = horizontal = vertical = 0;
-        singleScreen = 1;
+        actual = singleScreen;
     }
 
     public final static int translateAddressSingleMirroring(int address) {
