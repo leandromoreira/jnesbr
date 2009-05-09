@@ -70,7 +70,7 @@ public final class NameTableMirroringManagement {
         actual = singleScreen;
     }
 
-    public final static int translateAddressSingleMirroring(int address) {
+    private final static int translateAddressSingleMirroring(int address) {
         if (address >= 0x2400 & address <= 0x27FF) {
             address &= 0x23FF;
         } else if (address >= 0x2800 & address <= 0x2BFF) {
@@ -81,7 +81,7 @@ public final class NameTableMirroringManagement {
         return address;
     }
 
-    public final static int translateAddressHorizontalMirroring(int address) {
+    private final static int translateAddressHorizontalMirroring(int address) {
         if (address >= 0x2400 & address <= 0x27FF) {
             address &= 0x23FF;
         } else if (address >= 0x2800 & address <= 0x2BFF) {
@@ -92,7 +92,7 @@ public final class NameTableMirroringManagement {
         return address;
     }
 
-    public final static int translateAddressVerticalMirroring(int address) {
+    private final static int translateAddressVerticalMirroring(int address) {
         if (address >= 0x2800 & address <= 0x2BFF) {
             address &= 0x23FF;
         } else if (address >= 0x2C00 & address <= 0x2FFF) {

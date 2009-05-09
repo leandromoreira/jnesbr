@@ -22,6 +22,7 @@ import jnesbr.video.memory.handler.NameTableMirroringManagement;
  * @author dreampeppers99
  */
 public final class VideoMemory {
+
     private static VideoMemory instance;
     private short[] memory = new short[0x10000];
 
@@ -40,19 +41,7 @@ public final class VideoMemory {
     }
 
     public final short read(int address) {
-        address &= 0x3FFF;// The Addresses $4000-$FFFF are a set of mirrorings from $0000-$3FFFF.
-
-        if (address >= 0x3000 & address <= 0x3EFF) {
-            address &= 0x2EFF;// The Name Table mirroring.
-        }
-
-        if (address >= 0x3F20 & address <= 0x3FFF) {
-            address &= 0x3F1F;// The Palette mirroring.
-        }
-
-        if (address >= 0x2000 && address <= 0x2FFF){
-            address = NameTableMirroringManagement.translate(address);
-        }
+        address = makeMirrorings(address);
         return memory[address];
     }
 
@@ -61,19 +50,25 @@ public final class VideoMemory {
     }
 
     public final void write(int address, short value) {
-        address &= 0x3FFF;// The Addresses $4000-$FFFF are a set of mirrorings from $0000-$3FFFF.
-
-        if (address >= 0x3000 & address <= 0x3EFF) {
-            address &= 0x2EFF;// The Name Table mirroring.
-        }
-
-        if (address >= 0x3F20 & address <= 0x3FFF) {
-            address &= 0x3F1F;// The Palette mirroring.
-        }
+        address = makeMirrorings(address);
         memory[address] = value;
     }
 
     public final void writeUnhandled(final int address, final short value) {
         memory[address] = value;
+    }
+
+    private final int makeMirrorings(int address) {
+        address &= 0x3FFF; // The Addresses $4000-$FFFF are a set of mirrorings from $0000-$3FFFF.
+        if (address >= 0x3000 & address <= 0x3EFF) {
+            address &= 0x2EFF; // The Name Table mirroring.
+        }
+        if (address >= 0x3F20 & address <= 0x3FFF) {
+            address &= 0x3F1F; // The Palette mirroring.
+        }
+        if (address >= 0x2000 && address <= 0x2FFF) {
+            address = NameTableMirroringManagement.translate(address);
+        }
+        return address;
     }
 }

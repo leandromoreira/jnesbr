@@ -39,8 +39,8 @@ public final class Frame {
         frame[x][y] = pixel;
     }
 
-    public final void setPixel(float[] pixel, int x, int y) {
-        rgbFrame[x][y] = pixel;
+    public final void setPixel(float[] rgb, int x, int y) {
+        rgbFrame[x][y] = rgb;
     }
 
     public final Color[][] getJava2DFrame() {

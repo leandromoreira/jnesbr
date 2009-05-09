@@ -16,6 +16,10 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyListener;
 import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
@@ -28,36 +32,32 @@ import jnesbr.video.jogl.GLListener;
  */
 public class ScreenJogl extends JFrame {
 
-    private GLCanvas canvas;
     public static void main(String[] args) {
         new ScreenJogl().setVisible(true);
     }
+
     public ScreenJogl() {
+        super("JNesBR - Jogl Render");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         GLCapabilities setup = new GLCapabilities();
-        canvas = new GLCanvas(setup);
+        GLCanvas canvas = new GLCanvas(setup);
         GLEventListener listener = new GLListener(canvas);
         canvas.addGLEventListener(listener);
         canvas.addKeyListener((KeyListener) listener);
-        canvas.setSize(799, 599);
-        setSize(800, 600);
-        setLocation(70, 70);
-        add(canvas);
-        Thread render = new Thread(new Runnable() {
+        canvas.setSize(256, 240);
+        getContentPane().add(canvas, BorderLayout.CENTER);
+        setSize(258, 242);
+        setResizable(false);
+        center(this);
+    }
 
-            @Override
-            @SuppressWarnings("empty-statement")
-            public void run() {
-                try{
-                while (true) {
-                    Thread.sleep(17);
-                    canvas.display();
-                }
-                }catch(Exception ex){
-                    System.out.println("err "+ex);
-                }
-            }
-        });
+    private void center(Component comp) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension frameSize = comp.getSize();
 
-        render.start();
+        if (frameSize.width > screenSize.width)frameSize.width = screenSize.width;
+        if (frameSize.height > screenSize.height)frameSize.height = screenSize.height;
+
+        comp.setLocation((screenSize.width-frameSize.width)>>1, (screenSize.height-frameSize.height)>>1);
     }
 }
