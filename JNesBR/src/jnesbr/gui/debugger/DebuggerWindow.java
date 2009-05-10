@@ -41,6 +41,7 @@ import jnesbr.debugger.Debugger;
 import jnesbr.debugger.Disassembler;
 import jnesbr.util.JNesUtil;
 import jnesbr.util.JTableHelper;
+import jnesbr.video.Ppu2C02;
 
 /**
  * @author dreampeppers99
@@ -106,6 +107,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jChkZ = new javax.swing.JCheckBox();
         jChkI = new javax.swing.JCheckBox();
         jChkD = new javax.swing.JCheckBox();
+        jLblActualScanline = new javax.swing.JLabel();
         jBtnStep = new javax.swing.JButton();
         jBtnPause = new javax.swing.JButton();
         jBtnRun = new javax.swing.JButton();
@@ -273,6 +275,10 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jChkD.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jChkD.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
+        jLblActualScanline.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLblActualScanline.setForeground(new java.awt.Color(0, 0, 102));
+        jLblActualScanline.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPnRegistersLayout = new javax.swing.GroupLayout(jPnRegisters);
         jPnRegisters.setLayout(jPnRegistersLayout);
         jPnRegistersLayout.setHorizontalGroup(
@@ -320,8 +326,10 @@ public class DebuggerWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jChkU)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jChkB)))
-                .addContainerGap(497, Short.MAX_VALUE))
+                        .addComponent(jChkB)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLblActualScanline, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(253, Short.MAX_VALUE))
         );
         jPnRegistersLayout.setVerticalGroup(
             jPnRegistersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,7 +338,8 @@ public class DebuggerWindow extends javax.swing.JFrame {
                     .addComponent(jChkS)
                     .addComponent(jChkV)
                     .addComponent(jChkU)
-                    .addComponent(jChkB))
+                    .addComponent(jChkB)
+                    .addComponent(jLblActualScanline))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPnRegistersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jChkD)
@@ -659,7 +668,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 0, 102));
         jLabel12.setText("Regular Debug Output");
 
@@ -667,7 +676,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(0, 0, 102));
         jLabel13.setText("Console Debug Output");
 
-        jBtnSaveSourceCode.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtnSaveSourceCode.setFont(new java.awt.Font("Tahoma", 1, 11));
         jBtnSaveSourceCode.setForeground(new java.awt.Color(0, 0, 102));
         jBtnSaveSourceCode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jnesbr/gui/resources/icon.PNG"))); // NOI18N
         jBtnSaveSourceCode.setText("Save Source Code");
@@ -1184,6 +1193,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLblActualScanline;
     private javax.swing.JPanel jPnRegisters;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1284,6 +1294,7 @@ public class DebuggerWindow extends javax.swing.JFrame {
         jChkU.setSelected(emu.getCpu().flagNotUsed != 0);
         jChkV.setSelected(emu.getCpu().flagOverflow != 0);
         jChkZ.setSelected(emu.getCpu().flagZero != 0);
+        jLblActualScanline.setText("Scanline #" + Ppu2C02.getInstance().actualScanline());
         updateMemoryWatch();
     }
 }
