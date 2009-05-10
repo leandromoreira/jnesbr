@@ -44,13 +44,13 @@ public class Ppu2C02 {
     public PPUOAMData ppuOAMdata = new PPUOAMData();
     private Map<Integer, int[][]> patternTable = new HashMap<Integer, int[][]>();
     private Frame frame = Frame.getInstance();
-    private Map<Integer, Scanline> scanlines;
+    private Map<Integer, Scanline> scanlines = new HashMap<Integer, Scanline>();
     private int x,  y;
-    private Cpu2A03 cpu = Emulator.getInstance().getCpu();
 
     public static Ppu2C02 getInstance() {
         if (instance == null) {
             instance = new Ppu2C02();
+            instance.initScanlineModel();
         }
         return instance;
     }
@@ -61,7 +61,6 @@ public class Ppu2C02 {
 
     private Ppu2C02() {
         //ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
-        initScanlineModel();
     }
 
     public int actualScanline(){
@@ -153,7 +152,7 @@ public class Ppu2C02 {
                 ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
                 actualScanLine++;
                 if (ppuControl.executeNMIOnVBlank == 1) {
-                    cpu.nmi();
+                    Emulator.getInstance().getCpu().nmi();
                 }
             }
         });
