@@ -273,9 +273,11 @@
                           <Component id="jChkU" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jChkB" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                          <Component id="jLblActualScanline" min="-2" pref="228" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="497" max="32767" attributes="0"/>
+                  <EmptySpace pref="253" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -287,6 +289,7 @@
                       <Component id="jChkV" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jChkU" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jChkB" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLblActualScanline" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -489,6 +492,17 @@
             <Property name="text" type="java.lang.String" value="D"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
             <Property name="horizontalTextPosition" type="int" value="10"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLblActualScanline">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="18" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="66" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
         </Component>
       </SubComponents>
