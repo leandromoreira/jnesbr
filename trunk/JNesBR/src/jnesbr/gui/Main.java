@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import jnesbr.core.Emulator;
 import jnesbr.core.MetaInformation;
 import jnesbr.gui.debugger.ActualPalette;
@@ -321,7 +322,11 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnuShowHeaderActionPerformed
 
     private void jBtnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRunActionPerformed
-    new ScreenJogl().setVisible(true);
+        if (emulator != null) {
+            Thread t = new Thread(emulator);
+            t.start();
+        }
+        new ScreenJogl().setVisible(true);
 }//GEN-LAST:event_jBtnRunActionPerformed
 
     private void jMnuMemoryViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuMemoryViewActionPerformed
