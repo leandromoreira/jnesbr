@@ -83,22 +83,11 @@ public class GLListener implements GLEventListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == 39) {
-            System.out.println("39");
-        }
-        if (e.getKeyCode() == 37) {
-            System.out.println("37");
-        }
-        if (e.getKeyCode() == 38) {
-            System.out.println("38");
-        }
-        if (e.getKeyCode() == 40) {
-            System.out.println("40");
-        }
-
+        System.out.println("press="+e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        System.out.println("release="+e);
     }
 }

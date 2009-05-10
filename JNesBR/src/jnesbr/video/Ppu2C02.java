@@ -116,7 +116,23 @@ public class Ppu2C02 {
 
             public void scanline() {
                 // 0-239 - Rendering Scanline
+                if (ppuMask.backgroundRenderingEnable == 1) renderBackground();
+                if (ppuMask.spriteRenderingEnable == 1) renderSprite();
                 actualScanLine++;
+            }
+
+            private final void renderBackground() {
+                for (int actualTile = 0; actualTile < 32 ; actualTile++ ){
+                        //1. Name table byte
+                        //2. Attribute table byte
+                        //3. Pattern table bitmap #0
+                        //4. Pattern table bitmap #1
+                }
+            }
+
+            private final void renderSprite() {
+                for (int actualSprite = 0; actualSprite < 64 ; actualSprite++ ){
+                }
             }
         });
         scanlines.put(240, new Scanline() {
