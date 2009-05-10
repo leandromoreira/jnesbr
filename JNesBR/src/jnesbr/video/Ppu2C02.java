@@ -19,7 +19,7 @@ package jnesbr.video;
 import java.util.HashMap;
 import java.util.Map;
 import jnesbr.core.Emulator;
-import jnesbr.video.sprite.SpriteRAM;
+import jnesbr.processor.Cpu2A03;
 
 /**
  * @author dreampeppers99
@@ -30,6 +30,7 @@ public class Ppu2C02 {
     public final static int NUMBER_OF_SCANLINES = 240 + 3;
     public final static int CYCLES_TO_VBLANK = CYCLES_TO_SCANLINE * 20;
     public final static int MS_BY_FRAME = 17;
+    private final static int RENDERING_SCANLINE = 0;
     private int actualScanLine = 0;
     private short pixelCounter = 0;
     private static Ppu2C02 instance;
@@ -43,7 +44,9 @@ public class Ppu2C02 {
     public PPUOAMData ppuOAMdata = new PPUOAMData();
     private Map<Integer, int[][]> patternTable = new HashMap<Integer, int[][]>();
     private Frame frame = Frame.getInstance();
+    private Map<Integer, Scanline> scanlines;
     private int x,  y;
+    private Cpu2A03 cpu = Emulator.getInstance().getCpu();
 
     public static Ppu2C02 getInstance() {
         if (instance == null) {
@@ -57,7 +60,12 @@ public class Ppu2C02 {
     }
 
     private Ppu2C02() {
-        ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
+        //ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
+        initScanlineModel();
+    }
+
+    public int actualScanline(){
+        return actualScanLine;
     }
 
     public void initPatternTable() {
@@ -97,48 +105,69 @@ public class Ppu2C02 {
     }
 
     public void scanLine() {
-        if (actualScanLine >= 0 & actualScanLine <= 239) {
-            realScanline();
-        } else {
-            switch (actualScanLine) {
-                case -1:
-                    prerenderScanline();
-                    break;
-                case 240:
-                    actualScanLine++;
-                    break;
-                case 242:
-                    actualScanLine++;
-                    break;
+        get(actualScanLine).scanline();
+    }
+
+    private final Scanline get(final int scanLineNumber){
+        return (scanLineNumber>=0 & scanLineNumber<=239) ? scanlines.get(RENDERING_SCANLINE) : scanlines.get(actualScanLine);
+    }
+
+    private void initScanlineModel() {
+        scanlines.put(RENDERING_SCANLINE, new Scanline() {
+
+            public void scanline() {
+                // 0-239 - Rendering Scanline
+                actualScanLine++;
             }
-            //if is in vblank period...
-            if ((actualScanLine >= 243 & actualScanLine <= 262)) {
-                if (actualScanLine == 243) {
-                    ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
-//                    if (ppuControl.executeNMIOnVBlank == 1) {
-//                        actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
-//                        Emulator.getInstance().getCpu().nmi();
-//                        return;
-//                    }
-                }
-                if (ppuControl.executeNMIOnVBlank == 1) {
-                    actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
-                    Emulator.getInstance().getCpu().nmi();
-                    return;
-                }
-                actualScanLine = (actualScanLine == 262) ? 0 : actualScanLine + 1;
+        });
+        scanlines.put(240, new Scanline() {
+
+            public void scanline() {
+                // 240 - Idle Scanline
+                actualScanLine++;
             }
+        });
+        scanlines.put(-1, new Scanline() {
+
+            public void scanline() {
+                // -1 - Prerender Scanline
+                ppuStatus.moreThan8ObjectsOnScanLine = 0;
+                ppuStatus.sprite0Hit = 0;
+                ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
+                actualScanLine++;
+            }
+        });
+        for (int i = 242; i < 241 + 20; i++) {
+            scanlines.put(i, new Scanline() {
+
+                public void scanline() {
+                    // 242 - 260 - VBlank period
+                    actualScanLine++;
+                }
+            });
         }
+        scanlines.put(241, new Scanline() {
+
+            public void scanline() {
+                // 241 - First scanline of VBlank period
+                ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
+                actualScanLine++;
+                if (ppuControl.executeNMIOnVBlank == 1) {
+                    cpu.nmi();
+                }
+            }
+        });
+        scanlines.put(261, new Scanline() {
+
+            public void scanline() {
+                // 261 - Last scanline of VBlank period
+                actualScanLine = -1;
+            }
+        });
     }
 
     private final int nameTable(int tileIndex) {
         return 0;
-    }
-
-    private final void prerenderScanline() {
-        ppuStatus.moreThan8ObjectsOnScanLine = 0;
-        ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
-        actualScanLine++;
     }
 
     private void realScanline() {

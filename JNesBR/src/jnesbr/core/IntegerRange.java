@@ -30,4 +30,30 @@ public class IntegerRange implements Range<Integer,Integer,Integer> {
         return (value >= min && value <= max);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final IntegerRange other = (IntegerRange) obj;
+        if (this.max != other.max) {
+            return false;
+        }
+        if (this.min != other.min) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 73 * hash + this.max;
+        hash = 73 * hash + this.min;
+        return hash;
+    }
+
 }
