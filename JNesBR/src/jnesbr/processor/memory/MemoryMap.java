@@ -69,6 +69,8 @@ public class MemoryMap {
         public final static int IO_REGISTERS2_START = 0x4000;
 
             public final static int DIRECT_MEMORY_ACCESS = 0x4014;
+            public final static int JOYSTICK1 = 0X4016;
+            public final static int JOYSTICK2 = 0X4017;
             
         public final static int IO_REGISTERS2_END = 0x401F;
     public final static int IO_REGISTERS_END = 0x401F;

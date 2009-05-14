@@ -18,6 +18,7 @@ package jnesbr.processor.memory;
 
 import java.util.HashMap;
 import java.util.Map;
+import jnesbr.joystick.handlers.Joystick1Handler;
 import jnesbr.processor.memory.handler.*;
 import jnesbr.processor.memory.handler.ppu.*;
 import static jnesbr.processor.memory.MemoryMap.*;
@@ -108,5 +109,6 @@ public final class Memory {
         handlers.put(PPU_OAM_DATA, new PPUOAMDataHandler());
         handlers.put(PPU_DATA, new PPUDataHandler());
         handlers.put(DIRECT_MEMORY_ACCESS, new PPUDirectMemoryAccessHandler());
+        handlers.put(JOYSTICK1, new Joystick1Handler());
     }
 }

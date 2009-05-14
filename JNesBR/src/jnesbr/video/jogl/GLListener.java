@@ -23,6 +23,8 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import jnesbr.core.Emulator;
+import jnesbr.joystick.StandardControl;
 import jnesbr.video.Frame;
 
 /**
@@ -31,6 +33,8 @@ import jnesbr.video.Frame;
 public class GLListener implements GLEventListener, KeyListener {
 
     private GLCanvas canvas;
+    private Emulator emulator;
+    private StandardControl joystick;
     public static int width = 256,  height = 240;
     private Frame frame = Frame.getInstance();
     private static final int RED = 0 , GREEN = 1, BLUE = 2;
@@ -38,6 +42,8 @@ public class GLListener implements GLEventListener, KeyListener {
 
     public GLListener(GLCanvas canvas) {
         this.canvas = canvas;
+        emulator = Emulator.getInstance();
+        joystick = emulator.joystick;
     }
 
     @Override
@@ -83,11 +89,15 @@ public class GLListener implements GLEventListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("press="+e);
+        //joystick.pressedOnJoystick1(e.getKeyCode());
+        System.out.println("pressed");
+        //joystick.pressedOnJoystick2(e.getKeyCode());
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("release="+e);
+        //joystick.releasedOnJoystick1(e.getKeyCode());
+        System.out.println("released");
+        //joystick.releasedOnJoystick2(e.getKeyCode());
     }
 }
