@@ -19,7 +19,6 @@ package jnesbr.video;
 import java.util.HashMap;
 import java.util.Map;
 import jnesbr.core.Emulator;
-import jnesbr.processor.Cpu2A03;
 
 /**
  * @author dreampeppers99
@@ -31,7 +30,7 @@ public class Ppu2C02 {
     public final static int CYCLES_TO_VBLANK = CYCLES_TO_SCANLINE * 20;
     public final static int MS_BY_FRAME = 17;
     private final static int RENDERING_SCANLINE = 0;
-    private int actualScanLine = 0;
+    int actualScanLine = 0;
     private short pixelCounter = 0;
     private static Ppu2C02 instance;
     public PPUControll ppuControl = new PPUControll();
@@ -112,38 +111,14 @@ public class Ppu2C02 {
     }
 
     private void initScanlineModel() {
-        scanlines.put(RENDERING_SCANLINE, new Scanline() {
-
-            public void scanline() {
-                // 0-239 - Rendering Scanline
-                if (ppuMask.backgroundRenderingEnable == 1) renderBackground();
-                if (ppuMask.spriteRenderingEnable == 1) renderSprite();
-                actualScanLine++;
-            }
-
-            private final void renderBackground() {
-                for (int actualTile = 0; actualTile < 32 ; actualTile++ ){
-                        //1. Name table byte
-                        //2. Attribute table byte
-                        //3. Pattern table bitmap #0
-                        //4. Pattern table bitmap #1
-                }
-            }
-
-            private final void renderSprite() {
-                for (int actualSprite = 0; actualSprite < 64 ; actualSprite++ ){
-                }
-            }
-        });
+        scanlines.put(RENDERING_SCANLINE,new RenderScanline(this));
         scanlines.put(240, new Scanline() {
-
             public void scanline() {
                 // 240 - Idle Scanline
                 actualScanLine++;
             }
         });
         scanlines.put(-1, new Scanline() {
-
             public void scanline() {
                 // -1 - Prerender Scanline
                 ppuStatus.moreThan8ObjectsOnScanLine = 0;
@@ -154,7 +129,6 @@ public class Ppu2C02 {
         });
         for (int i = 242; i < 241 + 20; i++) {
             scanlines.put(i, new Scanline() {
-
                 public void scanline() {
                     // 242 - 260 - VBlank period
                     actualScanLine++;
@@ -162,7 +136,6 @@ public class Ppu2C02 {
             });
         }
         scanlines.put(241, new Scanline() {
-
             public void scanline() {
                 // 241 - First scanline of VBlank period
                 ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
@@ -173,27 +146,10 @@ public class Ppu2C02 {
             }
         });
         scanlines.put(261, new Scanline() {
-
             public void scanline() {
                 // 261 - Last scanline of VBlank period
                 actualScanLine = -1;
             }
         });
-    }
-
-    private final int nameTable(int tileIndex) {
-        return 0;
-    }
-
-    private void realScanline() {
-        //will fetch data from name, attribute, and pattern tables
-        //during a scanline to produce an image on the screen
-        y = actualScanLine - 1;
-        for (x = 0; x < 256; x++) {
-            int tileIndex = (int) x / 8;
-            int tileNumber = nameTable(tileIndex);
-            frame.setPixel(new float[]{1f, 2f, 3f}, x, y);
-        }
-        actualScanLine++;
     }
 }

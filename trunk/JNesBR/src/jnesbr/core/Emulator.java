@@ -17,6 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.core;
 
 import java.nio.ByteBuffer;
+import jnesbr.joystick.StandardControl;
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
 import jnesbr.rom.INesROM;
@@ -35,6 +36,7 @@ public final class Emulator implements Runnable {
     private Loader loader;
     private Cpu2A03 cpu;
     private Ppu2C02 ppu;
+    public StandardControl joystick;
     public boolean stopped,  paused,  running;
 
     public final static Emulator getInstance() {
@@ -50,6 +52,7 @@ public final class Emulator implements Runnable {
         stopped = false;
         paused = false;
         running = true;
+        joystick = new StandardControl();
     }
 
     public final Memory getMemory() {

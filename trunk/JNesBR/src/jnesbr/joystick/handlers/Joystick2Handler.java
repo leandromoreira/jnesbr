@@ -14,18 +14,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.test;
+package jnesbr.joystick.handlers;
 
 /**
  * @author dreampeppers99
  */
-public class Test {
+public class Joystick2Handler {
 
-    public static void main(String[] args) {
-        int readNumber = 0;
-        for (int i = 0; i < 56; i++) {
-            readNumber = (readNumber + 1) & 7;
-            System.out.println(readNumber);
-        }
-    }
 }

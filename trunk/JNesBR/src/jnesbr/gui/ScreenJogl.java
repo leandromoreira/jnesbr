@@ -16,6 +16,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.gui;
 
+import com.sun.opengl.util.FPSAnimator;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -49,6 +50,8 @@ public class ScreenJogl extends JFrame {
         setSize(258, 242);
         setResizable(false);
         center(this);
+        FPSAnimator animator = new FPSAnimator(canvas, 60, true);
+        animator.start();
     }
 
     private void center(Component comp) {
