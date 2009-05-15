@@ -17,30 +17,27 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
-import jnesbr.processor.memory.MemoryMap;
 import jnesbr.processor.memory.handler.Handler;
 import static jnesbr.util.JNesUtil.*;
-import jnesbr.video.PPUMask;
 import jnesbr.video.Ppu2C02;
 
 /**
  * @author dreampeppers99
+ * As Mapped IO to address $2001. Should be only-written.
  */
 public final class PPUMaskHandler implements Handler {
     private Memory memory = Memory.getMemory();
     private Ppu2C02 ppu = Ppu2C02.getInstance();
-    private PPUMask ppuMask;
 
     public final void writeAt(final int address, final short value) {
-        ppuMask = ppu.ppuMask;
-        ppuMask.intensifyBlues = giveMeBit7From(value);
-        ppuMask.intensifyGreens = giveMeBit6From(value);
-        ppuMask.intensifyReds = giveMeBit5From(value);
-        ppuMask.spriteRenderingEnable = giveMeBit4From(value);
-        ppuMask.backgroundRenderingEnable = giveMeBit3From(value);
-        ppuMask.enableSpriteInLeftmost = giveMeBit2From(value);
-        ppuMask.enableBackgroundInLeftmost = giveMeBit1From(value);
-        ppuMask.grayscale = giveMeBit0From(value);
+        ppu.ppuMask.intensifyBlues = giveMeBit7From(value);
+        ppu.ppuMask.intensifyGreens = giveMeBit6From(value);
+        ppu.ppuMask.intensifyReds = giveMeBit5From(value);
+        ppu.ppuMask.spriteRenderingEnable = giveMeBit4From(value);
+        ppu.ppuMask.backgroundRenderingEnable = giveMeBit3From(value);
+        ppu.ppuMask.enableSpriteInLeftmost = giveMeBit2From(value);
+        ppu.ppuMask.enableBackgroundInLeftmost = giveMeBit1From(value);
+        ppu.ppuMask.grayscale = giveMeBit0From(value);
         memory.writeUnhandled(address, value);
 
     }

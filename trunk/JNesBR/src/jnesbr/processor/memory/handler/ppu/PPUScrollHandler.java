@@ -18,30 +18,25 @@ package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
 import jnesbr.processor.memory.handler.Handler;
-import jnesbr.video.PPUScroll;
-import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
 
 /**
  * @author dreampeppers99
+ * As Mapped IO to address $2005.
  */
 public final class PPUScrollHandler implements Handler {
 
-    private PPUStatus ppuStatus;
-    private PPUScroll ppuScroll;
     private Ppu2C02 ppu = Ppu2C02.getInstance();
     private Memory memory = Memory.getMemory();
 
     public final void writeAt(final int address, short value) {
-        ppuStatus = ppu.ppuStatus;
-        ppuScroll = ppu.ppuScroll;
-        if (ppuStatus.flipflop == 0) {
-            ppuScroll.horizontalScrollOrigin = value;
-            ppuStatus.flipflop++;
+        if (ppu.ppuStatus.flipflop == 0) {
+            ppu.ppuScroll.horizontalScrollOrigin = value;
+            ppu.ppuStatus.flipflop++;
         } else {
             value = (short) ((value >= 240) ? value - 256 : value);
-            ppuScroll.verticalScrollOrigin = value;
-            ppuStatus.flipflop--;
+            ppu.ppuScroll.verticalScrollOrigin = value;
+            ppu.ppuStatus.flipflop--;
         }
         memory.writeUnhandled(address, value);
     }

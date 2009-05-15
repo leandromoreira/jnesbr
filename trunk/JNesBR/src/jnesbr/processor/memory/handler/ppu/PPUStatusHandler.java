@@ -23,6 +23,7 @@ import jnesbr.video.Ppu2C02;
 
 /**
  * @author dreampeppers99
+ * As Mapped IO to address $2002. Should be read-only.
  */
 public class PPUStatusHandler implements Handler {
 
@@ -31,17 +32,13 @@ public class PPUStatusHandler implements Handler {
     private short value;
 
     public final void writeAt(final int address, final short value) {
-        //$2002 it's read-only.
         memory.writeUnhandled(address, value);
     }
 
     public final short readFrom(final int address) {
-        //todo: understand this... "When a read from $2002 occurs, bit 7 is reset to 0 as are $2005 and $2006."
-        ppu.ppuStatus.flipflop = 0;
         value = (short) ((ppu.ppuStatus.verticalBlankStarted << 7) | (ppu.ppuStatus.sprite0Hit << 6) | (ppu.ppuStatus.moreThan8ObjectsOnScanLine << 5));
         ppu.ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
-        //memory.writeUnhandled(address, (short) ((ppuStatus.verticalBlankStarted << 7) | (ppuStatus.sprite0Hit << 6) | (ppuStatus.moreThan8ObjectsOnScanLine << 5)));
-        //return memory.readUnhandled(address);
+        ppu.ppuStatus.flipflop = 0;
         return value;
     }
 }

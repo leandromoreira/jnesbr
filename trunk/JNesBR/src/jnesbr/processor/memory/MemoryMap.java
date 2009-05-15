@@ -59,7 +59,7 @@ public class MemoryMap {
             public final static int PPU_STATUS = 0x2002;
             public final static int PPU_OAM_ADDRESS = 0x2003;
             public final static int PPU_OAM_DATA = 0x2004;
-            
+            public final static int PPU_SCROLL = 0x2005;
             public final static int PPU_ADDRESS = 0x2006;
             public final static int PPU_DATA = 0x2007;
         public final static int IO_REGISTERS1_END = 0x2007;
