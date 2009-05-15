@@ -16,9 +16,28 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.joystick.handlers;
 
+import jnesbr.core.Emulator;
+import jnesbr.joystick.StandardControl;
+import jnesbr.processor.memory.Memory;
+import jnesbr.processor.memory.handler.Handler;
+
 /**
  * @author dreampeppers99
  */
-public class Joystick2Handler {
+public class Joystick2Handler implements Handler {
 
+    private int readNumber = 0;
+    private short value;
+    private Memory memory = Memory.getMemory();
+    private StandardControl joystickManager = Emulator.getInstance().joystick;
+
+    public void writeAt(int address, short value) {
+        memory.writeUnhandled(address, value);
+    }
+
+    public short readFrom(int address) {
+        value = joystickManager.status2Of(readNumber);
+        readNumber = (readNumber + 1) & 7;
+        return value;
+    }
 }

@@ -23,6 +23,7 @@ import jnesbr.video.sprite.SpriteRAM;
 
 /**
  * @author dreampeppers99
+ * As Mapped IO to address $2004.
  */
 public final class PPUOAMDataHandler implements Handler {
     private SpriteRAM sprRAM = SpriteRAM.getInstance();

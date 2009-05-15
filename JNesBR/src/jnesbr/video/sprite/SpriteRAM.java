@@ -40,7 +40,7 @@ public class SpriteRAM {
     }
 
     public void add(short address, short value) {
-        spriteMemory[address] = value;
+        spriteMemory[address & 0xFF] = value;
     }
 
     public short[] spriteRAM() {

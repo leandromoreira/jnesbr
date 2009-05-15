@@ -18,20 +18,18 @@ package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
 import jnesbr.processor.memory.handler.Handler;
-import jnesbr.video.PPUOAMAddress;
 import jnesbr.video.Ppu2C02;
 
 /**
  * @author dreampeppers99
+ * As Mapped IO to address $2003.
  */
 public final class PPUOAMAddressHandler implements Handler {
-    private PPUOAMAddress ppuOAMaddress;
     private Ppu2C02 ppu = Ppu2C02.getInstance();
     private Memory memory = Memory.getMemory();
 
     public final void writeAt(final int address, final short value) {
-        ppuOAMaddress = ppu.ppuOAMAddress;
-        ppuOAMaddress.address = value;
+        ppu.ppuOAMAddress.address = value;
         memory.writeUnhandled(address, value);
     }
 

@@ -19,6 +19,7 @@ package jnesbr.processor.memory;
 import java.util.HashMap;
 import java.util.Map;
 import jnesbr.joystick.handlers.Joystick1Handler;
+import jnesbr.joystick.handlers.Joystick2Handler;
 import jnesbr.processor.memory.handler.*;
 import jnesbr.processor.memory.handler.ppu.*;
 import static jnesbr.processor.memory.MemoryMap.*;
@@ -102,15 +103,24 @@ public final class Memory {
     }
 
     private final void initHandlers() {
+        // #### Standard handler ####
         normal = new NormalHandler();
-        handlers.put(PPU_CONTROL, new PPUControlHandler());
-        handlers.put(PPU_MASK, new PPUMaskHandler());
-        handlers.put(PPU_STATUS, new PPUStatusHandler());
-        handlers.put(PPU_ADDRESS, new PPUAdressHandler());
-        handlers.put(PPU_OAM_ADDRESS, new PPUOAMAddressHandler());
-        handlers.put(PPU_OAM_DATA, new PPUOAMDataHandler());
-        handlers.put(PPU_DATA, new PPUDataHandler());
-        handlers.put(DIRECT_MEMORY_ACCESS, new PPUDirectMemoryAccessHandler());
-        handlers.put(JOYSTICK1, new Joystick1Handler());
+
+        // #### Ppu handlers ####
+        handlers.put(PPU_CONTROL, new PPUControlHandler());                         //$2000
+        handlers.put(PPU_MASK, new PPUMaskHandler());                               //$2001
+        handlers.put(PPU_STATUS, new PPUStatusHandler());                           //$2002
+        handlers.put(PPU_ADDRESS, new PPUAdressHandler());                          //$2006
+        handlers.put(PPU_OAM_ADDRESS, new PPUOAMAddressHandler());                  //$2003
+        handlers.put(PPU_OAM_DATA, new PPUOAMDataHandler());                        //$2004
+        handlers.put(PPU_DATA, new PPUDataHandler());                               //$2007
+        handlers.put(PPU_SCROLL, new PPUScrollHandler());                           //$2005
+        handlers.put(DIRECT_MEMORY_ACCESS, new PPUDirectMemoryAccessHandler());     //$4014
+
+        // #### Joystick handlers ####
+        handlers.put(JOYSTICK1, new Joystick1Handler());                            //$4016
+        handlers.put(JOYSTICK2, new Joystick2Handler());                            //$4017
+
+        // #### APU handlers ####
     }
 }
