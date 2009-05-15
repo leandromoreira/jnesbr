@@ -131,6 +131,7 @@ public final class Emulator implements Runnable {
                         }
                         cpu.cycles = cpu.cycles - CYCLES_TO_SCANLINE;
                         ppu.scanLine();
+                        //maybe change the actual joystick model
                     }
                 }
             }
@@ -139,7 +140,7 @@ public final class Emulator implements Runnable {
         }
     }
 
-    public void stepDebugger() {
+    public final void stepDebugger() {
         if (cpu.cycles < CYCLES_TO_SCANLINE) {
             cpu.debugStep();
             return;

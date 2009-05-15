@@ -21,13 +21,14 @@ import jnesbr.processor.memory.Memory;
 /**
  * @author dreampeppers99
  */
-public class NormalHandler implements Handler {
+public final class NormalHandler implements Handler {
+    private Memory memory = Memory.getMemory();
 
-    public void writeAt(int address, short value) {
-        Memory.getMemory().writeUnhandled(address, value);
+    public final void writeAt(final int address, final short value) {
+        memory.writeUnhandled(address, value);
     }
 
-    public short readFrom(int address) {
-        return Memory.getMemory().readUnhandled(address);
+    public final short readFrom(int address) {
+        return memory.readUnhandled(address);
     }
 }

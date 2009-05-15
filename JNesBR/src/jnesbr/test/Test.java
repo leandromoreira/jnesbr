@@ -22,10 +22,15 @@ package jnesbr.test;
 public class Test {
 
     public static void main(String[] args) {
-        int readNumber = 0;
-        for (int i = 0; i < 56; i++) {
-            readNumber = (readNumber + 1) & 7;
-            System.out.println(readNumber);
-        }
+        int init = 0x0000;
+        int end = 0x07FF;
+
+        System.out.println((0x0800 & end)==0x0);
+        System.out.println((0x0802 & end)==0x2);
+        System.out.println((0x08FF & end)==0xFF);
+        System.out.println((0x09FF & end)==0x1FF);
+        System.out.println((0x1000 & end)==0x0);
+        System.out.println((0x1001 & end)==0x1);
+        System.out.println(Integer.toHexString(0x1FFF & end));
     }
 }

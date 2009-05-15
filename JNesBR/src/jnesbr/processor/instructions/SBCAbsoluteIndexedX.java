@@ -38,7 +38,7 @@ public class SBCAbsoluteIndexedX extends AbsoluteIndexedInstruction {
         }
         int result = (cpu.accumulator + cpu.flagCarry - 1 - getOperand(cpu.registerX));
         boolean overflowFlag = (((cpu.accumulator ^ result) & 0x80) != 0) &&
-                (((cpu.accumulator ^ getOperand()) & 0x80) != 0);
+                (((cpu.accumulator ^ getOperand(cpu.registerX)) & 0x80) != 0);
         cpu.flagOverflow = (byte) ((overflowFlag) ? 1 : 0);
         //C is set if the unsigned result was >= 0, and is cleared if the unsigned result was < 0.
         //from Disch (forum.nesdev.org)

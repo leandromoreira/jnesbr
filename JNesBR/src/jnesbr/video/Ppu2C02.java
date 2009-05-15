@@ -31,7 +31,6 @@ public class Ppu2C02 {
     public final static int MS_BY_FRAME = 17;
     private final static int RENDERING_SCANLINE = 0;
     int actualScanLine = 0;
-    private short pixelCounter = 0;
     private static Ppu2C02 instance;
     public PPUControll ppuControl = new PPUControll();
     public PPUStatus ppuStatus = new PPUStatus();
@@ -45,6 +44,7 @@ public class Ppu2C02 {
     private Frame frame = Frame.getInstance();
     private Map<Integer, Scanline> scanlines = new HashMap<Integer, Scanline>();
     private int x,  y;
+    private int scrollx,  scrolly;
 
     public static Ppu2C02 getInstance() {
         if (instance == null) {
