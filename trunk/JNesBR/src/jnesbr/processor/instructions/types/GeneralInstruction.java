@@ -17,12 +17,13 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions.types;
 
 import jnesbr.processor.Cpu2A03;
+import jnesbr.processor.memory.Memory;
 
 /**
  * @author dreampeppers99
  */
 public abstract class GeneralInstruction implements Instruction {
-
+    protected Memory memory = Memory.getMemory();
     protected Cpu2A03 cpu;
 
     public GeneralInstruction(Cpu2A03 cpu) {

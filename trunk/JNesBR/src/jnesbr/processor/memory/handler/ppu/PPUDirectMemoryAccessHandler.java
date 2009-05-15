@@ -25,28 +25,30 @@ import jnesbr.video.sprite.SpriteRAM;
 /**
  * @author dreampeppers99
  */
-public class PPUDirectMemoryAccessHandler implements Handler {
+public final class PPUDirectMemoryAccessHandler implements Handler {
+    private Memory memory = Memory.getMemory();
+    private Ppu2C02 ppu = Ppu2C02.getInstance();
+    private SpriteRAM sprMemory= SpriteRAM.getInstance();
+    private short address;
 //todo: understand this
 /*Specifies the destination address 
  in Sprite RAM for use with Port 2004h (Single byte write),
  and Port 4014h (256 bytes DMA transfer).*/
     public void writeAt(int address, short value) {
-        Memory.getMemory().writeUnhandled(address, value);
+        memory.writeUnhandled(address, value);
         fillSpriteRAM(value * 0x100);
         Emulator.getInstance().getCpu().cycles += 512;
     }
 
     public short readFrom(int address) {
-        return Memory.getMemory().readUnhandled(address);
+        return memory.readUnhandled(address);
     }
 
-    private final void fillSpriteRAM(int firstAddress) {
-        short address = Ppu2C02.getInstance().ppuOAMAddress.address;
-        SpriteRAM sprMemory = SpriteRAM.getInstance();
-        Memory mem = Memory.getMemory();
+    private final void fillSpriteRAM(final int firstAddress) {
+        address = ppu.ppuOAMAddress.address;
         int max = firstAddress + 0xFF;
         for (int index = firstAddress; index <= max; index++) {
-            sprMemory.add((short)(address & 0xFF) ,mem.readUnhandled(index));
+            sprMemory.add((short)(address & 0xFF) ,memory.readUnhandled(index));
             address++;
         }
     }

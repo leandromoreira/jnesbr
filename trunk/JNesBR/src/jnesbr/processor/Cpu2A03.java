@@ -13,7 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
-Some codes for Cpu were implemented by looking on Cpu from http://code.google.com/p/juicynes/ GREAT project.
+Some codes for Cpu were implemented by beeing "inspired" on Cpu from http://code.google.com/p/juicynes/ GREAT project.
  */
 package jnesbr.processor;
 
@@ -62,11 +62,11 @@ public final class Cpu2A03 {
     public final short pull() {
         stackPointer++;
         stackPointer = (short) (stackPointer & 0xFF);
-        return Memory.getMemory().read(stackPointer + 0x100);
+        return memory.read(stackPointer + 0x100);
     }
 
     public final void push(short value) {
-        Memory.getMemory().write(stackPointer + 0x100, value);
+        memory.write(stackPointer + 0x100, value);
         stackPointer--;
         stackPointer = (short) (stackPointer & 0xFF);
     }
@@ -86,7 +86,7 @@ public final class Cpu2A03 {
     }
 
     private final void normalDisassembler() {
-        int opCode = Memory.getMemory().read(programCounter);
+        int opCode = memory.read(programCounter);
         Instruction actualInstruction = getInstructionFrom(opCode);
         actualLineDebug = actualInstruction.disassembler();
         programCounter += actualInstruction.size();
@@ -126,7 +126,7 @@ public final class Cpu2A03 {
         flagSign = 0;
         flagZero = 0;
         mergeProcessorStatus();
-        programCounter = get16BitLittleEndian(Memory.getMemory().read(InterruptRESET), Memory.getMemory().read(InterruptRESET + 1));
+        programCounter = get16BitLittleEndian(memory.read(InterruptRESET), memory.read(InterruptRESET + 1));
         cycles = 0;
     }
 
@@ -136,7 +136,7 @@ public final class Cpu2A03 {
         push((short) ((programCounter + 1) & 0xFF));
         push(processorStatus());
         flagIRQ = 1;
-        programCounter = JNesUtil.get16BitLittleEndian(Memory.getMemory().read(InterruptNMI), Memory.getMemory().read(InterruptNMI + 1));
+        programCounter = get16BitLittleEndian(memory.read(InterruptNMI), memory.read(InterruptNMI + 1));
         cycles += 7;
     }
 
@@ -150,7 +150,7 @@ public final class Cpu2A03 {
         push((short) ((programCounter + 1) & 0xFF));
         push(processorStatus());
         flagIRQ = 1;
-        programCounter = JNesUtil.get16BitLittleEndian(Memory.getMemory().read(InterruptIRQBRK), Memory.getMemory().read(InterruptIRQBRK + 1));
+        programCounter = get16BitLittleEndian(memory.read(InterruptIRQBRK), memory.read(InterruptIRQBRK + 1));
         cycles += 7;
     }
 
@@ -377,8 +377,7 @@ public final class Cpu2A03 {
     }
 
     public final Instruction getInstructionFrom(final int opCode) {
-        Instruction instruction = (instructionSet[opCode] == null ? new StillNotImplemented(this, opCode) : instructionSet[opCode]);
-        return instruction;
+        return (instructionSet[opCode] == null ? new StillNotImplemented(this, opCode) : instructionSet[opCode]);
     }
 
     public final void setupFlagSign(final short value) {
@@ -397,7 +396,7 @@ public final class Cpu2A03 {
 
     public final void debugStep() {
         oldProgramCounter = programCounter;
-        int opCode = Memory.getMemory().read(programCounter);
+        int opCode = memory.read(programCounter);
         Instruction actualInstruction = getInstructionFrom(opCode);
         actualInstruction.debug();
         cycles += actualInstruction.cycles();
@@ -420,13 +419,13 @@ public final class Cpu2A03 {
                     programCounter == 0xBFFC ||
                     programCounter == 0xBFFE) {
 
-                short valueBFFA = Memory.getMemory().read(0xBFFA);
-                short valueBFFC = Memory.getMemory().read(0xBFFC);
-                short valueBFFE = Memory.getMemory().read(0xBFFE);
+                short valueBFFA = memory.read(0xBFFA);
+                short valueBFFC = memory.read(0xBFFC);
+                short valueBFFE = memory.read(0xBFFE);
 
-                short valueFFFA = Memory.getMemory().read(0xFFFA);
-                short valueFFFC = Memory.getMemory().read(0xFFFC);
-                short valueFFFE = Memory.getMemory().read(0xFFFE);
+                short valueFFFA = memory.read(0xFFFA);
+                short valueFFFC = memory.read(0xFFFC);
+                short valueFFFE = memory.read(0xFFFE);
 
                 if (valueBFFA == valueFFFA && valueBFFC == valueFFFC && valueBFFE == valueFFFE) {
                     actualLineDebug = "VECTOR TABLE";
