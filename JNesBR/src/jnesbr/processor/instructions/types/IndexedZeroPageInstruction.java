@@ -17,7 +17,6 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions.types;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.memory.Memory;
 
 /**
  * @author dreampeppers99
@@ -36,11 +35,11 @@ public abstract class IndexedZeroPageInstruction extends GeneralInstruction {
     }
 
     public short getOperand(short index) {
-        return Memory.getMemory().read( ((getOperandAddress() + index) & 0xFF) );
+        return memory.read( ((getOperandAddress() + index) & 0xFF) );
     }
 
     @Override
     public int getOperandAddress() {
-        return Memory.getMemory().read(cpu.programCounter + 1);
+        return memory.read(cpu.programCounter + 1);
     }
 }

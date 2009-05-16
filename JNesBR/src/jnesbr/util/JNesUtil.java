@@ -34,6 +34,9 @@ public final class JNesUtil {
     public final static int get16BitLittleEndian(final short byte1, final short byte2) {
         return (byte2 << 8) | byte1;
     }
+    public final static int get16BitLittleEndian(final int byte1, final int byte2) {
+        return (byte2 << 8) | byte1;
+    }
 
     public final static short readNextUnsignedByteFrom(final ByteBuffer readbuffer) {
         return (short) (readbuffer.get() & 0xff);

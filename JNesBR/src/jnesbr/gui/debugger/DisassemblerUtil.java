@@ -19,9 +19,9 @@ package jnesbr.gui.debugger;
 /**
  * @author dreampeppers99
  */
-public class DisassemblerUtil {
+public final class DisassemblerUtil {
 
-    public static String giveMeComplementIfNeeds(int value) {
+    public final static String giveMeComplementIfNeeds(final int value) {
         String returnValue = "";
         if (value == 0x2000) {
             returnValue = "; Ppu Control";

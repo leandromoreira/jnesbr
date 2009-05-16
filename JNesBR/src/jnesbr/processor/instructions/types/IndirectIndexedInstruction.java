@@ -25,30 +25,30 @@ import jnesbr.util.JNesUtil;
  */
 //TODO: CHECK ALL SUBCLASSES...
 public abstract class IndirectIndexedInstruction extends GeneralInstruction {
-
+    int bb,xx,yy,op;
     public IndirectIndexedInstruction(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public int getOperandAddress() {
-        return Memory.getMemory().read(cpu.programCounter + 1);
+        return memory.read(cpu.programCounter + 1);
     }
 
     @Override
     public short getOperand() {
-        int bb = Memory.getMemory().read(cpu.programCounter + 1);
-        short xx = Memory.getMemory().read((bb));
-        short yy = Memory.getMemory().read((bb + 1));
-        short op = (short) (JNesUtil.get16BitLittleEndian(xx, yy));
-        return Memory.getMemory().read(op + cpu.registerY);
+        bb = memory.read(cpu.programCounter + 1);
+        xx = memory.read((bb));
+        yy = memory.read((bb + 1));
+        op = JNesUtil.get16BitLittleEndian(xx, yy);
+        return memory.read(op + cpu.registerY);
     }
 
     protected boolean pageChanged() {
-        int bb = Memory.getMemory().read(cpu.programCounter + 1);
-        short xx = Memory.getMemory().read((bb));
-        short yy = Memory.getMemory().read((bb + 1));
-        short op = (short) (JNesUtil.get16BitLittleEndian(xx, yy));
+        bb = memory.read(cpu.programCounter + 1);
+        xx = memory.read((bb));
+        yy = memory.read((bb + 1));
+        op = JNesUtil.get16BitLittleEndian(xx, yy);
         return (((op & 0xFF) + cpu.registerY) > 0xFF);
     }
 }

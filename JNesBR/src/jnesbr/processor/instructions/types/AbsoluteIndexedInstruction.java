@@ -12,12 +12,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
+along with JNesBR.  If not, see  <http://www.gnu.org/licenses/>.
  */
 package jnesbr.processor.instructions.types;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
@@ -30,7 +29,7 @@ public abstract class AbsoluteIndexedInstruction extends AbsoluteInstruction {
     }
 
     public short getOperand(short index) {
-        return Memory.getMemory().read(getOperandAddress() + index);
+        return memory.read(getOperandAddress() + index);
     }
 
     @Override
@@ -40,6 +39,6 @@ public abstract class AbsoluteIndexedInstruction extends AbsoluteInstruction {
 
     @Override
     public int getOperandAddress() {
-        return  JNesUtil.get16BitLittleEndian(Memory.getMemory().read(cpu.programCounter + 1), Memory.getMemory().read(cpu.programCounter + 2));
+        return  JNesUtil.get16BitLittleEndian(memory.read(cpu.programCounter + 1), memory.read(cpu.programCounter + 2));
     }
 }

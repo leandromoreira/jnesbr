@@ -17,29 +17,28 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.processor.instructions.types;
 
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.memory.Memory;
-import jnesbr.util.JNesUtil;
+import static jnesbr.util.JNesUtil.*;
 
 /**
  * @author dreampeppers99
  */
 public abstract class IndirectXInstruction extends GeneralInstruction {
-
+    private int first,firstValue,second,secondValue;
     public IndirectXInstruction(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public short getOperand() {
-        short first = (short) (Memory.getMemory().read((cpu.programCounter + 1 + cpu.registerX) & 0xFF));
-        short firstValue = Memory.getMemory().read(first);
-        short second = (short) (Memory.getMemory().read((cpu.programCounter + 2 + cpu.registerX) & 0xFF));
-        short secondValue = Memory.getMemory().read(second);
-        return Memory.getMemory().read(JNesUtil.get16BitLittleEndian(firstValue, secondValue));
+        first = (memory.read((cpu.programCounter + 1 + cpu.registerX) & 0xFF));
+        firstValue = memory.read(first);
+        second = (memory.read((cpu.programCounter + 2 + cpu.registerX) & 0xFF));
+        secondValue = memory.read(second);
+        return memory.read(get16BitLittleEndian(firstValue, secondValue));
     }
 
     @Override
     public int getOperandAddress() {
-        return Memory.getMemory().read(cpu.programCounter + 1);
+        return memory.read(cpu.programCounter + 1);
     }
 }
