@@ -47,11 +47,12 @@ public final class Memory {
         return memory;
     }
 
-    public final void addMemoryHandler(final int address,final Handler handler) {
+    public final void addMemoryHandler(final int address, final Handler handler) {
         handlers.put(address, handler);
     }
 
-    public final short read(final int address) {
+    public final short read(int address) {
+        address = makeMirrorings(address);
         return getHandler(address).readFrom(address);
     }
 
@@ -74,7 +75,8 @@ public final class Memory {
         }
     }
 
-    public final void write(final int address, final short value) {
+    public final void write(int address, final short value) {
+        address = makeMirrorings(address);
         getHandler(address).writeAt(address, value);
     }
 
@@ -83,23 +85,20 @@ public final class Memory {
     }
 
     private final Handler getHandler(int address) {
+        result = handlers.get(address);
+        return (result == null) ? normal : result;
+    }
 
-        //The $2008-$3FFF mirroring.
-        if (address >= IO_MIRROR_START & address <= IO_MIRROR_END){
+    private final int makeMirrorings(int address) {
+        //The IO mirroring. $2008-$3FFF
+        if (address >= IO_MIRROR_START & address <= IO_MIRROR_END) {
             address &= 0xE007;
         }
-
-        result = handlers.get(address);
-        if (result != null) {
-            return result;
-        }
-
-        //The RAM mirroring.
+        //The RAM mirroring. $0800-$1FFF
         if (address >= MIRROR_0_START & address <= MIRROR_0_END) {
-            address &= 0x07FF ;
+            address &= 0x07FF;
         }
-
-        return normal;
+        return address;
     }
 
     private final void initHandlers() {
@@ -115,7 +114,7 @@ public final class Memory {
         handlers.put(PPU_OAM_DATA, new PPUOAMDataHandler());                        //$2004
         handlers.put(PPU_DATA, new PPUDataHandler());                               //$2007
         handlers.put(PPU_SCROLL, new PPUScrollHandler());                           //$2005
-        handlers.put(DIRECT_MEMORY_ACCESS, new PPUDirectMemoryAccessHandler());     //$4014
+        handlers.put(DIRECT_MEMORY_ACCESS, new PPUDMAHandler());                    //$4014
 
         // #### Joystick handlers ####
         handlers.put(JOYSTICK1, new Joystick1Handler());                            //$4016

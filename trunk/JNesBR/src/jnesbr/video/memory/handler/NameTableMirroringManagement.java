@@ -50,7 +50,7 @@ public final class NameTableMirroringManagement {
         };
     }
 
-    public static int translate(int address){
+    public final static int translate(final int address){
         return kindsOfMirroring[actual].execute(address);
     }
 

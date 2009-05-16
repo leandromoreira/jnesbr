@@ -18,7 +18,6 @@ package jnesbr.processor.instructions.types;
 
 import jnesbr.gui.debugger.DisassemblerUtil;
 import jnesbr.processor.Cpu2A03;
-import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 
 /**
@@ -33,12 +32,12 @@ public abstract class AbsoluteInstruction extends GeneralInstruction {
 
     @Override
     public int getOperandAddress() {
-        return JNesUtil.get16BitLittleEndian(Memory.getMemory().read(cpu.programCounter + 1), Memory.getMemory().read(cpu.programCounter + 2));
+        return JNesUtil.get16BitLittleEndian(memory.read(cpu.programCounter + 1), memory.read(cpu.programCounter + 2));
     }
 
     @Override
     public short getOperand() {
-        return Memory.getMemory().read(getOperandAddress());
+        return memory.read(getOperandAddress());
     }
 
     public String complement(){

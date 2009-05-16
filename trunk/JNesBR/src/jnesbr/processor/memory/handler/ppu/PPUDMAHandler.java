@@ -25,7 +25,7 @@ import jnesbr.video.sprite.SpriteRAM;
 /**
  * @author dreampeppers99
  */
-public final class PPUDirectMemoryAccessHandler implements Handler {
+public final class PPUDMAHandler implements Handler {
     private Memory memory = Memory.getMemory();
     private Ppu2C02 ppu = Ppu2C02.getInstance();
     private SpriteRAM sprMemory= SpriteRAM.getInstance();
