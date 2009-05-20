@@ -54,6 +54,10 @@ public final class NameTableMirroringManagement {
         return kindsOfMirroring[actual].execute(address);
     }
 
+    public static int nameTableType(){
+        return actual;
+    }
+
     public static void fourScreenSelected() {
         actual = fourScreen;
     }
