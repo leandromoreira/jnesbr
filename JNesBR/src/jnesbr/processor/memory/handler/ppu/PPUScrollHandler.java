@@ -35,6 +35,7 @@ public final class PPUScrollHandler implements Handler {
             ppu.ppuStatus.flipflop++;
         } else {
             value = (short) ((value >= 240) ? value - 256 : value);
+            //(Values of 240 to 255 are treated as -16 through -1 in a way, pulling tile data from the attribute table.) 
             ppu.ppuScroll.verticalScrollOrigin = value;
             ppu.ppuStatus.flipflop--;
         }
