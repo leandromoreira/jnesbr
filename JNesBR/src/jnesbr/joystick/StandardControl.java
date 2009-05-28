@@ -45,6 +45,10 @@ public class StandardControl {
     public int B2 = KEYBOARD.X_KEY;
     private byte[] joy2Status = new byte[8];
 
+    public void check() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     public short status1Of(int readNumber) {
         return joy1Status[readNumber];
     }

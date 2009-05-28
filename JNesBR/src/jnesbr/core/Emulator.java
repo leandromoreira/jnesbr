@@ -17,6 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.core;
 
 import java.nio.ByteBuffer;
+import jnesbr.debugger.BreakpointException;
 import jnesbr.joystick.StandardControl;
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;
@@ -37,6 +38,7 @@ public final class Emulator implements Runnable {
     private Cpu2A03 cpu;
     private Ppu2C02 ppu;
     public StandardControl joystick;
+    private int index = 1;
     public boolean stopped,  paused,  running;
 
     public final static Emulator getInstance() {
@@ -130,8 +132,14 @@ public final class Emulator implements Runnable {
                             cpu.step();
                         }
                         cpu.cycles = cpu.cycles - CYCLES_TO_SCANLINE;
-                        ppu.scanLine();
-                        //maybe change the actual joystick model
+                        ppu.doScanline();
+                        if (ppu.actualScanLine == 241) {
+                            if (ppu.ppuControl.executeNMIOnVBlank == 1) {
+                                cpu.nmi();
+                            }
+                            joystick.check();
+                        }
+                        CYCLES_TO_SCANLINE = SCANLINE[++index & 2];
                     }
                 }
             }
@@ -140,13 +148,13 @@ public final class Emulator implements Runnable {
         }
     }
 
-    public final void stepDebugger() {
+    public final void stepDebugger(){
         if (cpu.cycles < CYCLES_TO_SCANLINE) {
             cpu.debugStep();
             return;
         }
         cpu.cycles = cpu.cycles - CYCLES_TO_SCANLINE;
-        ppu.scanLine();
+        ppu.doScanline();
     }
 
     public String actualLine() {

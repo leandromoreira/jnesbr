@@ -26,6 +26,7 @@ public class Debugger {
 
     public static final String DEBUGGER_CHR = "♦";
     private static List<Breakpoint> breakpoints = new ArrayList<Breakpoint>();
+    private static boolean isNextStepAfterBreakpoint = false;
 
     public static void add(Breakpoint b) {
         breakpoints.add(b);
@@ -36,6 +37,15 @@ public class Debugger {
     }
 
     public static boolean isBreakpointed(int address) {
+        if (isNextStepAfterBreakpoint) {
+            return false;
+        }
+        if (breakpoints.contains(new Breakpoint(address))) {
+            isNextStepAfterBreakpoint = true;
+        } else {
+            isNextStepAfterBreakpoint = false;
+        }
+
         return breakpoints.contains(new Breakpoint(address));
     }
 }

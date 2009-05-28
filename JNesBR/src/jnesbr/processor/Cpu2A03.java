@@ -21,6 +21,8 @@ import jnesbr.processor.instructions.types.*;
 import jnesbr.processor.instructions.*;
 import jnesbr.core.Emulator;
 import jnesbr.debugger.AssemblerLine;
+import jnesbr.debugger.BreakpointException;
+import jnesbr.debugger.Debugger;
 import jnesbr.processor.memory.Memory;
 import jnesbr.util.JNesUtil;
 import static jnesbr.util.JNesUtil.*;

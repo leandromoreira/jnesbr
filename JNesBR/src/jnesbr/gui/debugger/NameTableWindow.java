@@ -18,8 +18,10 @@ package jnesbr.gui.debugger;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import jnesbr.util.JNesUtil;
+import jnesbr.video.Ppu2C02;
 import jnesbr.video.memory.VideoMemory;
 import jnesbr.video.memory.VideoMemoryMap;
 
@@ -29,18 +31,32 @@ import jnesbr.video.memory.VideoMemoryMap;
  */
 public class NameTableWindow extends javax.swing.JFrame {
 
+    private int rectangleSize = 15;
+    private int initialX = 45;
+    private int initialY = 32;
+    private int pixelSize = 2;
+    private int rectangleSizeTile = 8;
+    private static Map<Integer, Color> colors = new HashMap<Integer, Color>();
+
+
+    static {
+        colors.put(0, Color.WHITE);
+        colors.put(1, Color.RED);
+        colors.put(2, Color.GREEN);
+        colors.put(3, Color.BLUE);
+    }
+
     /** Creates new form NameTableWindow */
     public NameTableWindow() {
         initComponents();
     }
 
     private void buildNameTable(int initialAddress) {
-        int rectangleSize = 15;
-        int initialX = 75;
-        int initialY = 35;
         int x = initialX;
         int y = initialY;
         Graphics grap = jPnNameTable.getGraphics();
+        grap.setColor(Color.WHITE);
+        grap.fillRect(0, 0, 800, 800);
         for (int line = 0; line < 30; line++) {
             for (int col = 0; col < 32; col++) {
                 grap.setColor(Color.BLACK);
@@ -58,16 +74,14 @@ public class NameTableWindow extends javax.swing.JFrame {
     }
 
     private void buildAttributeTable(int initialAddress) {
-        int rectangleSize = 15;
-        int initialX = 75;
-        int initialY = 35;
         int x = initialX;
         int y = initialY;
         int[] upperBitsColor = new int[1024];
         int initIndex = 0;
         Graphics grap = jPnNameTable.getGraphics();
+        grap.setColor(Color.WHITE);
+        grap.fillRect(0, 0, 800, 800);
         fillUpperBitColorMatrix(initialAddress, upperBitsColor);
-
         for (int line = 0; line < 30; line++) {
             for (int col = 0; col < 32; col++) {
                 grap.setColor(Color.BLACK);
@@ -81,6 +95,45 @@ public class NameTableWindow extends javax.swing.JFrame {
             y += rectangleSize + 1;
             x = initialX;
         }
+    }
+    private int address;
+
+    private void buildNameTableByTile(int initialAddress) {
+        address = initialAddress;
+        new Thread(new Runnable() {
+
+            public void run() {
+                int mineInitilaX = initialX + 100;
+                int mineInitilaY = initialY + 100;
+                int x = mineInitilaX;
+                int y = mineInitilaY;
+                Graphics grap = jPnNameTable.getGraphics();
+                grap.setColor(Color.WHITE);
+                grap.fillRect(0, 0, 600, 600);
+                int nametableForBackGround = Ppu2C02.getInstance().ppuControl.patternTableAddressBackground;
+
+                grap.setColor(Color.BLACK);
+                grap.drawRect(x - 1, y - 1, 289, 271);
+
+                for (int line = 0; line < 30; line++) {
+                    for (int col = 0; col < 32; col++) {
+                        short value = VideoMemory.getMemory().read(address++);
+                        int[][] tile = Ppu2C02.getInstance().getTile(nametableForBackGround, value);
+                        for (byte rowPosition = 0; rowPosition < 8; rowPosition++) {
+                            int stepX = 0;
+                            for (byte collumn = 7; collumn >= 0; collumn--) {
+                                grap.setColor(colors.get(tile[rowPosition][collumn]));
+                                grap.fillRect(stepX + x, rowPosition + y, pixelSize, pixelSize);
+                                stepX++;
+                            }
+                        }
+                        x += rectangleSizeTile + 1;
+                    }
+                    y += rectangleSizeTile + 1;
+                    x = mineInitilaX;
+                }
+            }
+        }).start();
     }
 
     private void fillUpperBitColorMatrix(int initialAddress, int[] upperBitsColor) {
@@ -146,6 +199,10 @@ public class NameTableWindow extends javax.swing.JFrame {
         jBtnShwAttr1 = new javax.swing.JButton();
         jBtnShwAttr2 = new javax.swing.JButton();
         jBtnShwAttr3 = new javax.swing.JButton();
+        jBtnShowTile0 = new javax.swing.JButton();
+        jBtnShowTile1 = new javax.swing.JButton();
+        jBtnShowTile2 = new javax.swing.JButton();
+        jBtnShowTile3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Name Table Viewer");
@@ -186,11 +243,11 @@ public class NameTableWindow extends javax.swing.JFrame {
         jPnNameTable.setLayout(jPnNameTableLayout);
         jPnNameTableLayout.setHorizontalGroup(
             jPnNameTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
+            .addGap(0, 526, Short.MAX_VALUE)
         );
         jPnNameTableLayout.setVerticalGroup(
             jPnNameTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 539, Short.MAX_VALUE)
+            .addGap(0, 570, Short.MAX_VALUE)
         );
 
         jBtnShwAttr0.setText("Show Attr Table 0");
@@ -221,29 +278,61 @@ public class NameTableWindow extends javax.swing.JFrame {
             }
         });
 
+        jBtnShowTile0.setText("Tile");
+        jBtnShowTile0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnShowTile0ActionPerformed(evt);
+            }
+        });
+
+        jBtnShowTile1.setText("Tile");
+        jBtnShowTile1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnShowTile1ActionPerformed(evt);
+            }
+        });
+
+        jBtnShowTile2.setText("Tile");
+        jBtnShowTile2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnShowTile2ActionPerformed(evt);
+            }
+        });
+
+        jBtnShowTile3.setText("Tile");
+        jBtnShowTile3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnShowTile3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPnNameTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPnNameTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jBtnShowTile0, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBtnShwAttr0, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBtnShwName0, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(37, 37, 37)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jBtnShowTile1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBtnShwAttr1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBtnShwName1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jBtnShowTile2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBtnShwAttr2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBtnShwName2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jBtnShwAttr3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBtnShowTile3, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                            .addComponent(jBtnShwAttr3, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                             .addComponent(jBtnShwName3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -255,15 +344,21 @@ public class NameTableWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnShwName0)
-                    .addComponent(jBtnShwName3)
                     .addComponent(jBtnShwName1)
-                    .addComponent(jBtnShwName2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtnShwName2)
+                    .addComponent(jBtnShwName3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnShwAttr0)
-                    .addComponent(jBtnShwAttr3)
-                    .addComponent(jBtnShwAttr2)
-                    .addComponent(jBtnShwAttr1))
+                    .addComponent(jBtnShwAttr1)
+                    .addComponent(jBtnShwAttr2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtnShwAttr3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBtnShowTile0)
+                    .addComponent(jBtnShowTile1)
+                    .addComponent(jBtnShowTile2)
+                    .addComponent(jBtnShowTile3))
                 .addContainerGap())
         );
 
@@ -302,6 +397,22 @@ public class NameTableWindow extends javax.swing.JFrame {
         buildAttributeTable(VideoMemoryMap.ATTR_TABLE_3_START);
 }//GEN-LAST:event_jBtnShwAttr3ActionPerformed
 
+    private void jBtnShowTile0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnShowTile0ActionPerformed
+        buildNameTableByTile(VideoMemoryMap.NAME_TABLE_0_START);
+    }//GEN-LAST:event_jBtnShowTile0ActionPerformed
+
+    private void jBtnShowTile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnShowTile1ActionPerformed
+        buildNameTableByTile(VideoMemoryMap.NAME_TABLE_1_START);
+    }//GEN-LAST:event_jBtnShowTile1ActionPerformed
+
+    private void jBtnShowTile2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnShowTile2ActionPerformed
+        buildNameTableByTile(VideoMemoryMap.NAME_TABLE_2_START);
+    }//GEN-LAST:event_jBtnShowTile2ActionPerformed
+
+    private void jBtnShowTile3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnShowTile3ActionPerformed
+        buildNameTableByTile(VideoMemoryMap.NAME_TABLE_3_START);
+    }//GEN-LAST:event_jBtnShowTile3ActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -312,6 +423,10 @@ public class NameTableWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnShowTile0;
+    private javax.swing.JButton jBtnShowTile1;
+    private javax.swing.JButton jBtnShowTile2;
+    private javax.swing.JButton jBtnShowTile3;
     private javax.swing.JButton jBtnShwAttr0;
     private javax.swing.JButton jBtnShwAttr1;
     private javax.swing.JButton jBtnShwAttr2;

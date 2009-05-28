@@ -19,11 +19,9 @@ package jnesbr.gui.debugger;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,6 +35,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.text.JTextComponent;
 import jnesbr.core.Emulator;
 import jnesbr.debugger.AssemblerLine;
+import jnesbr.debugger.Breakpoint;
+import jnesbr.debugger.BreakpointException;
 import jnesbr.debugger.Debugger;
 import jnesbr.debugger.Disassembler;
 import jnesbr.util.JNesUtil;
@@ -858,6 +858,18 @@ public class DebuggerWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jChkSActionPerformed
 
     private void jBtnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRunActionPerformed
+       //put it on a manageble thread!
+        
+        /* try {
+            while (true) {
+                int pc = Emulator.getInstance().getCpu().programCounter;
+                if (Debugger.isBreakpointed(pc)) {
+                    throw new BreakpointException();
+                }
+                Emulator.getInstance().stepDebugger();
+            }
+        } catch (BreakpointException ex) {
+        }*/
 }//GEN-LAST:event_jBtnRunActionPerformed
 
     private void jBtnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStopActionPerformed
@@ -937,9 +949,10 @@ public class DebuggerWindow extends javax.swing.JFrame {
         try {
             int rowIndex = jTableDebugger.getSelectedRow();
             jTableDebugger.setValueAt(Debugger.DEBUGGER_CHR, rowIndex, 0);
-        //int addressInstruction = Integer.valueOf(jTableDebugger.getValueAt(rowIndex, 1).toString());
-        //Debugger.add(new Breakpoint(addressInstruction));
+            int addressInstruction = Integer.valueOf(jTableDebugger.getValueAt(rowIndex, 1).toString(), 16);
+            Debugger.add(new Breakpoint(addressInstruction));
         } catch (Exception e) {
+            System.out.println(e);
         }
 }//GEN-LAST:event_jBtnAddBreakpointActionPerformed
 
@@ -947,9 +960,10 @@ public class DebuggerWindow extends javax.swing.JFrame {
         try {
             int rowIndex = jTableDebugger.getSelectedRow();
             jTableDebugger.setValueAt("", rowIndex, 0);
-        //int addressInstruction = Integer.valueOf(jTableDebugger.getValueAt(rowIndex, 1).toString());
-        //Debugger.remove(new Breakpoint(addressInstruction));
+            int addressInstruction = Integer.valueOf(jTableDebugger.getValueAt(rowIndex, 1).toString(), 16);
+            Debugger.remove(new Breakpoint(addressInstruction));
         } catch (Exception e) {
+            System.out.println(e);
         }
 }//GEN-LAST:event_jBtnDeleteBreakpointActionPerformed
 
