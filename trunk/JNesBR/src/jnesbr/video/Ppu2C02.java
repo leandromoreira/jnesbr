@@ -19,18 +19,20 @@ package jnesbr.video;
 import java.util.HashMap;
 import java.util.Map;
 import jnesbr.core.Emulator;
+import jnesbr.video.memory.VideoMemory;
 
 /**
  * @author dreampeppers99
  */
 public class Ppu2C02 {
 
-    public final static int CYCLES_TO_SCANLINE = 114;
+    public static int CYCLES_TO_SCANLINE = 114;
+    public final static int[] SCANLINE = new int[]{114, 114, 113};
     public final static int NUMBER_OF_SCANLINES = 240 + 3;
     public final static int CYCLES_TO_VBLANK = CYCLES_TO_SCANLINE * 20;
     public final static int MS_BY_FRAME = 17;
     private final static int RENDERING_SCANLINE = 0;
-    int actualScanLine = 0;
+    public int actualScanLine = 0;
     private static Ppu2C02 instance;
     public PPUControll ppuControl = new PPUControll();
     public PPUStatus ppuStatus = new PPUStatus();
@@ -43,13 +45,14 @@ public class Ppu2C02 {
     private Map<Integer, int[][]> patternTable = new HashMap<Integer, int[][]>();
     private Frame frame = Frame.getInstance();
     private Map<Integer, Scanline> scanlines = new HashMap<Integer, Scanline>();
+    private VideoMemory vram;
     private int x,  y;
     private int scrollx,  scrolly;
 
     public static Ppu2C02 getInstance() {
         if (instance == null) {
             instance = new Ppu2C02();
-            instance.initScanlineModel();
+            instance.init();
         }
         return instance;
     }
@@ -62,7 +65,7 @@ public class Ppu2C02 {
         //ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
     }
 
-    public int actualScanline(){
+    public int actualScanline() {
         return actualScanLine;
     }
 
@@ -102,23 +105,56 @@ public class Ppu2C02 {
         return patternTable;
     }
 
-    public void scanLine() {
+    private short[] patternFrom(int patternTable) {
+        short[] result = new short[0x1000];
+        int index = 0;
+        for (int i = patternTable; i < patternTable + 0x1000; i++) {
+            result[index++] = vram.readUnhandled(i);
+        }
+        return result;
+    }
+
+    public Map<Integer, int[][]> actualPatternTable(int patternTable) {
+        patternTable = (patternTable == 0) ? 0x0000 : 0x1000;
+        short[] chrRam = patternFrom(patternTable);
+        Map<Integer, int[][]> patternTableFromRom = new HashMap<Integer, int[][]>();
+        int addressComplement = 0;
+        for (int index = 0; index < 0x1000; addressComplement += 16, index += 16) {
+            int[][] tile = new int[8][8];
+            for (byte row = 0; row < 8; row++) {
+                for (byte collumn = 7; collumn >= 0; collumn--) {
+                    tile[row][collumn] = ((chrRam[row + addressComplement + 8] >> collumn & 0x1) << 1) | (chrRam[row + addressComplement] >> collumn & 0x1);
+                }
+            }
+            patternTableFromRom.put(addressComplement / 16, tile);
+        }
+        return patternTableFromRom;
+    }
+
+    public int[][] getTile(int nameTable, int index) {
+        return actualPatternTable(nameTable).get(index);
+    }
+
+    public void doScanline() {
         get(actualScanLine).scanline();
     }
 
-    private final Scanline get(final int scanLineNumber){
-        return (scanLineNumber>=0 & scanLineNumber<=239) ? scanlines.get(RENDERING_SCANLINE) : scanlines.get(actualScanLine);
+    private final Scanline get(final int scanLineNumber) {
+        return (scanLineNumber >= 0 & scanLineNumber <= 239) ? scanlines.get(RENDERING_SCANLINE) : scanlines.get(actualScanLine);
     }
 
-    private void initScanlineModel() {
-        scanlines.put(RENDERING_SCANLINE,new RenderScanline(this));
+    private void init() {
+        vram = VideoMemory.getMemory();
+        scanlines.put(RENDERING_SCANLINE, new RenderScanline(this));
         scanlines.put(240, new Scanline() {
+
             public void scanline() {
                 // 240 - Idle Scanline
                 actualScanLine++;
             }
         });
         scanlines.put(-1, new Scanline() {
+
             public void scanline() {
                 // -1 - Prerender Scanline
                 ppuStatus.moreThan8ObjectsOnScanLine = 0;
@@ -129,6 +165,7 @@ public class Ppu2C02 {
         });
         for (int i = 242; i < 241 + 20; i++) {
             scanlines.put(i, new Scanline() {
+
                 public void scanline() {
                     // 242 - 260 - VBlank period
                     actualScanLine++;
@@ -136,16 +173,15 @@ public class Ppu2C02 {
             });
         }
         scanlines.put(241, new Scanline() {
+
             public void scanline() {
                 // 241 - First scanline of VBlank period
                 ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
                 actualScanLine++;
-                if (ppuControl.executeNMIOnVBlank == 1) {
-                    Emulator.getInstance().getCpu().nmi();
-                }
             }
         });
         scanlines.put(261, new Scanline() {
+
             public void scanline() {
                 // 261 - Last scanline of VBlank period
                 actualScanLine = -1;
