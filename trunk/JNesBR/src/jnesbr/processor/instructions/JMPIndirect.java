@@ -25,21 +25,21 @@ import jnesbr.util.JNesUtil;
  * @author dreampeppers99
  */
 public class JMPIndirect extends AbsoluteInstruction {
-
+    private int fullWord, msb , lsb;
+    private short lowByte,highByte;
     public JMPIndirect(Cpu2A03 cpu) {
         super(cpu);
     }
 
     @Override
     public void interpret() {
-        int fullWord = getOperandAddress();
-        int msb , lsb;
+        fullWord = getOperandAddress();
         msb = fullWord >> 8;
         lsb = fullWord & 0xFF;
-        short lowByte = Memory.getMemory().read(fullWord);
+        lowByte = memory.read(fullWord);
         lsb = (lsb+1) & 0xFF;
         fullWord = msb << 8 | lsb;
-        short highByte = Memory.getMemory().read(fullWord);
+        highByte = memory.read(fullWord);
         cpu.programCounter = JNesUtil.get16BitLittleEndian(lowByte, highByte);
     }
 
