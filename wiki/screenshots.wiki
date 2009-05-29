@@ -3,6 +3,16 @@
 
 = Screenshots =
 
+Date: 05-21-09 21:46
+
+Nametable new feature!
+
+http://i43.tinypic.com/63uf6u.jpg
+
+http://i41.tinypic.com/dh4oeu.jpg
+
+http://i42.tinypic.com/2lbgdq8.jpg
+
 Date: 04-13-09 08:04
 
 Sprite Attribute RAM Viewer (OAM)
