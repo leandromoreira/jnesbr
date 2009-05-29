@@ -46,7 +46,7 @@ public class StandardControl {
     private byte[] joy2Status = new byte[8];
 
     public void check() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        //throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public short status1Of(int readNumber) {
