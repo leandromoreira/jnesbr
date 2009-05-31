@@ -36,13 +36,11 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMnuConfigGeneral">
               <Properties>
-                <Property name="text" type="java.lang.String" value="General"/>
+                <Property name="text" type="java.lang.String" value="Options"/>
               </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMnuJoystick">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Joystick"/>
-              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMnuConfigGeneralActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

@@ -30,16 +30,16 @@ public abstract class IndirectXInstruction extends GeneralInstruction {
 
     @Override
     public short getOperand() {
-       /* first = (memory.read((cpu.programCounter + 1 + cpu.registerX) & 0xFF));
+       first = (memory.read((cpu.programCounter + 1 + cpu.registerX) & 0xFF));
         firstValue = memory.read(first);
         second = (memory.read((cpu.programCounter + 2 + cpu.registerX) & 0xFF));
-        secondValue = memory.read(second);*/
+        secondValue = memory.read(second);
 
-        //the Nesdoc.pdf tells to do wrapround... however anothers docs says.... don't do..
-        first = (memory.read((cpu.programCounter + 1 + cpu.registerX)));
+        //todo: check it the Nesdoc.pdf tells to do wrapround... however anothers docs says.... don't do..
+        /*first = (memory.read((cpu.programCounter + 1 + cpu.registerX)));
         firstValue = memory.read(first);
         second = (memory.read((cpu.programCounter + 2 + cpu.registerX)));
-        secondValue = memory.read(second);
+        secondValue = memory.read(second);*/
         return memory.read(get16BitLittleEndian(firstValue, secondValue));
     }
 

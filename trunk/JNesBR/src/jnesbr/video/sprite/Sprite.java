@@ -23,7 +23,6 @@ import jnesbr.video.*;
 import static jnesbr.util.JNesUtil.*;
 
 public class Sprite {
-//todo: see wrapround round here.
     public Sprite(short byte0, short byte1, short byte2, short byte3) {
         yCoordinate = (short) (byte0 - 1);
         if (Ppu2C02.getInstance().ppuControl.spriteSize == PPUControll.SPRITE8x8) {

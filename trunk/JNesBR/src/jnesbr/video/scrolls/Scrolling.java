@@ -14,11 +14,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
-package jnesbr.core;
+package jnesbr.video.scrolls;
+
+import jnesbr.video.Ppu2C02;
 
 /**
  * @author dreampeppers99
  */
-public class MetaInformation {
-    public static final String NAME = "JNesBR - 0.83";
+public final class Scrolling {
+    private int tempRegister;
+    private Ppu2C02 ppu;
+    private byte tileXOffset;
+    public Scrolling(Ppu2C02 ppu){
+        this.ppu = ppu;
+    }
 }
