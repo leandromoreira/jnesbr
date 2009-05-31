@@ -16,6 +16,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.gui;
 
+import javax.swing.UnsupportedLookAndFeelException;
 import jnesbr.gui.debugger.MemoryView;
 import jnesbr.gui.debugger.RomHeader;
 import jnesbr.gui.debugger.DebuggerWindow;
@@ -30,7 +31,9 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 import jnesbr.core.Emulator;
 import jnesbr.core.MetaInformation;
 import jnesbr.gui.debugger.ActualPalette;
@@ -73,7 +76,6 @@ public class Main extends javax.swing.JFrame {
         jMnuExit = new javax.swing.JMenuItem();
         jMnuConfig = new javax.swing.JMenu();
         jMnuConfigGeneral = new javax.swing.JMenuItem();
-        jMnuJoystick = new javax.swing.JMenuItem();
         jMnuDebugger = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
         jMnuShowHeader = new javax.swing.JMenuItem();
@@ -148,11 +150,13 @@ public class Main extends javax.swing.JFrame {
 
         jMnuConfig.setText("Configuration");
 
-        jMnuConfigGeneral.setText("General");
+        jMnuConfigGeneral.setText("Options");
+        jMnuConfigGeneral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuConfigGeneralActionPerformed(evt);
+            }
+        });
         jMnuConfig.add(jMnuConfigGeneral);
-
-        jMnuJoystick.setText("Joystick");
-        jMnuConfig.add(jMnuJoystick);
 
         jMnuMain.add(jMnuConfig);
 
@@ -401,6 +405,10 @@ public class Main extends javax.swing.JFrame {
         new OAMWindow().setVisible(true);
     }//GEN-LAST:event_jMnuShowSpriteRAMActionPerformed
 
+    private void jMnuConfigGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuConfigGeneralActionPerformed
+        new Configuration().setVisible(true);
+    }//GEN-LAST:event_jMnuConfigGeneralActionPerformed
+
     private boolean userChooseSomething(int returnVal) {
         return returnVal == JFileChooser.APPROVE_OPTION;
     }
@@ -413,6 +421,23 @@ public class Main extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
+        String[] installeds = new String[]{"javax.swing.plaf.metal.MetalLookAndFeel",
+            "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel",
+            "com.sun.java.swing.plaf.motif.MotifLookAndFeel",
+            "com.sun.java.swing.plaf.windows.WindowsLookAndFeel",
+            "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel"
+        };
+        try {
+            UIManager.setLookAndFeel(installeds[0]);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
@@ -433,7 +458,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jMnuDebugger;
     private javax.swing.JMenuItem jMnuExit;
     private javax.swing.JMenu jMnuFile;
-    private javax.swing.JMenuItem jMnuJoystick;
     private javax.swing.JMenuItem jMnuLoad;
     private javax.swing.JMenuBar jMnuMain;
     private javax.swing.JMenuItem jMnuMemoryView;

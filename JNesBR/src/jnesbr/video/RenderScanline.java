@@ -16,26 +16,56 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.video;
 
+import java.util.List;
+import jnesbr.video.scrolls.Scrolling;
+import jnesbr.video.sprite.Sprite;
+
 /**
  * @author dreampeppers99
  */
 public class RenderScanline implements Scanline {
 
     private Ppu2C02 ppu;
+    private Scrolling scrollManager;
+    private List<Sprite> behindSprites;
+    private List<Sprite> frontSprites;
 
     public RenderScanline(Ppu2C02 ppu) {
         this.ppu = ppu;
+        scrollManager = new Scrolling(this.ppu);
     }
 
     public void scanline() {
         // 0-239 - Rendering Scanline
+        applyColourIntensisty();
+        behindSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.BEHIND);
+        frontSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.FRONT);
+
+        if (ppu.ppuMask.spriteRenderingEnable == 1) {
+            render(behindSprites);
+        }
+
         if (ppu.ppuMask.backgroundRenderingEnable == 1) {
             renderBackground();
         }
+
         if (ppu.ppuMask.spriteRenderingEnable == 1) {
-            renderSprite();
+            render(frontSprites);
         }
+        
         ppu.actualScanLine++;
+    }
+
+    private final void applyColourIntensisty() {
+        if(ppu.ppuMask.intensifyBlues==1){
+        }
+        if(ppu.ppuMask.intensifyGreens==1){
+        }
+        if(ppu.ppuMask.intensifyReds==1){
+        }
+    }
+
+    private void render(List<Sprite> sprites) {
     }
 
     private final void renderBackground() {

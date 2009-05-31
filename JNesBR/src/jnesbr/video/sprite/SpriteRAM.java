@@ -16,7 +16,9 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.video.sprite;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author dreampeppers99
@@ -60,6 +62,20 @@ public class SpriteRAM {
                 spriteMemory[index * 4 + 1],
                 spriteMemory[index * 4 + 2],
                 spriteMemory[index * 4 + 3]);
+    }
+
+    public List<Sprite> spriteEvaluation(int y,int situation) {
+        List<Sprite> list = new ArrayList<Sprite>();
+        //TODO: make this to 8x16 size sprite
+
+        for (int i = 0; i < 64; i++) {
+            Sprite actual = getSprite(i);
+            if (actual.backgroundPriority == situation &&
+                    y >= actual.yCoordinate && y <= (actual.yCoordinate + 8)) {
+                list.add(actual);
+            }
+        }
+        return list;
     }
 
     public void doDMA(short[] array, int length) {

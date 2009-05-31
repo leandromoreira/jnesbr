@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import jnesbr.core.Emulator;
 import jnesbr.video.memory.VideoMemory;
+import jnesbr.video.sprite.SpriteRAM;
 
 /**
  * @author dreampeppers99
@@ -46,8 +47,7 @@ public class Ppu2C02 {
     private Frame frame = Frame.getInstance();
     private Map<Integer, Scanline> scanlines = new HashMap<Integer, Scanline>();
     private VideoMemory vram;
-    private int x,  y;
-    private int scrollx,  scrolly;
+    public SpriteRAM sprRAM;
 
     public static Ppu2C02 getInstance() {
         if (instance == null) {
@@ -145,6 +145,7 @@ public class Ppu2C02 {
 
     private void init() {
         vram = VideoMemory.getMemory();
+        sprRAM = SpriteRAM.getInstance();
         scanlines.put(RENDERING_SCANLINE, new RenderScanline(this));
         scanlines.put(240, new Scanline() {
 
