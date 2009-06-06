@@ -16,8 +16,8 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.video;
 
+import java.util.Iterator;
 import java.util.List;
-import jnesbr.video.scrolls.Scrolling;
 import jnesbr.video.sprite.Sprite;
 
 /**
@@ -26,13 +26,13 @@ import jnesbr.video.sprite.Sprite;
 public class RenderScanline implements Scanline {
 
     private Ppu2C02 ppu;
-    private Scrolling scrollManager;
     private List<Sprite> behindSprites;
     private List<Sprite> frontSprites;
+    private Frame frameManager;
 
-    public RenderScanline(Ppu2C02 ppu) {
+    public RenderScanline(Ppu2C02 ppu,Frame frame) {
         this.ppu = ppu;
-        scrollManager = new Scrolling(this.ppu);
+        this.frameManager = frame;
     }
 
     public void scanline() {
@@ -41,8 +41,12 @@ public class RenderScanline implements Scanline {
         behindSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.BEHIND);
         frontSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.FRONT);
 
+        if (behindSprites.size() + frontSprites.size() > 8){
+            ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
+        }
+
         if (ppu.ppuMask.spriteRenderingEnable == 1) {
-            render(behindSprites);
+            render(behindSprites.iterator());
         }
 
         if (ppu.ppuMask.backgroundRenderingEnable == 1) {
@@ -50,9 +54,8 @@ public class RenderScanline implements Scanline {
         }
 
         if (ppu.ppuMask.spriteRenderingEnable == 1) {
-            render(frontSprites);
+            render(frontSprites.iterator());
         }
-        
         ppu.actualScanLine++;
     }
 
@@ -65,7 +68,13 @@ public class RenderScanline implements Scanline {
         }
     }
 
-    private void render(List<Sprite> sprites) {
+    private void render(final Iterator<Sprite> iterator) {
+        while(iterator.hasNext()){
+            Sprite sprite = iterator.next();
+            if (sprite.index==0){
+                
+            }
+        }
     }
 
     private final void renderBackground() {
@@ -74,11 +83,6 @@ public class RenderScanline implements Scanline {
             //2. Attribute table byte
             //3. Pattern table bitmap #0
             //4. Pattern table bitmap #1
-        }
-    }
-
-    private final void renderSprite() {
-        for (int actualSprite = 0; actualSprite < 64; actualSprite++) {
         }
     }
 }

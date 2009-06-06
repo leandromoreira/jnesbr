@@ -19,7 +19,6 @@ package jnesbr.processor.memory.handler.ppu;
 import jnesbr.processor.memory.Memory;
 import jnesbr.processor.memory.handler.Handler;
 import jnesbr.video.PPUControll;
-import jnesbr.video.PPUData;
 import jnesbr.video.Ppu2C02;
 import jnesbr.video.memory.VideoMemory;
 
@@ -28,7 +27,6 @@ import jnesbr.video.memory.VideoMemory;
  */
 public final class PPUDataHandler implements Handler {
 
-    private PPUData pPUData;
     private short buffer = 0xBF; //the first read will bring ?? value
     private short returnValue;
     private Ppu2C02 ppu;
@@ -42,9 +40,8 @@ public final class PPUDataHandler implements Handler {
     }
 
     public final void writeAt(final int address, final short value) {
-        pPUData = ppu.pPUData;
-        pPUData.data = value;
-        videoMemory.write(ppu.pPUAddress.completeAddress, pPUData.data);
+        ppu.pPUData.data = value;
+        videoMemory.write(ppu.pPUAddress.completeAddress, ppu.pPUData.data);
         if (ppu.ppuControl.port2007AddressIncrement == PPUControll.IncrementBy1) {
             ppu.pPUAddress.completeAddress++;
         } else {

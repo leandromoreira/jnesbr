@@ -17,6 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.core;
 
 import java.nio.ByteBuffer;
+import javax.swing.JOptionPane;
 import jnesbr.debugger.BreakpointException;
 import jnesbr.joystick.StandardControl;
 import jnesbr.processor.Cpu2A03;
@@ -131,31 +132,38 @@ public final class Emulator implements Runnable {
                         while (cpu.cycles < CYCLES_TO_SCANLINE) {
                             cpu.step();
                         }
-                        cpu.cycles = cpu.cycles - CYCLES_TO_SCANLINE;
-                        ppu.doScanline();
+                        cpu.cycles -= CYCLES_TO_SCANLINE;
                         if (ppu.actualScanLine == 241) {
                             if (ppu.ppuControl.executeNMIOnVBlank == 1) {
                                 cpu.nmi();
                             }
                             joystick.check();
                         }
+                        ppu.doScanline();
                         CYCLES_TO_SCANLINE = SCANLINE[++index & 2];
                     }
                 }
             }
         } catch (Exception ex) {
-            System.out.println("Error on thread emulator: " + ex);
+            JOptionPane.showMessageDialog(null, "Error on emulator thread: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }
 
-    public final void stepDebugger(){
+    public final void stepDebugger() {
         if (cpu.cycles < CYCLES_TO_SCANLINE) {
             cpu.debugStep();
             return;
         }
-        cpu.cycles = cpu.cycles - CYCLES_TO_SCANLINE;
+        cpu.cycles -= CYCLES_TO_SCANLINE;
+        if (ppu.actualScanLine == 241) {
+            if (ppu.ppuControl.executeNMIOnVBlank == 1) {
+                cpu.nmi();
+            }
+            joystick.check();
+        }
         ppu.doScanline();
+        CYCLES_TO_SCANLINE = SCANLINE[++index & 2];
     }
 
     public String actualLine() {

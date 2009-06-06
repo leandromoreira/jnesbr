@@ -22,10 +22,16 @@ import jnesbr.video.Ppu2C02;
  * @author dreampeppers99
  */
 public final class Scrolling {
-    private int tempRegister;
-    private Ppu2C02 ppu;
-    private byte tileXOffset;
+    //following the skinny scheme
+    public int[] temp = new int[16];
+    public int fineX;
+    public int fineY;
+    public int tileX;
+    public int tileY;
+    private Ppu2C02 ppu; //contains address and toggle (flipflop)
+    
     public Scrolling(Ppu2C02 ppu){
         this.ppu = ppu;
+        this.ppu.scrolling = this;
     }
 }

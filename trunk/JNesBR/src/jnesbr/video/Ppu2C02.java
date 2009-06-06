@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import jnesbr.core.Emulator;
 import jnesbr.video.memory.VideoMemory;
+import jnesbr.video.scrolls.Scrolling;
 import jnesbr.video.sprite.SpriteRAM;
 
 /**
@@ -44,10 +45,11 @@ public class Ppu2C02 {
     public PPUOAMAddress ppuOAMAddress = new PPUOAMAddress();
     public PPUOAMData ppuOAMdata = new PPUOAMData();
     private Map<Integer, int[][]> patternTable = new HashMap<Integer, int[][]>();
-    private Frame frame = Frame.getInstance();
+    private Frame frameManager = Frame.getInstance();
     private Map<Integer, Scanline> scanlines = new HashMap<Integer, Scanline>();
     private VideoMemory vram;
     public SpriteRAM sprRAM;
+    public Scrolling scrolling;
 
     public static Ppu2C02 getInstance() {
         if (instance == null) {
@@ -63,6 +65,7 @@ public class Ppu2C02 {
 
     private Ppu2C02() {
         //ppuStatus.verticalBlankStarted = PPUStatus.InVBlank;
+        scrolling = new Scrolling(this);
     }
 
     public int actualScanline() {
@@ -146,7 +149,7 @@ public class Ppu2C02 {
     private void init() {
         vram = VideoMemory.getMemory();
         sprRAM = SpriteRAM.getInstance();
-        scanlines.put(RENDERING_SCANLINE, new RenderScanline(this));
+        scanlines.put(RENDERING_SCANLINE, new RenderScanline(this,frameManager));
         scanlines.put(240, new Scanline() {
 
             public void scanline() {

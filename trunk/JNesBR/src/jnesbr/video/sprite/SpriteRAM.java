@@ -26,7 +26,7 @@ import java.util.List;
 public class SpriteRAM {
 
     private static SpriteRAM instance;
-    private Sprite[] sprites = new Sprite[256];
+    private Sprite[] sprites = new Sprite[64];
     private int index;
 
     public static SpriteRAM getInstance() {
@@ -39,6 +39,9 @@ public class SpriteRAM {
 
     private SpriteRAM() {
         index = 0;
+        for (short i = 0 ; i < 64 ; i++){
+            sprites[i] = new Sprite(i);
+        }
     }
 
     public void add(short address, short value) {
@@ -58,10 +61,11 @@ public class SpriteRAM {
     }
 
     public Sprite getSprite(int index) {
-        return new Sprite(spriteMemory[index * 4],
+        sprites[index].populate(spriteMemory[index * 4],
                 spriteMemory[index * 4 + 1],
                 spriteMemory[index * 4 + 2],
                 spriteMemory[index * 4 + 3]);
+        return sprites[index];
     }
 
     public List<Sprite> spriteEvaluation(int y,int situation) {
@@ -71,9 +75,13 @@ public class SpriteRAM {
         for (int i = 0; i < 64; i++) {
             Sprite actual = getSprite(i);
             if (actual.backgroundPriority == situation &&
-                    y >= actual.yCoordinate && y <= (actual.yCoordinate + 8)) {
+                    y >= actual.yCoordinate && y <= (actual.yCoordinate + 7)) {
                 list.add(actual);
             }
+            /*if (actual.backgroundPriority == situation &&
+                    y >= actual.yCoordinate && y <= (actual.yCoordinate + 16) {
+                list.add(actual);
+            }*/
         }
         return list;
     }
