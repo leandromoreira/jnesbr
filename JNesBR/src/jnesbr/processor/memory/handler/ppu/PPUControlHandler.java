@@ -26,6 +26,7 @@ import jnesbr.video.Ppu2C02;
  * As Mapped IO to address $2000. Should be only-written.
  */
 public final class PPUControlHandler implements Handler {
+
     private Ppu2C02 ppu = Ppu2C02.getInstance();
     private Memory memory = Memory.getMemory();
 
@@ -36,7 +37,9 @@ public final class PPUControlHandler implements Handler {
         ppu.ppuControl.patternTableAddressBackground = giveMeBit4From(value);
         ppu.ppuControl.patternTableAddressSprites = giveMeBit3From(value);
         ppu.ppuControl.port2007AddressIncrement = giveMeBit2From(value);
-        ppu.ppuControl.nameTableAddress = (byte)(giveMeBit0From(value) >> 1 | giveMeBit1From(value));
+        ppu.ppuControl.nameTableAddress = (byte) (giveMeBit0From(value) >> 1 | giveMeBit1From(value));
+        ppu.scrolling.temp[10] = giveMeBit0From(value);
+        ppu.scrolling.temp[11] = giveMeBit1From(value);
         ppu.ppuControl.horizontalScrollBy256 = giveMeBit0From(value);
         ppu.ppuControl.verticalScrollBy240 = giveMeBit1From(value);
         memory.writeUnhandled(address, value);

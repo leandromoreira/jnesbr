@@ -25,6 +25,9 @@ public final class Frame {
 
     private static final int WIDTH = 256,  HEIGHT = 240;
     private Color[][] frame = new Color[WIDTH][HEIGHT];
+    private int[][] layer0 = new int[WIDTH][HEIGHT]; //behind sprite
+    private int[][] layer1 = new int[WIDTH][HEIGHT]; //background
+    private int[][] layer2 = new int[WIDTH][HEIGHT]; //front sprite
     private float[][][] rgbFrame = new float[WIDTH][HEIGHT][3];
     private static Frame instance;
 
@@ -37,6 +40,36 @@ public final class Frame {
 
     public final void setPixel(Color pixel, int x, int y) {
         frame[x][y] = pixel;
+    }
+
+    public final void resetLayers(){
+        layer0 = new int[WIDTH][HEIGHT];
+        layer1 = new int[WIDTH][HEIGHT];
+        layer2 = new int[WIDTH][HEIGHT];
+    }
+
+    public final void setPixelLayer0(final int paletteIndex, final int x, final int y) {
+        layer0[x][y] = paletteIndex;
+    }
+
+    public final void setPixelLayer1(final int paletteIndex, final int x, final int y) {
+        layer1[x][y] = paletteIndex;
+    }
+
+    public final void setPixelLayer2(final int paletteIndex, final int x, final int y) {
+        layer2[x][y] = paletteIndex;
+    }
+
+    public final int getPixelLayer0At(final int x, final int y) {
+        return layer0[x][y];
+    }
+
+    public final int getPixelLayer1At(final int x, final int y) {
+        return layer1[x][y];
+    }
+
+    public final int getPixelLayer2At(final int x, final int y) {
+        return layer2[x][y];
     }
 
     public final void setPixel(float[] rgb, int x, int y) {

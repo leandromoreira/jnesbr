@@ -18,8 +18,6 @@ package jnesbr.processor.memory.handler.ppu;
 
 import jnesbr.processor.memory.Memory;
 import jnesbr.processor.memory.handler.Handler;
-import jnesbr.video.PPUAddress;
-import jnesbr.video.PPUStatus;
 import jnesbr.video.Ppu2C02;
 
 /**
@@ -27,26 +25,42 @@ import jnesbr.video.Ppu2C02;
  */
 public final class PPUAdressHandler implements Handler {
 
-    private PPUAddress pPUAddress;
-    private PPUStatus ppuStatus;
     private Ppu2C02 ppu = Ppu2C02.getInstance();
     private Memory memory = Memory.getMemory();
 
     public final void writeAt(final int address, final short value) {
-        pPUAddress = ppu.pPUAddress;
-        ppuStatus = ppu.ppuStatus;
-        if (ppuStatus.flipflop == 0) {
-            pPUAddress.firstData = value;
-            ppuStatus.flipflop++;
+        if (ppu.ppuStatus.flipflop == 0) {
+            ppu.pPUAddress.firstData = value;
+            ppu.ppuStatus.flipflop++;
+            ppu.scrolling.temp[8] = (value & 0x3F) & 1;
+            ppu.scrolling.temp[9] = ((value & 0x3F) >> 1) & 1;
+            ppu.scrolling.temp[10] = ((value & 0x3F) >> 2) & 1;
+            ppu.scrolling.temp[11] = ((value & 0x3F) >> 3) & 1;
+            ppu.scrolling.temp[12] = ((value & 0x3F) >> 4) & 1;
+            ppu.scrolling.temp[13] = ((value & 0x3F) >> 5) & 1;
+            ppu.scrolling.temp[14] = 0;
         } else {
-            pPUAddress.secondData = value;
-            pPUAddress.completeAddress = (pPUAddress.firstData<<8) | pPUAddress.secondData;
-            ppuStatus.flipflop--;
+            ppu.pPUAddress.secondData = value;
+            ppu.pPUAddress.completeAddress = (ppu.pPUAddress.firstData << 8) | ppu.pPUAddress.secondData;
+            ppu.ppuStatus.flipflop--;
+            ppu.scrolling.temp[0] = (value) & 1;
+            ppu.scrolling.temp[1] = (value >> 1) & 1;
+            ppu.scrolling.temp[2] = (value >> 2) & 1;
+            ppu.scrolling.temp[3] = (value >> 3) & 1;
+            ppu.scrolling.temp[4] = (value >> 4) & 1;
+            ppu.scrolling.temp[5] = (value >> 5) & 1;
+            ppu.scrolling.temp[6] = (value >> 6) & 1;
+            ppu.scrolling.temp[7] = (value >> 7) & 1;
+            ppu.pPUAddress.completeAddress = assemble(ppu.scrolling.temp);
         }
         memory.writeUnhandled(address, value);
     }
 
     public final short readFrom(final int address) {
         return memory.readUnhandled(address);
+    }
+
+    private final int assemble(final int[] temp) {
+        return (temp[15] << 15) | (temp[14] << 14) | (temp[13] << 13) | (temp[12] << 12) | (temp[11] << 11) | (temp[10] << 10) | (temp[9] << 9) | (temp[8] << 8) | (temp[7] << 7) | (temp[6] << 6) | (temp[5] << 5) | (temp[4] << 4) | (temp[3] << 3) | (temp[2] << 2) | (temp[1] << 1) | (temp[0]);
     }
 }
