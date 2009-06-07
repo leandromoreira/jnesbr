@@ -18,7 +18,6 @@ package jnesbr.core;
 
 import java.nio.ByteBuffer;
 import javax.swing.JOptionPane;
-import jnesbr.debugger.BreakpointException;
 import jnesbr.joystick.StandardControl;
 import jnesbr.processor.Cpu2A03;
 import jnesbr.processor.memory.Memory;

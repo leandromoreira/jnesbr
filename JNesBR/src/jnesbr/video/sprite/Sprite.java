@@ -77,5 +77,12 @@ public class Sprite {
     public short notUsed;
     public byte paletteUpperBitsColor;
     public short xCoordinate;
+
+    @Override
+    public String toString() {
+        return index + " x=" + xCoordinate + " y=" + yCoordinate;
+    }
+
+
 }
 
