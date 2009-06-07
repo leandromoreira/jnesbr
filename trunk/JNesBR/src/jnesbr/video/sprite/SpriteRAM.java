@@ -68,18 +68,21 @@ public class SpriteRAM {
         return sprites[index];
     }
 
-    public List<Sprite> spriteEvaluation(int y,int situation) {
+    public final List<Sprite> spriteEvaluation(final int y,final int situation) {
         List<Sprite> list = new ArrayList<Sprite>();
         //TODO: make this to 8x16 size sprite
 
         for (int i = 0; i < 64; i++) {
             Sprite actual = getSprite(i);
             if (actual.backgroundPriority == situation &&
-                    y >= actual.yCoordinate && y <= (actual.yCoordinate + 7)) {
+                    (y >= actual.yCoordinate &&
+                     y <= (actual.yCoordinate+7) &&
+                     actual.yCoordinate != -1)
+                    ) {
                 list.add(actual);
             }
             /*if (actual.backgroundPriority == situation &&
-                    y >= actual.yCoordinate && y <= (actual.yCoordinate + 16) {
+                    y >= actual.yCoordinate && y <= (actual.yCoordinate + 15) {
                 list.add(actual);
             }*/
         }

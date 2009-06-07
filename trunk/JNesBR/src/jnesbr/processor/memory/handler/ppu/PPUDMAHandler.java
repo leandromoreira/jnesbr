@@ -34,13 +34,13 @@ public final class PPUDMAHandler implements Handler {
 /*Specifies the destination address 
  in Sprite RAM for use with Port 2004h (Single byte write),
  and Port 4014h (256 bytes DMA transfer).*/
-    public void writeAt(int address, short value) {
+    public final void writeAt(final int address,final short value) {
         memory.writeUnhandled(address, value);
         fillSpriteRAM(value * 0x100);
         Emulator.getInstance().getCpu().cycles += 512;
     }
 
-    public short readFrom(int address) {
+    public final short readFrom(final int address) {
         return memory.readUnhandled(address);
     }
 

@@ -51,16 +51,12 @@ public final class PPUAdressHandler implements Handler {
             ppu.scrolling.temp[5] = (value >> 5) & 1;
             ppu.scrolling.temp[6] = (value >> 6) & 1;
             ppu.scrolling.temp[7] = (value >> 7) & 1;
-            ppu.pPUAddress.completeAddress = assemble(ppu.scrolling.temp);
+            ppu.pPUAddress.completeAddress = ppu.scrolling.assemble();
         }
         memory.writeUnhandled(address, value);
     }
 
     public final short readFrom(final int address) {
         return memory.readUnhandled(address);
-    }
-
-    private final int assemble(final int[] temp) {
-        return (temp[15] << 15) | (temp[14] << 14) | (temp[13] << 13) | (temp[12] << 12) | (temp[11] << 11) | (temp[10] << 10) | (temp[9] << 9) | (temp[8] << 8) | (temp[7] << 7) | (temp[6] << 6) | (temp[5] << 5) | (temp[4] << 4) | (temp[3] << 3) | (temp[2] << 2) | (temp[1] << 1) | (temp[0]);
     }
 }

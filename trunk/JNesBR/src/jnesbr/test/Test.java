@@ -29,19 +29,10 @@ import java.util.logging.Logger;
 public class Test {
 
     public static void main(String[] args) {
-        int[] temp = new int[16];
-        String tmp = "1000000000010011";
-        temp[15]=1;
-        temp[1]=1;
-        temp[0]=1;
-        temp[4]=1;
-        System.out.println(assemble(temp));
-        System.out.println(Integer.parseInt(tmp, 2));
+        System.out.println(~1 & 1);
+        System.out.println(~0 & 1);
     }
 
-    private static final int assemble(final int[] temp) {
-        return (temp[15] << 15) | (temp[14] << 14) | (temp[13] << 13) | (temp[12] << 12) | (temp[11] << 11) | (temp[10] << 10) | (temp[9] << 9) | (temp[8] << 8) | (temp[7] << 7) | (temp[6] << 6) | (temp[5] << 5) | (temp[4] << 4) | (temp[3] << 3) | (temp[2] << 2) | (temp[1] << 1) | (temp[0]);
-    }
 
     public void test(){
      Properties pp = new Properties();
