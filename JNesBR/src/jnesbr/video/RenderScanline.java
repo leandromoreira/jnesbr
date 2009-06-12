@@ -23,7 +23,7 @@ import jnesbr.video.sprite.Sprite;
 /**
  * @author dreampeppers99
  */
-public class RenderScanline implements Scanline {
+public final class RenderScanline implements Scanline {
 
     private Ppu2C02 ppu;
     private List<Sprite> behindSprites;
@@ -36,27 +36,38 @@ public class RenderScanline implements Scanline {
         this.frameManager = frame;
     }
 
-    public void scanline() {
-        // 0-239 - Rendering Scanline
+    public final void scanline() {
+        //*For each scanline (0-239 - Rendering Scanline) the jnesbr performs 
+        //*these following steps.*/
+
+        //First>> Apply the colour intensity
         applyColourIntensisty();
+
+        //Second>> Sprites evaluations!
         behindSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.BEHIND);
         frontSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.FRONT);
 
+        //Third>> Check the quantity of sprites on scanline... (even the layer#0)
         if (behindSprites.size() + frontSprites.size() > 8) {
             ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
         }
 
+        //Fourth>> Render the Layer#0 (behind sprite)
         if (ppu.ppuMask.spriteRenderingEnable == 1) {
             renderLayer0(behindSprites.iterator());
         }
 
+        //Fiveth>> Render the Layer#1 (background)
         if (ppu.ppuMask.backgroundRenderingEnable == 1) {
-            renderBackground();
+            renderLayer1();
         }
 
+        //Sixth>> Render the Layer#2 (front sprite)
         if (ppu.ppuMask.spriteRenderingEnable == 1) {
             renderLayer2(frontSprites.iterator());
         }
+
+        //Last>> Update the scanline counter.
         ppu.actualScanLine++;
     }
 
@@ -69,7 +80,7 @@ public class RenderScanline implements Scanline {
         }
     }
 
-    private void renderLayer0(final Iterator<Sprite> iterator) {
+    private final void renderLayer0(final Iterator<Sprite> iterator) {
         while (iterator.hasNext()) {
             Sprite sprite = iterator.next();
             if (sprite.index == 0) {
@@ -77,7 +88,7 @@ public class RenderScanline implements Scanline {
         }
     }
 
-    private void renderLayer2(final Iterator<Sprite> iterator) {
+    private final void renderLayer2(final Iterator<Sprite> iterator) {
         while (iterator.hasNext()) {
             Sprite sprite = iterator.next();
             if (sprite.index == 0) {
@@ -85,7 +96,7 @@ public class RenderScanline implements Scanline {
         }
     }
 
-    private final void renderBackground() {
+    private final void renderLayer1() {
         for (int actualTile = 0; actualTile < 32; actualTile++) {
             //1. Name table byte
             //2. Attribute table byte
@@ -103,7 +114,7 @@ public class RenderScanline implements Scanline {
         }
 
         ppu.scrolling.fineY++;
-        settedTileYFrom2006 = (ppu.scrolling.tileY > 29) ? true : false;
+        settedTileYFrom2006 = (ppu.scrolling.tileY > 29);
         if (ppu.scrolling.fineY > 7) {
             ppu.scrolling.fineY &= 7;
             ppu.scrolling.tileY++;

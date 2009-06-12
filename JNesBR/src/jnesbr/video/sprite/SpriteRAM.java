@@ -23,11 +23,12 @@ import java.util.List;
 /**
  * @author dreampeppers99
  */
-public class SpriteRAM {
+public final class SpriteRAM {
 
     private static SpriteRAM instance;
     private Sprite[] sprites = new Sprite[64];
     private int index;
+    private short[] spriteMemory = new short[0x100];
 
     public static SpriteRAM getInstance() {
         if (instance == null) {
@@ -35,7 +36,6 @@ public class SpriteRAM {
         }
         return instance;
     }
-    private short[] spriteMemory = new short[0x100];
 
     private SpriteRAM() {
         index = 0;
@@ -44,23 +44,23 @@ public class SpriteRAM {
         }
     }
 
-    public void add(short address, short value) {
+    public final void add(final short address,final short value) {
         spriteMemory[address & 0xFF] = value;
     }
 
-    public short[] spriteRAM() {
+    public final short[] spriteRAM() {
         return Arrays.copyOf(spriteMemory, spriteMemory.length);
     }
 
-    public void add(short byt) {
+    public final void add(final short byt) {
         spriteMemory[index++] = byt;
     }
 
-    public short get(int index) {
+    public final short get(final int index) {
         return spriteMemory[index];
     }
 
-    public Sprite getSprite(int index) {
+    public final Sprite getSprite(final int index) {
         sprites[index].populate(spriteMemory[index * 4],
                 spriteMemory[index * 4 + 1],
                 spriteMemory[index * 4 + 2],
@@ -87,8 +87,5 @@ public class SpriteRAM {
             }*/
         }
         return list;
-    }
-
-    public void doDMA(short[] array, int length) {
     }
 }
