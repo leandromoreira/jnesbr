@@ -26,7 +26,7 @@ import jnesbr.video.sprite.SpriteRAM;
 /**
  * @author dreampeppers99
  */
-public class Ppu2C02 {
+public final class Ppu2C02 {
 
     public static int CYCLES_TO_SCANLINE = 114;
     public final static int[] SCANLINE = new int[]{114, 114, 113};
@@ -108,7 +108,7 @@ public class Ppu2C02 {
         return patternTable;
     }
 
-    private short[] patternFrom(int patternTable) {
+    private final short[] patternFrom(final int patternTable) {
         short[] result = new short[0x1000];
         int index = 0;
         for (int i = patternTable; i < patternTable + 0x1000; i++) {
@@ -117,7 +117,7 @@ public class Ppu2C02 {
         return result;
     }
 
-    public Map<Integer, int[][]> actualPatternTable(int patternTable) {
+    public final Map<Integer, int[][]> actualPatternTable(int patternTable) {
         patternTable = (patternTable == 0) ? 0x0000 : 0x1000;
         short[] chrRam = patternFrom(patternTable);
         Map<Integer, int[][]> patternTableFromRom = new HashMap<Integer, int[][]>();
@@ -134,11 +134,11 @@ public class Ppu2C02 {
         return patternTableFromRom;
     }
 
-    public int[][] getTile(int nameTable, int index) {
+    public final int[][] getTile(final int nameTable, final int index) {
         return actualPatternTable(nameTable).get(index);
     }
 
-    public void doScanline() {
+    public final void doScanline() {
         get(actualScanLine).scanline();
     }
 
@@ -146,7 +146,7 @@ public class Ppu2C02 {
         return (scanLineNumber >= 0 & scanLineNumber <= 239) ? scanlines.get(RENDERING_SCANLINE) : scanlines.get(actualScanLine);
     }
 
-    private void init() {
+    private final void init() {
         vram = VideoMemory.getMemory();
         sprRAM = SpriteRAM.getInstance();
         scanlines.put(RENDERING_SCANLINE, new RenderScanline(this,frameManager));

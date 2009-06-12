@@ -19,9 +19,11 @@ package jnesbr.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jnesbr.video.color.NesPalette;
 
 /**
  * @author dreampeppers99
@@ -29,13 +31,16 @@ import java.util.logging.Logger;
 public class Test {
 
     public static void main(String[] args) {
-        System.out.println(~1 & 1);
-        System.out.println(~0 & 1);
+        float[] rgb = NesPalette.getRGBAt(0);
+        float[] rgb1 = NesPalette.getRGBAt(10);
+        float[] rgb2 = NesPalette.getRGBAt(63);
+        System.out.println(Arrays.toString(rgb));
+        System.out.println(Arrays.toString(rgb1));
+        System.out.println(Arrays.toString(rgb2));
     }
 
-
-    public void test(){
-     Properties pp = new Properties();
+    public void test() {
+        Properties pp = new Properties();
         try {
             pp.loadFromXML(new FileInputStream(new File("arquivo.xml")));
             System.out.println(pp);
