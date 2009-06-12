@@ -19,31 +19,29 @@ package jnesbr.video.util;
 /**
  * @author dreampeppers99
  */
-public class GraphicHelper {
+public final class GraphicHelper {
 
-    public static int[][] flipHorizontal(int[][] tile) {
-        int x = 0, y = 0;
+    public final static int[][] flipHorizontal(final int[][] tile) {
         int[][] retorno = new int[8][8];
-        for (y = 0; y < 8; y++) {
-            for (x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
                 retorno[y][abs(x - 7)] = tile[y][x];
             }
         }
         return retorno;
     }
 
-    public final static int[][] flipVertical(int[][] tile) {
-        int x = 0, y = 0;
+    public final static int[][] flipVertical(final int[][] tile) {
         int[][] retorno = new int[8][8];
-        for (y = 0; y < 8; y++) {
-            for (x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
                 retorno[abs(y - 7)][x] = tile[y][x];
             }
         }
         return retorno;
     }
 
-    private static final int abs(int a) {
+    private static final int abs(final int a) {
         return (a < 0) ? -a : a;
     }
 }

@@ -16,6 +16,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
  */
 package jnesbr.video;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import jnesbr.video.sprite.Sprite;
@@ -30,46 +31,51 @@ public final class RenderScanline implements Scanline {
     private List<Sprite> frontSprites;
     private Frame frameManager;
     private boolean settedTileYFrom2006;
+    private int colourIntensity = 0;
+    private int y,  spriteCount;
 
     public RenderScanline(Ppu2C02 ppu, Frame frame) {
         this.ppu = ppu;
         this.frameManager = frame;
+        behindSprites = new ArrayList<Sprite>();
+        frontSprites = new ArrayList<Sprite>();
     }
 
     public final void scanline() {
-        /*For each scanline (0-239 - Rendering Scanline)*/
-
-        //First>> Apply the colour intensity
         applyColourIntensisty();
-
-        //Second>> Sprites evaluations!
-        spriteEvaluations();
-
-        //Third>> Render the Layer#0 (behind sprite)
+        spriteEvaluation();
         renderLayer0(behindSprites.iterator());
-
-        //Fourth>> Render the Layer#1 (background)
         renderLayer1();
-
-        //Fifth>> Render the Layer#2 (front sprite)
         renderLayer2(frontSprites.iterator());
-
-        //Last>> Update the scanline counter.
         ppu.actualScanLine++;
     }
 
     private final void applyColourIntensisty() {
-        if (ppu.ppuMask.intensifyBlues == 1) {
-        }
-        if (ppu.ppuMask.intensifyGreens == 1) {
-        }
-        if (ppu.ppuMask.intensifyReds == 1) {
+        colourIntensity = (ppu.ppuMask.intensifyReds << 2) |
+                (ppu.ppuMask.intensifyGreens << 1) |
+                (ppu.ppuMask.intensifyBlues);
+        switch (colourIntensity) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
         }
     }
 
     private final void renderLayer0(final Iterator<Sprite> iterator) {
         if (ppu.ppuMask.spriteRenderingEnable == 1) {
-
             while (iterator.hasNext()) {
                 Sprite sprite = iterator.next();
                 if (sprite.index == 0) {
@@ -125,12 +131,39 @@ public final class RenderScanline implements Scanline {
         }
     }
 
-    private final void spriteEvaluations() {
-        behindSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.BEHIND);
-        frontSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.FRONT);
+    private final void spriteEvaluation() {
+        //TODO: make this to 8x16 size sprite
+        y = ppu.actualScanLine;
+        spriteCount = 0;
+        behindSprites.clear();
+        frontSprites.clear();
 
-        if (behindSprites.size() + frontSprites.size() > 8) {
-            ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
+        for (int n = 0; n < 64; n++) {
+            Sprite actual = ppu.sprRAM.getSprite(n);
+            if (actual.backgroundPriority == Sprite.BEHIND &&
+                    (y >= actual.yCoordinate &&
+                    y <= (actual.yCoordinate + 7)) &&
+                    actual.yCoordinate != -1) {
+                behindSprites.add(actual);
+                spriteCount++;
+                if (spriteCount > 8) {
+                    ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
+                }
+            }
+            if (actual.backgroundPriority == Sprite.FRONT &&
+                    (y >= actual.yCoordinate &&
+                    y <= (actual.yCoordinate + 7)) &&
+                    actual.yCoordinate != -1) {
+                frontSprites.add(actual);
+                spriteCount++;
+                if (spriteCount > 8) {
+                    ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
+                }
+            }
+        /*if (actual.backgroundPriority == situation &&
+        y >= actual.yCoordinate && y <= (actual.yCoordinate + 15) {
+        list.add(actual);
+        }*/
         }
     }
 }

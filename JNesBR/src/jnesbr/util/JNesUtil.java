@@ -99,15 +99,11 @@ public final class JNesUtil {
     }
 
     public final static short rotateLeft(final short operand) {
-        int carry = ((operand >> 7) & 0x1);
-        int result = (operand << 1) & 0xFF;
-        return (short) (result | carry);
+        return (short) (((operand << 1) & 0xFF) | ((operand >> 7) & 0x1));
     }
 
     public final static short rotateRight(final short operand) {
-        int carry = (operand & 0x1);
-        int result = (operand >> 1) & 0xFF;
-        return (short) (result | (carry << 7));
+        return (short) (((operand >> 1) & 0xFF) | ((operand & 0x1) << 7));
     }
 
     public final static byte overflowInAddition(final int value) {
