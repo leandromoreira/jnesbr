@@ -37,35 +37,22 @@ public final class RenderScanline implements Scanline {
     }
 
     public final void scanline() {
-        //*For each scanline (0-239 - Rendering Scanline) the jnesbr performs 
-        //*these following steps.*/
+        /*For each scanline (0-239 - Rendering Scanline)*/
 
         //First>> Apply the colour intensity
         applyColourIntensisty();
 
         //Second>> Sprites evaluations!
-        behindSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.BEHIND);
-        frontSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.FRONT);
+        spriteEvaluations();
 
-        //Third>> Check the quantity of sprites on scanline... (even the layer#0)
-        if (behindSprites.size() + frontSprites.size() > 8) {
-            ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
-        }
+        //Third>> Render the Layer#0 (behind sprite)
+        renderLayer0(behindSprites.iterator());
 
-        //Fourth>> Render the Layer#0 (behind sprite)
-        if (ppu.ppuMask.spriteRenderingEnable == 1) {
-            renderLayer0(behindSprites.iterator());
-        }
+        //Fourth>> Render the Layer#1 (background)
+        renderLayer1();
 
-        //Fiveth>> Render the Layer#1 (background)
-        if (ppu.ppuMask.backgroundRenderingEnable == 1) {
-            renderLayer1();
-        }
-
-        //Sixth>> Render the Layer#2 (front sprite)
-        if (ppu.ppuMask.spriteRenderingEnable == 1) {
-            renderLayer2(frontSprites.iterator());
-        }
+        //Fifth>> Render the Layer#2 (front sprite)
+        renderLayer2(frontSprites.iterator());
 
         //Last>> Update the scanline counter.
         ppu.actualScanLine++;
@@ -81,22 +68,31 @@ public final class RenderScanline implements Scanline {
     }
 
     private final void renderLayer0(final Iterator<Sprite> iterator) {
-        while (iterator.hasNext()) {
-            Sprite sprite = iterator.next();
-            if (sprite.index == 0) {
+        if (ppu.ppuMask.spriteRenderingEnable == 1) {
+
+            while (iterator.hasNext()) {
+                Sprite sprite = iterator.next();
+                if (sprite.index == 0) {
+                }
             }
+
         }
     }
 
     private final void renderLayer2(final Iterator<Sprite> iterator) {
-        while (iterator.hasNext()) {
-            Sprite sprite = iterator.next();
-            if (sprite.index == 0) {
+        if (ppu.ppuMask.spriteRenderingEnable == 1) {
+            while (iterator.hasNext()) {
+                Sprite sprite = iterator.next();
+                if (sprite.index == 0) {
+                }
             }
         }
     }
 
     private final void renderLayer1() {
+        if (ppu.ppuMask.backgroundRenderingEnable == 0) {
+            return;
+        }
         for (int actualTile = 0; actualTile < 32; actualTile++) {
             //1. Name table byte
             //2. Attribute table byte
@@ -126,6 +122,15 @@ public final class RenderScanline implements Scanline {
         }
         if (ppu.scrolling.tileY > 29 && settedTileYFrom2006) {
             ppu.scrolling.tileY &= 31;
+        }
+    }
+
+    private final void spriteEvaluations() {
+        behindSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.BEHIND);
+        frontSprites = ppu.sprRAM.spriteEvaluation(ppu.actualScanLine, Sprite.FRONT);
+
+        if (behindSprites.size() + frontSprites.size() > 8) {
+            ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
         }
     }
 }
