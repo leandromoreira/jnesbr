@@ -31,8 +31,6 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import jnesbr.core.Emulator;
 import jnesbr.core.MetaInformation;
@@ -328,6 +326,7 @@ public class Main extends javax.swing.JFrame {
     private void jBtnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRunActionPerformed
         if (emulator != null) {
             Thread t = new Thread(emulator);
+            t.setPriority(Thread.MIN_PRIORITY);
             t.start();
         }
         new ScreenJogl().setVisible(true);

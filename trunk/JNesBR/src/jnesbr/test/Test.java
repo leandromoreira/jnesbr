@@ -19,11 +19,9 @@ package jnesbr.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jnesbr.video.color.NesPalette;
 
 /**
  * @author dreampeppers99
@@ -31,12 +29,8 @@ import jnesbr.video.color.NesPalette;
 public class Test {
 
     public static void main(String[] args) {
-        float[] rgb = NesPalette.getRGBAt(0);
-        float[] rgb1 = NesPalette.getRGBAt(10);
-        float[] rgb2 = NesPalette.getRGBAt(63);
-        System.out.println(Arrays.toString(rgb));
-        System.out.println(Arrays.toString(rgb1));
-        System.out.println(Arrays.toString(rgb2));
+        int i = 0, i1 = 1, i2 = 1;
+        System.out.println((i<<2)|(i1<<1)|i2);
     }
 
     public void test() {
