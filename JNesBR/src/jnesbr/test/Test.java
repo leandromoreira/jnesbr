@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jnesbr.video.Frame;
 
 /**
  * @author dreampeppers99
@@ -29,8 +30,14 @@ import java.util.logging.Logger;
 public class Test {
 
     public static void main(String[] args) {
-        int i = 0, i1 = 1, i2 = 1;
-        System.out.println((i<<2)|(i1<<1)|i2);
+        Frame frame = Frame.getInstance();
+
+        int x = 255, y = 0;
+        frame.setPixelLayer0(15, x, y);
+        System.out.println(frame.getPixelLayer0At(x, y));
+        frame.resetLayers();
+        System.out.println(frame.getPixelLayer0At(x, y));
+
     }
 
     public void test() {

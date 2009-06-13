@@ -42,6 +42,9 @@ public final class RenderScanline implements Scanline {
     }
 
     public final void scanline() {
+        if (ppu.actualScanLine == 0) {
+            frameManager.resetLayers();
+        }
         applyColourIntensisty();
         spriteEvaluation();
         renderLayer0(behindSprites.iterator());
@@ -73,23 +76,25 @@ public final class RenderScanline implements Scanline {
                 break;
         }
     }
+    private Sprite sprite1;
 
     private final void renderLayer0(final Iterator<Sprite> iterator) {
         if (ppu.ppuMask.spriteRenderingEnable == 1) {
             while (iterator.hasNext()) {
-                Sprite sprite = iterator.next();
-                if (sprite.index == 0) {
+                sprite1 = iterator.next();
+                if (sprite1.index == 0) {
                 }
             }
 
         }
     }
+    private Sprite sprite2;
 
     private final void renderLayer2(final Iterator<Sprite> iterator) {
         if (ppu.ppuMask.spriteRenderingEnable == 1) {
             while (iterator.hasNext()) {
-                Sprite sprite = iterator.next();
-                if (sprite.index == 0) {
+                sprite2 = iterator.next();
+                if (sprite2.index == 0) {
                 }
             }
         }
@@ -131,6 +136,7 @@ public final class RenderScanline implements Scanline {
         }
     }
 
+    private Sprite actual;
     private final void spriteEvaluation() {
         //TODO: make this to 8x16 size sprite
         y = ppu.actualScanLine;
@@ -139,26 +145,28 @@ public final class RenderScanline implements Scanline {
         frontSprites.clear();
 
         for (int n = 0; n < 64; n++) {
-            Sprite actual = ppu.sprRAM.getSprite(n);
+            actual = ppu.sprRAM.getSprite(n);
             if (actual.backgroundPriority == Sprite.BEHIND &&
                     (y >= actual.yCoordinate &&
                     y <= (actual.yCoordinate + 7)) &&
                     actual.yCoordinate != -1) {
+                if (spriteCount == 8) {
+                    ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
+                    break;
+                }
                 behindSprites.add(actual);
                 spriteCount++;
-                if (spriteCount > 8) {
-                    ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
-                }
             }
             if (actual.backgroundPriority == Sprite.FRONT &&
                     (y >= actual.yCoordinate &&
                     y <= (actual.yCoordinate + 7)) &&
                     actual.yCoordinate != -1) {
+                if (spriteCount == 8) {
+                    ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
+                    break;
+                }
                 frontSprites.add(actual);
                 spriteCount++;
-                if (spriteCount > 8) {
-                    ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
-                }
             }
         /*if (actual.backgroundPriority == situation &&
         y >= actual.yCoordinate && y <= (actual.yCoordinate + 15) {
