@@ -33,10 +33,10 @@ public class Test {
         Frame frame = Frame.getInstance();
 
         int x = 255, y = 0;
-        frame.setPixelLayer0(15, x, y);
-        System.out.println(frame.getPixelLayer0At(x, y));
-        frame.resetLayers();
-        System.out.println(frame.getPixelLayer0At(x, y));
+        frame.setPixel(new float[]{0.18f,1.2f,2.0f}, x, y);
+        System.out.println(frame.getRGBPixelAt(x, y)[0]);
+        System.out.println(frame.getRGBPixelAt(x, y)[1]);
+        System.out.println(frame.getRGBPixelAt(x, y)[2]);
 
     }
 
