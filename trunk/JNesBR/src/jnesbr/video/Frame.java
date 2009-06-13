@@ -29,12 +29,9 @@ public final class Frame {
     private int[][] layer1 = new int[WIDTH][HEIGHT]; //background
     private int[][] layer2 = new int[WIDTH][HEIGHT]; //front sprite
     private float[][][] rgbFrame = new float[WIDTH][HEIGHT][3];
-    private static Frame instance;
+    private final static Frame instance = new Frame();
 
     public final static Frame getInstance() {
-        if (instance == null) {
-            instance = new Frame();
-        }
         return instance;
     }
 
@@ -42,10 +39,18 @@ public final class Frame {
         frame[x][y] = pixel;
     }
 
-    public final void resetLayers(){
-        layer0 = new int[WIDTH][HEIGHT];
-        layer1 = new int[WIDTH][HEIGHT];
-        layer2 = new int[WIDTH][HEIGHT];
+    public final void resetLayers() {
+        resetLayer(layer0);
+        resetLayer(layer1);
+        resetLayer(layer2);
+    }
+
+    private final void resetLayer(int[][] matrix) {
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0 ; y < HEIGHT ; y++){
+                matrix[x][y] = 0x0;
+            }
+        }
     }
 
     public final void setPixelLayer0(final int paletteIndex, final int x, final int y) {
