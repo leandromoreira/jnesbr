@@ -51,7 +51,7 @@ public class ScreenJogl extends JFrame {
         setResizable(false);
         center(this);
         final int FPS = 30;
-        FPSAnimator animator = new FPSAnimator(canvas, FPS, true);
+        final FPSAnimator animator = new FPSAnimator(canvas, FPS, true);
         animator.setRunAsFastAsPossible(false);
         animator.start();
     }

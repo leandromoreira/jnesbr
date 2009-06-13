@@ -39,7 +39,6 @@ public class GLListener implements GLEventListener, KeyListener {
     private Frame frame = Frame.getInstance();
     private static final int RED = 0 , GREEN = 1, BLUE = 2;
     private static final float PX_SIZE = 1.0f;
-    private float[][][] nesFrame;
 
     public GLListener(GLCanvas canvas) {
         this.canvas = canvas;
@@ -63,12 +62,13 @@ public class GLListener implements GLEventListener, KeyListener {
         GL gl = drawable.getGL();
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
         gl.glPointSize(PX_SIZE);
-        nesFrame = frame.getRGBFrame();
         
         gl.glBegin(GL.GL_POINTS);
         for (int x = 0; x < 256; x++) {
             for (int y = 0; y < 240; y++) {
-                gl.glColor3f(nesFrame[x][y][RED], nesFrame[x][y][GREEN], nesFrame[x][y][BLUE]);
+                gl.glColor3f(frame.getRGBPixelAt(x, y)[RED],
+                        frame.getRGBPixelAt(x, y)[GREEN],
+                        frame.getRGBPixelAt(x, y)[BLUE]);
                 gl.glVertex2i(x, y);
             }
         }

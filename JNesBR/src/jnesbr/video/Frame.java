@@ -88,6 +88,9 @@ public final class Frame {
     public final float[][][] getRGBFrame() {
         return rgbFrame;
     }
+    public final float[] getRGBPixelAt(final int x, final int y) {
+        return rgbFrame[x][y];
+    }
 
     private Frame() {
     }
