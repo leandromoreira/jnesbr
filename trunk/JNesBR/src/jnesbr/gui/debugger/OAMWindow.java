@@ -58,12 +58,12 @@ public class OAMWindow extends javax.swing.JFrame {
             }
 
             if (Ppu2C02.getInstance().ppuControl.spriteSize==PPUControll.SPRITE8x8){
-                tileNumber = "| "+JNesUtil.giveMeHexaStringFormattedWith2Space(spr.tileNumer0);
+                tileNumber = "| "+JNesUtil.giveMeHexaStringFormattedWith2Space(spr.tileNumber0);
                 String address = (Ppu2C02.getInstance().ppuControl.patternTableAddressSprites == PPUControll.VRAM0x0000)?"0000" : "1000";
                 tileNumber += " | Pattern="+address;
             }else{
-                tileNumber = "| "+JNesUtil.giveMeHexaStringFormattedWith2Space(spr.tileNumer0);
-                tileNumber += " | " + JNesUtil.giveMeHexaStringFormattedWith2Space(spr.tileNumer1);
+                tileNumber = "| "+JNesUtil.giveMeHexaStringFormattedWith2Space(spr.tileNumber0);
+                tileNumber += " | " + JNesUtil.giveMeHexaStringFormattedWith2Space(spr.tileNumber1);
                 String address = ((spr.patternTable) == 0)?"0000" : "1000";
                 tileNumber += " | Pattern="+address;
             }

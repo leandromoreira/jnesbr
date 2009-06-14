@@ -31,11 +31,11 @@ public class Sprite {
     public Sprite(short byte0, short byte1, short byte2, short byte3) {
         yCoordinate = (short) (byte0 - 1);
         if (Ppu2C02.getInstance().ppuControl.spriteSize == PPUControll.SPRITE8x8) {
-            tileNumer0 = byte1;
+            tileNumber0 = byte1;
             patternTable = (byte) ((Ppu2C02.getInstance().ppuControl.patternTableAddressSprites == PPUControll.VRAM0x0000) ? 0 : 1);
         } else {
-            tileNumer0 = (short) ((byte1 >> 1) * 2);
-            tileNumer1 = (short) ((byte1 >> 1) * 2 + 1);
+            tileNumber0 = (short) ((byte1 >> 1) * 2);
+            tileNumber1 = (short) ((byte1 >> 1) * 2 + 1);
             patternTable = (byte) (((byte1 & 0x1) == 0) ? 0 : 1);
         }
         attributes = byte2;
@@ -49,11 +49,11 @@ public class Sprite {
     public void populate(short byte0, short byte1, short byte2, short byte3) {
         yCoordinate = (short) (byte0 - 1);
         if (Ppu2C02.getInstance().ppuControl.spriteSize == PPUControll.SPRITE8x8) {
-            tileNumer0 = byte1;
+            tileNumber0 = byte1;
             patternTable = (byte) ((Ppu2C02.getInstance().ppuControl.patternTableAddressSprites == PPUControll.VRAM0x0000) ? 0 : 1);
         } else {
-            tileNumer0 = (short) ((byte1 >> 1) * 2);
-            tileNumer1 = (short) ((byte1 >> 1) * 2 + 1);
+            tileNumber0 = (short) ((byte1 >> 1) * 2);
+            tileNumber1 = (short) ((byte1 >> 1) * 2 + 1);
             patternTable = (byte) (((byte1 & 0x1) == 0) ? 0 : 1);
         }
         attributes = byte2;
@@ -65,8 +65,8 @@ public class Sprite {
     }
     public short index;
     public short yCoordinate;
-    public short tileNumer0;
-    public short tileNumer1;
+    public short tileNumber0;
+    public short tileNumber1;
     public byte patternTable;
     public short attributes;
     public byte verticalFlip;

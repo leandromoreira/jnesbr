@@ -17,6 +17,7 @@ along with JNesBR.  If not, see <http://www.gnu.org/licenses/>.
 package jnesbr.video;
 
 import java.awt.Color;
+import jnesbr.video.color.NesPalette;
 
 /**
  * @author dreampeppers99
@@ -90,6 +91,15 @@ public final class Frame {
     }
     public final float[] getRGBPixelAt(final int x, final int y) {
         return rgbFrame[x][y];
+    }
+    public final float getRedPixelAt(final int x, final int y) {
+        return rgbFrame[x][y][NesPalette.RED];
+    }
+    public final float getGreenPixelAt(final int x, final int y) {
+        return rgbFrame[x][y][NesPalette.GREEN];
+    }
+    public final float getBluePixelAt(final int x, final int y) {
+        return rgbFrame[x][y][NesPalette.BLUE];
     }
 
     private Frame() {
