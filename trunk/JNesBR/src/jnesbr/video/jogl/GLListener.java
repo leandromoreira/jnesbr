@@ -24,6 +24,7 @@ import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import jnesbr.core.Emulator;
+import jnesbr.gui.ScreenJogl;
 import jnesbr.joystick.StandardControl;
 import jnesbr.video.Frame;
 
@@ -38,7 +39,6 @@ public class GLListener implements GLEventListener, KeyListener {
     public static int width = 256,  height = 240;
     private Frame frame = Frame.getInstance();
     private static final int RED = 0,  GREEN = 1,  BLUE = 2;
-    private static final float PX_SIZE = 1.0f;
 
     public GLListener(GLCanvas canvas) {
         this.canvas = canvas;
@@ -55,13 +55,13 @@ public class GLListener implements GLEventListener, KeyListener {
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
         glu.gluOrtho2D(0.0, width, 0.0, height);
+        gl.glPointSize(ScreenJogl.SIZE);
     }
 
     @Override
     public void display(GLAutoDrawable drawable) {
         GL gl = drawable.getGL();
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        gl.glPointSize(PX_SIZE);
 
         gl.glBegin(GL.GL_POINTS);
         for (int x = 0; x < 256; x++) {

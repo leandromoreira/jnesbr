@@ -118,7 +118,7 @@ public class NameTableWindow extends javax.swing.JFrame {
                 for (int line = 0; line < 30; line++) {
                     for (int col = 0; col < 32; col++) {
                         short value = VideoMemory.getMemory().read(address++);
-                        int[][] tile = Ppu2C02.getInstance().getTile(nametableForBackGround, value);
+                        int[][] tile = Ppu2C02.getInstance().getTileDebug(nametableForBackGround, value);
                         for (byte rowPosition = 0; rowPosition < 8; rowPosition++) {
                             int stepX = 0;
                             for (byte collumn = 7; collumn >= 0; collumn--) {
