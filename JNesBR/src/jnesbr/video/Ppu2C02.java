@@ -133,20 +133,22 @@ public final class Ppu2C02 {
         }
         return patternTableFromRom;
     }
-
-    
-    private int initAddress, endAddress;
-    private int firstValue, secondValue;
+    private int initAddress,  endAddress;
+    private int firstValue,  secondValue;
     private int[][] tile = new int[8][8];
+
+    public final int[][] getTileDebug(final int nameTable, final int index) {
+        return actualPatternTable(nameTable).get(index);
+    }
 
     public final int[][] getTile(final int nameTable, final int index) {
         initAddress = ((nameTable == 0) ? 0x0000 : 0x1000) + index * 0x10;
         endAddress = initAddress + 0x8;
-        for (int n = initAddress ; n < endAddress ; n++ ){
+        for (int n = initAddress; n < endAddress; n++) {
             firstValue = vram.readUnhandled(n);
-            secondValue = vram.readUnhandled(n+8);
-            for (int x = 0 ; x < 8 ; x++ ){
-                tile[7-x][n - initAddress] = ((secondValue >> (x)) & 1) << 1 |
+            secondValue = vram.readUnhandled(n + 8);
+            for (int x = 0; x < 8; x++) {
+                tile[7 - x][n - initAddress] = ((secondValue >> (x)) & 1) << 1 |
                         ((firstValue >> (x)) & 1);
             }
         }

@@ -29,50 +29,18 @@ import java.util.logging.Logger;
 public class Test {
 
     public static void main(String[] args) {
-        int initAddress = 0x0000;
-        int endAddress = initAddress + 0x8;
-        int[] vram = new int[0xFFFF];
-        int address = 0;
-        vram[address++] = 0x3;
-        vram[address++] = 0xF;
-        vram[address++] = 0x1F;
-        vram[address++] = 0x1F;
-        vram[address++] = 0x1c;
-        vram[address++] = 0x24;
-        vram[address++] = 0x26;
-        vram[address++] = 0x66;
-
-        vram[address++] = 0x00;
-        vram[address++] = 0x00;
-        vram[address++] = 0x00;
-        vram[address++] = 0x00;
-        vram[address++] = 0x1F;
-        vram[address++] = 0x3F;
-        vram[address++] = 0x3F;
-        vram[address++] = 0x7F;
-        int[][] tile = new int[8][8];
-        for (int n = initAddress; n < endAddress; n++) {
-            int firstValue = vram[n];
-            int secondValue = vram[n+8];
-            for (int x = 0; x < 8; x++) {
-                /*tile[row][n-initAddress]=(firstValue >> (n-initAddress) & 1) << 1  |
-                (secondValue >> (n-initAddress) & 1);*/
-                tile[7-x][n - initAddress] = ((secondValue >> (x)) & 1) << 1 |
-                        ((firstValue >> (x)) & 1);
-            }
-        }
-        print(tile);
     }
 
-    private static final void print(int[][] a){
-    for (int y = 0; y < 8; y++) {
+    public static void printTile(int[][] a) {
+        System.out.println("");
+        for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
                 System.out.print(a[x][y]+" ");
             }
             System.out.println("");
         }
+        System.out.println("");
     }
-
 
     public void test() {
         Properties pp = new Properties();

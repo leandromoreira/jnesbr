@@ -33,6 +33,10 @@ import jnesbr.video.jogl.GLListener;
  */
 public class ScreenJogl extends JFrame {
 
+    public static int SIZE = 2;
+    private static int W = 256 * SIZE,  H = 240 * SIZE;
+    private final int FPS = 60;
+
     public static void main(String[] args) {
         new ScreenJogl().setVisible(true);
     }
@@ -45,12 +49,11 @@ public class ScreenJogl extends JFrame {
         GLEventListener listener = new GLListener(canvas);
         canvas.addGLEventListener(listener);
         canvas.addKeyListener((KeyListener) listener);
-        canvas.setSize(256, 240);
+        canvas.setSize(W, H);
         getContentPane().add(canvas, BorderLayout.CENTER);
-        setSize(258, 242);
+        setSize(W, H);
         setResizable(false);
         center(this);
-        final int FPS = 60;
         final FPSAnimator animator = new FPSAnimator(canvas, FPS, true);
         animator.start();
     }
@@ -59,9 +62,13 @@ public class ScreenJogl extends JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameSize = comp.getSize();
 
-        if (frameSize.width > screenSize.width)frameSize.width = screenSize.width;
-        if (frameSize.height > screenSize.height)frameSize.height = screenSize.height;
+        if (frameSize.width > screenSize.width) {
+            frameSize.width = screenSize.width;
+        }
+        if (frameSize.height > screenSize.height) {
+            frameSize.height = screenSize.height;
+        }
 
-        comp.setLocation((screenSize.width-frameSize.width)>>1, (screenSize.height-frameSize.height)>>1);
+        comp.setLocation((screenSize.width - frameSize.width) >> 1, (screenSize.height - frameSize.height) >> 1);
     }
 }

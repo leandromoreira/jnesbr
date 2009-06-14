@@ -19,6 +19,7 @@ package jnesbr.video;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import jnesbr.test.Test;
 import jnesbr.video.color.NesPalette;
 import jnesbr.video.memory.VideoMemoryMap;
 import jnesbr.video.sprite.Sprite;
