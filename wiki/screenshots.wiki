@@ -3,6 +3,10 @@
 
 = Screenshots =
 
+Date: 06-14-09 00:16 Sprite Rendering (even with flip feature) [game F-8000]
+
+http://www.uploadimagens.com/upload/df5b09e9c14e5cb60f3696207796b688.jpg
+
 Date: 05-21-09 21:46
 
 Nametable new feature!
