@@ -19,7 +19,10 @@ package jnesbr.video;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import jnesbr.video.color.NesPalette;
+import jnesbr.video.memory.VideoMemoryMap;
 import jnesbr.video.sprite.Sprite;
+import jnesbr.video.util.GraphicHelper;
 
 /**
  * @author dreampeppers99
@@ -47,9 +50,9 @@ public final class RenderScanline implements Scanline {
         }
         applyColourIntensisty();
         spriteEvaluation();
-        renderLayer0(behindSprites.iterator());
+        renderSpriteLayer(0,behindSprites.iterator());
         renderLayer1();
-        renderLayer2(frontSprites.iterator());
+        renderSpriteLayer(2,frontSprites.iterator());
         ppu.actualScanLine++;
     }
 
@@ -76,25 +79,42 @@ public final class RenderScanline implements Scanline {
                 break;
         }
     }
-    private Sprite sprite1;
+    private Sprite sprite;
+    private int lineToRender;
+    private int[][] tile;
 
-    private final void renderLayer0(final Iterator<Sprite> iterator) {
+    private final void renderSpriteLayer(final int layer, final Iterator<Sprite> iterator) {
         if (ppu.ppuMask.spriteRenderingEnable == 1) {
             while (iterator.hasNext()) {
-                sprite1 = iterator.next();
-                if (sprite1.index == 0) {
+                sprite = iterator.next();
+                if (sprite.index == 0) {
                 }
-            }
 
-        }
-    }
-    private Sprite sprite2;
+                lineToRender = y - sprite.yCoordinate;
+                tile = ppu.getTile(sprite.patternTable, sprite.tileNumber0);
 
-    private final void renderLayer2(final Iterator<Sprite> iterator) {
-        if (ppu.ppuMask.spriteRenderingEnable == 1) {
-            while (iterator.hasNext()) {
-                sprite2 = iterator.next();
-                if (sprite2.index == 0) {
+                if (sprite.horizontalFlip == 1) {
+                    tile = GraphicHelper.flipHorizontal(tile);
+                }
+                
+                if (sprite.verticalFlip == 1) {
+                    tile = GraphicHelper.flipVertical(tile);
+                }
+
+                for (int x = 0; x < 8; x++) {
+                    if (layer == 0) {
+                        frameManager.setPixelLayer0((sprite.paletteUpperBitsColor << 2) | tile[x][lineToRender],
+                                sprite.xCoordinate + x, y);
+                    } else {
+                        frameManager.setPixelLayer2((sprite.paletteUpperBitsColor << 2) | tile[x][lineToRender],
+                                sprite.xCoordinate + x, y);
+                    }
+
+                    int colorIndex = ppu.vram.readUnhandled(VideoMemoryMap.SPR_PALLETE_START + ((sprite.paletteUpperBitsColor << 2) | tile[x][lineToRender]));
+                    if (colorIndex != ppu.vram.readUnhandled(VideoMemoryMap.SPR_PALLETE_START)) {
+                        frameManager.setPixel(NesPalette.getRGBAt(colorIndex),
+                                sprite.xCoordinate + x, y);
+                    }
                 }
             }
         }
@@ -135,8 +155,8 @@ public final class RenderScanline implements Scanline {
             ppu.scrolling.tileY &= 31;
         }
     }
-
     private Sprite actual;
+
     private final void spriteEvaluation() {
         //TODO: make this to 8x16 size sprite
         y = ppu.actualScanLine;

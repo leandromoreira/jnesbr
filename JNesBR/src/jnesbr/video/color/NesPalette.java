@@ -24,7 +24,7 @@ import java.awt.Color;
 public final class NesPalette {
     private static Color[] nesColors = new Color[64];
     private static float[][] rgb = new float[64][3];
-    private static final int RED = 0 , GREEN = 1, BLUE = 2;
+    public static final int RED = 0 , GREEN = 1, BLUE = 2;
 
     public final static Color getColor(int index) {
         return nesColors[index];
@@ -32,6 +32,15 @@ public final class NesPalette {
 
     public final static float[] getRGBAt(final int index) {
         return rgb[index];
+    }
+    public final static float getRedAt(final int index) {
+        return rgb[index][RED];
+    }
+    public final static float getGreenAt(final int index) {
+        return rgb[index][GREEN];
+    }
+    public final static float getBlueAt(final int index) {
+        return rgb[index][BLUE];
     }
 
     private final static Color getColor(final int red, final int green, final int blue) {

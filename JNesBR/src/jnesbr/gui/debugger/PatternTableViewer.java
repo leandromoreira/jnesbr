@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import jnesbr.core.Emulator;
 import jnesbr.util.JNesUtil;
+import jnesbr.video.Ppu2C02;
 
 /**
  * @author dreampeppers99
@@ -176,17 +177,22 @@ public class PatternTableViewer extends javax.swing.JFrame {
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("TABLE 1");
         jLabel3.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("PATTERN");
         jLabel4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
-        jLblPage.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLblPage.setFont(new java.awt.Font("Tahoma", 1, 12));
         jLblPage.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jLblPage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -291,6 +297,31 @@ public class PatternTableViewer extends javax.swing.JFrame {
         buildPatternTable(patternTable);
         jLblPage.setText(status);
     }//GEN-LAST:event_jBtnRefreshActionPerformed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+        int indice = 0x31;
+        int[][] a = Ppu2C02.getInstance().getTile(1, indice);
+
+        System.out.println("index " + indice++);
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
+                System.out.print(a[x][y]+" ");
+            }
+            System.out.println("");
+        }
+
+        a = Ppu2C02.getInstance().getTile(1, indice);
+
+        System.out.println("index " + indice);
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
+                System.out.print(a[x][y]+" ");
+            }
+            System.out.println("");
+        }
+
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

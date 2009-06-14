@@ -47,7 +47,7 @@ public final class Ppu2C02 {
     private Map<Integer, int[][]> patternTable = new HashMap<Integer, int[][]>();
     private Frame frameManager = Frame.getInstance();
     private Map<Integer, Scanline> scanlines = new HashMap<Integer, Scanline>();
-    private VideoMemory vram;
+    public VideoMemory vram;
     public SpriteRAM sprRAM;
     public Scrolling scrolling;
 
@@ -123,19 +123,34 @@ public final class Ppu2C02 {
         Map<Integer, int[][]> patternTableFromRom = new HashMap<Integer, int[][]>();
         int addressComplement = 0;
         for (int index = 0; index < 0x1000; addressComplement += 16, index += 16) {
-            int[][] tile = new int[8][8];
+            int[][] tilePresentation = new int[8][8];
             for (byte row = 0; row < 8; row++) {
                 for (byte collumn = 7; collumn >= 0; collumn--) {
-                    tile[row][collumn] = ((chrRam[row + addressComplement + 8] >> collumn & 0x1) << 1) | (chrRam[row + addressComplement] >> collumn & 0x1);
+                    tilePresentation[row][collumn] = ((chrRam[row + addressComplement + 8] >> collumn & 0x1) << 1) | (chrRam[row + addressComplement] >> collumn & 0x1);
                 }
             }
-            patternTableFromRom.put(addressComplement / 16, tile);
+            patternTableFromRom.put(addressComplement / 16, tilePresentation);
         }
         return patternTableFromRom;
     }
 
+    
+    private int initAddress, endAddress;
+    private int firstValue, secondValue;
+    private int[][] tile = new int[8][8];
+
     public final int[][] getTile(final int nameTable, final int index) {
-        return actualPatternTable(nameTable).get(index);
+        initAddress = ((nameTable == 0) ? 0x0000 : 0x1000) + index * 0x10;
+        endAddress = initAddress + 0x8;
+        for (int n = initAddress ; n < endAddress ; n++ ){
+            firstValue = vram.readUnhandled(n);
+            secondValue = vram.readUnhandled(n+8);
+            for (int x = 0 ; x < 8 ; x++ ){
+                tile[7-x][n - initAddress] = ((secondValue >> (x)) & 1) << 1 |
+                        ((firstValue >> (x)) & 1);
+            }
+        }
+        return tile;
     }
 
     public final void doScanline() {
@@ -149,7 +164,7 @@ public final class Ppu2C02 {
     private final void init() {
         vram = VideoMemory.getMemory();
         sprRAM = SpriteRAM.getInstance();
-        scanlines.put(RENDERING_SCANLINE, new RenderScanline(this,frameManager));
+        scanlines.put(RENDERING_SCANLINE, new RenderScanline(this, frameManager));
         scanlines.put(240, new Scanline() {
 
             public void scanline() {

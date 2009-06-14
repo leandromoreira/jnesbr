@@ -37,7 +37,7 @@ public class GLListener implements GLEventListener, KeyListener {
     private StandardControl joystick;
     public static int width = 256,  height = 240;
     private Frame frame = Frame.getInstance();
-    private static final int RED = 0 , GREEN = 1, BLUE = 2;
+    private static final int RED = 0,  GREEN = 1,  BLUE = 2;
     private static final float PX_SIZE = 1.0f;
 
     public GLListener(GLCanvas canvas) {
@@ -62,14 +62,14 @@ public class GLListener implements GLEventListener, KeyListener {
         GL gl = drawable.getGL();
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
         gl.glPointSize(PX_SIZE);
-        
+
         gl.glBegin(GL.GL_POINTS);
         for (int x = 0; x < 256; x++) {
             for (int y = 0; y < 240; y++) {
                 gl.glColor3f(frame.getRGBPixelAt(x, y)[RED],
-                        frame.getRGBPixelAt(x, y)[GREEN],
-                        frame.getRGBPixelAt(x, y)[BLUE]);
-                gl.glVertex2i(x, y);
+                            frame.getRGBPixelAt(x, y)[GREEN],
+                            frame.getRGBPixelAt(x, y)[BLUE]);
+                gl.glVertex2i(x, 239 - y);
             }
         }
         gl.glEnd();
@@ -91,13 +91,13 @@ public class GLListener implements GLEventListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         //joystick.pressedOnJoystick1(e.getKeyCode());
         System.out.println("pressed");
-        //joystick.pressedOnJoystick2(e.getKeyCode());
+    //joystick.pressedOnJoystick2(e.getKeyCode());
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         //joystick.releasedOnJoystick1(e.getKeyCode());
         System.out.println("released");
-        //joystick.releasedOnJoystick2(e.getKeyCode());
+    //joystick.releasedOnJoystick2(e.getKeyCode());
     }
 }
