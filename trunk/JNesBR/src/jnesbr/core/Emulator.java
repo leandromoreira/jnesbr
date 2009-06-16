@@ -144,7 +144,7 @@ public final class Emulator implements Runnable {
                 }
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error on emulator thread: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error on emulator main thread: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }

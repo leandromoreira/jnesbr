@@ -69,7 +69,7 @@ public class StandardControl {
         public static final int Z_KEY = 90;
     }
 
-    public void pressedOnJoystick1(int key) {
+    public final void pressedOnJoystick1(final int key) {
         setValue(joy1Status, key, (byte) 1);
     }
 

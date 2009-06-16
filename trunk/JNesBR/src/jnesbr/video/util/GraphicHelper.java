@@ -25,7 +25,7 @@ public final class GraphicHelper {
         int[][] retorno = new int[8][8];
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
-                retorno[abs(x - 7)][y] = tile[x][y];
+                retorno[7-x][y] = tile[x][y];
             }
         }
         return retorno;
@@ -35,13 +35,9 @@ public final class GraphicHelper {
         int[][] retorno = new int[8][8];
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
-                retorno[x][abs(y - 7)] = tile[x][y];
+                retorno[x][7-y] = tile[x][y];
             }
         }
         return retorno;
-    }
-
-    private static final int abs(final int a) {
-        return (a < 0) ? -a : a;
     }
 }

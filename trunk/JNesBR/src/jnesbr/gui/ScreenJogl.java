@@ -43,7 +43,7 @@ public class ScreenJogl extends JFrame {
 
     public ScreenJogl() {
         super("JNesBR - Jogl Render");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GLCapabilities setup = new GLCapabilities();
         GLCanvas canvas = new GLCanvas(setup);
         GLEventListener listener = new GLListener(canvas);
