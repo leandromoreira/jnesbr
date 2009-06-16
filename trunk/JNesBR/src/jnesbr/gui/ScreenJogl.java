@@ -35,7 +35,7 @@ public class ScreenJogl extends JFrame {
 
     public static int SIZE = 2;
     private static int W = 256 * SIZE,  H = 240 * SIZE;
-    private final int FPS = 60;
+    private final int FPS = 40;
 
     public static void main(String[] args) {
         new ScreenJogl().setVisible(true);
