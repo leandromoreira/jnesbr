@@ -3,6 +3,10 @@
 
 = Screenshots =
 
+Date: 06-16-09 10:06 Sprite Rendering + BG Rendering first fix!
+
+http://www.uploadimagens.com/upload/c617ec9cb42c36fa6046120f78639ae8.jpg
+
 Date: 06-16-09 00:28 Sprite Rendering + BG Rendering [game F-8000]
 
 http://www.uploadimagens.com/upload/7c5bcabc3d3ad2ae3c2d11e14d146ffb.jpg
