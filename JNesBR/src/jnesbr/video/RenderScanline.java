@@ -19,6 +19,7 @@ package jnesbr.video;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import jnesbr.processor.memory.Memory;
 import jnesbr.video.color.NesPalette;
 import jnesbr.video.memory.VideoMemoryMap;
@@ -159,14 +160,15 @@ public final class RenderScanline implements Scanline {
             for (int pixel = 0; pixel < 256; pixel++) {
 
                 int[][] bgTile = ppu.getTile(ppu.ppuControl.patternTableAddressBackground,
-                                ppu.vram.read(
-                                    VideoMemoryMap.NAME_TABLE_0_START + ppu.scrolling.tileX
-                                ));
+                        ppu.vram.read(
+                        VideoMemoryMap.NAME_TABLE_0_START + (ppu.scrolling.tileY * 31 + ppu.scrolling.tileX)));
                 frameManager.setPixelLayer1(bgTile[ppu.scrolling.fineX][ppu.scrolling.fineY], pixel, ppu.actualScanLine);
                 colorIndex = ppu.vram.readUnhandled(
                         VideoMemoryMap.BG_PALLETE_START + frameManager.getPixelLayer1At(pixel, ppu.actualScanLine));
                 frameManager.setPixel(NesPalette.getRGBAt(colorIndex),
                         pixel, ppu.actualScanLine);
+                /*frameManager.setPixel(new float[]{(float)Math.random(),(float)Math.random(),(float)Math.random()},
+                pixel, ppu.actualScanLine);*/
 
                 //fine controls what pixel to start to rendering (0-7) from the tile.
                 //when it reaches the 7 it will wrap to 0 and increase the tilex!-
