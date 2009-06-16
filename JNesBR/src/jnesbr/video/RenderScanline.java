@@ -19,11 +19,11 @@ package jnesbr.video;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import jnesbr.test.Test;
+import jnesbr.processor.memory.Memory;
 import jnesbr.video.color.NesPalette;
 import jnesbr.video.memory.VideoMemoryMap;
 import jnesbr.video.sprite.Sprite;
-import jnesbr.video.util.GraphicHelper;
+import static jnesbr.video.util.GraphicHelper.*;
 
 /**
  * @author dreampeppers99
@@ -46,14 +46,14 @@ public final class RenderScanline implements Scanline {
     }
 
     public final void scanline() {
-        if (ppu.actualScanLine == 0) {
-            frameManager.resetLayers();
-        }
+        /*if (ppu.actualScanLine == 0) {
+        frameManager.resetLayers();
+        }*/
         applyColourIntensisty();
         spriteEvaluation();
-        renderSpriteLayer(0,behindSprites.iterator());
+        renderLayer(0, behindSprites.iterator());
         renderLayer1();
-        renderSpriteLayer(2,frontSprites.iterator());
+        renderLayer(2, frontSprites.iterator());
         ppu.actualScanLine++;
     }
 
@@ -83,77 +83,117 @@ public final class RenderScanline implements Scanline {
     private Sprite sprite;
     private int lineToRender;
     private int[][] tile;
+    private int colorIndex;
 
-    private final void renderSpriteLayer(final int layer, final Iterator<Sprite> iterator) {
+    private final void realSpriteRendering(final int layer) {
+        for (int x = 0; x < 8; x++) {
+            if (layer == 0) {
+                //behind sprites
+                frameManager.setPixelLayer0((sprite.paletteUpperBitsColor << 2) | tile[x][lineToRender], sprite.xCoordinate + x, y);
+                colorIndex = ppu.vram.readUnhandled(VideoMemoryMap.SPR_PALLETE_START + frameManager.getPixelLayer0At(sprite.xCoordinate + x, y));
+            } else {
+                //front sprites
+                frameManager.setPixelLayer2((sprite.paletteUpperBitsColor << 2) | tile[x][lineToRender], sprite.xCoordinate + x, y);
+                colorIndex = ppu.vram.readUnhandled(VideoMemoryMap.SPR_PALLETE_START + frameManager.getPixelLayer2At(sprite.xCoordinate + x, y));
+            }
+            //just rendering when the colour isn't the transparency one!
+            if (colorIndex != ppu.vram.readUnhandled(VideoMemoryMap.SPR_PALLETE_START)) {
+                frameManager.setPixel(NesPalette.getRGBAt(colorIndex), sprite.xCoordinate + x, y);
+            }
+        }
+    }
+
+    private final void realSpriteZeroRendering(final int layer) {
+        for (int x = 0; x < 8; x++) {
+            if (layer == 0) {
+                //behind sprites for sprite #0
+                frameManager.setPixelLayer0((sprite.paletteUpperBitsColor << 2) | tile[x][lineToRender], sprite.xCoordinate + x, y);
+                colorIndex = ppu.vram.readUnhandled(VideoMemoryMap.SPR_PALLETE_START + frameManager.getPixelLayer0At(sprite.xCoordinate + x, y));
+            } else {
+                //front sprites for sprite #0
+                frameManager.setPixelLayer2((sprite.paletteUpperBitsColor << 2) | tile[x][lineToRender], sprite.xCoordinate + x, y);
+                colorIndex = ppu.vram.readUnhandled(VideoMemoryMap.SPR_PALLETE_START + frameManager.getPixelLayer2At(sprite.xCoordinate + x, y));
+            }
+            //just rendering when the colour isn't the transparency one!
+            if (colorIndex != ppu.vram.readUnhandled(VideoMemoryMap.SPR_PALLETE_START)) {
+                frameManager.setPixel(NesPalette.getRGBAt(colorIndex), sprite.xCoordinate + x, y);
+                //The Sprite #0 Detection!
+                if (frameManager.getPixelLayer1At(sprite.xCoordinate + x, y) != 0) {
+                    ppu.ppuStatus.sprite0Hit = 1;
+                }
+            }
+        }
+    }
+
+    private final void renderLayer(final int layer, final Iterator<Sprite> iterator) {
         if (ppu.ppuMask.spriteRenderingEnable == 1) {
             while (iterator.hasNext()) {
                 sprite = iterator.next();
-                if (sprite.index == 0) {
-                }
 
                 lineToRender = y - sprite.yCoordinate;
                 tile = ppu.getTile(sprite.patternTable, sprite.tileNumber0);
-
+                //todo: who cames first? 
                 if (sprite.horizontalFlip == 1) {
-                    tile = GraphicHelper.flipHorizontal(tile);
+                    tile = flipHorizontal(tile);
                 }
-                
                 if (sprite.verticalFlip == 1) {
-                    tile = GraphicHelper.flipVertical(tile);
+                    tile = flipVertical(tile);
                 }
-
-                for (int x = 0; x < 8; x++) {
-                    if (layer == 0) {
-                        frameManager.setPixelLayer0((sprite.paletteUpperBitsColor << 2) | tile[x][lineToRender],
-                                sprite.xCoordinate + x, y);
-                    } else {
-                        frameManager.setPixelLayer2((sprite.paletteUpperBitsColor << 2) | tile[x][lineToRender],
-                                sprite.xCoordinate + x, y);
-                    }
-
-                    int colorIndex = ppu.vram.readUnhandled(VideoMemoryMap.SPR_PALLETE_START + ((sprite.paletteUpperBitsColor << 2) | tile[x][lineToRender]));
-                    if (colorIndex != ppu.vram.readUnhandled(VideoMemoryMap.SPR_PALLETE_START)) {
-                        frameManager.setPixel(NesPalette.getRGBAt(colorIndex),
-                                sprite.xCoordinate + x, y);
-                    }
+                if (sprite.index == 0) {
+                    realSpriteZeroRendering(layer);
+                } else {
+                    realSpriteRendering(layer);
                 }
             }
         }
     }
 
     private final void renderLayer1() {
-        if (ppu.ppuMask.backgroundRenderingEnable == 0) {
-            return;
-        }
-        for (int actualTile = 0; actualTile < 32; actualTile++) {
-            //1. Name table byte
-            //2. Attribute table byte
-            //3. Pattern table bitmap #0
-            //4. Pattern table bitmap #1
-            while (ppu.scrolling.fineX < 8) {
-                ppu.scrolling.fineX++;
-            }
-            ppu.scrolling.fineX &= 7;
-            ppu.scrolling.tileX++;
-            if (ppu.scrolling.tileX > 31) {
-                ppu.scrolling.tileX &= 31;
-                ppu.scrolling.temp[10] = ~ppu.scrolling.temp[10] & 1;
-            }
-        }
+        //1. Name table byte
+        //2. Attribute table byte
+        //3. Pattern table bitmap #0
+        //4. Pattern table bitmap #1
 
-        ppu.scrolling.fineY++;
-        settedTileYFrom2006 = (ppu.scrolling.tileY > 29);
-        if (ppu.scrolling.fineY > 7) {
-            ppu.scrolling.fineY &= 7;
-            ppu.scrolling.tileY++;
-        }
+        //just render if it is enable!
+        if (ppu.ppuMask.backgroundRenderingEnable != 0) {
+            for (int pixel = 0; pixel < 256; pixel++) {
 
-        if (ppu.scrolling.tileY > 29 && !settedTileYFrom2006) {
-            ppu.scrolling.tileY &= 29;
-            ppu.scrolling.temp[11] = ~ppu.scrolling.temp[11] & 1;
-        }
-        if (ppu.scrolling.tileY > 29 && settedTileYFrom2006) {
-            ppu.scrolling.tileY &= 31;
+                int[][] bgTile = ppu.getTile(ppu.ppuControl.patternTableAddressBackground,
+                                ppu.vram.read(
+                                    VideoMemoryMap.NAME_TABLE_0_START + ppu.scrolling.tileX
+                                ));
+                frameManager.setPixelLayer1(bgTile[ppu.scrolling.fineX][ppu.scrolling.fineY], pixel, ppu.actualScanLine);
+                colorIndex = ppu.vram.readUnhandled(
+                        VideoMemoryMap.BG_PALLETE_START + frameManager.getPixelLayer1At(pixel, ppu.actualScanLine));
+                frameManager.setPixel(NesPalette.getRGBAt(colorIndex),
+                        pixel, ppu.actualScanLine);
+
+                //fine controls what pixel to start to rendering (0-7) from the tile.
+                //when it reaches the 7 it will wrap to 0 and increase the tilex!-
+                if (ppu.scrolling.fineX == 7) {
+                    ppu.scrolling.tileX++;
+                    if (ppu.scrolling.tileX > 31) {
+                        ppu.scrolling.tileX &= 31;
+                        ppu.scrolling.temp[10] = ~ppu.scrolling.temp[10] & 1; //flipping the low nametable bit.
+                    }
+                }
+                //wrapping the finex...
+                ppu.scrolling.fineX = (ppu.scrolling.fineX + 1) & 7;
+            }
+            ppu.scrolling.fineY++; //always after a scanline the finey is increase.
+            settedTileYFrom2006 = (ppu.scrolling.tileY > 29);//checking it it was setted by $2006.
+            if (ppu.scrolling.fineY > 7) {
+                //when finey wraps to 0, the tiley is increased.
+                ppu.scrolling.fineY &= 7;
+                ppu.scrolling.tileY++;
+            }
+
+            if (ppu.scrolling.tileY > 29 && !settedTileYFrom2006) {
+                ppu.scrolling.tileY = 0;
+                ppu.scrolling.temp[11] = ~ppu.scrolling.temp[11] & 1; //flipping the high nametable bit.
+            } else if (ppu.scrolling.tileY > 29 && settedTileYFrom2006) {
+                ppu.scrolling.tileY = 0;
+            }
         }
     }
     private Sprite actual;

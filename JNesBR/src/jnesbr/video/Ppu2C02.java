@@ -137,12 +137,12 @@ public final class Ppu2C02 {
     private int firstValue,  secondValue;
     private int[][] tile = new int[8][8];
 
-    public final int[][] getTileDebug(final int nameTable, final int index) {
-        return actualPatternTable(nameTable).get(index);
+    public final int[][] getTileDebug(final int patternTable, final int index) {
+        return actualPatternTable(patternTable).get(index);
     }
 
-    public final int[][] getTile(final int nameTable, final int index) {
-        initAddress = ((nameTable == 0) ? 0x0000 : 0x1000) + index * 0x10;
+    public final int[][] getTile(final int patternTable, final int index) {
+        initAddress = ((patternTable == 0) ? 0x0000 : 0x1000) + index * 0x10;
         endAddress = initAddress + 0x8;
         for (int n = initAddress; n < endAddress; n++) {
             firstValue = vram.readUnhandled(n);
