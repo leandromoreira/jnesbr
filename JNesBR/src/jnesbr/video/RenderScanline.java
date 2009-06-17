@@ -161,7 +161,7 @@ public final class RenderScanline implements Scanline {
 
                 int[][] bgTile = ppu.getTile(ppu.ppuControl.patternTableAddressBackground,
                         ppu.vram.read(
-                        VideoMemoryMap.NAME_TABLE_0_START + (ppu.scrolling.tileY * 31 + ppu.scrolling.tileX)));
+                        VideoMemoryMap.NAME_TABLE_0_START + (ppu.scrolling.tileY * 32 + ppu.scrolling.tileX)));
                 frameManager.setPixelLayer1(bgTile[ppu.scrolling.fineX][ppu.scrolling.fineY], pixel, ppu.actualScanLine);
                 colorIndex = ppu.vram.readUnhandled(
                         VideoMemoryMap.BG_PALLETE_START + frameManager.getPixelLayer1At(pixel, ppu.actualScanLine));
