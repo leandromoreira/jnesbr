@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import jnesbr.processor.memory.Memory;
+import jnesbr.util.JNesUtil;
 import jnesbr.video.color.NesPalette;
 import jnesbr.video.memory.VideoMemoryMap;
 import jnesbr.video.sprite.Sprite;
@@ -50,6 +51,11 @@ public final class RenderScanline implements Scanline {
         /*if (ppu.actualScanLine == 0) {
         frameManager.resetLayers();
         }*/
+
+        //the nesdevwiki.org tells OR and not AND.
+        if (ppu.ppuMask.spriteRenderingEnable == 1 & ppu.ppuMask.backgroundRenderingEnable == 1) {
+            copyLoopyTtoLoopyV();
+        }
         applyColourIntensisty();
         spriteEvaluation();
         renderLayer(0, behindSprites.iterator());
@@ -85,6 +91,17 @@ public final class RenderScanline implements Scanline {
     private int lineToRender;
     private int[][] tile;
     private int colorIndex;
+
+    private final void copyLoopyTtoLoopyV() {
+        int temp = ppu.pPUAddress.completeAddress >> 5;
+        int loopyV = (temp << 5) | (ppu.scrolling.assemble() & 0x1F);
+        //  v[0-4] = t[0-4] ;
+        temp = (ppu.scrolling.assemble() >> 10) & 1;
+        //getting the 11th bit ;
+        loopyV = ((loopyV >> 11) << 11) | (temp << 10) | (loopyV & 0x3FF);
+        //v[11] = t[11];
+        ppu.pPUAddress.completeAddress = loopyV;
+    }
 
     private final void realSpriteRendering(final int layer) {
         for (int x = 0; x < 8; x++) {
@@ -158,14 +175,13 @@ public final class RenderScanline implements Scanline {
         //just render if it is enable!
         if (ppu.ppuMask.backgroundRenderingEnable != 0) {
             for (int pixel = 0; pixel < 256; pixel++) {
-
+                //int nametableAddress = ppu.pPUAddress.completeAddress & 0x7FF;
                 int tileIndex = ppu.vram.read(VideoMemoryMap.NAME_TABLE_0_START + (ppu.scrolling.tileY * 32 + ppu.scrolling.tileX));
-                int[][] bgTile = ppu.getTile(ppu.ppuControl.patternTableAddressBackground,tileIndex);
-                frameManager.setPixelLayer1(bgTile[ppu.scrolling.fineX][ppu.scrolling.fineY], pixel, ppu.actualScanLine);
+                int[][] bgTile = ppu.getTile(ppu.ppuControl.patternTableAddressBackground, tileIndex);
+                frameManager.setPixelLayer1(bgTile[ppu.scrolling.loopyX][ppu.scrolling.fineY], pixel, ppu.actualScanLine);
                 colorIndex = ppu.vram.readUnhandled(
-                        VideoMemoryMap.BG_PALLETE_START + 
-                        ((ppu.getUpper2BitColorFromAttributeTable(VideoMemoryMap.NAME_TABLE_0_START, tileIndex)<<2) | frameManager.getPixelLayer1At(pixel, ppu.actualScanLine))
-                        );
+                        VideoMemoryMap.BG_PALLETE_START +
+                        ((ppu.getUpper2BitColorFromAttributeTable(VideoMemoryMap.NAME_TABLE_0_START, tileIndex) << 2) | frameManager.getPixelLayer1At(pixel, ppu.actualScanLine)));
                 frameManager.setPixel(NesPalette.getRGBAt(colorIndex),
                         pixel, ppu.actualScanLine);
                 /*frameManager.setPixel(new float[]{(float)Math.random(),(float)Math.random(),(float)Math.random()},
@@ -173,15 +189,15 @@ public final class RenderScanline implements Scanline {
 
                 //fine controls what pixel to start to rendering (0-7) from the tile.
                 //when it reaches the 7 it will wrap to 0 and increase the tilex!-
-                if (ppu.scrolling.fineX == 7) {
+                if (ppu.scrolling.loopyX == 7) {
                     ppu.scrolling.tileX++;
                     if (ppu.scrolling.tileX > 31) {
                         ppu.scrolling.tileX &= 31;
-                        ppu.scrolling.temp[10] = ~ppu.scrolling.temp[10] & 1; //flipping the low nametable bit.
+                        ppu.scrolling.loopyT[10] = ~ppu.scrolling.loopyT[10] & 1; //flipping the low nametable bit.
                     }
                 }
                 //wrapping the finex...
-                ppu.scrolling.fineX = (ppu.scrolling.fineX + 1) & 7;
+                ppu.scrolling.loopyX = (ppu.scrolling.loopyX + 1) & 7;
             }
             ppu.scrolling.fineY++; //always after a scanline the finey is increase.
             settedTileYFrom2006 = (ppu.scrolling.tileY > 29);//checking it it was setted by $2006.
@@ -193,7 +209,7 @@ public final class RenderScanline implements Scanline {
 
             if (ppu.scrolling.tileY > 29 && !settedTileYFrom2006) {
                 ppu.scrolling.tileY = 0;
-                ppu.scrolling.temp[11] = ~ppu.scrolling.temp[11] & 1; //flipping the high nametable bit.
+                ppu.scrolling.loopyT[11] = ~ppu.scrolling.loopyT[11] & 1; //flipping the high nametable bit.
             } else if (ppu.scrolling.tileY > 29 && settedTileYFrom2006) {
                 ppu.scrolling.tileY = 0;
             }

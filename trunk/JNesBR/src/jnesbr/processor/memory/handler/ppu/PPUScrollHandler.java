@@ -33,26 +33,26 @@ public final class PPUScrollHandler implements Handler {
         if (ppu.ppuStatus.flipflop == 0) {
             ppu.ppuScroll.horizontalScrollOrigin = value;
             ppu.ppuStatus.flipflop++;
-            ppu.scrolling.fineX = value & 0x07;
-            ppu.scrolling.temp[0] = (value >> 3) & 1;
-            ppu.scrolling.temp[1] = (value >> 4) & 1;
-            ppu.scrolling.temp[2] = (value >> 5) & 1;
-            ppu.scrolling.temp[3] = (value >> 6) & 1;
-            ppu.scrolling.temp[4] = (value >> 7) & 1;
+            ppu.scrolling.loopyX = value & 0x07; //lower three bits
+            ppu.scrolling.loopyT[0] = (value >> 3) & 1; //upper 5 bits
+            ppu.scrolling.loopyT[1] = (value >> 4) & 1; //upper 5 bits
+            ppu.scrolling.loopyT[2] = (value >> 5) & 1; //upper 5 bits
+            ppu.scrolling.loopyT[3] = (value >> 6) & 1; //upper 5 bits
+            ppu.scrolling.loopyT[4] = (value >> 7) & 1; //upper 5 bits
         } else {
             value = (short) ((value >= 240) ? value - 256 : value);
             //(Values of 240 to 255 are treated as -16 through -1 in a way, pulling tile data from the attribute table.) 
             ppu.ppuScroll.verticalScrollOrigin = value;
             ppu.ppuStatus.flipflop--;
-            ppu.scrolling.fineY = value & 0x07;
-            ppu.scrolling.temp[12] = (value & 0x07) & 1;
-            ppu.scrolling.temp[13] = ((value & 0x07) >> 1) & 1;
-            ppu.scrolling.temp[14] = ((value & 0x07) >> 2) & 1;
-            ppu.scrolling.temp[5] = (value >> 3) & 1;
-            ppu.scrolling.temp[6] = (value >> 4) & 1;
-            ppu.scrolling.temp[7] = (value >> 5) & 1;
-            ppu.scrolling.temp[8] = (value >> 6) & 1;
-            ppu.scrolling.temp[9] = (value >> 7) & 1;
+            //ppu.scrolling.fineY = value & 0x07;
+            ppu.scrolling.loopyT[12] = (value & 0x07) & 1;
+            ppu.scrolling.loopyT[13] = ((value & 0x07) >> 1) & 1;
+            ppu.scrolling.loopyT[14] = ((value & 0x07) >> 2) & 1;
+            ppu.scrolling.loopyT[5] = (value >> 3) & 1;
+            ppu.scrolling.loopyT[6] = (value >> 4) & 1;
+            ppu.scrolling.loopyT[7] = (value >> 5) & 1;
+            ppu.scrolling.loopyT[8] = (value >> 6) & 1;
+            ppu.scrolling.loopyT[9] = (value >> 7) & 1;
         }
         memory.writeUnhandled(address, value);
     }

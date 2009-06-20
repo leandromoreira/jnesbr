@@ -29,13 +29,23 @@ import java.util.logging.Logger;
 public class Test {
 
     public static void main(String[] args) {
+        int v = Integer.parseInt("0000010000001110", 2);
+        int t = Integer.parseInt("0000000000010001", 2);
+        int loopy_v_without_5_bits = v >> 5;
+        int new_loopy_t = (loopy_v_without_5_bits << 5) | (t & 0x1F);
+        //  v[0-4] = t[0-4] ;
+        loopy_v_without_5_bits = (t >> 10) & 1;
+        //getting the 11th bit ;
+        new_loopy_t = ((new_loopy_t >> 11) << 11) | (loopy_v_without_5_bits << 10) | (new_loopy_t & 0x3FF);
+        System.out.println(Integer.toBinaryString(new_loopy_t));
+        System.out.println("10000010001");
     }
 
     public static void printTile(int[][] a) {
         System.out.println("");
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
-                System.out.print(a[x][y]+" ");
+                System.out.print(a[x][y] + " ");
             }
             System.out.println("");
         }

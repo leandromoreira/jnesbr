@@ -38,8 +38,8 @@ public final class PPUControlHandler implements Handler {
         ppu.ppuControl.patternTableAddressSprites = giveMeBit3From(value);
         ppu.ppuControl.port2007AddressIncrement = giveMeBit2From(value);
         ppu.ppuControl.nameTableAddress = (byte) (giveMeBit0From(value) >> 1 | giveMeBit1From(value));
-        ppu.scrolling.temp[10] = giveMeBit0From(value);
-        ppu.scrolling.temp[11] = giveMeBit1From(value);
+        ppu.scrolling.loopyT[10] = giveMeBit0From(value); //nametable selection
+        ppu.scrolling.loopyT[11] = giveMeBit1From(value); //nametable selection
         ppu.ppuControl.horizontalScrollBy256 = giveMeBit0From(value);
         ppu.ppuControl.verticalScrollBy240 = giveMeBit1From(value);
         memory.writeUnhandled(address, value);
