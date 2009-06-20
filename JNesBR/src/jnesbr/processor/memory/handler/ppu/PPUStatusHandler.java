@@ -36,7 +36,7 @@ public class PPUStatusHandler implements Handler {
     }
 
     public final short readFrom(final int address) {
-        value = (short) ((ppu.ppuStatus.verticalBlankStarted << 7) | (ppu.ppuStatus.sprite0Hit << 6) | (ppu.ppuStatus.moreThan8ObjectsOnScanLine << 5));
+        value = (short) ((ppu.ppuStatus.verticalBlankStarted << 7) | (ppu.ppuStatus.sprite0Hit << 6) | (ppu.ppuStatus.moreThan8SpritesInOneScanLine << 5));
         ppu.ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
         ppu.ppuStatus.flipflop = 0;
         return value;

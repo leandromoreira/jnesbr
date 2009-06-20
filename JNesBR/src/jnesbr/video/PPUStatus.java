@@ -24,6 +24,6 @@ public class PPUStatus {
         public final static byte InVBlank = 1;
         public final static byte NotInVBlank = 0;
     public byte sprite0Hit;
-    public byte moreThan8ObjectsOnScanLine;
+    public byte moreThan8SpritesInOneScanLine;
     public byte flipflop;
 }
