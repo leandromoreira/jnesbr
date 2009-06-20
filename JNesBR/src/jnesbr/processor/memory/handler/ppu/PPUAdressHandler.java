@@ -32,26 +32,26 @@ public final class PPUAdressHandler implements Handler {
         if (ppu.ppuStatus.flipflop == 0) {
             ppu.pPUAddress.firstData = value;
             ppu.ppuStatus.flipflop++;
-            ppu.scrolling.temp[8] = (value & 0x3F) & 1;
-            ppu.scrolling.temp[9] = ((value & 0x3F) >> 1) & 1;
-            ppu.scrolling.temp[10] = ((value & 0x3F) >> 2) & 1;
-            ppu.scrolling.temp[11] = ((value & 0x3F) >> 3) & 1;
-            ppu.scrolling.temp[12] = ((value & 0x3F) >> 4) & 1;
-            ppu.scrolling.temp[13] = ((value & 0x3F) >> 5) & 1;
-            ppu.scrolling.temp[14] = 0;
+            ppu.scrolling.loopyT[8] = (value & 0x3F) & 1;
+            ppu.scrolling.loopyT[9] = ((value & 0x3F) >> 1) & 1;
+            ppu.scrolling.loopyT[10] = ((value & 0x3F) >> 2) & 1;
+            ppu.scrolling.loopyT[11] = ((value & 0x3F) >> 3) & 1;
+            ppu.scrolling.loopyT[12] = ((value & 0x3F) >> 4) & 1;
+            ppu.scrolling.loopyT[13] = ((value & 0x3F) >> 5) & 1; //0????
+            ppu.scrolling.loopyT[14] = 0;
         } else {
             ppu.pPUAddress.secondData = value;
             ppu.pPUAddress.completeAddress = (ppu.pPUAddress.firstData << 8) | ppu.pPUAddress.secondData;
             ppu.ppuStatus.flipflop--;
-            ppu.scrolling.temp[0] = (value) & 1;
-            ppu.scrolling.temp[1] = (value >> 1) & 1;
-            ppu.scrolling.temp[2] = (value >> 2) & 1;
-            ppu.scrolling.temp[3] = (value >> 3) & 1;
-            ppu.scrolling.temp[4] = (value >> 4) & 1;
-            ppu.scrolling.temp[5] = (value >> 5) & 1;
-            ppu.scrolling.temp[6] = (value >> 6) & 1;
-            ppu.scrolling.temp[7] = (value >> 7) & 1;
-            ppu.pPUAddress.completeAddress = ppu.scrolling.assemble();
+            ppu.scrolling.loopyT[0] = (value) & 1;
+            ppu.scrolling.loopyT[1] = (value >> 1) & 1;
+            ppu.scrolling.loopyT[2] = (value >> 2) & 1;
+            ppu.scrolling.loopyT[3] = (value >> 3) & 1;
+            ppu.scrolling.loopyT[4] = (value >> 4) & 1;
+            ppu.scrolling.loopyT[5] = (value >> 5) & 1;
+            ppu.scrolling.loopyT[6] = (value >> 6) & 1;
+            ppu.scrolling.loopyT[7] = (value >> 7) & 1;
+            ppu.pPUAddress.completeAddress = ppu.scrolling.assemble(); // Loopy_V = Loopy_T;
         }
         memory.writeUnhandled(address, value);
     }

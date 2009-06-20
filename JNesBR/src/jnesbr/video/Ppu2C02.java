@@ -186,6 +186,7 @@ public final class Ppu2C02 {
                 ppuStatus.moreThan8SpritesInOneScanLine = 0;
                 ppuStatus.sprite0Hit = 0;
                 ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
+                pPUAddress.completeAddress = scrolling.assemble(); // Loopy_V = Loopy_T ;
                 actualScanLine++;
             }
         });

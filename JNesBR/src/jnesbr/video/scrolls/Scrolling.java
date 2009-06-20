@@ -22,14 +22,14 @@ import jnesbr.video.Ppu2C02;
  * @author dreampeppers99
  */
 public final class Scrolling {
-    //following the skinny scheme
+    //following the Loopy scheme!
 
-    public int[] temp = new int[16];
-    public int fineX;
+    public int[] loopyT = new int[16]; // == Loopy_T
+    public int loopyX; // == Loopy_X (or fineX)
     public int fineY;
     public int tileX;
     public int tileY;
-    private Ppu2C02 ppu; //contains address and toggle (flipflop)
+    private Ppu2C02 ppu; //contains Loopy_V (or ppuAddress.completeAddress) and toggle (flipflop)
 
     public Scrolling(Ppu2C02 ppu) {
         this.ppu = ppu;
@@ -37,6 +37,6 @@ public final class Scrolling {
     }
 
     public final int assemble() {
-        return (temp[15] << 15) | (temp[14] << 14) | (temp[13] << 13) | (temp[12] << 12) | (temp[11] << 11) | (temp[10] << 10) | (temp[9] << 9) | (temp[8] << 8) | (temp[7] << 7) | (temp[6] << 6) | (temp[5] << 5) | (temp[4] << 4) | (temp[3] << 3) | (temp[2] << 2) | (temp[1] << 1) | (temp[0]);
+        return (loopyT[15] << 15) | (loopyT[14] << 14) | (loopyT[13] << 13) | (loopyT[12] << 12) | (loopyT[11] << 11) | (loopyT[10] << 10) | (loopyT[9] << 9) | (loopyT[8] << 8) | (loopyT[7] << 7) | (loopyT[6] << 6) | (loopyT[5] << 5) | (loopyT[4] << 4) | (loopyT[3] << 3) | (loopyT[2] << 2) | (loopyT[1] << 1) | (loopyT[0]);
     }
 }
