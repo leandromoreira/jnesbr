@@ -141,6 +141,11 @@ public final class Ppu2C02 {
         return actualPatternTable(patternTable).get(index);
     }
 
+    public final int getUpper2BitColorFromAttributeTable(final int nametable,final int tileIndex){
+        
+        return 0;
+    }
+
     public final int[][] getTile(final int patternTable, final int index) {
         initAddress = ((patternTable == 0) ? 0x0000 : 0x1000) + index * 0x10;
         endAddress = initAddress + 0x8;
@@ -178,7 +183,7 @@ public final class Ppu2C02 {
 
             public void scanline() {
                 // -1 - Prerender Scanline
-                ppuStatus.moreThan8ObjectsOnScanLine = 0;
+                ppuStatus.moreThan8SpritesInOneScanLine = 0;
                 ppuStatus.sprite0Hit = 0;
                 ppuStatus.verticalBlankStarted = PPUStatus.NotInVBlank;
                 actualScanLine++;

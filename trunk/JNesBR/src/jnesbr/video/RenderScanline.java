@@ -159,12 +159,13 @@ public final class RenderScanline implements Scanline {
         if (ppu.ppuMask.backgroundRenderingEnable != 0) {
             for (int pixel = 0; pixel < 256; pixel++) {
 
-                int[][] bgTile = ppu.getTile(ppu.ppuControl.patternTableAddressBackground,
-                        ppu.vram.read(
-                        VideoMemoryMap.NAME_TABLE_0_START + (ppu.scrolling.tileY * 32 + ppu.scrolling.tileX)));
+                int tileIndex = ppu.vram.read(VideoMemoryMap.NAME_TABLE_0_START + (ppu.scrolling.tileY * 32 + ppu.scrolling.tileX));
+                int[][] bgTile = ppu.getTile(ppu.ppuControl.patternTableAddressBackground,tileIndex);
                 frameManager.setPixelLayer1(bgTile[ppu.scrolling.fineX][ppu.scrolling.fineY], pixel, ppu.actualScanLine);
                 colorIndex = ppu.vram.readUnhandled(
-                        VideoMemoryMap.BG_PALLETE_START + frameManager.getPixelLayer1At(pixel, ppu.actualScanLine));
+                        VideoMemoryMap.BG_PALLETE_START + 
+                        ((ppu.getUpper2BitColorFromAttributeTable(VideoMemoryMap.NAME_TABLE_0_START, tileIndex)<<2) | frameManager.getPixelLayer1At(pixel, ppu.actualScanLine))
+                        );
                 frameManager.setPixel(NesPalette.getRGBAt(colorIndex),
                         pixel, ppu.actualScanLine);
                 /*frameManager.setPixel(new float[]{(float)Math.random(),(float)Math.random(),(float)Math.random()},
@@ -214,7 +215,7 @@ public final class RenderScanline implements Scanline {
                     y <= (actual.yCoordinate + 7)) &&
                     actual.yCoordinate != -1) {
                 if (spriteCount == 8) {
-                    ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
+                    ppu.ppuStatus.moreThan8SpritesInOneScanLine = 1;
                     break;
                 }
                 behindSprites.add(actual);
@@ -225,7 +226,7 @@ public final class RenderScanline implements Scanline {
                     y <= (actual.yCoordinate + 7)) &&
                     actual.yCoordinate != -1) {
                 if (spriteCount == 8) {
-                    ppu.ppuStatus.moreThan8ObjectsOnScanLine = 1;
+                    ppu.ppuStatus.moreThan8SpritesInOneScanLine = 1;
                     break;
                 }
                 frontSprites.add(actual);
