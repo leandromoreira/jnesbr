@@ -5,72 +5,12 @@
 
 Date: 06-16-09 10:06 Sprite Rendering + BG Rendering first fix!
 
-http://www.uploadimagens.com/upload/c617ec9cb42c36fa6046120f78639ae8.jpg
+http://jnesbr.googlecode.com/files/jnesbr%20F%208000%20demo%20running.JPG
 
-Date: 06-16-09 00:28 Sprite Rendering + BG Rendering [game F-8000]
+http://jnesbr.googlecode.com/files/jnesbr%20main%20window.JPG
 
-http://www.uploadimagens.com/upload/7c5bcabc3d3ad2ae3c2d11e14d146ffb.jpg
+http://jnesbr.googlecode.com/files/jnesbr%20F%208000%20pattern%20table.JPG
 
-Date: 06-14-09 00:16 Sprite Rendering (even with flip feature) [game F-8000]
+http://jnesbr.googlecode.com/files/jnesbr%20F%208000%20name%20attri%20table%20view.JPG
 
-http://www.uploadimagens.com/upload/df5b09e9c14e5cb60f3696207796b688.jpg
-
-Date: 05-21-09 21:46
-
-Nametable new feature!
-
-http://i43.tinypic.com/63uf6u.jpg
-
-http://i41.tinypic.com/dh4oeu.jpg
-
-http://i42.tinypic.com/2lbgdq8.jpg
-
-Date: 04-13-09 08:04
-
-Sprite Attribute RAM Viewer (OAM)
-
-http://www.uploadimagens.com/upload/a3ca2d6052650551f510f88f25d81fcf.jpg
-
-Date: 04-10-09 17:02
-
-JNesBR - Alfa version main screen
-
-http://www.uploadimagens.com/upload/4438f9f41c92332dc41bb6037055bb27.jpg
-
-Rom Header Viewer
-
-http://www.uploadimagens.com/upload/a14edccfa96133db65f92889a8c17cdf.jpg
-
-Debugger interface
-
-http://www.uploadimagens.com/upload/292a209bf4dff96a0eeba3a5e1d8dc7d.jpg
-
-Multi Page Pattern Table
-
-http://www.uploadimagens.com/upload/226135ca41fc4710b18cdcc51fd0b5f1.jpg
-
-_You can step by chr_rom pages which are on rom or you can see the actual on ppu memory too._
-
-Main memory viewer
-
-http://www.uploadimagens.com/upload/b02e0bfc54be04c2e4e593470ba5f1a1.jpg
-
-PPU memory viewer
-
-http://www.uploadimagens.com/upload/810fab244ed616b970a6906a7eac874a.jpg
-
-Palette viewer
-
-http://www.uploadimagens.com/upload/1fdf1a22689b615fc7099ba6f82418cc.jpg
-
-PPU State viewer
-
-http://www.uploadimagens.com/upload/6b69d0bf018ea6a7c92745ed8728989f.jpg
-
-Name table viewer
-
-http://www.uploadimagens.com/upload/2e72ecaa234af36fe6973606295ad284.jpg
-
-Attribute table viewer
-
-http://www.uploadimagens.com/upload/377a6a16bff64548060f09b25d840cce.jpg
+http://jnesbr.googlecode.com/files/jnesbr%20F%208000%20pallete%20viewer.JPG
